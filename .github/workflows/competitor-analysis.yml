@@ -1,0 +1,36 @@
+name: Daily Competitor Analysis
+
+on:
+  schedule:
+    # 7:00 AM UTC daily — adjust offset below for your timezone:
+    #   UTC+1  → '0 6 * * *'
+    #   UTC+2  → '0 5 * * *'
+    #   UTC+3  → '0 4 * * *'
+    #   UTC-5  → '0 12 * * *'
+    - cron: '0 7 * * *'
+  workflow_dispatch:   # lets you trigger manually from GitHub UI at any time
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run competitor analysis
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+        run: python competitor_analysis.py
