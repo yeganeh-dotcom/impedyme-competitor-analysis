@@ -138,7 +138,7 @@ def write_to_google_sheets(analyses: dict) -> None:
     gc = gspread.authorize(creds)
     spreadsheet = gc.open_by_key(os.environ["GOOGLE_SHEET_ID"])
 
-    today = datetime.now().strftime("%Y-%m-%d %H:%M")
+    today = datetime.now().strftime("%Y-%m-%d")
 
     # --- Build all rows ---
     col_headers = ["Competitor", "Category", "Title", "Description", "Significance / Date"]
@@ -209,7 +209,7 @@ def write_to_google_sheets(analyses: dict) -> None:
         "textFormat": {"bold": True, "foregroundColor": {"red": 1, "green": 1, "blue": 1}},
     })
 
-    print(f"Report written — tab '{today} UTC' + 'Latest Report' updated.")
+    print(f"Report written — tab '{today}' + 'Latest Report' updated.")
 
 
 def main() -> None:
