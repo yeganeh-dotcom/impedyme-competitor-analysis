@@ -1,0 +1,141 @@
+<!--
+  RELATED PRODUCTS — sticky-until-stop widget
+  Paste this whole block into an Elementor "HTML" widget placed in your
+  right-hand sidebar column. See README.md for step-by-step instructions.
+
+  IMPORTANT: on the "Request a Demo" button add a custom attribute so the
+  card knows where to stop:  Advanced > Attributes >   data-rp-stop|true
+-->
+
+<div class="rp-affix">
+  <div class="rp-card">
+    <div class="rp-card__header">Related Products</div>
+
+    <a class="rp-item" href="#">
+      <img class="rp-item__img" src="https://impedyme.com/wp-content/uploads/2025/02/chp150.png" alt="CHP 150" loading="lazy">
+      <div class="rp-item__title">CHP 150</div>
+    </a>
+
+    <a class="rp-item" href="#">
+      <img class="rp-item__img" src="https://impedyme.com/wp-content/uploads/2025/11/rcp-card.webp" alt="HIL/RCP-Box" loading="lazy">
+      <div class="rp-item__title">HIL/RCP-Box</div>
+    </a>
+
+    <a class="rp-item" href="#">
+      <img class="rp-item__img" src="https://impedyme.com/wp-content/uploads/2026/02/PHIL-300-monitor.webp" alt="CHP 300" loading="lazy">
+      <div class="rp-item__title">CHP 300</div>
+    </a>
+  </div>
+</div>
+
+<style>
+  .rp-affix { position: relative; }
+  .rp-card {
+    background: #ececec;
+    border-radius: 16px;
+    padding: 18px 18px 26px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,.06);
+    will-change: top;
+  }
+  .rp-card__header {
+    background: #F5A623;
+    color: #1c1c1c;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: .2px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    margin-bottom: 22px;
+  }
+  .rp-item { display: block; text-decoration: none; padding: 14px 6px 22px; }
+  .rp-item + .rp-item { border-top: 1px solid rgba(0,0,0,.06); }
+  .rp-item__img {
+    height: 120px; width: auto; max-width: 100%;
+    object-fit: contain; margin: 0 auto 14px; display: block;
+  }
+  .rp-item__title {
+    color: #F5A623; font-weight: 700; font-size: 18px;
+    transition: color .15s ease;
+  }
+  .rp-item:hover .rp-item__title { color: #d4860f; }
+
+  /* Mobile/tablet: stack, no sticky */
+  @media (max-width: 1024px) {
+    .rp-card { max-width: 420px; margin: 0 auto; }
+  }
+</style>
+
+<script>
+(function () {
+  var TOP_GAP    = 24;
+  var BOTTOM_GAP = 24;
+  var MOBILE_BP  = 1024;
+  var STOP_SEL   = '[data-rp-stop]';
+
+  function ready(fn){
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+
+  ready(function () {
+    var affix = document.querySelector('.rp-affix');
+    if (!affix) return;
+    var card = affix.querySelector('.rp-card');
+    if (!card) return;
+    var stopEl = document.querySelector(STOP_SEL);
+
+    function docTop(el){
+      return el.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop);
+    }
+
+    function update(){
+      if (window.innerWidth < MOBILE_BP){
+        card.style.position = card.style.top = card.style.left = card.style.width = '';
+        affix.style.minHeight = '';
+        return;
+      }
+      card.style.position = '';
+      affix.style.minHeight = '';
+      var startY  = docTop(affix);
+      var rect    = affix.getBoundingClientRect();
+      var width   = affix.clientWidth;
+      var leftPx  = rect.left;
+      var cardH   = card.offsetHeight;
+      affix.style.minHeight = cardH + 'px';
+
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var wantTop = scrollY + TOP_GAP;
+      var maxTop  = Infinity;
+      if (stopEl) maxTop = docTop(stopEl) - BOTTOM_GAP - cardH;
+
+      if (wantTop < startY){
+        card.style.position = card.style.top = card.style.left = card.style.width = '';
+        affix.style.minHeight = '';
+      } else if (wantTop <= maxTop){
+        card.style.position = 'fixed';
+        card.style.top = TOP_GAP + 'px';
+        card.style.left = leftPx + 'px';
+        card.style.width = width + 'px';
+      } else {
+        card.style.position = 'fixed';
+        card.style.top = (maxTop - scrollY) + 'px';
+        card.style.left = leftPx + 'px';
+        card.style.width = width + 'px';
+      }
+    }
+
+    var ticking = false;
+    function onScroll(){
+      if (!ticking){
+        requestAnimationFrame(function(){ update(); ticking = false; });
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update);
+    window.addEventListener('load', update);
+    update();
+  });
+})();
+</script>

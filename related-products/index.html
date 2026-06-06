@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Related Products — Sticky Sidebar Demo</title>
+<style>
+  /* ===== Demo page chrome (NOT needed in Elementor) ===== */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1f2937;
+    background: #fff;
+    line-height: 1.6;
+  }
+  .page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 24px 120px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 48px;
+    align-items: start;
+  }
+  .article h1 { font-size: 32px; color: #b45309; line-height: 1.25; }
+  .article p { color: #374151; }
+  .hero {
+    width: 100%; height: 280px; border-radius: 12px;
+    background: linear-gradient(120deg,#f59e0b22,#11182733);
+    display: flex; align-items: center; justify-content: center;
+    color: #9ca3af; font-size: 14px; margin-bottom: 24px;
+  }
+  .filler { height: 1400px; } /* simulates a long article so you can scroll */
+  .request-demo-wrap { text-align: center; margin: 48px 0; }
+  .request-demo {
+    display: inline-block; background: #F5A623; color: #1f2937;
+    font-weight: 700; padding: 16px 36px; border-radius: 8px;
+    text-decoration: none; border: none; cursor: pointer; font-size: 16px;
+  }
+  .bottom-cards {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 24px; margin-top: 24px;
+  }
+  .bottom-cards .bc { background:#f3f4f6; border-radius:10px; height:240px;
+    display:flex; align-items:center; justify-content:center; color:#9ca3af; }
+
+  /* =================================================================
+     ===== RELATED PRODUCTS WIDGET (copy this block to Elementor) =====
+     ================================================================= */
+  .rp-affix { position: relative; }
+
+  .rp-card {
+    background: #ececec;
+    border-radius: 16px;
+    padding: 18px 18px 26px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,.06);
+    will-change: top;
+  }
+  .rp-card__header {
+    background: #F5A623;
+    color: #1c1c1c;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: .2px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    margin-bottom: 22px;
+  }
+  .rp-item {
+    display: block;
+    text-decoration: none;
+    padding: 14px 6px 22px;
+  }
+  .rp-item + .rp-item { border-top: 1px solid rgba(0,0,0,.06); }
+  .rp-item__img {
+    height: 120px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    margin: 0 auto 14px;
+    display: block;
+  }
+  .rp-item__title {
+    color: #F5A623;
+    font-weight: 700;
+    font-size: 18px;
+    transition: color .15s ease;
+  }
+  .rp-item:hover .rp-item__title { color: #d4860f; }
+
+  /* Mobile: sidebar stacks, no sticky */
+  @media (max-width: 1024px) {
+    .page { grid-template-columns: 1fr; }
+    .rp-card { max-width: 420px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <!-- LEFT: article -->
+  <main class="article">
+    <h1>AI Data Center Power Stability: Power Capacitor Shelves, PCS Module Design</h1>
+    <div class="hero">[ Article hero image ]</div>
+    <p>Scroll down — the Related Products card on the right will follow you, then
+       stop exactly when it reaches the “Request a Demo” button.</p>
+    <div class="filler"></div>
+
+    <div class="request-demo-wrap">
+      <!-- data-rp-stop tells the widget where to stop -->
+      <a href="#" class="request-demo" data-rp-stop>Request a Demo</a>
+    </div>
+
+    <div class="bottom-cards">
+      <div class="bc">DC Fast Charger for EV Battery</div>
+      <div class="bc">Data Center Powershelf Testing</div>
+      <div class="bc">De-Risking Hyperscale Data Center</div>
+      <div class="bc">Grid Simulator</div>
+    </div>
+  </main>
+
+  <!-- RIGHT: sidebar -->
+  <aside>
+    <div class="rp-affix">
+      <div class="rp-card">
+        <div class="rp-card__header">Related Products</div>
+
+        <a class="rp-item" href="#">
+          <img class="rp-item__img" src="https://impedyme.com/wp-content/uploads/2025/02/chp150.png" alt="CHP 150" loading="lazy">
+          <div class="rp-item__title">CHP 150</div>
+        </a>
+
+        <a class="rp-item" href="#">
+          <img class="rp-item__img" src="https://impedyme.com/wp-content/uploads/2025/11/rcp-card.webp" alt="HIL/RCP-Box" loading="lazy">
+          <div class="rp-item__title">HIL/RCP-Box</div>
+        </a>
+
+        <a class="rp-item" href="#">
+          <img class="rp-item__img" src="https://impedyme.com/wp-content/uploads/2026/02/PHIL-300-monitor.webp" alt="CHP 300" loading="lazy">
+          <div class="rp-item__title">CHP 300</div>
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+/* ===== RELATED PRODUCTS — sticky-until-stop logic (copy to Elementor) ===== */
+(function () {
+  var TOP_GAP    = 24;          // gap from top of screen while following
+  var BOTTOM_GAP = 24;          // gap above the stop element
+  var MOBILE_BP  = 1024;        // below this width: no sticky
+  var STOP_SEL   = '[data-rp-stop]'; // element to stop at (Request a Demo button)
+
+  function ready(fn){
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+
+  ready(function () {
+    var affix = document.querySelector('.rp-affix');
+    if (!affix) return;
+    var card = affix.querySelector('.rp-card');
+    if (!card) return;
+    var stopEl = document.querySelector(STOP_SEL);
+
+    function docTop(el){
+      return el.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop);
+    }
+
+    function update(){
+      if (window.innerWidth < MOBILE_BP){
+        card.style.position = card.style.top = card.style.left = card.style.width = '';
+        affix.style.minHeight = '';
+        return;
+      }
+
+      // measure natural position with the card in normal flow
+      card.style.position = '';
+      affix.style.minHeight = '';
+      var startY  = docTop(affix);
+      var rect    = affix.getBoundingClientRect();
+      var width   = affix.clientWidth;
+      var leftPx  = rect.left;
+      var cardH   = card.offsetHeight;
+
+      // reserve the column space so nothing jumps when card goes fixed
+      affix.style.minHeight = cardH + 'px';
+
+      var scrollY  = window.pageYOffset || document.documentElement.scrollTop;
+      var wantTop  = scrollY + TOP_GAP;                 // where card top would be while following
+      var maxTop   = Infinity;                          // upper bound (the stop point)
+      if (stopEl) maxTop = docTop(stopEl) - BOTTOM_GAP - cardH;
+
+      if (wantTop < startY){
+        // not reached yet -> stay in normal flow
+        card.style.position = card.style.top = card.style.left = card.style.width = '';
+        affix.style.minHeight = '';
+      } else if (wantTop <= maxTop){
+        // FOLLOWING the scroll
+        card.style.position = 'fixed';
+        card.style.top   = TOP_GAP + 'px';
+        card.style.left  = leftPx + 'px';
+        card.style.width = width + 'px';
+      } else {
+        // PARKED at the stop element, scrolls away with the page
+        card.style.position = 'fixed';
+        card.style.top   = (maxTop - scrollY) + 'px';
+        card.style.left  = leftPx + 'px';
+        card.style.width = width + 'px';
+      }
+    }
+
+    var ticking = false;
+    function onScroll(){
+      if (!ticking){
+        requestAnimationFrame(function(){ update(); ticking = false; });
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update);
+    window.addEventListener('load', update);
+    update();
+  });
+})();
+</script>
+</body>
+</html>
