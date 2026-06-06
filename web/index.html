@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Works — Phases</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="phases.css" />
+</head>
+<body>
+  <!-- ============ PHASES SECTION ============ -->
+  <section class="imp-phases">
+    <div class="imp-phases__inner">
+
+      <!-- PHASE 1 -->
+      <article class="imp-phase">
+        <div class="imp-phase__num">
+          <span class="imp-phase__label">PHASE</span>
+          <span class="imp-phase__digit">1</span>
+        </div>
+        <div class="imp-phase__body">
+          <h2 class="imp-phase__title">Powering up &amp; starting the motor</h2>
+          <div class="imp-phase__rows">
+            <div class="imp-row">
+              <span class="imp-row__key">Fake flight</span>
+              <p class="imp-row__text">The autopilot is fed simulated flight data, making it think the drone is mid-air.</p>
+            </div>
+            <div class="imp-row">
+              <span class="imp-row__key">Commands</span>
+              <p class="imp-row__text">It calculates how fast the motors must spin and sends that command to the ESC.</p>
+            </div>
+            <div class="imp-row">
+              <span class="imp-row__key">The trick</span>
+              <p class="imp-row__text">The ESC sends out power; the cabinet measures it and the real-time brain instantly computes how a real motor would respond — a perfect feedback loop.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PHASE 2 -->
+      <article class="imp-phase">
+        <div class="imp-phase__num">
+          <span class="imp-phase__label">PHASE</span>
+          <span class="imp-phase__digit">2</span>
+        </div>
+        <div class="imp-phase__body">
+          <h2 class="imp-phase__title">Simulating heavy wind &amp; acceleration</h2>
+          <div class="imp-phase__rows">
+            <div class="imp-row">
+              <span class="imp-row__key">Action</span>
+              <p class="imp-row__text">The autopilot commands a sudden burst of throttle to simulate a rapid climb.</p>
+            </div>
+            <div class="imp-row">
+              <span class="imp-row__key">Reaction</span>
+              <p class="imp-row__text">The simulator instantly calculates the heavy propeller drag a real drone would experience.</p>
+            </div>
+            <div class="imp-row">
+              <span class="imp-row__key">The test</span>
+              <p class="imp-row__text">Engineers watch live graphs to ensure the ESC handles the power spike without overheating or shutting down.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PHASE 3 -->
+      <article class="imp-phase">
+        <div class="imp-phase__num">
+          <span class="imp-phase__label">PHASE</span>
+          <span class="imp-phase__digit">3</span>
+        </div>
+        <div class="imp-phase__body">
+          <h2 class="imp-phase__title">Trapping &amp; reusing braking energy</h2>
+          <div class="imp-phase__rows">
+            <div class="imp-row">
+              <span class="imp-row__key">Why</span>
+              <p class="imp-row__text">When a drone slows quickly, the motors become generators, pushing electricity backward into the system.</p>
+            </div>
+            <div class="imp-row">
+              <span class="imp-row__key">Recycle</span>
+              <p class="imp-row__text">Instead of turning that into dangerous heat, the emulator safely returns the energy to the main power source.</p>
+            </div>
+            <div class="imp-row">
+              <span class="imp-row__key">Result</span>
+              <p class="imp-row__text">Engineers can safely test aggressive braking algorithms with full 4-quadrant recirculation.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PHASE 4 -->
+      <article class="imp-phase">
+        <div class="imp-phase__num">
+          <span class="imp-phase__label">PHASE</span>
+          <span class="imp-phase__digit">4</span>
+        </div>
+        <div class="imp-phase__body">
+          <h2 class="imp-phase__title">Simulating broken wires — fault injection</h2>
+          <div class="imp-phase__rows">
+            <div class="imp-row">
+              <span class="imp-row__key">Cut</span>
+              <p class="imp-row__text">Using software, engineers instantly cut power to one motor phase; the emulator drops it to zero.</p>
+            </div>
+            <div class="imp-row">
+              <span class="imp-row__key">Goal</span>
+              <p class="imp-row__text">The ESC's internal brain must recognize the error and shut down within milliseconds.</p>
+            </div>
+            <div class="imp-row">
+              <span class="imp-row__key">Safe</span>
+              <p class="imp-row__text">Because it's entirely simulated, there's zero risk of hardware exploding if the test fails.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <script src="phases.js"></script>
+</body>
+</html>
