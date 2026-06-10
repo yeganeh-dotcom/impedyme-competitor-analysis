@@ -1,0 +1,54 @@
+.rp-affix { position: relative; }
+
+.rp-card {
+  background: #ececec;
+  border-radius: 16px;
+  padding: 18px 18px 26px;
+  text-align: center;
+  box-shadow: none;
+  will-change: top;
+}
+
+.rp-card__header {
+  display: block;
+  background: #ED9A09;
+  color: #171717;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: .2px;
+  padding: 16px 18px;
+  border-radius: 10px;
+  margin-bottom: 22px;
+  text-decoration: none;                 /* no underline */
+  transition: background .15s ease, color .15s ease;
+}
+.rp-card__header:hover {
+  background: #000;                       /* black background on hover */
+  color: #fff;                            /* white text on hover */
+  text-decoration: none;                  /* still no underline */
+}
+
+.rp-item { display: block; text-decoration: none; padding: 14px 6px 22px; }
+.rp-item + .rp-item { border-top: 1px solid rgba(0,0,0,.06); }
+
+.rp-item__img {
+  width: 100px;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0 auto 14px;
+  display: block;
+}
+
+.rp-item__title {
+  color: #ED9A09;
+  font-weight: 600;
+  font-size: 17px;
+  transition: color .15s ease;
+}
+.rp-item:hover .rp-item__title { color: #d4860f; }
+
+/* Mobile / tablet: stack, no sticky */
+@media (max-width: 1024px) {
+  .rp-card { max-width: 420px; margin: 0 auto; }
+}
