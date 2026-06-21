@@ -22,15 +22,6 @@
       </p>
     </div>
 
-    <!-- CONNECTOR -->
-    <div class="pcs-connector" aria-hidden="true">
-      <div class="pcs-arrows">
-        <span class="pcs-arrow pcs-arrow--left">&#8592;</span>
-        <span class="pcs-arrow pcs-arrow--right">&#8594;</span>
-      </div>
-      <span class="pcs-connector__text">&#8646; bidirectional</span>
-    </div>
-
     <!-- STAGE 02 -->
     <div class="pcs-stage">
       <div class="pcs-circle">
@@ -44,15 +35,6 @@
         across a high-frequency transformer, protecting control logic and the
         grid from output transients.
       </p>
-    </div>
-
-    <!-- CONNECTOR -->
-    <div class="pcs-connector" aria-hidden="true">
-      <div class="pcs-arrows">
-        <span class="pcs-arrow pcs-arrow--left">&#8592;</span>
-        <span class="pcs-arrow pcs-arrow--right">&#8594;</span>
-      </div>
-      <span class="pcs-connector__text">&#8646; bidirectional</span>
     </div>
 
     <!-- STAGE 03 -->
@@ -98,7 +80,7 @@
   flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: center;
-  gap: 8px;
+  gap: 24px;
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -111,10 +93,10 @@
   padding: 0 12px;
 }
 
-/* --- Circle --- */
+/* --- Circle (smaller, no shadow) --- */
 .pcs-circle {
-  width: clamp(140px, 18vw, 220px);
-  height: clamp(140px, 18vw, 220px);
+  width: clamp(96px, 11vw, 140px);
+  height: clamp(96px, 11vw, 140px);
   margin: 0 auto 22px;
   border-radius: 50%;
   background: var(--pcs-orange);
@@ -123,24 +105,22 @@
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: 0 10px 30px rgba(237, 154, 9, 0.25);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease;
 }
 .pcs-circle:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 38px rgba(237, 154, 9, 0.35);
 }
 .pcs-circle__label {
-  font-size: clamp(11px, 1.1vw, 14px);
-  letter-spacing: 3px;
+  font-size: clamp(9px, 0.9vw, 12px);
+  letter-spacing: 2px;
   font-weight: 600;
   opacity: 0.9;
 }
 .pcs-circle__num {
-  font-size: clamp(36px, 5vw, 56px);
+  font-size: clamp(26px, 3.4vw, 40px);
   font-weight: 800;
   line-height: 1;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 /* --- Text --- */
@@ -164,42 +144,6 @@
   margin: 0;
 }
 
-/* --- Connector (between circles) --- */
-.pcs-connector {
-  flex: 0 0 auto;
-  width: clamp(70px, 9vw, 150px);
-  /* vertically align with the centre of the circle above */
-  margin-top: clamp(70px, 9vw, 110px);
-  text-align: center;
-}
-.pcs-arrows {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  background: var(--pcs-grey);
-  border-radius: 999px;
-  padding: 6px 12px;
-}
-.pcs-arrow {
-  color: var(--pcs-orange);
-  font-size: 18px;
-  line-height: 1;
-  font-weight: 700;
-}
-.pcs-arrow--left  { animation: pcs-pulse-left 1.8s ease-in-out infinite; }
-.pcs-arrow--right { animation: pcs-pulse-right 1.8s ease-in-out infinite; }
-.pcs-connector__text {
-  display: inline-block;
-  margin-top: 8px;
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: var(--pcs-muted);
-}
-
-@keyframes pcs-pulse-left  { 0%,100%{transform:translateX(0);opacity:.5} 50%{transform:translateX(-3px);opacity:1} }
-@keyframes pcs-pulse-right { 0%,100%{transform:translateX(0);opacity:.5} 50%{transform:translateX(3px);opacity:1} }
-
 /* ============================================================
    RESPONSIVE — stack vertically on tablets & phones
    ============================================================ */
@@ -207,24 +151,11 @@
   .pcs-track {
     flex-direction: column;
     align-items: center;
-    gap: 0;
+    gap: 36px;
   }
   .pcs-stage {
     max-width: 460px;
     padding: 0 16px;
-    margin-bottom: 8px;
   }
-  .pcs-connector {
-    width: auto;
-    margin: 4px 0 20px;
-  }
-  /* turn horizontal arrows into a vertical flow indicator */
-  .pcs-arrows { display: inline-flex; transform: rotate(90deg); }
-  .pcs-connector__text { display: block; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pcs-arrow--left,
-  .pcs-arrow--right { animation: none; }
 }
 </style>
