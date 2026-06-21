@@ -1,0 +1,230 @@
+<!-- ============================================================
+     POWER CONVERSION STAGES — WordPress-ready snippet
+     Paste this entire block into a "Custom HTML" block.
+     All styles are scoped under .pcs-stages to avoid theme conflicts.
+     ============================================================ -->
+
+<div class="pcs-stages">
+  <div class="pcs-track">
+
+    <!-- STAGE 01 -->
+    <div class="pcs-stage">
+      <div class="pcs-circle">
+        <span class="pcs-circle__label">STAGE</span>
+        <span class="pcs-circle__num">01</span>
+      </div>
+      <p class="pcs-eyebrow">GRID-INTERACTIVE</p>
+      <h3 class="pcs-title">Active Front-End (AFE)</h3>
+      <p class="pcs-desc">
+        A bidirectional AC/DC converter on the utility lines. Sourcing: an
+        active rectifier with PFC. Sinking: a grid-tied inverter that returns
+        absorbed power cleanly as AC.
+      </p>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="pcs-connector" aria-hidden="true">
+      <div class="pcs-arrows">
+        <span class="pcs-arrow pcs-arrow--left">&#8592;</span>
+        <span class="pcs-arrow pcs-arrow--right">&#8594;</span>
+      </div>
+      <span class="pcs-connector__text">&#8646; bidirectional</span>
+    </div>
+
+    <!-- STAGE 02 -->
+    <div class="pcs-stage">
+      <div class="pcs-circle">
+        <span class="pcs-circle__label">STAGE</span>
+        <span class="pcs-circle__num">02</span>
+      </div>
+      <p class="pcs-eyebrow">ISOLATED DC/DC</p>
+      <h3 class="pcs-title">Dual Active Bridge (DAB)</h3>
+      <p class="pcs-desc">
+        A galvanically isolated bidirectional stage. Regulates energy transfer
+        across a high-frequency transformer, protecting control logic and the
+        grid from output transients.
+      </p>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="pcs-connector" aria-hidden="true">
+      <div class="pcs-arrows">
+        <span class="pcs-arrow pcs-arrow--left">&#8592;</span>
+        <span class="pcs-arrow pcs-arrow--right">&#8594;</span>
+      </div>
+      <span class="pcs-connector__text">&#8646; bidirectional</span>
+    </div>
+
+    <!-- STAGE 03 -->
+    <div class="pcs-stage">
+      <div class="pcs-circle">
+        <span class="pcs-circle__label">STAGE</span>
+        <span class="pcs-circle__num">03</span>
+      </div>
+      <p class="pcs-eyebrow">OUTPUT REGULATION</p>
+      <h3 class="pcs-title">Buck-Boost stage</h3>
+      <p class="pcs-desc">
+        Steps voltage up or down to the DUT's profile with fast, closed-loop
+        regulation &mdash; acting as a CV, CC or constant-power source or load.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* ============================================================
+   Scoped styles — everything lives under .pcs-stages
+   Colors: circle #ed9a09 · grey #f5f5f5 · background white
+   ============================================================ */
+.pcs-stages {
+  --pcs-orange: #ed9a09;
+  --pcs-grey: #f5f5f5;
+  --pcs-text: #1f2937;
+  --pcs-muted: #6b7280;
+
+  box-sizing: border-box;
+  background: #ffffff;
+  padding: 48px 20px;
+  width: 100%;
+}
+.pcs-stages *,
+.pcs-stages *::before,
+.pcs-stages *::after { box-sizing: border-box; }
+
+/* Layout track: row on desktop, column on mobile */
+.pcs-track {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* --- Stage card --- */
+.pcs-stage {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  padding: 0 12px;
+}
+
+/* --- Circle --- */
+.pcs-circle {
+  width: clamp(140px, 18vw, 220px);
+  height: clamp(140px, 18vw, 220px);
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  background: var(--pcs-orange);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(237, 154, 9, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.pcs-circle:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 38px rgba(237, 154, 9, 0.35);
+}
+.pcs-circle__label {
+  font-size: clamp(11px, 1.1vw, 14px);
+  letter-spacing: 3px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+.pcs-circle__num {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+/* --- Text --- */
+.pcs-eyebrow {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--pcs-muted);
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+.pcs-title {
+  font-size: clamp(18px, 1.6vw, 24px);
+  color: var(--pcs-text);
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+.pcs-desc {
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.6;
+  color: var(--pcs-muted);
+  margin: 0;
+}
+
+/* --- Connector (between circles) --- */
+.pcs-connector {
+  flex: 0 0 auto;
+  width: clamp(70px, 9vw, 150px);
+  /* vertically align with the centre of the circle above */
+  margin-top: clamp(70px, 9vw, 110px);
+  text-align: center;
+}
+.pcs-arrows {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--pcs-grey);
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+.pcs-arrow {
+  color: var(--pcs-orange);
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+}
+.pcs-arrow--left  { animation: pcs-pulse-left 1.8s ease-in-out infinite; }
+.pcs-arrow--right { animation: pcs-pulse-right 1.8s ease-in-out infinite; }
+.pcs-connector__text {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--pcs-muted);
+}
+
+@keyframes pcs-pulse-left  { 0%,100%{transform:translateX(0);opacity:.5} 50%{transform:translateX(-3px);opacity:1} }
+@keyframes pcs-pulse-right { 0%,100%{transform:translateX(0);opacity:.5} 50%{transform:translateX(3px);opacity:1} }
+
+/* ============================================================
+   RESPONSIVE — stack vertically on tablets & phones
+   ============================================================ */
+@media (max-width: 900px) {
+  .pcs-track {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .pcs-stage {
+    max-width: 460px;
+    padding: 0 16px;
+    margin-bottom: 8px;
+  }
+  .pcs-connector {
+    width: auto;
+    margin: 4px 0 20px;
+  }
+  /* turn horizontal arrows into a vertical flow indicator */
+  .pcs-arrows { display: inline-flex; transform: rotate(90deg); }
+  .pcs-connector__text { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcs-arrow--left,
+  .pcs-arrow--right { animation: none; }
+}
+</style>
