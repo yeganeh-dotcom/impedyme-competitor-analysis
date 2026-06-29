@@ -8,13 +8,19 @@
   box-sizing: border-box;
 }
 
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
-/* ---- Header / hero section --------------------------------- */
+/* ---- Header / hero section (full width) -------------------- */
 .impedyme-header {
   position: relative;
+  width: 100%;
   display: flex;
   align-items: center;            /* vertical centering */
   justify-content: flex-start;    /* keep content on the LEFT */
@@ -67,7 +73,7 @@ body {
   background-color: #ed9a09;      /* requested background */
   padding: 0.9rem 2rem;
   border: 2px solid #ed9a09;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   transition: color 0.25s ease, background-color 0.25s ease,
     border-color 0.25s ease;
