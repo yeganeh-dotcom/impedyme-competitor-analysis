@@ -1,0 +1,94 @@
+/* ============================================================
+   Impedyme — DC Power Supply Header
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+/* ---- Header / hero section --------------------------------- */
+.impedyme-header {
+  position: relative;
+  display: flex;
+  align-items: center;            /* vertical centering */
+  justify-content: flex-start;    /* keep content on the LEFT */
+  min-height: 70vh;
+  padding: 0 6vw;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* Soft dark overlay so left-side text stays readable on the image */
+.impedyme-header__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 45%,
+    rgba(0, 0, 0, 0) 80%
+  );
+  z-index: 1;
+}
+
+/* ---- Content block (left aligned) ------------------------- */
+.impedyme-header__content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  text-align: left;
+}
+
+.impedyme-header__title {
+  color: #d18100;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  margin-bottom: 1.75rem;
+}
+
+/* ---- Request Information button --------------------------- */
+.impedyme-header__btn {
+  display: inline-block;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: 1.05rem;
+  text-decoration: none;
+  color: #000000;                 /* black text */
+  background-color: #ed9a09;      /* requested background */
+  padding: 0.9rem 2rem;
+  border: 2px solid #ed9a09;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.25s ease, background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.impedyme-header__btn:hover,
+.impedyme-header__btn:focus-visible {
+  color: #ffffff;                 /* white text on hover */
+  background-color: #000000;      /* black background on hover */
+  border-color: #000000;
+  outline: none;
+}
+
+/* ---- Responsive ------------------------------------------- */
+@media (max-width: 768px) {
+  .impedyme-header {
+    min-height: 60vh;
+    padding: 0 8vw;
+  }
+
+  .impedyme-header__overlay {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
