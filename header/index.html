@@ -75,10 +75,13 @@
       display: block;
     }
 
-    .mobile-header {
-      width: 100%;
-      /* leave room at the bottom for the sticky button */
-      padding-bottom: 90px;
+    /* Wraps the hero image + heading + sticky button.
+       Extra min-height gives the button room to "stick" while this
+       section is on screen; once the wrapper scrolls past, the button
+       scrolls away with it instead of floating over later content. */
+    .mobile-header-wrapper {
+      position: relative;
+      min-height: 100vh;
     }
 
     .mobile-header img {
@@ -97,7 +100,7 @@
     }
 
     .mobile-sticky-btn {
-      position: fixed;
+      position: sticky;
       left: 0;
       bottom: 0;
       width: 100%;
@@ -132,14 +135,16 @@
   </header>
 
   <!-- Mobile header -->
-  <header class="mobile-header mobile-only">
-    <img src="https://impedyme.com/wp-content/uploads/2026/07/software-header-for-mobile.webp" alt="Impedyme Software">
-    <div class="header-content">
-      <h1>Impedyme Software</h1>
-    </div>
-  </header>
+  <div class="mobile-header-wrapper mobile-only">
+    <header class="mobile-header">
+      <img src="https://impedyme.com/wp-content/uploads/2026/07/software-header-for-mobile.webp" alt="Impedyme Software">
+      <div class="header-content">
+        <h1>Impedyme Software</h1>
+      </div>
+    </header>
 
-  <a href="https://impedyme.com/portal" class="mobile-sticky-btn mobile-only">Request Information</a>
+    <a href="https://impedyme.com/portal" class="mobile-sticky-btn">Request Information</a>
+  </div>
 
 </body>
 </html>
