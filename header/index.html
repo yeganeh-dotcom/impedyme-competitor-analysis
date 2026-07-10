@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impedyme Software Header</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* ---------- Desktop / Laptop / Tablet header ---------- */
+  .site-header {
+    position: relative;
+    width: 100%;
+    min-height: 480px;
+    background-image: url('https://impedyme.com/wp-content/uploads/2026/07/software-header-for-desktop-and-laptop-and-tablet-scaled.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+  }
+
+  .site-header .header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 60px;
+  }
+
+  .site-header h1 {
+    color: #000000;
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .request-info-btn {
+    display: inline-block;
+    background-color: #ed9a09;
+    color: #000000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .request-info-btn:hover,
+  .request-info-btn:focus {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  /* Mobile-only elements hidden on desktop */
+  .mobile-only {
+    display: none;
+  }
+
+  /* ---------- Mobile header ---------- */
+  @media (max-width: 767px) {
+    .site-header {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+
+    .mobile-header {
+      width: 100%;
+      /* leave room at the bottom for the sticky button */
+      padding-bottom: 90px;
+    }
+
+    .mobile-header img {
+      width: 100%;
+      display: block;
+    }
+
+    .mobile-header .header-content {
+      padding: 24px 20px;
+    }
+
+    .mobile-header h1 {
+      color: #000000;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .mobile-sticky-btn {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      display: block;
+      background-color: #ed9a09;
+      color: #000000;
+      text-decoration: none;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 18px 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      z-index: 1000;
+    }
+
+    .mobile-sticky-btn:hover,
+    .mobile-sticky-btn:focus {
+      background-color: #000000;
+      color: #ffffff;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Desktop / Laptop / Tablet header -->
+  <header class="site-header">
+    <div class="header-content">
+      <h1>Impedyme Software</h1>
+      <a href="https://impedyme.com/portal" class="request-info-btn">Request Information</a>
+    </div>
+  </header>
+
+  <!-- Mobile header -->
+  <header class="mobile-header mobile-only">
+    <img src="https://impedyme.com/wp-content/uploads/2026/07/software-header-for-mobile.webp" alt="Impedyme Software">
+    <div class="header-content">
+      <h1>Impedyme Software</h1>
+    </div>
+  </header>
+
+  <a href="https://impedyme.com/portal" class="mobile-sticky-btn mobile-only">Request Information</a>
+
+</body>
+</html>
