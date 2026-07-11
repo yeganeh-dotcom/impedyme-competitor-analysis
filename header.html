@@ -47,11 +47,21 @@
   }
 
   /* ===== Button ===== */
+  /* No underline in any state — !important beats theme link styles */
+  .imp-header__btn,
+  .imp-header__btn:hover,
+  .imp-header__btn:focus,
+  .imp-header__btn:active,
+  .imp-header__btn:visited {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
   .imp-header__btn {
     display: inline-block;
     background-color: #ed9a09;
     color: #000000;
-    text-decoration: none;
     font-size: 18px;
     font-weight: bold;
     padding: 14px 32px;
