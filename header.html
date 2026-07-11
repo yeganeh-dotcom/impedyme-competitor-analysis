@@ -88,21 +88,29 @@
       margin-bottom: 0;
     }
 
-    /* 3) Button sticky at the bottom of the screen, full width */
-    .imp-header__btn {
+    /* 3) Sticky bottom bar: a solid strip that holds the button,
+       so page text never shows through around the button */
+    .imp-sticky-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      text-align: center;
-      border-radius: 0;
-      padding: 16px 0;
+      background-color: #ffffff;
+      padding: 10px 5%;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
       z-index: 9999;
     }
 
-    /* Keep page content from being hidden behind the fixed button */
+    .imp-sticky-bar .imp-header__btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    /* Keep page content from being hidden behind the fixed bar */
     body {
-      padding-bottom: 60px;
+      padding-bottom: 80px;
     }
   }
 </style>
@@ -117,7 +125,9 @@
 
   <div class="imp-header__content">
     <h1 class="imp-header__title">Impedyme Software</h1>
-    <a class="imp-header__btn" href="https://impedyme.com/portal">Request Information</a>
+    <div class="imp-sticky-bar">
+      <a class="imp-header__btn" href="https://impedyme.com/portal">Request Information</a>
+    </div>
   </div>
 </header>
 
@@ -126,9 +136,9 @@
   // This small helper just keeps the body padding in sync with the real
   // height of the sticky button on mobile, so no content is ever covered.
   function syncStickyButtonPadding() {
-    var btn = document.querySelector('.imp-header__btn');
+    var bar = document.querySelector('.imp-sticky-bar');
     if (window.matchMedia('(max-width: 767px)').matches) {
-      document.body.style.paddingBottom = btn.offsetHeight + 'px';
+      document.body.style.paddingBottom = bar.offsetHeight + 'px';
     } else {
       document.body.style.paddingBottom = '';
     }
