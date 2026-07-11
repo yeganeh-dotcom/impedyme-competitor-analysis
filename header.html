@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impedyme Software</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* ===== Header (full width) ===== */
+  .imp-header {
+    width: 100%;
+    background-image: url('https://impedyme.com/wp-content/uploads/2026/07/software-header-for-desktop-and-laptop-and-tablet-scaled.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Mobile-only top image: hidden on desktop/laptop/tablet */
+  .imp-header__mobile-img {
+    display: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .imp-header__content {
+    padding: 40px 5%;
+    max-width: 600px;
+  }
+
+  .imp-header__title {
+    color: #000000;
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+
+  /* ===== Button ===== */
+  .imp-header__btn {
+    display: inline-block;
+    background-color: #ed9a09;
+    color: #000000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 14px 32px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .imp-header__btn:hover {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  /* ===== Mobile version ===== */
+  @media (max-width: 767px) {
+    .imp-header {
+      background-image: none;
+      min-height: auto;
+      display: block;
+    }
+
+    /* 1) Picture on top */
+    .imp-header__mobile-img {
+      display: block;
+    }
+
+    /* 2) Text under the picture */
+    .imp-header__content {
+      padding: 24px 5%;
+      max-width: 100%;
+    }
+
+    .imp-header__title {
+      font-size: 32px;
+      margin-bottom: 0;
+    }
+
+    /* 3) Button sticky at the bottom of the screen, full width */
+    .imp-header__btn {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      border-radius: 0;
+      padding: 16px 0;
+      z-index: 9999;
+    }
+
+    /* Keep page content from being hidden behind the fixed button */
+    body {
+      padding-bottom: 60px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="imp-header">
+  <!-- Mobile-only image (shown above the text on small screens) -->
+  <img class="imp-header__mobile-img"
+       src="https://impedyme.com/wp-content/uploads/2026/07/software-header-for-mobile.webp"
+       alt="Impedyme Software">
+
+  <div class="imp-header__content">
+    <h1 class="imp-header__title">Impedyme Software</h1>
+    <a class="imp-header__btn" href="https://impedyme.com/portal">Request Information</a>
+  </div>
+</header>
+
+<script>
+  // No JS is required for the layout — the responsive behavior is pure CSS.
+  // This small helper just keeps the body padding in sync with the real
+  // height of the sticky button on mobile, so no content is ever covered.
+  function syncStickyButtonPadding() {
+    var btn = document.querySelector('.imp-header__btn');
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      document.body.style.paddingBottom = btn.offsetHeight + 'px';
+    } else {
+      document.body.style.paddingBottom = '';
+    }
+  }
+  window.addEventListener('load', syncStickyButtonPadding);
+  window.addEventListener('resize', syncStickyButtonPadding);
+</script>
+
+</body>
+</html>
