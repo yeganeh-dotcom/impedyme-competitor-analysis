@@ -64,6 +64,11 @@
     color: #ffffff;
   }
 
+  /* Sticky bar exists only for mobile — hidden on desktop/laptop/tablet */
+  .imp-sticky-bar {
+    display: none;
+  }
+
   /* ===== Mobile version ===== */
   @media (max-width: 767px) {
     .imp-header {
@@ -88,29 +93,48 @@
       margin-bottom: 0;
     }
 
-    /* 3) Sticky bottom bar: a solid strip that holds the button,
-       so page text never shows through around the button */
+    /* 3) Hide the inline (desktop) button on mobile */
+    .imp-btn-desktop {
+      display: none !important;
+    }
+
+    /* 4) Sticky bottom bar: a solid strip that holds the button.
+       It lives directly under <body>, above every other layer.
+       !important protects it from theme/plugin CSS overrides. */
     .imp-sticky-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #ffffff;
-      padding: 10px 5%;
+      display: block !important;
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      background-color: #ffffff !important;
+      padding: 10px 5% !important;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
-      z-index: 9999;
+      z-index: 2147483647 !important; /* maximum possible — on top of any layer */
+      transform: none !important;
+      margin: 0 !important;
     }
 
     .imp-sticky-bar .imp-header__btn {
-      display: block;
-      width: 100%;
+      display: block !important;
+      width: 100% !important;
       text-align: center;
-      padding: 16px 0;
+      padding: 16px 0 !important;
+      background-color: #ed9a09 !important;
+      color: #000000 !important;
+      text-decoration: none !important;
+      border-radius: 6px;
+    }
+
+    .imp-sticky-bar .imp-header__btn:hover {
+      background-color: #000000 !important;
+      color: #ffffff !important;
     }
 
     /* Keep page content from being hidden behind the fixed bar */
     body {
-      padding-bottom: 80px;
+      padding-bottom: 90px;
     }
   }
 </style>
@@ -125,26 +149,39 @@
 
   <div class="imp-header__content">
     <h1 class="imp-header__title">Impedyme Software</h1>
-    <div class="imp-sticky-bar">
-      <a class="imp-header__btn" href="https://impedyme.com/portal">Request Information</a>
-    </div>
+    <a class="imp-header__btn imp-btn-desktop" href="https://impedyme.com/portal">Request Information</a>
   </div>
 </header>
 
+<!-- Mobile sticky button: kept directly under <body>, outside all other
+     layers, so no parent transform/overflow can trap it or cover it -->
+<div class="imp-sticky-bar">
+  <a class="imp-header__btn" href="https://impedyme.com/portal">Request Information</a>
+</div>
+
 <script>
-  // No JS is required for the layout — the responsive behavior is pure CSS.
-  // This small helper just keeps the body padding in sync with the real
-  // height of the sticky button on mobile, so no content is ever covered.
-  function syncStickyButtonPadding() {
+  // 1) Guarantee the sticky bar is a DIRECT child of <body>.
+  //    If this snippet is pasted inside a page builder widget (Elementor,
+  //    WPBakery, ...), parent containers with transform/overflow can break
+  //    position:fixed and let other layers cover the button. Moving the bar
+  //    to <body> puts it above every layer on the page.
+  // 2) Pad the bottom of the page by the bar's real height on mobile,
+  //    so the bar never covers the last lines of text.
+  function setupStickyBar() {
     var bar = document.querySelector('.imp-sticky-bar');
+    if (!bar) return;
+    if (bar.parentNode !== document.body) {
+      document.body.appendChild(bar);
+    }
     if (window.matchMedia('(max-width: 767px)').matches) {
       document.body.style.paddingBottom = bar.offsetHeight + 'px';
     } else {
       document.body.style.paddingBottom = '';
     }
   }
-  window.addEventListener('load', syncStickyButtonPadding);
-  window.addEventListener('resize', syncStickyButtonPadding);
+  window.addEventListener('DOMContentLoaded', setupStickyBar);
+  window.addEventListener('load', setupStickyBar);
+  window.addEventListener('resize', setupStickyBar);
 </script>
 
 </body>
