@@ -59,9 +59,19 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  .imp-header__btn:hover {
-    background-color: #000000;
-    color: #ffffff;
+  /* Hover styles only on devices with a real mouse/trackpad.
+     On touch screens :hover gets "stuck" after a tap (e.g. coming back
+     from the portal page the button stays black), so we exclude them. */
+  @media (hover: hover) {
+    .imp-header__btn:hover {
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    .imp-sticky-bar .imp-header__btn:hover {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+    }
   }
 
   /* Sticky bar exists only for mobile — hidden on desktop/laptop/tablet */
@@ -91,6 +101,7 @@
     .imp-header__title {
       font-size: 32px;
       margin-bottom: 0;
+      text-align: center;
     }
 
     /* 3) Hide the inline (desktop) button on mobile */
@@ -127,7 +138,9 @@
       border-radius: 0 !important;
     }
 
-    .imp-sticky-bar .imp-header__btn:hover {
+    /* Brief press feedback on touch: black only WHILE tapping,
+       returns to orange as soon as the finger lifts */
+    .imp-sticky-bar .imp-header__btn:active {
       background-color: #000000 !important;
       color: #ffffff !important;
     }
