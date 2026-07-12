@@ -38,6 +38,15 @@
     localStorage.setItem("impedyme_visit_id", visitId);
   }
 
+  // Where did this visit come from? ("google.com", "linkedin.com", "direct", ...)
+  var cameFrom = "direct";
+  try {
+    if (document.referrer) {
+      var refHost = new URL(document.referrer).hostname.replace(/^www\./, "");
+      cameFrom = refHost === location.hostname.replace(/^www\./, "") ? "" : refHost;
+    }
+  } catch (err) { cameFrom = ""; }
+
   function send(eventType) {
     localStorage.setItem("impedyme_last_seen", String(Date.now()));
     var payload = JSON.stringify({
@@ -46,6 +55,7 @@
       type: eventType,
       site: location.hostname,
       page: location.pathname,
+      referrer: eventType === "pageview" ? cameFrom : "",
       ts: new Date().toISOString(),
       userAgent: navigator.userAgent,
     });

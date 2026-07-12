@@ -9,7 +9,7 @@
  *   Summary — one row per person: total visits, total time, last seen
  */
 
-var LOG_HEADERS = ["Timestamp", "User", "Visit ID", "Event", "Site", "Page", "User Agent"];
+var LOG_HEADERS = ["Timestamp", "User", "Visit ID", "Event", "Site", "Page", "Came From", "User Agent"];
 var SUMMARY_HEADERS = ["User", "Total Visits", "Total Time (minutes)", "First Seen", "Last Seen", "Sites Visited"];
 
 // Receives events from tracker.js
@@ -23,6 +23,7 @@ function doPost(e) {
     data.type || "",
     data.site || "",
     data.page || "",
+    data.referrer || "",
     data.userAgent || "",
   ]);
   return ContentService.createTextOutput("ok");
