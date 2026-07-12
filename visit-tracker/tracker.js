@@ -18,7 +18,7 @@
  */
 (function () {
   // 1) Paste your Apps Script Web App URL here (see README.md, step 2)
-  var ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbyRu7YvI0Wi0njcBWJ9i0WDdjAcLnByBrNaRwYl3IWcgco1CV5FwToWyzXCLZPolKzGkQ/exec";
 
   var SESSION_GAP_MINUTES = 30; // inactivity gap that starts a new visit
   var HEARTBEAT_SECONDS = 60;   // how often to report "still here"
