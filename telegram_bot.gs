@@ -1,5 +1,5 @@
 // ============================================================================
-// impedyme Telegram onboarding bot (Google Apps Script)
+// impedyme Telegram onboarding bot (Google Apps Script) — v2
 //
 // Flow:
 //   1. User sends /start  -> bot asks for their name
@@ -7,21 +7,29 @@
 //   3. User sends email   -> bot sends a personal link + "open it in Chrome"
 //   4. Bot sends the list of Google keywords to search and click impedyme
 //
-// SETUP (do these in order — see TELEGRAM_BOT_SETUP.md for details):
-//   1. Paste your bot token into TELEGRAM_TOKEN below.
-//   2. Run cleanupProperties() ONCE (fixes a full property store — this is
-//      what made the old bot go silent).
-//   3. Deploy > New deployment > Web app, "Execute as: Me",
+// Design notes (why v2 is robust):
+//   - Conversation state lives in CacheService, NOT PropertiesService.
+//     The old bot filled the 500KB Script Properties quota with permanent
+//     "seen_" keys, after which every state save threw and the bot went
+//     silent. The cache has no such quota and entries expire on their own.
+//   - Errors are sent back to the user in Telegram, so nothing ever fails
+//     silently again.
+//   - Send /version to the bot to check which code version is live — if it
+//     doesn't match BOT_VERSION below, you forgot to deploy a new version.
+//
+// SETUP:
+//   1. Paste your bot token into TELEGRAM_TOKEN.
+//   2. Deploy > New deployment > Web app, "Execute as: Me",
 //      "Who has access: Anyone". Copy the /exec URL into WEBAPP_URL.
-//   4. Run setWebhook() once. Run getWebhookInfo() to confirm.
-//   5. IMPORTANT: every time you edit this code you MUST publish a new
-//      deployment version (Deploy > Manage deployments > pencil icon >
-//      Version: New version > Deploy), otherwise Telegram keeps hitting
-//      the OLD code.
+//   3. Run setWebhook() once. Run getWebhookInfo() to confirm no errors.
+//   4. EVERY time you edit this code: Deploy > Manage deployments > pencil
+//      icon > Version: New version > Deploy. Without this, Telegram keeps
+//      hitting your OLD code. Verify with /version in the chat.
 // ============================================================================
 
 var TELEGRAM_TOKEN = "PASTE_YOUR_BOT_TOKEN_HERE";
 var WEBSITE = "https://www.impedyme.com/";
+var BOT_VERSION = "v2.0";
 
 var KEYWORDS = [
   "grid emulator",
@@ -42,32 +50,32 @@ var WEBAPP_URL = "PASTE_YOUR_WEBAPP_URL_HERE";
 // ---------------------------------------------------------------------------
 
 function doPost(e) {
+  var chatId = null;
   try {
-    handleUpdate_(e);
+    if (e && e.postData) {
+      var update = JSON.parse(e.postData.contents);
+      var msg = update.message;
+      if (msg && msg.text && msg.chat) {
+        chatId = String(msg.chat.id);
+        handleMessage_(chatId, msg.text.trim());
+      }
+    }
   } catch (err) {
-    // Log instead of swallowing silently, so failures are visible in
-    // Apps Script > Executions. Still return "ok" so Telegram won't retry.
     console.error("doPost failed: " + err);
+    // Surface the error in the chat so failures are never silent.
+    if (chatId) {
+      try { reply_(chatId, "⚠️ Bot error: " + err); } catch (ignore) {}
+    }
   }
+  // Always 200 OK so Telegram never retries/floods.
   return ContentService.createTextOutput("ok");
 }
 
-function handleUpdate_(e) {
-  if (!e || !e.postData) return;
-  var update = JSON.parse(e.postData.contents);
-  var msg = update.message;
-  if (!msg || !msg.text) return;
-
-  // Deduplicate retried updates using CacheService, which auto-expires.
-  // (The old version stored a permanent "seen_" Script Property per message,
-  // which filled the 500KB property quota and made every handler throw.)
-  var cache = CacheService.getScriptCache();
-  var seenKey = "seen_" + update.update_id;
-  if (cache.get(seenKey)) return;
-  cache.put(seenKey, "1", 21600); // remember for 6 hours, then auto-delete
-
-  var chatId = String(msg.chat.id);
-  var text = msg.text.trim();
+function handleMessage_(chatId, text) {
+  if (text === "/version") {
+    reply_(chatId, "Bot code version: " + BOT_VERSION);
+    return;
+  }
 
   if (text === "/start" || text === "/reset") {
     setState_(chatId, { step: "await_name" });
@@ -133,6 +141,22 @@ function finish_(chatId, state) {
 }
 
 // ---------------------------------------------------------------------------
+// Conversation state — stored in the script cache (no quota to fill up).
+// Entries live 6 hours and are refreshed on every step; an onboarding chat
+// takes a minute, so that is plenty. If a user waits longer, the bot simply
+// starts over by asking their name again.
+// ---------------------------------------------------------------------------
+
+function getState_(chatId) {
+  var raw = CacheService.getScriptCache().get("st_" + chatId);
+  return raw ? JSON.parse(raw) : {};
+}
+
+function setState_(chatId, state) {
+  CacheService.getScriptCache().put("st_" + chatId, JSON.stringify(state), 21600);
+}
+
+// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
@@ -146,16 +170,6 @@ function slug_(name) {
     .replace(/[^\p{L}\p{N}-]/gu, "")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "") || "user";
-}
-
-function getState_(chatId) {
-  var raw = PropertiesService.getScriptProperties().getProperty("state_" + chatId);
-  return raw ? JSON.parse(raw) : {};
-}
-
-function setState_(chatId, state) {
-  PropertiesService.getScriptProperties()
-    .setProperty("state_" + chatId, JSON.stringify(state));
 }
 
 function reply_(chatId, text) {
@@ -195,23 +209,14 @@ function logLead_(name, email, uid, link) {
 // One-time / maintenance functions — run these manually from the editor
 // ---------------------------------------------------------------------------
 
-// Run ONCE to wipe the property store (the old "seen_..." flood keys filled
-// its 500KB quota and made state saves throw). Deleting keys one-by-one can
-// exceed the 6-minute execution limit with thousands of keys, so this wipes
-// everything in a single call. Users just send /start again afterwards.
+// Wipes the old (now unused) property store in one call. Run once to clear
+// the leftover "seen_" flood keys; the bot itself no longer touches
+// PropertiesService at all.
 function cleanupProperties() {
   var props = PropertiesService.getScriptProperties();
   Logger.log("Before: " + props.getKeys().length + " keys");
   props.deleteAllProperties();
   Logger.log("After: " + props.getKeys().length + " keys (should be 0)");
-}
-
-// Diagnostic: how many keys are currently in the property store.
-// Anything in the hundreds/thousands means the store is (nearly) full.
-function showStorageUsage() {
-  var keys = PropertiesService.getScriptProperties().getKeys();
-  Logger.log(keys.length + " keys in the property store");
-  Logger.log("First 20: " + JSON.stringify(keys.slice(0, 20)));
 }
 
 // Run once after deploying. Points Telegram at your web app.
@@ -224,8 +229,8 @@ function setWebhook() {
   Logger.log(res.getContentText()); // should say "Webhook was set"
 }
 
-// Diagnostic: shows where Telegram is currently sending updates,
-// how many are pending, and the last delivery error if any.
+// Diagnostic: shows where Telegram is sending updates, how many are
+// pending, and the last delivery error if any.
 function getWebhookInfo() {
   var res = UrlFetchApp.fetch(
     "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/getWebhookInfo"
