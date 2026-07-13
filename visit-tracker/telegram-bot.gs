@@ -18,7 +18,7 @@
  *   4. Select setWebhook in the toolbar and Run once (log: "Webhook was set").
  */
 
-var TELEGRAM_TOKEN = "8878235298:AAFRvJH5iWTa0-bzGhDuZgN7fqhVP7sIV8U";
+var TELEGRAM_TOKEN = "PASTE_YOUR_BOT_TOKEN_HERE";
 var WEBSITE = "https://www.impedyme.com/";
 
 // Keywords the user is asked to search for and click the impedyme result.
@@ -65,7 +65,7 @@ function handleUpdate_(e) {
 
   if (text === "/start" || text === "/reset") {
     setState_(chatId, { step: "await_name" });
-    reply_(chatId, "👋 Welcome to impedyme!\n\nLet's get you set up in a few quick steps.\n\nFirst, what is your *name*?");
+    reply_(chatId, "👋 Welcome to impedyme!\n\nLet's get you set up in a few quick steps.\n\nFirst, what is your name?");
     return;
   }
 
@@ -74,7 +74,7 @@ function handleUpdate_(e) {
   // No active flow -> start one.
   if (!state.step) {
     setState_(chatId, { step: "await_name" });
-    reply_(chatId, "👋 Welcome to impedyme!\n\nFirst, what is your *name*?");
+    reply_(chatId, "👋 Welcome to impedyme!\n\nFirst, what is your name?");
     return;
   }
 
@@ -83,7 +83,7 @@ function handleUpdate_(e) {
     state.name = text;
     state.step = "await_email";
     setState_(chatId, state);
-    reply_(chatId, "Thanks, *" + escapeMd_(text) + "*! 📧\n\nNow, what is your *email address*?");
+    reply_(chatId, "Thanks, " + text + "! 📧\n\nNow, what is your email address?");
     return;
   }
 
@@ -111,7 +111,7 @@ function finish_(chatId, state) {
   // Step 3: the personal link + how to open it.
   reply_(chatId,
     "✅ Here is your personal link:\n\n" + link + "\n\n" +
-    "*Step 1:* Open *Google Chrome*, paste this link into the address bar, " +
+    "Step 1: Open Google Chrome, paste this link into the address bar, " +
     "and press Enter to open the impedyme website. Please browse a little.");
 
   // Step 4: the keyword searches.
@@ -119,8 +119,8 @@ function finish_(chatId, state) {
     return (i + 1) + ". " + k;
   }).join("\n");
   reply_(chatId,
-    "*Step 2:* Open a *new tab* in Chrome and search Google for each of these, " +
-    "then click the *impedyme* result each time:\n\n" + lines + "\n\n" +
+    "Step 2: Open a new tab in Chrome and search Google for each of these, " +
+    "then click the impedyme result each time:\n\n" + lines + "\n\n" +
     "That's it — thank you! 🙏");
 
   logLead_(state.name, state.email, uid, link);
@@ -141,10 +141,6 @@ function slug_(name) {
     .replace(/^-|-$/g, "") || "user";
 }
 
-function escapeMd_(s) {
-  return String(s).replace(/([_*\[\]`])/g, "\\$1");
-}
-
 function getState_(chatId) {
   var raw = PropertiesService.getScriptProperties().getProperty("state_" + chatId);
   return raw ? JSON.parse(raw) : {};
@@ -161,7 +157,6 @@ function reply_(chatId, text) {
     payload: JSON.stringify({
       chat_id: chatId,
       text: text,
-      parse_mode: "Markdown",
       disable_web_page_preview: true,
     }),
     muteHttpExceptions: true,
