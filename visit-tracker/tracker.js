@@ -47,6 +47,9 @@
     }
   } catch (err) { cameFrom = ""; }
 
+  // The visitor's public IP, looked up once per browser session via ipify
+  var ip = sessionStorage.getItem("impedyme_ip") || "";
+
   function send(eventType) {
     localStorage.setItem("impedyme_last_seen", String(Date.now()));
     var payload = JSON.stringify({
@@ -56,6 +59,7 @@
       site: location.hostname,
       page: location.pathname,
       referrer: eventType === "pageview" ? cameFrom : "",
+      ip: ip,
       ts: new Date().toISOString(),
       userAgent: navigator.userAgent,
     });
@@ -67,9 +71,30 @@
     }
   }
 
-  send("pageview");
+  function start() {
+    send("pageview");
+    setInterval(function () {
+      if (document.visibilityState === "visible") send("heartbeat");
+    }, HEARTBEAT_SECONDS * 1000);
+  }
 
-  setInterval(function () {
-    if (document.visibilityState === "visible") send("heartbeat");
-  }, HEARTBEAT_SECONDS * 1000);
+  if (ip) {
+    start();
+  } else {
+    // Wait briefly for the IP lookup; start anyway if it is slow or fails
+    var started = false;
+    var fallback = setTimeout(function () {
+      if (!started) { started = true; start(); }
+    }, 1500);
+    fetch("https://api.ipify.org?format=json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        ip = d.ip || "";
+        sessionStorage.setItem("impedyme_ip", ip);
+      })
+      .catch(function () {})
+      .then(function () {
+        if (!started) { started = true; clearTimeout(fallback); start(); }
+      });
+  }
 })();
