@@ -195,20 +195,23 @@ function logLead_(name, email, uid, link) {
 // One-time / maintenance functions — run these manually from the editor
 // ---------------------------------------------------------------------------
 
-// Run ONCE to clear the thousands of old "seen_..." keys that filled the
-// property store during the flood. Keeps user conversation state intact.
+// Run ONCE to wipe the property store (the old "seen_..." flood keys filled
+// its 500KB quota and made state saves throw). Deleting keys one-by-one can
+// exceed the 6-minute execution limit with thousands of keys, so this wipes
+// everything in a single call. Users just send /start again afterwards.
 function cleanupProperties() {
   var props = PropertiesService.getScriptProperties();
-  var keys = props.getKeys();
-  var removed = 0;
-  keys.forEach(function (k) {
-    if (k.indexOf("seen_") === 0) {
-      props.deleteProperty(k);
-      removed++;
-    }
-  });
-  Logger.log("Removed " + removed + " seen_* keys. " +
-    (keys.length - removed) + " keys remain.");
+  Logger.log("Before: " + props.getKeys().length + " keys");
+  props.deleteAllProperties();
+  Logger.log("After: " + props.getKeys().length + " keys (should be 0)");
+}
+
+// Diagnostic: how many keys are currently in the property store.
+// Anything in the hundreds/thousands means the store is (nearly) full.
+function showStorageUsage() {
+  var keys = PropertiesService.getScriptProperties().getKeys();
+  Logger.log(keys.length + " keys in the property store");
+  Logger.log("First 20: " + JSON.stringify(keys.slice(0, 20)));
 }
 
 // Run once after deploying. Points Telegram at your web app.
