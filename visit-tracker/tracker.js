@@ -47,8 +47,9 @@
     }
   } catch (err) { cameFrom = ""; }
 
-  // The visitor's public IP, looked up once per browser session via ipify
-  var ip = sessionStorage.getItem("impedyme_ip") || "";
+  // The visitor's public IP + city/country, looked up once per browser session
+  var geo = {};
+  try { geo = JSON.parse(sessionStorage.getItem("impedyme_geo") || "{}"); } catch (err) {}
 
   function send(eventType) {
     localStorage.setItem("impedyme_last_seen", String(Date.now()));
@@ -59,7 +60,9 @@
       site: location.hostname,
       page: location.pathname,
       referrer: eventType === "pageview" ? cameFrom : "",
-      ip: ip,
+      ip: geo.ip || "",
+      city: geo.city || "",
+      country: geo.country || "",
       ts: new Date().toISOString(),
       userAgent: navigator.userAgent,
     });
@@ -78,19 +81,19 @@
     }, HEARTBEAT_SECONDS * 1000);
   }
 
-  if (ip) {
+  if (geo.ip) {
     start();
   } else {
-    // Wait briefly for the IP lookup; start anyway if it is slow or fails
+    // Wait briefly for the IP/location lookup; start anyway if it is slow or fails
     var started = false;
     var fallback = setTimeout(function () {
       if (!started) { started = true; start(); }
-    }, 1500);
-    fetch("https://api.ipify.org?format=json")
+    }, 2000);
+    fetch("https://ipapi.co/json/")
       .then(function (r) { return r.json(); })
       .then(function (d) {
-        ip = d.ip || "";
-        sessionStorage.setItem("impedyme_ip", ip);
+        geo = { ip: d.ip || "", city: d.city || "", country: d.country_name || "" };
+        sessionStorage.setItem("impedyme_geo", JSON.stringify(geo));
       })
       .catch(function () {})
       .then(function () {
