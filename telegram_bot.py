@@ -3,12 +3,12 @@
 Shows two buttons: "Start" and "Wallet".
 
   - Wallet: placeholder for now, nothing opens.
-  - Start: a 4-step flow:
-      1. Ask the user for their name.
+  - Start: a 3-step flow (clicking Start again restarts it from step 1):
+      1. Ask the user for their name; the reply greets them by first name.
       2. Ask the user for their email.
-      3. Build a personal link (https://www.impedyme.com/?uid=<first-name>)
-         and tell the user to open it in Chrome.
-      4. Tell the user to open a new tab, search the keywords
+      3. One combined message: the personal link
+         (https://www.impedyme.com/?uid=<first-name>) to open in Chrome,
+         plus the instructions to open a new tab, search the keywords
          'grid emulator', 'motor emulator', 'power hardware in the loop',
          'battery emulator' and click on the Impedyme website.
 
@@ -82,29 +82,32 @@ async def wallet_button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 
 async def start_button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Start button pressed: begin the flow, step 1 — ask for the name."""
+    """Start button pressed: (re)start the flow, step 1 — ask for the name."""
     query = update.callback_query
     await query.answer()
-    await query.message.reply_text("Step 1 of 4 📝\n\nPlease write your name:")
+    context.user_data.clear()
+    await query.message.reply_text("Step 1 of 3 📝\n\nPlease write your name:")
     return ASK_NAME
 
 
 async def receive_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Step 1 answer received: store name, step 2 — ask for the email."""
+    """Step 1 answer received: greet by first name, step 2 — ask for the email."""
     name = update.message.text.strip()
     if not name:
-        await update.message.reply_text("Please write a valid name:")
         return ASK_NAME
 
+    first_name = name.split()[0]
     context.user_data["name"] = name
+    context.user_data["first_name"] = first_name
     await update.message.reply_text(
-        f"Nice to meet you, {name}! ✅\n\nStep 2 of 4 📧\n\nPlease write your email:"
+        f"Nice to meet you, {first_name}! ✅\n\n"
+        "Step 2 of 3 📧\n\nPlease write your email:"
     )
     return ASK_EMAIL
 
 
 async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Step 2 answer received: validate email, then send steps 3 and 4."""
+    """Step 2 answer received: validate email, then send the final combined step."""
     email = update.message.text.strip()
     if not EMAIL_RE.match(email):
         await update.message.reply_text(
@@ -115,25 +118,20 @@ async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 
     context.user_data["email"] = email
     name = context.user_data.get("name", "")
-    first_name = name.split()[0] if name.split() else "user"
+    first_name = context.user_data.get("first_name", "user")
     personal_link = f"https://www.impedyme.com/?uid={quote(first_name)}"
 
     logger.info("New signup: name=%s email=%s link=%s", name, email, personal_link)
 
-    # Step 3: personal link
+    # Step 3: personal link + keyword-search instructions in one message
+    keyword_lines = "\n".join(f"  🔍 '{kw}'" for kw in KEYWORDS)
     await update.message.reply_text(
-        "Step 3 of 4 🔗\n\n"
+        "Step 3 of 3 🔗\n\n"
         "Here is your personal link:\n\n"
         f"{personal_link}\n\n"
         "👉 Open Chrome, put your personal link in the address bar, "
-        "and open the website."
-    )
-
-    # Step 4: keyword searches
-    keyword_lines = "\n".join(f"  🔍 '{kw}'" for kw in KEYWORDS)
-    await update.message.reply_text(
-        "Step 4 of 4 🌐\n\n"
-        "Now open a new tab and search these keywords, then click on the "
+        "and open the website.\n\n"
+        "Then open a new tab and search these keywords, and click on the "
         "Impedyme website in the results:\n\n"
         f"{keyword_lines}\n\n"
         "That's it — thank you! 🎉",
@@ -169,6 +167,8 @@ def main() -> None:
             ASK_EMAIL: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_email)],
         },
         fallbacks=[CommandHandler("cancel", cancel)],
+        # Clicking Start at any point restarts the flow from step 1.
+        allow_reentry=True,
     )
 
     application.add_handler(CommandHandler("start", start_command))

@@ -3,16 +3,19 @@
 A Telegram bot with two buttons: **Start** and **Wallet**.
 
 - **Wallet** — placeholder for now (shows "coming soon").
-- **Start** — runs a 4-step flow:
-  1. Asks the user to write their **name**.
+- **Start** — runs a 3-step flow (clicking Start again restarts it):
+  1. Asks the user to write their **name**; the bot greets them back by
+     their first name.
   2. Asks the user to write their **email**.
-  3. Builds a **personal link** from the user's first name
-     (`https://www.impedyme.com/?uid=<first-name>`) and tells them to
-     open Chrome and put the link in the address bar.
-  4. Tells the user to open a new tab, search these keywords, and click
-     on the Impedyme website:
+  3. Sends one combined message with the **personal link** built from the
+     user's first name (`https://www.impedyme.com/?uid=<first-name>`) to
+     open in Chrome, plus instructions to open a new tab, search these
+     keywords, and click on the Impedyme website:
      `grid emulator`, `motor emulator`, `power hardware in the loop`,
      `battery emulator`.
+
+The bot never nags: it asks each question once and simply waits for the
+user's reply.
 
 ## Setup
 
