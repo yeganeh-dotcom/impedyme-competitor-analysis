@@ -77,6 +77,17 @@ function clearState(chatId) {
 function doPost(e) {
   try {
     var update = JSON.parse(e.postData.contents);
+
+    // Telegram re-sends an update if it isn't sure we received it, and
+    // Apps Script's redirect-style responses trigger that regularly.
+    // Remember every update_id we've handled and ignore duplicates.
+    var cache = CacheService.getScriptCache();
+    var dedupeKey = 'upd_' + update.update_id;
+    if (cache.get(dedupeKey)) {
+      return ContentService.createTextOutput('OK');
+    }
+    cache.put(dedupeKey, '1', 21600); // remember for 6 hours
+
     if (update.callback_query) {
       handleCallback(update.callback_query);
     } else if (update.message && update.message.text) {
@@ -177,8 +188,11 @@ function setWebhook() {
   if (!token || !url) {
     throw new Error('Set BOT_TOKEN and WEBAPP_URL in Script properties first.');
   }
+  // drop_pending_updates clears any backlog of old messages so the bot
+  // doesn't reply to a burst of stale updates when the webhook is (re)set.
   var resp = UrlFetchApp.fetch(
-    'https://api.telegram.org/bot' + token + '/setWebhook?url=' + encodeURIComponent(url)
+    'https://api.telegram.org/bot' + token + '/setWebhook?url=' +
+    encodeURIComponent(url) + '&drop_pending_updates=true'
   );
   Logger.log(resp.getContentText());
 }
