@@ -1,27 +1,27 @@
 /**
  * Impedyme Telegram bot — Google Apps Script version (free hosting, no server).
  *
- * Same behavior as telegram_bot.py, but webhook-based instead of polling:
- * Telegram pushes each update to this web app, we reply and exit.
+ * Webhook-based and fully STATELESS: each question is sent with
+ * force_reply, and the incoming answer carries the question it replies
+ * to, so the bot knows which step it's on without storing anything.
  *
- * ── SETUP (one time, ~5 minutes) ─────────────────────────────────────────
+ * ── SETUP (one time) ─────────────────────────────────────────────────────
  * 1. Get a bot token from @BotFather on Telegram (/newbot).
  * 2. Go to https://script.google.com → New project → paste this file.
  * 3. Project Settings (gear icon) → Script properties → add:
  *      BOT_TOKEN  = your token from BotFather
  *      SHEET_ID   = (optional) ID of a Google Sheet to collect name/email leads
  * 4. Deploy → New deployment → type "Web app":
- *      Execute as:            Me
- *      Who has access:        Anyone
- *    Copy the web app URL (ends in /exec).
+ *      Execute as: Me / Who has access: Anyone. Copy the /exec URL.
  * 5. Script properties → add:  WEBAPP_URL = that URL
- * 6. In the editor, select the function `setWebhook` and click Run
- *    (authorize when prompted). Check the log says {"ok":true,...}.
- * 7. Open your bot in Telegram and send /start. Done.
+ * 6. Run setWebhook() once from the editor.
  *
- * NOTE: after editing this code you must Deploy → Manage deployments →
- * edit → New version, otherwise Telegram keeps hitting the old code.
+ * NOTE: after ANY code edit you must publish it: Deploy → Manage
+ * deployments → pencil icon → Version: "New version" → Deploy.
+ * Telegram keeps hitting the old code until you do.
  */
+
+var VERSION = 'v4';
 
 var KEYWORDS = [
   'grid emulator',
@@ -57,19 +57,14 @@ function sendText(chatId, text, withMenu) {
   tg('sendMessage', payload);
 }
 
-// ── Per-user conversation state (stored in script properties) ──────────
-
-function getState(chatId) {
-  var raw = PropertiesService.getScriptProperties().getProperty('state_' + chatId);
-  return raw ? JSON.parse(raw) : null;
-}
-
-function setState(chatId, state) {
-  PropertiesService.getScriptProperties().setProperty('state_' + chatId, JSON.stringify(state));
-}
-
-function clearState(chatId) {
-  PropertiesService.getScriptProperties().deleteProperty('state_' + chatId);
+// A question the user answers by replying; the answer carries the
+// question text, which is how the stateless flow knows the current step.
+function askText(chatId, text) {
+  tg('sendMessage', {
+    chat_id: chatId,
+    text: text,
+    reply_markup: { force_reply: true },
+  });
 }
 
 // ── Webhook entry point ─────────────────────────────────────────────────
@@ -78,15 +73,14 @@ function doPost(e) {
   try {
     var update = JSON.parse(e.postData.contents);
 
-    // Telegram re-sends an update if it isn't sure we received it, and
-    // Apps Script's redirect-style responses trigger that regularly.
-    // Remember every update_id we've handled and ignore duplicates.
+    // Telegram re-sends an update when it isn't sure we received it;
+    // remember handled update_ids so no reply is ever sent twice.
     var cache = CacheService.getScriptCache();
     var dedupeKey = 'upd_' + update.update_id;
     if (cache.get(dedupeKey)) {
       return ContentService.createTextOutput('OK');
     }
-    cache.put(dedupeKey, '1', 21600); // remember for 6 hours
+    cache.put(dedupeKey, '1', 21600);
 
     if (update.callback_query) {
       handleCallback(update.callback_query);
@@ -106,9 +100,8 @@ function handleCallback(query) {
   if (query.data === 'wallet') {
     sendText(chatId, '💼 Wallet is coming soon. Stay tuned!', true);
   } else if (query.data === 'start_flow') {
-    // Clicking Start always restarts the flow from step 1.
-    setState(chatId, { step: 'NAME' });
-    sendText(chatId, 'Step 1 of 3 📝\n\nPlease write your name:');
+    // Clicking Start always (re)starts the flow at step 1.
+    askText(chatId, 'Step 1 of 3 📝\n\nPlease write your name:');
   }
 }
 
@@ -117,40 +110,47 @@ function handleMessage(message) {
   var text = message.text.trim();
 
   if (text === '/start') {
-    clearState(chatId);
-    sendText(chatId, 'Welcome to the Impedyme bot! 👋\nChoose an option:', true);
+    sendText(
+      chatId,
+      'Welcome to the Impedyme bot! 👋 (' + VERSION + ')\nChoose an option:',
+      true
+    );
     return;
   }
 
-  var state = getState(chatId);
-  if (!state) {
-    // Text arrived outside the flow: point the user at the Start button
-    // (one reply per message, never repeated on its own).
-    sendText(chatId, 'Please tap Start to begin 👇', true);
-    return;
-  }
+  // Which question is this message answering?
+  var replied =
+    message.reply_to_message && message.reply_to_message.text
+      ? message.reply_to_message.text
+      : '';
 
-  if (state.step === 'NAME') {
+  if (replied.indexOf('write your name') !== -1) {
+    // Step 1 answered → greet by first name, ask for email.
     if (!text) return;
     var firstName = text.split(/\s+/)[0];
-    setState(chatId, { step: 'EMAIL', name: text, first: firstName });
-    sendText(
+    askText(
       chatId,
       'Nice to meet you, ' + firstName + '! ✅\n\n' +
       'Step 2 of 3 📧\n\nPlease write your email:'
     );
-  } else if (state.step === 'EMAIL') {
+  } else if (replied.indexOf('write your email') !== -1) {
+    // Step 2 answered → validate, then send the final combined message.
+    var m =
+      replied.match(/Nice to meet you, (.+?)!/) ||
+      replied.match(/^Sorry (.+?),/);
+    var first = m ? m[1] : 'user';
+
     if (!EMAIL_RE.test(text)) {
-      sendText(
+      askText(
         chatId,
-        "That doesn't look like a valid email. 🤔\n" +
+        'Sorry ' + first + ", that doesn't look like a valid email. 🤔\n" +
         'Please write your email (e.g. name@example.com):'
       );
       return;
     }
-    var link = 'https://www.impedyme.com/?uid=' + encodeURIComponent(state.first);
-    logSignup(state.name, text, link);
-    clearState(chatId);
+
+    var link = 'https://www.impedyme.com/?uid=' + encodeURIComponent(first);
+    logSignup(first, text, link);
 
     var keywordLines = KEYWORDS.map(function (kw) { return "  🔍 '" + kw + "'"; }).join('\n');
     sendText(
@@ -166,6 +166,9 @@ function handleMessage(message) {
       "That's it — thank you! 🎉",
       true
     );
+  } else {
+    // Text outside the flow: one gentle pointer, never repeated on its own.
+    sendText(chatId, 'Please tap Start to begin 👇', true);
   }
 }
 
@@ -193,8 +196,7 @@ function setWebhook() {
   if (!token || !url) {
     throw new Error('Set BOT_TOKEN and WEBAPP_URL in Script properties first.');
   }
-  // drop_pending_updates clears any backlog of old messages so the bot
-  // doesn't reply to a burst of stale updates when the webhook is (re)set.
+  // drop_pending_updates clears any backlog of stale queued messages.
   var resp = UrlFetchApp.fetch(
     'https://api.telegram.org/bot' + token + '/setWebhook?url=' +
     encodeURIComponent(url) + '&drop_pending_updates=true'
