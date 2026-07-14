@@ -123,7 +123,12 @@ function handleMessage(message) {
   }
 
   var state = getState(chatId);
-  if (!state) return; // not in the flow: stay silent, no nagging
+  if (!state) {
+    // Text arrived outside the flow: point the user at the Start button
+    // (one reply per message, never repeated on its own).
+    sendText(chatId, 'Please tap Start to begin 👇', true);
+    return;
+  }
 
   if (state.step === 'NAME') {
     if (!text) return;
