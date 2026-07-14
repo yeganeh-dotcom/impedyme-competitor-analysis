@@ -38,6 +38,16 @@ user's reply.
 4. Open your bot in Telegram and send `/start` — the Start / Wallet
    buttons will appear.
 
+## Free hosting on Google Apps Script (no server needed)
+
+You can also run this bot for free on https://script.google.com — no
+server and nothing to keep running. Use `google-apps-script/Code.gs`
+instead of the Python file; it has the exact same behavior but works via
+a webhook (Telegram pushes each message to your script). Full step-by-step
+setup instructions are in the comment at the top of that file. It can also
+save every name/email signup to a Google Sheet automatically (set the
+optional `SHEET_ID` script property).
+
 ## Notes
 
 - Users can type `/cancel` at any point in the flow to go back to the menu.
