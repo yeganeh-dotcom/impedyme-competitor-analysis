@@ -1,0 +1,69 @@
+<script>
+(function () {
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbyRu7YvI0Wi0njcBWJ9i0WDdjAcLnByBrNaRwYl3IWcgco1CV5FwToWyzXCLZPolKzGkQ/exec";
+  var SESSION_GAP_MINUTES = 30;
+  var HEARTBEAT_SECONDS = 60;
+
+  var uid = new URLSearchParams(location.search).get("uid")
+         || localStorage.getItem("impedyme_uid");
+  if (!uid) return;
+  localStorage.setItem("impedyme_uid", uid);
+
+  var now = Date.now();
+  var lastSeen = Number(localStorage.getItem("impedyme_last_seen") || 0);
+  var visitId = localStorage.getItem("impedyme_visit_id");
+  if (!visitId || now - lastSeen > SESSION_GAP_MINUTES * 60 * 1000) {
+    visitId = uid + "-" + now;
+    localStorage.setItem("impedyme_visit_id", visitId);
+  }
+
+  var cameFrom = "direct";
+  try {
+    if (document.referrer) {
+      var refHost = new URL(document.referrer).hostname.replace(/^www\./, "");
+      cameFrom = refHost === location.hostname.replace(/^www\./, "") ? "" : refHost;
+    }
+  } catch (err) { cameFrom = ""; }
+
+  var geo = {};
+  try { geo = JSON.parse(sessionStorage.getItem("impedyme_geo") || "{}"); } catch (err) {}
+
+  function send(eventType) {
+    localStorage.setItem("impedyme_last_seen", String(Date.now()));
+    var payload = JSON.stringify({
+      uid: uid, visitId: visitId, type: eventType,
+      site: location.hostname, page: location.pathname,
+      referrer: eventType === "pageview" ? cameFrom : "",
+      ip: geo.ip || "", city: geo.city || "", country: geo.country || "",
+      ts: new Date().toISOString(), userAgent: navigator.userAgent
+    });
+    if (navigator.sendBeacon) { navigator.sendBeacon(ENDPOINT, payload); }
+    else { fetch(ENDPOINT, { method: "POST", body: payload, keepalive: true }); }
+  }
+
+  function start() {
+    send("pageview");
+    setInterval(function () {
+      if (document.visibilityState === "visible") send("heartbeat");
+    }, HEARTBEAT_SECONDS * 1000);
+  }
+
+  if (geo.ip) { start(); }
+  else {
+    var started = false;
+    var fallback = setTimeout(function () {
+      if (!started) { started = true; start(); }
+    }, 2000);
+    fetch("https://ipapi.co/json/")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        geo = { ip: d.ip || "", city: d.city || "", country: d.country_name || "" };
+        sessionStorage.setItem("impedyme_geo", JSON.stringify(geo));
+      })
+      .catch(function () {})
+      .then(function () {
+        if (!started) { started = true; clearTimeout(fallback); start(); }
+      });
+  }
+})();
+</script>
