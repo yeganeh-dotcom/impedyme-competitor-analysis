@@ -6,13 +6,12 @@
 
   var uid = new URLSearchParams(location.search).get("uid")
          || localStorage.getItem("impedyme_uid");
-  if (!uid) return;
-  localStorage.setItem("impedyme_uid", uid);
+  if (uid) localStorage.setItem("impedyme_uid", uid);
 
   var now = Date.now();
   var lastSeen = Number(localStorage.getItem("impedyme_last_seen") || 0);
   var visitId = localStorage.getItem("impedyme_visit_id");
-  if (!visitId || now - lastSeen > SESSION_GAP_MINUTES * 60 * 1000) {
+  if (uid && (!visitId || now - lastSeen > SESSION_GAP_MINUTES * 60 * 1000)) {
     visitId = uid + "-" + now;
     localStorage.setItem("impedyme_visit_id", visitId);
   }
@@ -59,29 +58,26 @@
       .catch(function () { fetchGeo(i + 1, done); });
   }
 
-  var timeZone = "";
-  try { timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (err) {}
-
   function send(eventType) {
+    if (!uid) return;
     localStorage.setItem("impedyme_last_seen", String(Date.now()));
-
-    // Device clock set to Tehran time = visitor is in Iran, even behind a VPN.
-    var country = geo.country || "";
-    var city = geo.city || "";
-    if (timeZone === "Asia/Tehran" && !/iran/i.test(country)) {
-      country = "Iran";
-      city = "";
-    }
-
     var payload = JSON.stringify({
       uid: uid, visitId: visitId, type: eventType,
       site: location.hostname, page: location.pathname,
       referrer: eventType === "pageview" ? cameFrom : "",
-      ip: geo.ip || "", city: city, country: country,
+      ip: geo.ip || "", city: geo.city || "", country: geo.country || "",
       ts: new Date().toISOString(), userAgent: navigator.userAgent
     });
     if (navigator.sendBeacon) { navigator.sendBeacon(ENDPOINT, payload); }
     else { fetch(ENDPOINT, { method: "POST", body: payload, keepalive: true }); }
+  }
+
+  function blockPage() {
+    document.documentElement.innerHTML =
+      '<head><meta charset="utf-8"><title>Unavailable</title></head>' +
+      '<body style="margin:0;display:flex;align-items:center;justify-content:center;' +
+      'min-height:100vh;font-family:sans-serif;background:#fff;color:#222;text-align:center;">' +
+      '<div><h1 style="font-size:1.5em;">Sorry, this website is not available in your region.</h1></div></body>';
   }
 
   function start() {
@@ -91,14 +87,23 @@
     }, HEARTBEAT_SECONDS * 1000);
   }
 
-  if (geo.ip) { start(); }
+  function proceed() {
+    if (/iran/i.test(geo.country || "")) {
+      send("blocked");
+      blockPage();
+      return;
+    }
+    start();
+  }
+
+  if (geo.ip) { proceed(); }
   else {
     var started = false;
     var fallback = setTimeout(function () {
-      if (!started) { started = true; start(); }
+      if (!started) { started = true; proceed(); }
     }, 4000);
     fetchGeo(0, function () {
-      if (!started) { started = true; clearTimeout(fallback); start(); }
+      if (!started) { started = true; clearTimeout(fallback); proceed(); }
     });
   }
 })();
