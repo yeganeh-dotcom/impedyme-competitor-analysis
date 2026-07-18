@@ -61,16 +61,23 @@
 
   var timeZone = "";
   try { timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (err) {}
-  var language = (navigator.languages && navigator.languages.join(", ")) || navigator.language || "";
 
   function send(eventType) {
     localStorage.setItem("impedyme_last_seen", String(Date.now()));
+
+    // Device clock set to Tehran time = visitor is in Iran, even behind a VPN.
+    var country = geo.country || "";
+    var city = geo.city || "";
+    if (timeZone === "Asia/Tehran" && !/iran/i.test(country)) {
+      country = "Iran";
+      city = "";
+    }
+
     var payload = JSON.stringify({
       uid: uid, visitId: visitId, type: eventType,
       site: location.hostname, page: location.pathname,
       referrer: eventType === "pageview" ? cameFrom : "",
-      ip: geo.ip || "", city: geo.city || "", country: geo.country || "",
-      timeZone: timeZone, language: language,
+      ip: geo.ip || "", city: city, country: country,
       ts: new Date().toISOString(), userAgent: navigator.userAgent
     });
     if (navigator.sendBeacon) { navigator.sendBeacon(ENDPOINT, payload); }
