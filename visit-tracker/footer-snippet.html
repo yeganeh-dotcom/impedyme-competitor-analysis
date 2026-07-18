@@ -59,6 +59,10 @@
       .catch(function () { fetchGeo(i + 1, done); });
   }
 
+  var timeZone = "";
+  try { timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (err) {}
+  var language = (navigator.languages && navigator.languages.join(", ")) || navigator.language || "";
+
   function send(eventType) {
     localStorage.setItem("impedyme_last_seen", String(Date.now()));
     var payload = JSON.stringify({
@@ -66,6 +70,7 @@
       site: location.hostname, page: location.pathname,
       referrer: eventType === "pageview" ? cameFrom : "",
       ip: geo.ip || "", city: geo.city || "", country: geo.country || "",
+      timeZone: timeZone, language: language,
       ts: new Date().toISOString(), userAgent: navigator.userAgent
     });
     if (navigator.sendBeacon) { navigator.sendBeacon(ENDPOINT, payload); }
