@@ -28,6 +28,37 @@
   var geo = {};
   try { geo = JSON.parse(sessionStorage.getItem("impedyme_geo") || "{}"); } catch (err) {}
 
+  // Geolocation providers, tried in order until one answers.
+  // ipapi.co rejects requests from some countries (e.g. Iran), so it is last.
+  var GEO_PROVIDERS = [
+    { url: "https://get.geojs.io/v1/ip/geo.json",
+      parse: function (d) { return { ip: d.ip || "", city: d.city || "", country: d.country || "" }; } },
+    { url: "https://ipwho.is/",
+      parse: function (d) { if (d.success === false) return null;
+        return { ip: d.ip || "", city: d.city || "", country: d.country || "" }; } },
+    { url: "https://ipapi.co/json/",
+      parse: function (d) { if (d.error) return null;
+        return { ip: d.ip || "", city: d.city || "", country: d.country_name || "" }; } }
+  ];
+
+  function fetchGeo(i, done) {
+    if (i >= GEO_PROVIDERS.length) { done(); return; }
+    var p = GEO_PROVIDERS[i];
+    fetch(p.url)
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) {
+        var g = p.parse(d);
+        if (g && g.ip) {
+          geo = g;
+          sessionStorage.setItem("impedyme_geo", JSON.stringify(geo));
+          done();
+        } else {
+          fetchGeo(i + 1, done);
+        }
+      })
+      .catch(function () { fetchGeo(i + 1, done); });
+  }
+
   function send(eventType) {
     localStorage.setItem("impedyme_last_seen", String(Date.now()));
     var payload = JSON.stringify({
@@ -53,17 +84,10 @@
     var started = false;
     var fallback = setTimeout(function () {
       if (!started) { started = true; start(); }
-    }, 2000);
-    fetch("https://ipapi.co/json/")
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        geo = { ip: d.ip || "", city: d.city || "", country: d.country_name || "" };
-        sessionStorage.setItem("impedyme_geo", JSON.stringify(geo));
-      })
-      .catch(function () {})
-      .then(function () {
-        if (!started) { started = true; clearTimeout(fallback); start(); }
-      });
+    }, 4000);
+    fetchGeo(0, function () {
+      if (!started) { started = true; clearTimeout(fallback); start(); }
+    });
   }
 })();
 </script>
