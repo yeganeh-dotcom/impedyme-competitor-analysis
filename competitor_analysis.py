@@ -11,6 +11,7 @@ COMPETITORS = {
     "Speedgoat": {
         "base_url": "https://www.speedgoat.com",
         "paths": ["/news", "/blog", "/products", "/solutions", "/what-we-offer"],
+        "exclude_url_keywords": ["video"],
     },
     "Typhoon HIL": {
         "base_url": "https://www.typhoon-hil.com",
@@ -51,13 +52,18 @@ def scrape_page(url: str, char_limit: int = 6000) -> str:
 def scrape_competitor(name: str, config: dict) -> str:
     parts = []
     base = config["base_url"]
+    exclude_keywords = config.get("exclude_url_keywords", [])
 
     homepage = scrape_page(base)
     if homepage:
         parts.append(f"=== Homepage ({base}) ===\n{homepage}")
 
     for path in config["paths"]:
-        text = scrape_page(base + path)
+        url = base + path
+        if any(kw in url.lower() for kw in exclude_keywords):
+            print(f"  [skip] Excluded URL: {url}")
+            continue
+        text = scrape_page(url)
         if text:
             parts.append(f"=== {path} ===\n{text}")
 
