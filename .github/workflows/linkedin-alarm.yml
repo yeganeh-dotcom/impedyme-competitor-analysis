@@ -1,0 +1,87 @@
+name: LinkedIn Post Alarm
+
+on:
+  schedule:
+    # Every 15 minutes. GitHub often delays scheduled runs by a few minutes
+    # under load, so treat this as "within ~20 min of a post going live".
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'watch = normal check | test = send a test alarm | seed = mark current posts as seen | dry-run = print without sending'
+        type: choice
+        default: watch
+        options:
+          - watch
+          - test
+          - seed
+          - dry-run
+
+# Runs write the seen-posts state back to the repo, so never let two overlap.
+concurrency:
+  group: linkedin-alarm
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check for new LinkedIn posts
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          LINKEDIN_FEEDS: ${{ secrets.LINKEDIN_FEEDS }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          case "$MODE" in
+            test)    FLAGS="--test" ;;
+            seed)    FLAGS="--seed" ;;
+            dry-run) FLAGS="--dry-run" ;;
+            *)       FLAGS="" ;;
+          esac
+          python linkedin_alarm.py $FLAGS
+
+      - name: Persist alarm state
+        # Runs even when a feed failed, so failure counters and any alarms that
+        # did fire are not replayed on the next run.
+        if: always()
+        run: |
+          if [ -z "$(git status --porcelain -- state/linkedin_seen.json)" ]; then
+            echo "No state change to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/linkedin_seen.json
+          git commit -m "chore(linkedin-alarm): record seen posts"
+
+          for delay in 2 4 8 16; do
+            if git push; then
+              exit 0
+            fi
+            echo "Push failed, rebasing and retrying in ${delay}s..."
+            sleep "$delay"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          done
+
+          echo "::error::Could not push alarm state after 4 attempts."
+          exit 1
