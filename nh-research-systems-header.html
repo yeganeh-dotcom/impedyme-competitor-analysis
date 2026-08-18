@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NH Research Systems</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* ===== Header (full width) ===== */
+  .imp-header {
+    width: 100%;
+    background-image: url('https://impedyme.com/wp-content/uploads/2026/08/NH-research-header-desktoptablet-scaled.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Mobile-only top image: hidden on desktop/laptop/tablet */
+  .imp-header__mobile-img {
+    display: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .imp-header__content {
+    padding: 40px 5%;
+    max-width: 600px;
+  }
+
+  .imp-header__title {
+    color: #000000;
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  /* Gray paragraph under the h1 */
+  .imp-header__text {
+    color: #666666;
+    font-size: 20px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  /* ===== Button ===== */
+  /* No underline in any state — !important beats theme link styles */
+  .imp-header__btn,
+  .imp-header__btn:hover,
+  .imp-header__btn:focus,
+  .imp-header__btn:active,
+  .imp-header__btn:visited {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  .imp-header__btn {
+    display: inline-block;
+    background-color: #ed9a09;
+    color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 14px 32px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Hover styles only on devices with a real mouse/trackpad.
+     On touch screens :hover gets "stuck" after a tap (e.g. coming back
+     from the portal page the button stays black), so we exclude them. */
+  @media (hover: hover) {
+    .imp-header__btn:hover {
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    .imp-sticky-bar .imp-header__btn:hover {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+    }
+  }
+
+  /* Sticky bar exists only for mobile — hidden on desktop/laptop/tablet */
+  .imp-sticky-bar {
+    display: none;
+  }
+
+  /* ===== Mobile version ===== */
+  @media (max-width: 767px) {
+    .imp-header {
+      background-image: none;
+      min-height: auto;
+      display: block;
+    }
+
+    /* 1) Picture on top */
+    .imp-header__mobile-img {
+      display: block;
+    }
+
+    /* 2) Text under the picture — centered */
+    .imp-header__content {
+      padding: 24px 5%;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    .imp-header__title {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .imp-header__text {
+      font-size: 17px;
+      margin-bottom: 20px;
+    }
+
+    /* 3) Button stays in the header on mobile too, under the paragraph */
+    .imp-btn-desktop {
+      display: inline-block !important;
+    }
+
+    /* Brief press feedback on touch for the in-header button */
+    .imp-btn-desktop:active {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+    }
+
+    /* 4) Sticky bottom bar: totally #ED9A09, full width, flat (no shadow),
+       on top of any layer. !important protects it from theme overrides. */
+    .imp-sticky-bar {
+      display: block !important;
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      background-color: #ed9a09 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      z-index: 2147483647 !important; /* maximum possible — on top of any layer */
+      transform: none !important;
+      margin: 0 !important;
+    }
+
+    .imp-sticky-bar .imp-header__btn {
+      display: block !important;
+      width: 100% !important;
+      text-align: center;
+      padding: 16px 0 !important;
+      background-color: #ed9a09 !important;
+      color: #000000 !important;
+      text-decoration: none !important;
+      border-radius: 0 !important;
+    }
+
+    /* Brief press feedback on touch: black only WHILE tapping,
+       returns to orange as soon as the finger lifts */
+    .imp-sticky-bar .imp-header__btn:active {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+    }
+
+    /* Keep page content from being hidden behind the fixed bar */
+    body {
+      padding-bottom: 90px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="imp-header">
+  <!-- Mobile-only image (shown above the text on small screens) -->
+  <img class="imp-header__mobile-img"
+       src="https://impedyme.com/wp-content/uploads/2026/08/NH-research-header-mobile-scaled.webp"
+       alt="NH Research Systems">
+
+  <div class="imp-header__content">
+    <h1 class="imp-header__title">NH Research Systems</h1>
+    <p class="imp-header__text">NH Research Systems Replacement</p>
+    <!-- In-header button: shown on every screen size, including mobile -->
+    <a class="imp-header__btn imp-btn-desktop" href="https://impedyme.com/portal">Request Information</a>
+  </div>
+</header>
+
+<!-- Mobile sticky button: kept directly under <body>, outside all other
+     layers, so no parent transform/overflow can trap it or cover it -->
+<div class="imp-sticky-bar">
+  <a class="imp-header__btn" href="https://impedyme.com/portal">Request Information</a>
+</div>
+
+<script>
+  // 1) Guarantee the sticky bar is a DIRECT child of <body>.
+  //    If this snippet is pasted inside a page builder widget (Elementor,
+  //    WPBakery, ...), parent containers with transform/overflow can break
+  //    position:fixed and let other layers cover the button. Moving the bar
+  //    to <body> puts it above every layer on the page.
+  // 2) Pad the bottom of the page by the bar's real height on mobile,
+  //    so the bar never covers the last lines of text.
+  function setupStickyBar() {
+    var bar = document.querySelector('.imp-sticky-bar');
+    if (!bar) return;
+    if (bar.parentNode !== document.body) {
+      document.body.appendChild(bar);
+    }
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      document.body.style.paddingBottom = bar.offsetHeight + 'px';
+    } else {
+      document.body.style.paddingBottom = '';
+    }
+  }
+  window.addEventListener('DOMContentLoaded', setupStickyBar);
+  window.addEventListener('load', setupStickyBar);
+  window.addEventListener('resize', setupStickyBar);
+</script>
+
+</body>
+</html>
