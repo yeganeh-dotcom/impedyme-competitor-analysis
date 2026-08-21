@@ -1,0 +1,1099 @@
+<!-- ==================================================================
+     IMPEDYME — Type-Test Programme: 28 Scenarios
+     Paste this whole block into a WordPress "Custom HTML" block.
+     Everything is scoped to .layout so the rest of the page is untouched.
+     ================================================================== -->
+
+<style>
+/* ===================== */
+/* VARIABLES             */
+/* ===================== */
+.layout{
+  --accent:#D18100;
+  --accent-soft:rgba(209,129,0,.10);
+  --accent-line:rgba(209,129,0,.30);
+  --card-bg:#f5f5f5;
+  --text-main:#1c1c1c;
+  --text-body:#3d3d3d;
+  --text-muted:#7a7a7a;
+  --line:rgba(0,0,0,.09);
+  --radius:16px;
+}
+
+/* Scope everything to .layout so header/footer are untouched */
+.layout,
+.layout *{
+  box-sizing:border-box;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
+.layout button{
+  font:inherit;
+  color:inherit;
+  background:none;
+  border:0;
+  margin:0;
+}
+
+/* ===================== */
+/* MAIN LAYOUT           */
+/* ===================== */
+.layout{
+  max-width:1300px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:28px;
+  padding:10px;
+  color:var(--text-body);
+}
+
+/* ===================== */
+/* HEADER                */
+/* ===================== */
+.layout-head{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  max-width:940px;
+}
+
+.eyebrow{
+  margin:0;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+.layout-title{
+  margin:0;
+  font-size:32px;
+  font-weight:700;
+  line-height:1.15;
+  color:var(--text-main);
+}
+
+.layout-intro{
+  margin:0;
+  font-size:16px;
+  line-height:1.7;
+  color:var(--text-body);
+  transition:opacity .25s ease;
+}
+
+.layout-intro.fade{opacity:0}
+
+/* ===================== */
+/* FAMILY FILTERS        */
+/* ===================== */
+.layout .filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.layout .filter{
+  padding:9px 16px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--card-bg);
+  font-size:14px;
+  font-weight:600;
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:color .2s ease, border-color .2s ease, background .2s ease;
+  white-space:nowrap;
+}
+
+.layout .filter:hover{
+  color:var(--text-main);
+  border-color:var(--accent-line);
+}
+
+.layout .filter.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+}
+
+.layout .filter .count{
+  margin-left:6px;
+  font-weight:500;
+  opacity:.72;
+}
+
+.layout .filter:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+
+/* ===================== */
+/* TOP CARDS             */
+/* ===================== */
+.left-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:16px;
+}
+
+/* CARD */
+.layout .list-item{
+  background:var(--card-bg);
+  padding:16px;
+  border-radius:var(--radius);
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  text-align:left;
+  width:100%;
+  cursor:pointer;
+  border:1px solid var(--line);
+  transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  min-height:100px;
+  box-shadow:none !important;
+}
+
+.layout .list-item:hover{
+  transform:translateY(-4px);
+  border-color:var(--accent-line);
+}
+
+.layout .list-item:active,
+.layout .list-item:focus{
+  box-shadow:none !important;
+}
+
+.layout .list-item:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+
+.layout .list-item.active{
+  border-color:var(--accent);
+  background:var(--accent-soft);
+  box-shadow:none !important;
+}
+
+/* ICON TILE — swap the inline SVG for <img src="..."> to use your own art */
+.icon{
+  flex:0 0 auto;
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  background:var(--accent);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.icon svg{
+  width:24px;
+  height:24px;
+  display:block;
+}
+
+.icon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.list-text{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+}
+
+.list-index{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.08em;
+  color:var(--text-muted);
+}
+
+.layout .list-item.active .list-index{color:var(--accent)}
+
+.list-title{
+  font-size:15px;
+  font-weight:600;
+  line-height:1.35;
+  color:var(--text-main);
+}
+
+.list-clause{
+  font-size:12px;
+  color:var(--text-muted);
+}
+
+/* ===================== */
+/* MAIN PANEL            */
+/* ===================== */
+.panel{
+  background:var(--card-bg);
+  padding:36px;
+  border-radius:24px;
+  border:1px solid var(--line);
+  box-shadow:none !important;
+  transition:opacity .3s ease, transform .3s ease;
+}
+
+.panel.fade{
+  opacity:0;
+  transform:translateY(14px);
+}
+
+.panel-header{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+
+.panel-icon{
+  flex:0 0 auto;
+  width:72px;
+  height:72px;
+  border-radius:18px;
+  background:var(--accent);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.panel-icon svg{width:38px;height:38px;display:block}
+.panel-icon img{width:100%;height:100%;object-fit:cover}
+
+.panel-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.chip{
+  font-size:12px;
+  font-weight:600;
+  padding:4px 10px;
+  border-radius:999px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  border:1px solid var(--accent-line);
+}
+
+.clause{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:var(--text-muted);
+}
+
+.panel h3{
+  margin:0;
+  font-size:28px;
+  font-weight:700;
+  line-height:1.2;
+  color:var(--accent);
+}
+
+.panel-lede{
+  margin:20px 0 0;
+  font-size:17px;
+  line-height:1.65;
+  color:var(--text-main);
+}
+
+.panel-grid{
+  margin-top:24px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:24px;
+}
+
+.spec-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+.spec-label::before{
+  content:"";
+  width:18px;
+  height:2px;
+  border-radius:2px;
+  background:var(--accent);
+}
+
+.spec-text{
+  font-size:15px;
+  line-height:1.7;
+  color:var(--text-body);
+}
+
+.bench-note{
+  margin-top:24px;
+  padding:18px 20px;
+  border-radius:12px;
+  border-left:3px solid var(--accent);
+  background:var(--accent-soft);
+}
+
+.bench-note .spec-label::before{display:none}
+
+/* ===================== */
+/* PANEL NAVIGATION      */
+/* ===================== */
+.panel-nav{
+  margin-top:26px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.layout .nav-btn{
+  padding:9px 16px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#fff;
+  font-size:14px;
+  font-weight:600;
+  color:var(--text-main);
+  cursor:pointer;
+  transition:border-color .2s ease, color .2s ease;
+}
+
+.layout .nav-btn:hover:not(:disabled){
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+.layout .nav-btn:disabled{
+  opacity:.4;
+  cursor:default;
+}
+
+.layout .nav-btn:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+
+.counter{
+  font-size:13px;
+  font-weight:600;
+  color:var(--text-muted);
+}
+
+/* ===================== */
+/* MOBILE                */
+/* ===================== */
+@media(max-width:850px){
+
+  .layout{gap:22px}
+
+  .layout-title{font-size:26px}
+
+  .left-list{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    margin:0 -10px;
+    padding:2px 16px 12px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .layout .list-item{
+    flex:0 0 auto;
+    width:78vw;
+    max-width:330px;
+    scroll-snap-align:start;
+  }
+
+  .layout .list-item:hover{transform:none}
+
+  .left-list::-webkit-scrollbar{height:4px}
+  .left-list::-webkit-scrollbar-track{background:transparent}
+  .left-list::-webkit-scrollbar-thumb{background:rgba(0,0,0,.18);border-radius:4px}
+
+  .panel{padding:24px}
+  .panel h3{font-size:22px}
+  .panel-lede{font-size:16px}
+  .panel-header{gap:14px}
+
+  .panel-icon{width:56px;height:56px;border-radius:14px}
+  .panel-icon svg{width:30px;height:30px}
+
+  .panel-grid{gap:20px}
+  .layout .nav-btn{padding:8px 13px;font-size:13px}
+}
+
+@media(max-width:560px){
+  /* keep the filter row compact — "Family 1" instead of the full name */
+  .layout .filter .fname{display:none}
+}
+</style>
+
+<div class="layout" id="impScenarios">
+
+  <!-- HEADER -->
+  <header class="layout-head">
+    <p class="eyebrow">The Full Type-Test Programme</p>
+    <h2 class="layout-title">28 Scenarios in Detail</h2>
+    <p class="layout-intro" data-blurb></p>
+  </header>
+
+  <!-- FAMILY FILTERS -->
+  <div class="filters" data-filters></div>
+
+  <!-- TOP CARDS -->
+  <div class="left-list" data-list role="tablist" aria-label="Type-test scenarios"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="panel" data-panel role="tabpanel" tabindex="-1" aria-live="polite">
+
+    <div class="panel-header">
+      <div class="panel-icon" data-panel-icon aria-hidden="true"></div>
+      <div>
+        <div class="panel-meta">
+          <span class="chip" data-panel-family></span>
+          <span class="clause" data-panel-clause></span>
+        </div>
+        <h3 data-panel-title></h3>
+      </div>
+    </div>
+
+    <p class="panel-lede" data-panel-lede></p>
+
+    <div class="panel-grid">
+      <div>
+        <div class="spec-label">Applied</div>
+        <div class="spec-text" data-panel-applied></div>
+      </div>
+      <div>
+        <div class="spec-label">Measured</div>
+        <div class="spec-text" data-panel-measured></div>
+      </div>
+      <div>
+        <div class="spec-label">Criterion</div>
+        <div class="spec-text" data-panel-criterion></div>
+      </div>
+    </div>
+
+    <div class="bench-note">
+      <div class="spec-label">Bench note</div>
+      <div class="spec-text" data-panel-note></div>
+    </div>
+
+    <div class="panel-nav">
+      <button class="nav-btn" data-prev type="button">&larr; Previous</button>
+      <span class="counter" data-counter></span>
+      <button class="nav-btn" data-next type="button">Next &rarr;</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =====================================================================
+     SAMPLE ICONS
+     Inline SVG placeholders so the block works with no uploads.
+     To use your own art instead, replace the SVG string with an <img>:
+        curve: '<img src="https://impedyme.com/wp-content/uploads/...webp">'
+     ===================================================================== */
+  function glyph(d){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" '
+         + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
+  }
+
+  var ICONS = {
+    pf:        glyph('<circle cx="12" cy="12" r="8.6"/><path d="M12 12h6.6"/><path d="M12 12 17.4 7.4"/><path d="M16.9 12a4.9 4.9 0 0 0-1.1-3.1"/>'),
+    curve:     glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6.5 8h3.2l4.6 8h3.2"/>'),
+    unbalance: glyph('<path d="M4 20h16"/><path d="M8 20V8"/><path d="M12 20V5"/><path d="M16 20V12"/>'),
+    stairs:    glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6.5 17h3v-3.5h3V10h3V6.5h2"/>'),
+    varmode:   glyph('<circle cx="12" cy="12" r="8.6"/><path d="M8.8 8.6 12 15.4l3.2-6.8"/>'),
+    curtail:   glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6.5 7.5h6.2l4.3 8.5"/>'),
+    trip:      glyph('<path d="M13.5 3 7 12.5h4.2L10.5 21 17 11.5h-4.2z"/>'),
+    sag:       glyph('<path d="M3 8h4v8h6V8h8"/>'),
+    swell:     glyph('<path d="M3 15h4V7h6v8h8"/>'),
+    repeat:    glyph('<path d="M4.5 10.5a7.5 7.5 0 0 1 12.4-3.4l2.6 2.6"/><path d="M19.5 5.5v4.2h-4.2"/><path d="M19.5 13.5a7.5 7.5 0 0 1-12.4 3.4L4.5 14.3"/><path d="M4.5 18.5v-4.2h4.2"/>'),
+    tripup:    glyph('<path d="M11.5 3 6 11.5h3.6L8.9 18 14.4 9.5h-3.6z"/><path d="M18 19v-6"/><path d="M15.6 15.4 18 13l2.4 2.4"/>'),
+    tripdown:  glyph('<path d="M11.5 3 6 11.5h3.6L8.9 18 14.4 9.5h-3.6z"/><path d="M18 13v6"/><path d="M15.6 16.6 18 19l2.4-2.4"/>'),
+    freqlow:   glyph('<path d="M3 10c1.8-5 3.6-5 5.4 0s3.6 5 5.4 0"/><path d="M18.5 11v7"/><path d="M16 15.6 18.5 18 21 15.6"/>'),
+    freqhigh:  glyph('<path d="M3 14c1.8-5 3.6-5 5.4 0s3.6 5 5.4 0"/><path d="M18.5 18v-7"/><path d="M16 13.4 18.5 11 21 13.4"/>'),
+    rocof:     glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6.5 17.5 17 7"/><path d="M17 12.2V7h-5.2"/>'),
+    phase:     glyph('<path d="M3.5 19h17"/><path d="M4 19 18.5 6"/><path d="M11.5 19a8 8 0 0 0-1.7-5"/>'),
+    droop:     glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6 9h4.2l3.6 7.5H18"/>'),
+    power:     glyph('<path d="M12 3.5v8"/><path d="M7.4 6.6a7.8 7.8 0 1 0 9.2 0"/>'),
+    sync:      glyph('<circle cx="9.2" cy="12" r="5.2"/><circle cx="14.8" cy="12" r="5.2"/>'),
+    limit:     glyph('<path d="M3.5 8h17"/><path d="M4 19c4.5 0 7.2-2.6 8.2-7.6"/><path d="M12.2 11.4h8.3"/>'),
+    layers:    glyph('<path d="m12 3.5 8.5 4.5-8.5 4.5L3.5 8z"/><path d="m3.5 12.8 8.5 4.5 8.5-4.5"/>'),
+    dc:        glyph('<path d="M4 9.2h16"/><path d="M4 14.8h3.2"/><path d="M10.4 14.8h3.2"/><path d="M16.8 14.8H20"/>'),
+    openphase: glyph('<path d="M3 15h4.5"/><path d="M16.5 15H21"/><circle cx="7.5" cy="15" r="1.4"/><circle cx="16.5" cy="15" r="1.4"/><path d="M8.7 14.2 15.4 9.6"/>'),
+    harmonics: glyph('<path d="M3 12c2.2-6.5 4.4-6.5 6.6 0s4.4 6.5 6.6 0"/><path d="M3 12c1-2.4 2-2.4 3 0s2 2.4 3 0 2-2.4 3 0 2 2.4 3 0 2-2.4 3 0"/>'),
+    spike:     glyph('<path d="M3 16h3.6l2-9 2.8 13 2.4-8.6 1.8 4.6H21"/>')
+  };
+
+  /* =====================================================================
+     FAMILIES
+     ===================================================================== */
+  var INTRO = "The type-test programme divides naturally into five families. Every scenario below has the same underlying form: the terminal or the input is driven to a defined condition and held, and the response of the equipment under test is measured against a stated criterion.";
+
+  var FAMILIES = [
+    {
+      id:1,
+      name:"Reactive Power & Voltage Control",
+      short:"Family 1",
+      clause:"Clause 5.14",
+      blurb:"Family 1 — Reactive Power and Voltage Control (Clause 5.14). These seven tests command the equipment to hold a characteristic while the bench varies the terminal condition and the equipment's own output. They are the grid-support functions — the behaviour that distinguishes a modern resource from a passive one."
+    },
+    {
+      id:2,
+      name:"Voltage Trip & Ride-Through",
+      short:"Family 2",
+      clause:"Clause 5.4",
+      blurb:"Family 2 — Voltage Trip and Ride-Through (Clause 5.4). These six tests drive the terminal outside the normal band, briefly or for a defined dwell, and establish whether the equipment rides through or clears. This family is where certification campaigns most often come unstuck."
+    },
+    {
+      id:3,
+      name:"Frequency Trip & Ride-Through",
+      short:"Family 3",
+      clause:"Clauses 5.5 & 5.15",
+      blurb:"Family 3 — Frequency Trip and Ride-Through (Clauses 5.5 and 5.15). These seven tests follow the same form as the voltage family but are harder to drive, because frequency is a property of the source itself rather than of its amplitude. A bench that manipulates amplitude convincingly may still be unable to produce a clean, controlled frequency ramp under load."
+    },
+    {
+      id:4,
+      name:"Service, Synchronization & Control",
+      short:"Family 4",
+      clause:"Clauses 5.6, 5.7, 5.13 & 5.16",
+      blurb:"Family 4 — Service, Synchronization and Control (Clauses 5.6, 5.7, 5.13 and 5.16). These four tests concern connection, disconnection, and command authority. The criteria here are timing and ramp rate rather than a level, which changes what the bench has to resolve."
+    },
+    {
+      id:5,
+      name:"Power Quality & Measurement",
+      short:"Family 5",
+      clause:"Clauses 5.9, 5.11, 5.12 & 5.17",
+      blurb:"Family 5 — Power Quality and Measurement (Clauses 5.9, 5.11, 5.12 and 5.17). These four tests depend on the measurement path and the purity of the source output rather than on raw power capability. Coverage claims in this family are qualified, and honestly stating those qualifications is part of good practice."
+    }
+  ];
+
+  /* =====================================================================
+     THE 28 SCENARIOS
+     ===================================================================== */
+  var DATA = [
+
+    /* ---------- FAMILY 1 — Reactive Power and Voltage Control (5.14) ---------- */
+    {
+      family:1, icon:"pf",
+      title:"Constant Power Factor Mode",
+      clause:"Clause 5.14.3",
+      lede:"Verifies that a commanded power factor is held while active power and terminal voltage are varied across the continuous operating region.",
+      applied:"Available active power is ramped down to minimum and back to rated. The terminal voltage is then stepped low, high, low, and back to nominal, and on through each imbalanced case.",
+      measured:"Time-domain voltage and current are recorded after every change, from which active, apparent and reactive power and power factor are derived.",
+      criterion:"Reactive power holds the commanded proportion to active power, settles within the required time after each step, and does not follow the voltage steps.",
+      note:"Active power moves only twice in a run. What is stepped repeatedly is the terminal voltage, and the whole sequence repeats at the other power factor settings — a structure that makes automation essential rather than optional."
+    },
+    {
+      family:1, icon:"curve",
+      title:"Voltage–Reactive Power (Volt-Var) Mode",
+      clause:"Clause 5.14.4–5",
+      lede:"Verifies that reactive power follows the voltage–reactive power characteristic as terminal voltage is stepped either side of each breakpoint.",
+      applied:"Terminal voltage is stepped in a staircase either side of the reference voltage, past each breakpoint of the characteristic and back.",
+      measured:"Reactive power is recorded to a new steady state after every step, along with terminal voltage, current, and derived active power.",
+      criterion:"Steady-state reactive power lies on the characteristic for the measured voltage, and the approach to it meets the open-loop response requirement.",
+      note:"The sequence is then repeated with an autonomously adjusting reference voltage, which returns reactive power toward zero as the reference tracks the terminal. Both variants must be run."
+    },
+    {
+      family:1, icon:"unbalance",
+      title:"Volt-Var Mode, Imbalanced Grid",
+      clause:"Clause 5.14.6",
+      lede:"Verifies volt-var operation when the phase voltages are imbalanced, so that a negative-sequence component is present at the terminal.",
+      applied:"Phase voltages are stepped to an imbalanced case in which one phase rises while the remainder fall, returned to nominal, then driven to the opposite case.",
+      measured:"Reactive power and voltage are recorded to a new steady state after each step, and the run is repeated for each unbalance-response setting.",
+      criterion:"Steady-state reactive power lies on the characteristic for the applicable voltage, and the approach to it meets the response requirement.",
+      note:"Where the equipment responds to the applicable voltage as a whole rather than per phase, reactive power can legitimately move in the opposite direction to the phase that rises. This is correct behaviour, not a failure — a distinction that has caught out more than one campaign."
+    },
+    {
+      family:1, icon:"stairs",
+      title:"Active Power–Reactive Power (Watt-Var) Mode",
+      clause:"Clause 5.14.7",
+      lede:"Verifies that reactive power follows the active power–reactive power characteristic as available active power is varied over its range.",
+      applied:"Available active power is ramped up and down in a staircase either side of each breakpoint, and again in the region where the equipment absorbs power.",
+      measured:"Reactive power is recorded to a new steady state after every change, together with active power, apparent power, and power factor.",
+      criterion:"Steady-state reactive power lies on the characteristic for the measured active power, and the approach to it meets the response requirement.",
+      note:"Here active power is ramped, at the maximum rate stated by the manufacturer, whereas terminal voltage in the neighbouring tests is stepped. The distinction is deliberate and must be honoured by the sequencer."
+    },
+    {
+      family:1, icon:"varmode",
+      title:"Constant Reactive Power (Var) Mode",
+      clause:"Clause 5.14.8",
+      lede:"Verifies that a commanded reactive power is held while active power is reduced and terminal voltage is stepped.",
+      applied:"Constant reactive power mode is enabled and a value commanded. Active power is stepped down twice and returned to rated. Terminal voltage is then stepped across the continuous operating region, the imbalanced cases are applied, and the mode is disabled.",
+      measured:"After every change, time-domain voltage and current are recorded, and active, apparent and reactive power and power factor derived.",
+      criterion:"After each step a new steady-state reactive power is measured, reached within the required response time and within the stated test result accuracy.",
+      note:"The command here is absolute, so unlike constant power factor mode the reactive output does not track active power. Disabling the mode at the end of the run is part of the test, not housekeeping."
+    },
+    {
+      family:1, icon:"curtail",
+      title:"Voltage–Active Power (Volt-Watt) Mode",
+      clause:"Clause 5.14.9",
+      lede:"Verifies that active power is limited along the voltage–active power characteristic as terminal voltage is stepped toward the upper limit.",
+      applied:"Terminal voltage is stepped in a staircase either side of each breakpoint, up toward the top of the continuous operating region and back. The run repeats for each characteristic.",
+      measured:"Active power is recorded to a new steady state after every step, with time-domain voltage and current, and apparent and reactive power and power factor derived.",
+      criterion:"Steady-state active power lies on the characteristic for the measured voltage, and the approach to it meets the response requirement.",
+      note:"Curtailment follows the characteristic rather than a trip. The equipment stays connected throughout, and active power is expected to be restored on the return."
+    },
+    {
+      family:1, icon:"unbalance",
+      title:"Volt-Watt Mode, Imbalanced Grid",
+      clause:"Clause 5.14.10",
+      lede:"Verifies volt-watt operation when the phase voltages are imbalanced, so that a negative-sequence component is present at the terminal.",
+      applied:"Phase voltages are stepped to an imbalanced case in which one phase rises while the remainder fall, returned to nominal, then driven to the opposite case.",
+      measured:"Active power and voltage are recorded to a new steady state after each step, and the run is repeated for each unbalance-response setting.",
+      criterion:"Steady-state active power lies on the characteristic for the applicable voltage, and the approach to it meets the response requirement.",
+      note:"Only the default characteristic is applied here. What the run evaluates is the response to imbalance, not the shape of the characteristic itself — which was already established in the balanced test above."
+    },
+
+    /* ---------- FAMILY 2 — Voltage Trip and Ride-Through (5.4) ---------- */
+    {
+      family:2, icon:"trip",
+      title:"Overvoltage and Undervoltage Trip",
+      clause:"Clause 5.4.2–3",
+      lede:"Establishes the voltage at which the equipment ceases to energize and the elapsed time to cessation.",
+      applied:"The bench holds the terminal just short of the trip condition for longer than the trip time setting, then steps it past in a single movement and holds it there.",
+      measured:"The interval between the step and the instant the equipment stops energizing, and the voltage at which it trips. The run repeats above and below nominal, on each phase, at both setting extremes.",
+      criterion:"The equipment ceases to energize within the clearing time for that trip region, and its adjustable ranges of trip magnitude and duration cover those the standard allows.",
+      note:"The disturbance is applied as a step and not as a ramp. Ramped, the moment of crossing becomes a matter of interpretation, and the measured interval with it."
+    },
+    {
+      family:2, icon:"sag",
+      title:"Low-Voltage Ride-Through",
+      clause:"Clause 5.4.4",
+      lede:"Establishes that the equipment rides through a sequence of voltage sags without tripping, in each required operating region.",
+      applied:"Sag conditions are applied in sequence without interruption, each held for a minimum duration. Every transition is a step, including the recovery.",
+      measured:"Terminal voltage and output current are recorded throughout. The sequence is repeated with the phases driven together, in pairs, and individually.",
+      criterion:"The equipment does not trip. In the mandatory operation region, apparent current holds above the required fraction of its pre-disturbance value; in the permissive region it may cease and restore instead.",
+      note:"Undervoltage trip settings are disabled for this test. A cessation observed here is therefore ride-through behaviour, not a trip — and misreading it as a failure is a common early-campaign error."
+    },
+    {
+      family:2, icon:"repeat",
+      title:"Consecutive Low-Voltage Ride-Through",
+      clause:"Clause 5.4.4.3",
+      lede:"Establishes that the equipment sustains the sag sequences when they are repeated without interruption.",
+      applied:"The sag sequence is repeated back to back with no recovery interval. The closing condition is held at the low edge of the continuous operating region.",
+      measured:"Output current across the whole run, including the interval from cessation of output to restored output.",
+      criterion:"The equipment does not trip on any repetition, and restores output within the required interval once voltage returns to the continuous region.",
+      note:"The consecutive test runs at the same output power levels as the individual sequences, so results are directly comparable against them."
+    },
+    {
+      family:2, icon:"unbalance",
+      title:"Voltage Unbalance, Continuous Region",
+      clause:"Clause 5.4.5",
+      lede:"Establishes that multiphase equipment continues operating and delivering power while its phase voltages are unbalanced inside the continuous region.",
+      applied:"The equipment is operated at rated active power under nominal conditions, then an unbalance is stepped onto the phase voltages — one high, one low, one at nominal — and held.",
+      measured:"Active power throughout the hold. The procedure repeats for each unbalance condition defined.",
+      criterion:"Operation continues and active power is held at or above the pre-disturbance level, prorated by the least phase voltage. A brief deviation at the step itself is permitted.",
+      note:"This is an operating test, not a ride-through test. The applicable voltage never leaves the continuous region, so there is no ride-through allowance to fall back on."
+    },
+    {
+      family:2, icon:"swell",
+      title:"High-Voltage Ride-Through",
+      clause:"Clause 5.4.7",
+      lede:"Establishes that the equipment rides through a descending sequence of voltage swells without tripping.",
+      applied:"Swell conditions are stepped on and then stepped down in descending magnitude, each held longer than the condition above it.",
+      measured:"Terminal voltage and output current. The voltage–reactive power mode is left enabled at its default setting for the duration.",
+      criterion:"The equipment rides through and does not trip. Where output ceases, it is restored within the required interval.",
+      note:"Whether the swell level can be held steady during the disturbance depends on the stiffness of the source relative to the rating of the equipment under test. This is a bench property that has to be established and stated before the result means anything."
+    },
+    {
+      family:2, icon:"repeat",
+      title:"Consecutive High-Voltage Ride-Through",
+      clause:"Clause 5.4.7.4",
+      lede:"Establishes that the equipment sustains the swell sequences when repeated without interruption.",
+      applied:"The swell sequence is repeated without interruption, with the closing condition held at the high edge of the continuous region.",
+      measured:"Output current, together with the interval from cessation of output to restored output after each swell.",
+      criterion:"The equipment rides through without tripping, and where output ceases it is restored within the required interval after each swell.",
+      note:"As with the low-voltage case, overvoltage trip settings are disabled, so any cessation observed is ride-through behaviour rather than a trip."
+    },
+
+    /* ---------- FAMILY 3 — Frequency Trip and Ride-Through (5.5, 5.15) ---------- */
+    {
+      family:3, icon:"tripup",
+      title:"Overfrequency Trip",
+      clause:"Clause 5.5.1",
+      lede:"Establishes the frequency at which the equipment ceases to energize, and the elapsed time to cessation, for each overfrequency region.",
+      applied:"Frequency is ramped to a hold short of the trip condition, then carried past it on a gentler ramp and held.",
+      measured:"Output current, the frequency at cessation, and the interval from crossing to cessation. The run repeats at the setting extremes.",
+      criterion:"The equipment ceases to energize within the clearing time required for the applicable overfrequency region.",
+      note:"The approach ramp is driven at or above the ride-through rate limit, while the ramp past the trip condition is deliberately kept below it — so the equipment cannot pass by riding through the approach."
+    },
+    {
+      family:3, icon:"tripdown",
+      title:"Underfrequency Trip",
+      clause:"Clause 5.5.2",
+      lede:"Establishes the frequency at which the equipment ceases to energize, and the elapsed time to cessation, for each underfrequency region.",
+      applied:"Frequency is ramped to a hold short of the trip condition, then carried past it on a gentler ramp and held.",
+      measured:"Output current, the frequency at cessation, and the interval from crossing to cessation. The run repeats at the setting extremes.",
+      criterion:"The equipment ceases to energize within the clearing time required for the applicable underfrequency region.",
+      note:"The frequency-droop function is widened beforehand, so that a legitimate change of active power with falling frequency is not mistaken for cessation of output."
+    },
+    {
+      family:3, icon:"freqlow",
+      title:"Low-Frequency Ride-Through",
+      clause:"Clause 5.5.3",
+      lede:"Establishes that the equipment stays in operation through a sustained low-frequency excursion below the continuous operating region.",
+      applied:"Frequency is ramped down from nominal to a level below the continuous operating region, held there, then ramped back to nominal. The excursion is repeated.",
+      measured:"Output current at the terminal, referenced to the value recorded at nominal frequency before the excursion.",
+      criterion:"The equipment rides through the excursion, neither tripping nor ceasing to energize, for the whole of the hold.",
+      note:"The transition rate is deliberately at or above the ride-through limit. The ramp is part of the test, not merely a way of reaching the hold."
+    },
+    {
+      family:3, icon:"freqhigh",
+      title:"High-Frequency Ride-Through",
+      clause:"Clause 5.5.4",
+      lede:"Establishes that the equipment stays in operation through a sustained high-frequency excursion above the continuous operating region.",
+      applied:"Frequency is ramped up from nominal to a level above the continuous operating region, held there, then ramped back. The excursion is repeated.",
+      measured:"Output current at the terminal, referenced to the value recorded at nominal frequency before the excursion.",
+      criterion:"The equipment rides through the excursion, neither tripping nor ceasing to energize, for the whole of the hold.",
+      note:"The equipment under test includes its prime mover or energy source, whose limits can govern ride-through capability rather than the controls. Testing the converter in isolation can produce a pass that the complete resource will not reproduce."
+    },
+    {
+      family:3, icon:"rocof",
+      title:"Rate of Change of Frequency (ROCOF)",
+      clause:"Clause 5.5.5",
+      lede:"Establishes the rate of change of frequency the equipment withstands, evaluated from the transitions of the frequency ride-through tests.",
+      applied:"No separate excursion. A frequency ride-through run is reused, with its transitions driven at or above the required rate limit.",
+      measured:"The applied transition rate and the output current through it, taken from the records of the low- and high-frequency ride-through runs.",
+      criterion:"The equipment stays in operation through transitions at or above the rate required for its abnormal operating performance category.",
+      note:"Because conformance is drawn from existing ride-through records, the transition rate has to be set correctly there. Get it wrong and this test cannot be recovered without re-running the ride-through sequences."
+    },
+    {
+      family:3, icon:"phase",
+      title:"Voltage Phase-Angle Change Ride-Through",
+      clause:"Clause 5.5.6",
+      lede:"Establishes that the equipment rides through sudden changes in the voltage phase angle at its terminal without tripping.",
+      applied:"The angle of the phase under test is stepped, held, then returned, with the other phases held steady. Further cases shift all three together. Each sequence is repeated at a random point on wave.",
+      measured:"Output current through each jump, and its restoration after any momentary cessation, referenced to the pre-disturbance value.",
+      criterion:"The equipment does not trip. Where output momentarily ceases, current is restored to the required fraction of its pre-disturbance value.",
+      note:"Phase-to-phase voltage moves with the angle, so the source magnitude has to be adjusted to keep voltage tripping from confounding the result. This is one of the most demanding tests to drive correctly, and one of the clearest separators between a genuine grid emulator and a programmable supply."
+    },
+    {
+      family:3, icon:"droop",
+      title:"Frequency-Droop Response",
+      clause:"Clause 5.15.2–3",
+      lede:"Establishes that active power follows the frequency-droop characteristic above and below nominal, with deadband and response time observed.",
+      applied:"Frequency is ramped — never stepped — out of the deadband to each end of the continuous operating region and back, above and below nominal.",
+      measured:"Active power at each settled frequency and the settling time after each ramp. The sequence repeats for each declared characteristic.",
+      criterion:"Settled active power lies on the declared characteristic within the stated accuracy, and settling occurs within the declared response time.",
+      note:"The starting output is not the same above and below nominal, since only the run below nominal requires headroom for active power to rise. Setting up both runs identically is a straightforward way to fail this test."
+    },
+
+    /* ---------- FAMILY 4 — Service, Synchronization and Control ---------- */
+    {
+      family:4, icon:"power",
+      title:"Enter Service",
+      clause:"Clause 5.6",
+      lede:"Establishes that export is withheld until the enter service criteria are satisfied and the delay has elapsed.",
+      applied:"Permit service is disabled, the criteria are set, and the terminal is held outside the window. Frequency is displaced instead of voltage in companion cases.",
+      measured:"Active power. The span from the last re-entry into the window to the first export is taken, together with the rise toward rated output.",
+      criterion:"No export precedes the delay, the rise stays within the permitted ramp, and output ceases when permit service is withdrawn.",
+      note:"The brief excursion back outside the window is deliberate — it restarts the delay counter, and the recorded span begins from that re-entry. A sequencer that treats it as noise will measure the wrong interval."
+    },
+    {
+      family:4, icon:"sync",
+      title:"Synchronization",
+      clause:"Clause 5.7",
+      lede:"Establishes that closure is permitted only while the voltage, frequency and phase-angle differences all lie inside the allowable window.",
+      applied:"The bench is held at nominal while the device side is offset beyond the allowable window, held there, then ramped toward it.",
+      measured:"The close command is monitored, and the voltage, frequency and phase-angle differences are recorded at the instant closure is initiated.",
+      criterion:"Closure is initiated only once every difference lies inside the allowable window, and never while any lies outside it.",
+      note:"The approach is ramped rather than stepped so that the instant of closure resolves cleanly. The run repeats from the opposite direction, and again in frequency."
+    },
+    {
+      family:4, icon:"limit",
+      title:"Limit Active Power",
+      clause:"Clause 5.13",
+      lede:"Establishes that active power is held to a commanded limit, and that voltage and frequency response take precedence over that limit.",
+      applied:"An active power limit is commanded at rated output. The bench frequency is then stepped low and high, and voltage stepped high, each excursion held.",
+      measured:"Active power throughout, with a steady-state value taken in each hold and in each return to nominal.",
+      criterion:"Output settles at the commanded limit and departs from it only as the droop and volt-watt characteristics require.",
+      note:"Each excursion is held until output settles. Both the settled value and the time taken to reach it are evaluated, and the whole sequence repeats at further limits."
+    },
+    {
+      family:4, icon:"layers",
+      title:"Voltage and Frequency Regulation Priority",
+      clause:"Clause 5.16.1",
+      lede:"Establishes that voltage and frequency regulation functions operating simultaneously are resolved by the equipment in the required order.",
+      applied:"Volt-watt, frequency-droop and a reactive mode are enabled together under a commanded limit. Paired voltage and frequency set-points are then applied.",
+      measured:"Active and reactive power, with a steady-state value taken after each set-point. The sequence repeats with each reactive mode in turn.",
+      criterion:"Each settled point matches the response the enabled functions jointly require, so that the commanded limit yields where regulation has priority.",
+      note:"Response time is not evaluated in this test, so transitions may be made at any convenient rate — but each point must be taken only after the slowest enabled function has settled."
+    },
+
+    /* ---------- FAMILY 5 — Power Quality and Measurement ---------- */
+    {
+      family:5, icon:"dc",
+      title:"Limitation of DC Injection for Inverters",
+      clause:"Clause 5.9",
+      lede:"Establishes that the direct-current component of current delivered by the equipment stays within the permitted limit during steady rated operation.",
+      applied:"Nominal conditions are held undisturbed while the equipment operates at its continuous rated output current at unity power factor.",
+      measured:"RMS voltage, RMS current, and the direct-current component of current, recorded on every phase for the duration of the run.",
+      criterion:"The averaged direct-current component magnitude of each phase, taken against rated output current, stays within the limit set in the requirements standard.",
+      note:"The test is waived where a direct-current-isolating line-frequency output transformer is present or is required by the installation instructions."
+    },
+    {
+      family:5, icon:"openphase",
+      title:"Open Phase",
+      clause:"Clause 5.11",
+      lede:"Establishes that the equipment ceases to energize the area network upon loss of an individual phase at the point of connection.",
+      applied:"Nominal conditions are established, then a phase conductor disconnect is opened while the equipment carries low output current.",
+      measured:"The clearing time from the opening of the disconnect until the equipment ceases to energize every terminal fed by the source.",
+      criterion:"Cessation falls within the required interval on every repeat, and for each phase in turn.",
+      note:"Opening a phase ahead of an intervening transformer can excite ferroresonance. A small resistive load is advisable to prevent it — a practical detail that is easy to overlook until it damages something."
+    },
+    {
+      family:5, icon:"harmonics",
+      title:"Current Distortion",
+      clause:"Clause 5.12",
+      lede:"Establishes the harmonic, inter-harmonic and total rated-current distortion the equipment produces under balanced steady conditions.",
+      applied:"A low-distortion source output is held at nominal voltage and frequency while the equipment is taken through the defined operating conditions.",
+      measured:"The current of each phase in steady state, resolved into harmonic, inter-harmonic and total rated-current distortion.",
+      criterion:"Every recorded component, and the total rated-current distortion, stay within the limits of the requirements standard on each phase and at each condition.",
+      note:"Distortion arising from voltage distortion at the terminal is excluded from the result. Where a measurement exceeds the limit, the source is verified against a load bank alone before the equipment is judged — a step that regularly exonerates the device under test."
+    },
+    {
+      family:5, icon:"spike",
+      title:"Limitation of Overvoltage Contribution",
+      clause:"Clause 5.17",
+      lede:"Establishes the overvoltage the equipment contributes when a switching action creates a generation-load island.",
+      applied:"Nominal conditions are set with the equipment supplying a resistive load, then the source is separated — the load rejection sequence. A ground fault sequence is also defined.",
+      measured:"Voltage across the load, recorded from separation until the equipment ceases to energize it.",
+      criterion:"Cumulative duration above each threshold stays inside the voltage-duration characteristic of the requirements standard, down to the unloaded case.",
+      note:"The sequence is repeated with separation taken at differing points of the line cycle, because the resulting overvoltage depends strongly on that instant. A single separation event proves very little."
+    }
+  ];
+
+  /* =====================================================================
+     RENDER
+     ===================================================================== */
+  var root = document.getElementById("impScenarios");
+  if(!root) return;
+
+  var q = function(sel){ return root.querySelector(sel); };
+
+  var listEl    = q("[data-list]");
+  var filtersEl = q("[data-filters]");
+  var blurbEl   = q("[data-blurb]");
+  var panel     = q("[data-panel]");
+  var prevBtn   = q("[data-prev]");
+  var nextBtn   = q("[data-next]");
+
+  var panelEls = {
+    icon:      q("[data-panel-icon]"),
+    family:    q("[data-panel-family]"),
+    clause:    q("[data-panel-clause]"),
+    title:     q("[data-panel-title]"),
+    lede:      q("[data-panel-lede]"),
+    applied:   q("[data-panel-applied]"),
+    measured:  q("[data-panel-measured]"),
+    criterion: q("[data-panel-criterion]"),
+    note:      q("[data-panel-note]"),
+    counter:   q("[data-counter]")
+  };
+
+  var activeFamily = 0;   /* 0 = all families */
+  var current = 0;        /* index into DATA */
+  var visible = [];       /* indices of DATA currently shown */
+  var fadeTimer = null;
+
+  function familyById(id){
+    for(var i=0;i<FAMILIES.length;i++){ if(FAMILIES[i].id === id) return FAMILIES[i]; }
+    return null;
+  }
+
+  function pad(n){ return n < 10 ? "0" + n : "" + n; }
+
+  function esc(s){
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function countIn(id){
+    var c = 0;
+    for(var i=0;i<DATA.length;i++){ if(DATA[i].family === id) c++; }
+    return c;
+  }
+
+  /* ---------- FILTERS ---------- */
+  function buildFilters(){
+    var html = '<button class="filter active" type="button" data-family="0">'
+             + 'All scenarios<span class="count">' + DATA.length + '</span></button>';
+
+    for(var i=0;i<FAMILIES.length;i++){
+      var f = FAMILIES[i];
+      html += '<button class="filter" type="button" data-family="' + f.id + '">'
+            + esc(f.short) + '<span class="fname"> &middot; ' + esc(f.name) + '</span>'
+            + '<span class="count">' + countIn(f.id) + '</span></button>';
+    }
+    filtersEl.innerHTML = html;
+
+    var btns = filtersEl.querySelectorAll(".filter");
+    for(var j=0;j<btns.length;j++){
+      btns[j].addEventListener("click", function(){
+        setFamily(parseInt(this.getAttribute("data-family"), 10));
+      });
+    }
+  }
+
+  function setFamily(id){
+    activeFamily = id;
+
+    var btns = filtersEl.querySelectorAll(".filter");
+    for(var i=0;i<btns.length;i++){
+      var on = parseInt(btns[i].getAttribute("data-family"), 10) === id;
+      btns[i].classList.toggle("active", on);
+      btns[i].setAttribute("aria-pressed", on ? "true" : "false");
+    }
+
+    var fam = familyById(id);
+    blurbEl.classList.add("fade");
+    window.setTimeout(function(){
+      blurbEl.textContent = fam ? fam.blurb : INTRO;
+      blurbEl.classList.remove("fade");
+    }, 180);
+
+    buildCards();
+
+    /* keep the open scenario if it is still on screen, else open the first */
+    if(visible.indexOf(current) === -1) select(visible[0], false);
+    else markActive();
+    updateNav();
+  }
+
+  /* ---------- CARDS ---------- */
+  function buildCards(){
+    visible = [];
+    var html = "";
+
+    for(var i=0;i<DATA.length;i++){
+      var d = DATA[i];
+      if(activeFamily !== 0 && d.family !== activeFamily) continue;
+      visible.push(i);
+
+      html += '<button class="list-item" type="button" role="tab" data-i="' + i + '"'
+            + ' aria-selected="' + (i === current ? "true" : "false") + '">'
+            +   '<span class="icon">' + (ICONS[d.icon] || ICONS.pf) + '</span>'
+            +   '<span class="list-text">'
+            +     '<span class="list-index">' + pad(i + 1) + '</span>'
+            +     '<span class="list-title">' + esc(d.title) + '</span>'
+            +     '<span class="list-clause">' + esc(d.clause) + '</span>'
+            +   '</span>'
+            + '</button>';
+    }
+
+    listEl.innerHTML = html;
+
+    var cards = listEl.querySelectorAll(".list-item");
+    for(var c=0;c<cards.length;c++){
+      cards[c].addEventListener("click", function(){
+        select(parseInt(this.getAttribute("data-i"), 10), false);
+      });
+      cards[c].addEventListener("keydown", onCardKey);
+    }
+    markActive();
+  }
+
+  function onCardKey(e){
+    var key = e.key;
+    if(key !== "ArrowRight" && key !== "ArrowLeft" && key !== "ArrowDown" && key !== "ArrowUp") return;
+    e.preventDefault();
+    step(key === "ArrowRight" || key === "ArrowDown" ? 1 : -1, true);
+  }
+
+  function markActive(){
+    var cards = listEl.querySelectorAll(".list-item");
+    for(var i=0;i<cards.length;i++){
+      var on = parseInt(cards[i].getAttribute("data-i"), 10) === current;
+      cards[i].classList.toggle("active", on);
+      cards[i].setAttribute("aria-selected", on ? "true" : "false");
+    }
+  }
+
+  function cardFor(i){ return listEl.querySelector('.list-item[data-i="' + i + '"]'); }
+
+  /* ---------- PANEL ---------- */
+  function select(i, focusCard){
+    if(typeof i !== "number" || !DATA[i]) return;
+    current = i;
+    markActive();
+    updateNav();
+
+    var card = cardFor(i);
+    if(card){
+      if(card.scrollIntoView) card.scrollIntoView({block:"nearest", inline:"nearest", behavior:"smooth"});
+      if(focusCard) card.focus();
+    }
+
+    var d = DATA[i];
+    var fam = familyById(d.family);
+
+    panel.classList.add("fade");
+    window.clearTimeout(fadeTimer);
+    fadeTimer = window.setTimeout(function(){
+      panelEls.icon.innerHTML   = ICONS[d.icon] || ICONS.pf;
+      panelEls.family.textContent = fam ? fam.short + " · " + fam.name : "";
+      panelEls.clause.textContent = d.clause;
+      panelEls.title.textContent  = pad(i + 1) + ". " + d.title;
+      panelEls.lede.textContent      = d.lede;
+      panelEls.applied.textContent   = d.applied;
+      panelEls.measured.textContent  = d.measured;
+      panelEls.criterion.textContent = d.criterion;
+      panelEls.note.textContent      = d.note;
+      panel.classList.remove("fade");
+    }, 220);
+  }
+
+  function step(dir, focusCard){
+    var at = visible.indexOf(current);
+    var to = at + dir;
+    if(to < 0 || to >= visible.length) return;
+    select(visible[to], focusCard);
+  }
+
+  function updateNav(){
+    var at = visible.indexOf(current);
+    prevBtn.disabled = at <= 0;
+    nextBtn.disabled = at === -1 || at >= visible.length - 1;
+    panelEls.counter.textContent = (at + 1) + " / " + visible.length
+      + (activeFamily === 0 ? "" : " in this family");
+  }
+
+  prevBtn.addEventListener("click", function(){ step(-1, false); });
+  nextBtn.addEventListener("click", function(){ step(1, false); });
+
+  /* ---------- INIT ---------- */
+  blurbEl.textContent = INTRO;
+  buildFilters();
+  buildCards();
+  select(0, false);
+
+})();
+</script>
