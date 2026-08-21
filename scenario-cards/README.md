@@ -63,23 +63,25 @@ Change `--card-bg` alone to restyle every card and the panel at once.
 
 ### Icons
 
-The icons are **sample inline SVGs** defined in the `ICONS` object near the top
-of the `<script>` — they ship inside the file, so nothing needs uploading and
-nothing can 404. They inherit the tile colour, so they follow `--accent`
-automatically.
-
-To use your own artwork instead, replace the value with an `<img>` tag — the
-`.icon` / `.panel-icon` rules already size and crop images:
+Icons are the uploaded Impedyme artwork. Each scenario names its own file in
+`DATA`, and the file is resolved against one base URL:
 
 ```js
-var ICONS = {
-  pf: '<img src="https://impedyme.com/wp-content/uploads/2025/12/your-icon.webp" alt="">',
-  ...
-};
+var ICON_BASE = "https://impedyme.com/wp-content/uploads/2026/08/";
 ```
 
-Each scenario picks its icon by key (`icon:"pf"`), so several scenarios can
-share one image, and swapping a key re-points a card without touching markup.
+```js
+{ family:1, icon:"constant-power-factor-mode.webp", ... }
+```
+
+A bare filename is looked up under `ICON_BASE`; anything starting with
+`http://` or `https://` is used exactly as written — so icons uploaded to a
+different month's folder can be pasted in full without touching the base.
+
+Images are lazy-loaded, decoded asynchronously, and sized to fill the tile with
+`object-fit:cover`. The tile itself keeps an accent-orange background, so an
+icon with a transparent background still reads as an Impedyme badge, and a file
+that ever 404s leaves an orange square rather than a broken-image glyph.
 
 ### Scenario text
 

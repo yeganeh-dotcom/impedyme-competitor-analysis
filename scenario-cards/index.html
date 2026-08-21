@@ -197,7 +197,8 @@
   box-shadow:none !important;
 }
 
-/* ICON TILE — swap the inline SVG for <img src="..."> to use your own art */
+/* ICON TILE — the accent tile sits behind the image, so icons with a
+   transparent background still read as an Impedyme orange badge */
 .icon{
   flex:0 0 auto;
   width:44px;
@@ -211,15 +212,10 @@
   overflow:hidden;
 }
 
-.icon svg{
-  width:24px;
-  height:24px;
-  display:block;
-}
-
 .icon img{
   width:100%;
   height:100%;
+  display:block;
   object-fit:cover;
 }
 
@@ -287,8 +283,7 @@
   overflow:hidden;
 }
 
-.panel-icon svg{width:38px;height:38px;display:block}
-.panel-icon img{width:100%;height:100%;object-fit:cover}
+.panel-icon img{width:100%;height:100%;display:block;object-fit:cover}
 
 .panel-meta{
   display:flex;
@@ -459,7 +454,6 @@
   .panel-header{gap:14px}
 
   .panel-icon{width:56px;height:56px;border-radius:14px}
-  .panel-icon svg{width:30px;height:30px}
 
   .panel-grid{gap:20px}
   .layout .nav-btn{padding:8px 13px;font-size:13px}
@@ -536,43 +530,21 @@
   "use strict";
 
   /* =====================================================================
-     SAMPLE ICONS
-     Inline SVG placeholders so the block works with no uploads.
-     To use your own art instead, replace the SVG string with an <img>:
-        curve: '<img src="https://impedyme.com/wp-content/uploads/...webp">'
+     ICONS
+     Each scenario names its own file below in DATA (icon:"...").
+     A bare filename is looked up under ICON_BASE; a full https:// URL is
+     used exactly as written, so icons uploaded to another month's folder
+     still work.
      ===================================================================== */
-  function glyph(d){
-    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" '
-         + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
+  var ICON_BASE = "https://impedyme.com/wp-content/uploads/2026/08/";
+
+  function iconSrc(name){
+    return /^https?:\/\//.test(name) ? name : ICON_BASE + name;
   }
 
-  var ICONS = {
-    pf:        glyph('<circle cx="12" cy="12" r="8.6"/><path d="M12 12h6.6"/><path d="M12 12 17.4 7.4"/><path d="M16.9 12a4.9 4.9 0 0 0-1.1-3.1"/>'),
-    curve:     glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6.5 8h3.2l4.6 8h3.2"/>'),
-    unbalance: glyph('<path d="M4 20h16"/><path d="M8 20V8"/><path d="M12 20V5"/><path d="M16 20V12"/>'),
-    stairs:    glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6.5 17h3v-3.5h3V10h3V6.5h2"/>'),
-    varmode:   glyph('<circle cx="12" cy="12" r="8.6"/><path d="M8.8 8.6 12 15.4l3.2-6.8"/>'),
-    curtail:   glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6.5 7.5h6.2l4.3 8.5"/>'),
-    trip:      glyph('<path d="M13.5 3 7 12.5h4.2L10.5 21 17 11.5h-4.2z"/>'),
-    sag:       glyph('<path d="M3 8h4v8h6V8h8"/>'),
-    swell:     glyph('<path d="M3 15h4V7h6v8h8"/>'),
-    repeat:    glyph('<path d="M4.5 10.5a7.5 7.5 0 0 1 12.4-3.4l2.6 2.6"/><path d="M19.5 5.5v4.2h-4.2"/><path d="M19.5 13.5a7.5 7.5 0 0 1-12.4 3.4L4.5 14.3"/><path d="M4.5 18.5v-4.2h4.2"/>'),
-    tripup:    glyph('<path d="M11.5 3 6 11.5h3.6L8.9 18 14.4 9.5h-3.6z"/><path d="M18 19v-6"/><path d="M15.6 15.4 18 13l2.4 2.4"/>'),
-    tripdown:  glyph('<path d="M11.5 3 6 11.5h3.6L8.9 18 14.4 9.5h-3.6z"/><path d="M18 13v6"/><path d="M15.6 16.6 18 19l2.4-2.4"/>'),
-    freqlow:   glyph('<path d="M3 10c1.8-5 3.6-5 5.4 0s3.6 5 5.4 0"/><path d="M18.5 11v7"/><path d="M16 15.6 18.5 18 21 15.6"/>'),
-    freqhigh:  glyph('<path d="M3 14c1.8-5 3.6-5 5.4 0s3.6 5 5.4 0"/><path d="M18.5 18v-7"/><path d="M16 13.4 18.5 11 21 13.4"/>'),
-    rocof:     glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6.5 17.5 17 7"/><path d="M17 12.2V7h-5.2"/>'),
-    phase:     glyph('<path d="M3.5 19h17"/><path d="M4 19 18.5 6"/><path d="M11.5 19a8 8 0 0 0-1.7-5"/>'),
-    droop:     glyph('<path d="M4 20V4"/><path d="M4 20h16"/><path d="M6 9h4.2l3.6 7.5H18"/>'),
-    power:     glyph('<path d="M12 3.5v8"/><path d="M7.4 6.6a7.8 7.8 0 1 0 9.2 0"/>'),
-    sync:      glyph('<circle cx="9.2" cy="12" r="5.2"/><circle cx="14.8" cy="12" r="5.2"/>'),
-    limit:     glyph('<path d="M3.5 8h17"/><path d="M4 19c4.5 0 7.2-2.6 8.2-7.6"/><path d="M12.2 11.4h8.3"/>'),
-    layers:    glyph('<path d="m12 3.5 8.5 4.5-8.5 4.5L3.5 8z"/><path d="m3.5 12.8 8.5 4.5 8.5-4.5"/>'),
-    dc:        glyph('<path d="M4 9.2h16"/><path d="M4 14.8h3.2"/><path d="M10.4 14.8h3.2"/><path d="M16.8 14.8H20"/>'),
-    openphase: glyph('<path d="M3 15h4.5"/><path d="M16.5 15H21"/><circle cx="7.5" cy="15" r="1.4"/><circle cx="16.5" cy="15" r="1.4"/><path d="M8.7 14.2 15.4 9.6"/>'),
-    harmonics: glyph('<path d="M3 12c2.2-6.5 4.4-6.5 6.6 0s4.4 6.5 6.6 0"/><path d="M3 12c1-2.4 2-2.4 3 0s2 2.4 3 0 2-2.4 3 0 2 2.4 3 0 2-2.4 3 0"/>'),
-    spike:     glyph('<path d="M3 16h3.6l2-9 2.8 13 2.4-8.6 1.8 4.6H21"/>')
-  };
+  function iconImg(d){
+    return '<img src="' + iconSrc(d.icon) + '" alt="" loading="lazy" decoding="async">';
+  }
 
   /* =====================================================================
      FAMILIES
@@ -624,7 +596,7 @@
 
     /* ---------- FAMILY 1 — Reactive Power and Voltage Control (5.14) ---------- */
     {
-      family:1, icon:"pf",
+      family:1, icon:"constant-power-factor-mode.webp",
       title:"Constant Power Factor Mode",
       clause:"Clause 5.14.3",
       lede:"Verifies that a commanded power factor is held while active power and terminal voltage are varied across the continuous operating region.",
@@ -634,7 +606,7 @@
       note:"Active power moves only twice in a run. What is stepped repeatedly is the terminal voltage, and the whole sequence repeats at the other power factor settings — a structure that makes automation essential rather than optional."
     },
     {
-      family:1, icon:"curve",
+      family:1, icon:"voltage-reactive-power-volt-var-Mode.webp",
       title:"Voltage–Reactive Power (Volt-Var) Mode",
       clause:"Clause 5.14.4–5",
       lede:"Verifies that reactive power follows the voltage–reactive power characteristic as terminal voltage is stepped either side of each breakpoint.",
@@ -644,7 +616,7 @@
       note:"The sequence is then repeated with an autonomously adjusting reference voltage, which returns reactive power toward zero as the reference tracks the terminal. Both variants must be run."
     },
     {
-      family:1, icon:"unbalance",
+      family:1, icon:"imbalanced-grid.webp",
       title:"Volt-Var Mode, Imbalanced Grid",
       clause:"Clause 5.14.6",
       lede:"Verifies volt-var operation when the phase voltages are imbalanced, so that a negative-sequence component is present at the terminal.",
@@ -654,7 +626,7 @@
       note:"Where the equipment responds to the applicable voltage as a whole rather than per phase, reactive power can legitimately move in the opposite direction to the phase that rises. This is correct behaviour, not a failure — a distinction that has caught out more than one campaign."
     },
     {
-      family:1, icon:"stairs",
+      family:1, icon:"Active-Power-Reactive-Power-Watt-Var-Mode.webp",
       title:"Active Power–Reactive Power (Watt-Var) Mode",
       clause:"Clause 5.14.7",
       lede:"Verifies that reactive power follows the active power–reactive power characteristic as available active power is varied over its range.",
@@ -664,7 +636,7 @@
       note:"Here active power is ramped, at the maximum rate stated by the manufacturer, whereas terminal voltage in the neighbouring tests is stepped. The distinction is deliberate and must be honoured by the sequencer."
     },
     {
-      family:1, icon:"varmode",
+      family:1, icon:"Constant-Reactive-Power-Var-Mode.webp",
       title:"Constant Reactive Power (Var) Mode",
       clause:"Clause 5.14.8",
       lede:"Verifies that a commanded reactive power is held while active power is reduced and terminal voltage is stepped.",
@@ -674,7 +646,7 @@
       note:"The command here is absolute, so unlike constant power factor mode the reactive output does not track active power. Disabling the mode at the end of the run is part of the test, not housekeeping."
     },
     {
-      family:1, icon:"curtail",
+      family:1, icon:"Voltage-Active-Power-Volt-Watt-Mode.webp",
       title:"Voltage–Active Power (Volt-Watt) Mode",
       clause:"Clause 5.14.9",
       lede:"Verifies that active power is limited along the voltage–active power characteristic as terminal voltage is stepped toward the upper limit.",
@@ -684,7 +656,7 @@
       note:"Curtailment follows the characteristic rather than a trip. The equipment stays connected throughout, and active power is expected to be restored on the return."
     },
     {
-      family:1, icon:"unbalance",
+      family:1, icon:"Volt-Watt-Mode-Imbalanced-Grid.webp",
       title:"Volt-Watt Mode, Imbalanced Grid",
       clause:"Clause 5.14.10",
       lede:"Verifies volt-watt operation when the phase voltages are imbalanced, so that a negative-sequence component is present at the terminal.",
@@ -696,7 +668,7 @@
 
     /* ---------- FAMILY 2 — Voltage Trip and Ride-Through (5.4) ---------- */
     {
-      family:2, icon:"trip",
+      family:2, icon:"Overvoltage-and-Undervoltage-Trip.webp",
       title:"Overvoltage and Undervoltage Trip",
       clause:"Clause 5.4.2–3",
       lede:"Establishes the voltage at which the equipment ceases to energize and the elapsed time to cessation.",
@@ -706,7 +678,7 @@
       note:"The disturbance is applied as a step and not as a ramp. Ramped, the moment of crossing becomes a matter of interpretation, and the measured interval with it."
     },
     {
-      family:2, icon:"sag",
+      family:2, icon:"Low-Voltage-Ride-Through.webp",
       title:"Low-Voltage Ride-Through",
       clause:"Clause 5.4.4",
       lede:"Establishes that the equipment rides through a sequence of voltage sags without tripping, in each required operating region.",
@@ -716,7 +688,7 @@
       note:"Undervoltage trip settings are disabled for this test. A cessation observed here is therefore ride-through behaviour, not a trip — and misreading it as a failure is a common early-campaign error."
     },
     {
-      family:2, icon:"repeat",
+      family:2, icon:"Consecutive-Low-Voltage-Ride-Through.webp",
       title:"Consecutive Low-Voltage Ride-Through",
       clause:"Clause 5.4.4.3",
       lede:"Establishes that the equipment sustains the sag sequences when they are repeated without interruption.",
@@ -726,7 +698,7 @@
       note:"The consecutive test runs at the same output power levels as the individual sequences, so results are directly comparable against them."
     },
     {
-      family:2, icon:"unbalance",
+      family:2, icon:"Voltage-Unbalance-Continuous-Region.webp",
       title:"Voltage Unbalance, Continuous Region",
       clause:"Clause 5.4.5",
       lede:"Establishes that multiphase equipment continues operating and delivering power while its phase voltages are unbalanced inside the continuous region.",
@@ -736,7 +708,7 @@
       note:"This is an operating test, not a ride-through test. The applicable voltage never leaves the continuous region, so there is no ride-through allowance to fall back on."
     },
     {
-      family:2, icon:"swell",
+      family:2, icon:"High-Voltage-Ride-Through.webp",
       title:"High-Voltage Ride-Through",
       clause:"Clause 5.4.7",
       lede:"Establishes that the equipment rides through a descending sequence of voltage swells without tripping.",
@@ -746,7 +718,7 @@
       note:"Whether the swell level can be held steady during the disturbance depends on the stiffness of the source relative to the rating of the equipment under test. This is a bench property that has to be established and stated before the result means anything."
     },
     {
-      family:2, icon:"repeat",
+      family:2, icon:"Consecutive-High-Voltage-Ride-Through.webp",
       title:"Consecutive High-Voltage Ride-Through",
       clause:"Clause 5.4.7.4",
       lede:"Establishes that the equipment sustains the swell sequences when repeated without interruption.",
@@ -758,7 +730,7 @@
 
     /* ---------- FAMILY 3 — Frequency Trip and Ride-Through (5.5, 5.15) ---------- */
     {
-      family:3, icon:"tripup",
+      family:3, icon:"Overfrequency-Trip.webp",
       title:"Overfrequency Trip",
       clause:"Clause 5.5.1",
       lede:"Establishes the frequency at which the equipment ceases to energize, and the elapsed time to cessation, for each overfrequency region.",
@@ -768,7 +740,7 @@
       note:"The approach ramp is driven at or above the ride-through rate limit, while the ramp past the trip condition is deliberately kept below it — so the equipment cannot pass by riding through the approach."
     },
     {
-      family:3, icon:"tripdown",
+      family:3, icon:"Underfrequency-Trip.webp",
       title:"Underfrequency Trip",
       clause:"Clause 5.5.2",
       lede:"Establishes the frequency at which the equipment ceases to energize, and the elapsed time to cessation, for each underfrequency region.",
@@ -778,7 +750,7 @@
       note:"The frequency-droop function is widened beforehand, so that a legitimate change of active power with falling frequency is not mistaken for cessation of output."
     },
     {
-      family:3, icon:"freqlow",
+      family:3, icon:"Low-Frequency-Ride-Through.webp",
       title:"Low-Frequency Ride-Through",
       clause:"Clause 5.5.3",
       lede:"Establishes that the equipment stays in operation through a sustained low-frequency excursion below the continuous operating region.",
@@ -788,7 +760,7 @@
       note:"The transition rate is deliberately at or above the ride-through limit. The ramp is part of the test, not merely a way of reaching the hold."
     },
     {
-      family:3, icon:"freqhigh",
+      family:3, icon:"High-Frequency-Ride-Through.webp",
       title:"High-Frequency Ride-Through",
       clause:"Clause 5.5.4",
       lede:"Establishes that the equipment stays in operation through a sustained high-frequency excursion above the continuous operating region.",
@@ -798,7 +770,7 @@
       note:"The equipment under test includes its prime mover or energy source, whose limits can govern ride-through capability rather than the controls. Testing the converter in isolation can produce a pass that the complete resource will not reproduce."
     },
     {
-      family:3, icon:"rocof",
+      family:3, icon:"Rate-of-Change-of-Frequency-ROCOF.webp",
       title:"Rate of Change of Frequency (ROCOF)",
       clause:"Clause 5.5.5",
       lede:"Establishes the rate of change of frequency the equipment withstands, evaluated from the transitions of the frequency ride-through tests.",
@@ -808,7 +780,7 @@
       note:"Because conformance is drawn from existing ride-through records, the transition rate has to be set correctly there. Get it wrong and this test cannot be recovered without re-running the ride-through sequences."
     },
     {
-      family:3, icon:"phase",
+      family:3, icon:"Voltage-Phase-Angle-Change-Ride-Through.webp",
       title:"Voltage Phase-Angle Change Ride-Through",
       clause:"Clause 5.5.6",
       lede:"Establishes that the equipment rides through sudden changes in the voltage phase angle at its terminal without tripping.",
@@ -818,7 +790,7 @@
       note:"Phase-to-phase voltage moves with the angle, so the source magnitude has to be adjusted to keep voltage tripping from confounding the result. This is one of the most demanding tests to drive correctly, and one of the clearest separators between a genuine grid emulator and a programmable supply."
     },
     {
-      family:3, icon:"droop",
+      family:3, icon:"Frequency-Droop-Response.webp",
       title:"Frequency-Droop Response",
       clause:"Clause 5.15.2–3",
       lede:"Establishes that active power follows the frequency-droop characteristic above and below nominal, with deadband and response time observed.",
@@ -830,7 +802,7 @@
 
     /* ---------- FAMILY 4 — Service, Synchronization and Control ---------- */
     {
-      family:4, icon:"power",
+      family:4, icon:"Enter-Service.webp",
       title:"Enter Service",
       clause:"Clause 5.6",
       lede:"Establishes that export is withheld until the enter service criteria are satisfied and the delay has elapsed.",
@@ -840,7 +812,7 @@
       note:"The brief excursion back outside the window is deliberate — it restarts the delay counter, and the recorded span begins from that re-entry. A sequencer that treats it as noise will measure the wrong interval."
     },
     {
-      family:4, icon:"sync",
+      family:4, icon:"Synchronization.webp",
       title:"Synchronization",
       clause:"Clause 5.7",
       lede:"Establishes that closure is permitted only while the voltage, frequency and phase-angle differences all lie inside the allowable window.",
@@ -850,7 +822,7 @@
       note:"The approach is ramped rather than stepped so that the instant of closure resolves cleanly. The run repeats from the opposite direction, and again in frequency."
     },
     {
-      family:4, icon:"limit",
+      family:4, icon:"Limit-Active-Power.webp",
       title:"Limit Active Power",
       clause:"Clause 5.13",
       lede:"Establishes that active power is held to a commanded limit, and that voltage and frequency response take precedence over that limit.",
@@ -860,7 +832,7 @@
       note:"Each excursion is held until output settles. Both the settled value and the time taken to reach it are evaluated, and the whole sequence repeats at further limits."
     },
     {
-      family:4, icon:"layers",
+      family:4, icon:"Voltage-and-Frequency-Regulation-Priority.webp",
       title:"Voltage and Frequency Regulation Priority",
       clause:"Clause 5.16.1",
       lede:"Establishes that voltage and frequency regulation functions operating simultaneously are resolved by the equipment in the required order.",
@@ -872,7 +844,7 @@
 
     /* ---------- FAMILY 5 — Power Quality and Measurement ---------- */
     {
-      family:5, icon:"dc",
+      family:5, icon:"Limitation-of-DC-Injection-for-Inverters.webp",
       title:"Limitation of DC Injection for Inverters",
       clause:"Clause 5.9",
       lede:"Establishes that the direct-current component of current delivered by the equipment stays within the permitted limit during steady rated operation.",
@@ -882,7 +854,7 @@
       note:"The test is waived where a direct-current-isolating line-frequency output transformer is present or is required by the installation instructions."
     },
     {
-      family:5, icon:"openphase",
+      family:5, icon:"Open-Phase.webp",
       title:"Open Phase",
       clause:"Clause 5.11",
       lede:"Establishes that the equipment ceases to energize the area network upon loss of an individual phase at the point of connection.",
@@ -892,7 +864,7 @@
       note:"Opening a phase ahead of an intervening transformer can excite ferroresonance. A small resistive load is advisable to prevent it — a practical detail that is easy to overlook until it damages something."
     },
     {
-      family:5, icon:"harmonics",
+      family:5, icon:"Current-Distortion.webp",
       title:"Current Distortion",
       clause:"Clause 5.12",
       lede:"Establishes the harmonic, inter-harmonic and total rated-current distortion the equipment produces under balanced steady conditions.",
@@ -902,7 +874,7 @@
       note:"Distortion arising from voltage distortion at the terminal is excluded from the result. Where a measurement exceeds the limit, the source is verified against a load bank alone before the equipment is judged — a step that regularly exonerates the device under test."
     },
     {
-      family:5, icon:"spike",
+      family:5, icon:"Limitation-of-Overvoltage-Contribution.webp",
       title:"Limitation of Overvoltage Contribution",
       clause:"Clause 5.17",
       lede:"Establishes the overvoltage the equipment contributes when a switching action creates a generation-load island.",
@@ -1021,7 +993,7 @@
 
       html += '<button class="list-item" type="button" role="tab" data-i="' + i + '"'
             + ' aria-selected="' + (i === current ? "true" : "false") + '">'
-            +   '<span class="icon">' + (ICONS[d.icon] || ICONS.pf) + '</span>'
+            +   '<span class="icon">' + iconImg(d) + '</span>'
             +   '<span class="list-text">'
             +     '<span class="list-index">' + pad(i + 1) + '</span>'
             +     '<span class="list-title">' + esc(d.title) + '</span>'
@@ -1079,7 +1051,7 @@
     panel.classList.add("fade");
     window.clearTimeout(fadeTimer);
     fadeTimer = window.setTimeout(function(){
-      panelEls.icon.innerHTML   = ICONS[d.icon] || ICONS.pf;
+      panelEls.icon.innerHTML   = iconImg(d);
       panelEls.family.textContent = fam ? fam.short + " · " + fam.name : "";
       panelEls.clause.textContent = d.clause;
       panelEls.title.textContent  = pad(i + 1) + ". " + d.title;
