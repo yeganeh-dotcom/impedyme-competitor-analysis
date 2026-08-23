@@ -1,0 +1,2065 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://impedyme.com/#organization",
+      "name": "Impedyme",
+      "legalName": "Impedyme Inc.",
+      "url": "https://impedyme.com/",
+      "description": "Impedyme real-time simulation platforms are deployed by power electronics R&D, validation, and test-lab teams across EV powertrain, grid integration, and inverter development worldwide.",
+      "disambiguatingDescription": "Impedyme HIL and Power HIL platforms are used by inverter manufacturers, DER developers, utilities, and independent test laboratories for IEEE 1547 compliance testing and grid interconnection validation.",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://impedyme.com/#logo",
+        "url": "https://impedyme.com/wp-content/uploads/2026/08/impedyme-logo.png",
+        "contentUrl": "https://impedyme.com/wp-content/uploads/2026/08/impedyme-logo.png",
+        "width": 512,
+        "height": 512,
+        "caption": "Impedyme",
+        "inLanguage": "en"
+      },
+      "image": {
+        "@id": "https://impedyme.com/#logo"
+      },
+      "slogan": "Hardware-in-the-loop and real-time simulation for power electronics",
+      "areaServed": {
+        "@type": "Place",
+        "name": "Worldwide"
+      },
+      "audience": [
+        {
+          "@id": "https://impedyme.com/#audience-rts"
+        },
+        {
+          "@id": "https://impedyme.com/#audience-ieee1547"
+        }
+      ],
+      "knowsAbout": [
+        "Hardware-in-the-loop (HIL) simulation",
+        "Power hardware-in-the-loop (Power-HIL) simulation",
+        "FPGA-based real-time simulation",
+        "Regenerative grid emulation",
+        "IEEE 1547 grid code compliance testing",
+        "IEEE 1547.1 conformance test procedures",
+        "Distributed energy resource interconnection",
+        "Inverter validation and certification testing",
+        "EV powertrain and motor emulation",
+        "Grid integration and microgrid testing"
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@id": "https://impedyme.com/#product-chp-series"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@id": "https://impedyme.com/#product-hil-platforms"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@id": "https://impedyme.com/#software-gridsim-studio"
+          }
+        }
+      ],
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://impedyme.com/#website",
+      "url": "https://impedyme.com/",
+      "name": "Impedyme",
+      "description": "Impedyme real-time simulation platforms are deployed by power electronics R&D, validation, and test-lab teams across EV powertrain, grid integration, and inverter development worldwide.",
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://impedyme.com/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#webpage",
+      "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/",
+      "name": "Testing to IEEE 1547 with the CHP Series | Impedyme",
+      "description": "A complete guide to IEEE 1547 grid code compliance testing: how IEEE Std 1547 and IEEE Std 1547.1 relate, what a conformance bench must do, and all 28 type-test scenarios explained.",
+      "isPartOf": {
+        "@id": "https://impedyme.com/#website"
+      },
+      "inLanguage": "en",
+      "datePublished": "2026-08-23T09:00:00-04:00",
+      "dateModified": "2026-08-23T09:00:00-04:00",
+      "breadcrumb": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#breadcrumb"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-16x9"
+      },
+      "image": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-16x9"
+      },
+      "thumbnailUrl": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-grid-code-compliance-testing-chp-series-16x9.jpg",
+      "mainEntity": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article"
+      },
+      "hasPart": [
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq"
+        }
+      ],
+      "about": [
+        {
+          "@id": "https://impedyme.com/#topic-grid-code-compliance"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-der"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-phil"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-hil"
+        }
+      ],
+      "audience": [
+        {
+          "@id": "https://impedyme.com/#audience-rts"
+        },
+        {
+          "@id": "https://impedyme.com/#audience-ieee1547"
+        }
+      ],
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "relatedLink": [
+        "https://impedyme.com/grid-emulator/",
+        "https://impedyme.com/grid-simulation-software/",
+        "https://impedyme.com/powerhardware-in-the-loop/",
+        "https://impedyme.com/hardware-in-the-loop/"
+      ],
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "h1",
+          ".entry-summary",
+          "#faq"
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://impedyme.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Resource Center",
+          "item": "https://impedyme.com/resource-center/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Testing to IEEE 1547 with the CHP Series"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article",
+      "headline": "Testing to IEEE 1547 with the CHP Series",
+      "alternativeHeadline": "Grid code compliance testing and the full IEEE 1547.1 type-test programme, 28 scenarios explained",
+      "name": "Testing to IEEE 1547 with the CHP Series",
+      "description": "A complete guide to IEEE 1547 grid code compliance testing: how IEEE Std 1547 and IEEE Std 1547.1 relate, what a conformance bench must do, and all 28 type-test scenarios explained.",
+      "abstract": "Grid code compliance is where a distributed energy resource stops being an engineering achievement and becomes a product a utility will allow onto its network. This guide sets out what grid code compliance testing involves, how IEEE Std 1547 (the requirements standard) and IEEE Std 1547.1 (the conformance test procedures standard) relate, what the type-test programme demands of a bench, and then walks through all twenty-eight type-test scenarios — what each proves, what the bench applies, what is measured, and what counts as a pass.",
+      "articleSection": "Grid Code Compliance",
+      "wordCount": 6970,
+      "timeRequired": "PT31M",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "isPartOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#webpage"
+      },
+      "mainEntityOfPage": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#webpage"
+      },
+      "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/",
+      "datePublished": "2026-08-23T09:00:00-04:00",
+      "dateModified": "2026-08-23T09:00:00-04:00",
+      "author": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightYear": 2026,
+      "audience": [
+        {
+          "@id": "https://impedyme.com/#audience-rts"
+        },
+        {
+          "@id": "https://impedyme.com/#audience-ieee1547"
+        }
+      ],
+      "image": [
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-16x9"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-4x3"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-1x1"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-1-type-test-catalogue-grid-emulator-application"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-1-type-test-families-diagram"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#chp-series-grid-code-compliance-bench-four-functions"
+        }
+      ],
+      "thumbnailUrl": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-grid-code-compliance-testing-chp-series-16x9.jpg",
+      "proficiencyLevel": "Expert",
+      "dependencies": "IEEE Std 1547 and IEEE Std 1547.1; a licensed copy of the standard is required to load trip levels, durations and characteristic coordinates.",
+      "citation": [
+        {
+          "@id": "https://impedyme.com/#standard-ieee-1547"
+        },
+        {
+          "@id": "https://impedyme.com/#standard-ieee-1547-1"
+        }
+      ],
+      "about": [
+        {
+          "@id": "https://impedyme.com/#topic-grid-code-compliance"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-der"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-phil"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-hil"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-ride-through"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-islanding"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-inverter"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-power-quality"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-grid-emulator"
+        },
+        {
+          "@id": "https://impedyme.com/#standard-ieee-1547"
+        },
+        {
+          "@id": "https://impedyme.com/#standard-ieee-1547-1"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#type-test-programme"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-categories"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#regional-frameworks"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#bench-functions"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#source-capabilities"
+        },
+        {
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#campaign-failure-modes"
+        }
+      ],
+      "mentions": [
+        {
+          "@id": "https://impedyme.com/#product-chp-series"
+        },
+        {
+          "@id": "https://impedyme.com/#product-hil-platforms"
+        },
+        {
+          "@id": "https://impedyme.com/#software-gridsim-studio"
+        },
+        {
+          "@id": "https://www.ieee.org/#organization"
+        },
+        {
+          "@id": "https://impedyme.com/#standard-ieee-1547"
+        },
+        {
+          "@id": "https://impedyme.com/#standard-ieee-1547-1"
+        }
+      ],
+      "keywords": [
+        "IEEE 1547",
+        "IEEE 1547.1",
+        "grid code compliance testing",
+        "type testing",
+        "conformance testing",
+        "distributed energy resource",
+        "DER interconnection",
+        "inverter certification",
+        "low-voltage ride-through",
+        "high-voltage ride-through",
+        "volt-var",
+        "volt-watt",
+        "watt-var",
+        "frequency droop",
+        "ROCOF",
+        "phase-angle change ride-through",
+        "unintentional islanding",
+        "anti-islanding",
+        "current distortion",
+        "DC injection",
+        "grid emulator",
+        "regenerative AC source",
+        "power hardware-in-the-loop",
+        "Power-HIL",
+        "hardware-in-the-loop",
+        "HIL",
+        "pre-compliance testing",
+        "CHP Series",
+        "Impedyme"
+      ],
+      "teaches": [
+        "How IEEE Std 1547 and IEEE Std 1547.1 differ and how they are used together",
+        "The four categories of conformance test and where each is performed",
+        "How the North American programme maps onto European, German, UK and Australian regimes",
+        "The four functions a grid code compliance bench must perform",
+        "All twenty-eight IEEE 1547.1 type-test scenarios and their pass criteria",
+        "Why Power-HIL is a recognised approach for unintentional islanding testing",
+        "The most common reasons grid code compliance campaigns fail"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq",
+      "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq",
+      "name": "IEEE 1547 grid code compliance testing — frequently asked questions",
+      "description": "Common questions about IEEE 1547 and IEEE 1547.1, the equipment a type-test campaign requires, Power-HIL in conformance testing, and in-house pre-compliance.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#webpage"
+      },
+      "datePublished": "2026-08-23T09:00:00-04:00",
+      "dateModified": "2026-08-23T09:00:00-04:00",
+      "author": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "audience": [
+        {
+          "@id": "https://impedyme.com/#audience-rts"
+        },
+        {
+          "@id": "https://impedyme.com/#audience-ieee1547"
+        }
+      ],
+      "about": [
+        {
+          "@id": "https://impedyme.com/#standard-ieee-1547"
+        },
+        {
+          "@id": "https://impedyme.com/#standard-ieee-1547-1"
+        },
+        {
+          "@id": "https://impedyme.com/#topic-grid-code-compliance"
+        }
+      ],
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-1",
+          "position": 1,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-1",
+          "name": "What is the difference between IEEE 1547 and IEEE 1547.1?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-1-answer",
+            "text": "IEEE Std 1547 states the interconnection and interoperability requirements a distributed energy resource must meet — the “what.” IEEE Std 1547.1 specifies the type, production, commissioning, and periodic test procedures used to confirm that equipment conforms to those requirements — the “how.” One defines the obligation; the other defines how it is demonstrated.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-1",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        },
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-2",
+          "position": 2,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-2",
+          "name": "Is grid code compliance mandatory?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-2-answer",
+            "text": "The technical standards themselves are voluntary documents. They become mandatory when a jurisdiction adopts them into its interconnection rules — typically a public utility commission, a network operator, or a regional regulator. In practice, in most developed markets, equipment that cannot evidence conformance cannot obtain permission to operate.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-2",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        },
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-3",
+          "position": 3,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-3",
+          "name": "What equipment is needed for IEEE 1547.1 type testing?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-3-answer",
+            "text": "At minimum: a regenerative alternating-current source capable of independent per-phase voltage, frequency and phase-angle control; a direct-current supply for the equipment input; a measurement path within the required accuracy class; and a sequencer capable of executing and recording the procedures. These can be assembled from separate instruments or delivered from a single cabinet.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-3",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        },
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-4",
+          "position": 4,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-4",
+          "name": "Can Power Hardware-in-the-Loop be used for conformance testing?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-4-answer",
+            "text": "Yes, within the framework the standard sets out. The conformance test procedures standard contains an informative annex addressing hardware-in-the-loop-based testing, including controller hardware-in-the-loop for supplemental devices and Power-HIL setup requirements for unintentional islanding testing. Power-HIL is also widely used for pre-compliance work ahead of a formal campaign.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-4",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        },
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-5",
+          "position": 5,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-5",
+          "name": "How long does a grid code compliance campaign take?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-5-answer",
+            "text": "It varies widely with product readiness and laboratory availability. The type-test programme alone runs to thousands of individual measurement points once every test is repeated across settings, power levels, phase combinations and setting extremes, so manual execution is measured in weeks to months. Automation of the sequence is the single largest lever on that timeline.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-5",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        },
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-6",
+          "position": 6,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-6",
+          "name": "Why does the same test get repeated so many times?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-6-answer",
+            "text": "Because a single pass proves very little. Most procedures repeat across setting extremes, across phases individually and in combination, at multiple power levels, and — for tests where the point on wave matters — at randomised switching instants. The repetition is what converts a favourable result into evidence.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-6",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        },
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-7",
+          "position": 7,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-7",
+          "name": "What is the non-detection zone in anti-islanding testing?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-7-answer",
+            "text": "It is the region in which local load closely matches the resource's own output, so that separating from the network produces almost no change in voltage or frequency. With nothing to detect, an islanding detection algorithm has very little to work with, which is exactly why the test targets that condition deliberately.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-7",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        },
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-8",
+          "position": 8,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-8",
+          "name": "Do European, UK and Australian grid codes require different test equipment?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-8-answer",
+            "text": "Generally no. The functional families are common across modern grid codes — ride-through, grid support, anti-islanding, power quality — so a source that can sag, swell, ramp frequency, step phase angle, unbalance phases and absorb exported power will serve all of them. What differs between regimes is the parameter set, not the hardware capability.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-8",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        },
+        {
+          "@type": "Question",
+          "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-9",
+          "position": 9,
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-9",
+          "name": "Can we do compliance testing in-house, or must it go to an external laboratory?",
+          "answerCount": 1,
+          "inLanguage": "en",
+          "author": {
+            "@id": "https://impedyme.com/#organization"
+          },
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-9-answer",
+            "text": "Formal certification is normally issued by an accredited body. In-house testing serves a different and equally important purpose: pre-compliance. Finding a ride-through or settling-time failure on your own bench costs engineering time. Finding it during a booked external campaign costs the campaign.",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#faq-9",
+            "inLanguage": "en",
+            "author": {
+              "@id": "https://impedyme.com/#organization"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Audience",
+      "@id": "https://impedyme.com/#audience-rts",
+      "name": "Power electronics R&D, validation and test-lab teams",
+      "audienceType": "Power electronics R&D engineers, validation engineers and test-laboratory teams in EV powertrain, grid integration and inverter development",
+      "description": "Impedyme real-time simulation platforms are deployed by power electronics R&D, validation, and test-lab teams across EV powertrain, grid integration, and inverter development worldwide."
+    },
+    {
+      "@type": "Audience",
+      "@id": "https://impedyme.com/#audience-ieee1547",
+      "name": "IEEE 1547 compliance and grid interconnection test teams",
+      "audienceType": "Inverter manufacturers, DER developers, utilities and independent test laboratories performing IEEE 1547 compliance testing and grid interconnection validation",
+      "description": "Impedyme HIL and Power HIL platforms are used by inverter manufacturers, DER developers, utilities, and independent test laboratories for IEEE 1547 compliance testing and grid interconnection validation."
+    },
+    {
+      "@type": "Product",
+      "@id": "https://impedyme.com/#product-chp-series",
+      "name": "CHP Series",
+      "alternateName": "Combined Hardware-in-the-Loop and Power (CHP) Series",
+      "url": "https://impedyme.com/grid-emulator/",
+      "description": "A regenerative grid emulator and combined hardware-in-the-loop power platform that performs all four conformance-bench functions from a single cabinet: it drives voltage, frequency, phase angle and balance at the terminal with independent per-phase control and true bidirectional power flow, supplies the direct-current input of the equipment under test, measures terminal voltage and output current within the required accuracy class, and executes and records the IEEE 1547.1 type-test procedures.",
+      "category": "Regenerative grid emulator / Power hardware-in-the-loop test system",
+      "brand": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "manufacturer": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "audience": [
+        {
+          "@id": "https://impedyme.com/#audience-rts"
+        },
+        {
+          "@id": "https://impedyme.com/#audience-ieee1547"
+        }
+      ],
+      "isRelatedTo": [
+        {
+          "@id": "https://impedyme.com/#software-gridsim-studio"
+        },
+        {
+          "@id": "https://impedyme.com/#product-hil-platforms"
+        }
+      ],
+      "image": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-16x9"
+      },
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Power rating, single cabinet",
+          "value": "Up to 110 kVA/kW"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Power rating, paralleled",
+          "value": "Up to 550 kVA/kW"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Power flow",
+          "value": "Fully regenerative — sources and sinks up to 100% of rated power"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Real-time simulation",
+          "value": "FPGA-based, simulation time steps as low as 90 ns"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Per-phase control",
+          "value": "Independent voltage, frequency and phase-angle control on each phase"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Grid code coverage",
+          "value": "Levels and durations loaded from a licensed copy of the standard rather than compiled in, so the same hardware serves the North American, European, British and Australian regimes"
+        }
+      ]
+    },
+    {
+      "@type": "Product",
+      "@id": "https://impedyme.com/#product-hil-platforms",
+      "name": "Impedyme HIL and Power HIL platforms",
+      "url": "https://impedyme.com/powerhardware-in-the-loop/",
+      "description": "Impedyme HIL and Power HIL platforms are used by inverter manufacturers, DER developers, utilities, and independent test laboratories for IEEE 1547 compliance testing and grid interconnection validation.",
+      "category": "Hardware-in-the-loop and power hardware-in-the-loop test platforms",
+      "brand": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "manufacturer": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "audience": [
+        {
+          "@id": "https://impedyme.com/#audience-ieee1547"
+        },
+        {
+          "@id": "https://impedyme.com/#audience-rts"
+        }
+      ],
+      "isRelatedTo": [
+        {
+          "@id": "https://impedyme.com/#product-chp-series"
+        },
+        {
+          "@id": "https://impedyme.com/#software-gridsim-studio"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/#software-gridsim-studio",
+      "name": "GridSim Studio",
+      "alternateName": "Grid Emulator test application",
+      "url": "https://impedyme.com/grid-simulation-software/",
+      "applicationCategory": "EngineeringApplication",
+      "applicationSubCategory": "Grid simulation and grid code compliance test sequencing",
+      "description": "The companion application to the CHP Series Grid Emulator. It carries the IEEE 1547.1 type-test catalogue as tiles stating the clause, the quantity driven at the terminal and a thumbnail of the profile drawn from the same segments the run engine plays; it compiles the procedure, executes the sequence, and retains each run with its settings so a result can be reproduced or compared later. Commanded condition and returned trace are drawn on one frame against one time axis so lag is seen rather than inferred.",
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "author": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "audience": [
+        {
+          "@id": "https://impedyme.com/#audience-rts"
+        },
+        {
+          "@id": "https://impedyme.com/#audience-ieee1547"
+        }
+      ],
+      "featureList": [
+        "IEEE 1547.1 type-test catalogue of 28 scenarios presented as clause-labelled tiles",
+        "Profile thumbnails generated from the same segments the run engine plays",
+        "Loadable grid code profiles rather than hard-coded thresholds",
+        "Commanded condition and returned trace overlaid on one time axis",
+        "Every run retained with its settings for reproduction and audit"
+      ],
+      "isRelatedTo": [
+        {
+          "@id": "https://impedyme.com/#product-chp-series"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.ieee.org/#organization",
+      "name": "Institute of Electrical and Electronics Engineers",
+      "alternateName": "IEEE",
+      "url": "https://www.ieee.org/",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Institute_of_Electrical_and_Electronics_Engineers"
+      ]
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://impedyme.com/#standard-ieee-1547",
+      "name": "IEEE Std 1547",
+      "alternateName": "IEEE Standard for Interconnection and Interoperability of Distributed Energy Resources with Associated Electric Power Systems Interfaces",
+      "description": "The requirements standard. It defines what a distributed energy resource must do — the interconnection and interoperability behaviour expected of it during normal operation, during abnormal voltage and frequency conditions, and at the moment of connection and disconnection. It is the “what.”",
+      "publisher": {
+        "@id": "https://www.ieee.org/#organization"
+      },
+      "creativeWorkStatus": "Published",
+      "genre": "Technical standard",
+      "inLanguage": "en",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/IEEE_1547"
+      ]
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://impedyme.com/#standard-ieee-1547-1",
+      "name": "IEEE Std 1547.1",
+      "alternateName": "IEEE Standard Conformance Test Procedures for Equipment Interconnecting Distributed Energy Resources with Electric Power Systems and Associated Interfaces",
+      "description": "The conformance test procedures standard. It specifies the type, production, commissioning, and periodic tests and evaluations that must be performed to confirm that equipment conforms to IEEE Std 1547. It is the “how.” It does not cover product safety testing, does not itself define a certification process, and does not specify measurement techniques.",
+      "publisher": {
+        "@id": "https://www.ieee.org/#organization"
+      },
+      "creativeWorkStatus": "Published",
+      "genre": "Technical standard",
+      "inLanguage": "en",
+      "isBasedOn": {
+        "@id": "https://impedyme.com/#standard-ieee-1547"
+      }
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://impedyme.com/#ieee-1547-1-type-tests",
+      "name": "IEEE Std 1547.1 type-test scenarios",
+      "description": "The twenty-eight type-test scenarios of the IEEE Std 1547.1 conformance test programme, grouped into five families: reactive power and voltage control; voltage trip and ride-through; frequency trip and ride-through; service, synchronization and control; and power quality and measurement.",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "subjectOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#type-test-programme",
+      "name": "The full IEEE 1547.1 type-test programme — 28 scenarios",
+      "description": "Every scenario has the same underlying form: the terminal or the input is driven to a defined condition and held, and the response of the equipment under test is measured against a stated criterion.",
+      "numberOfItems": 28,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "subjectOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article"
+      },
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Constant Power Factor Mode (5.14.3)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-1",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-1",
+            "name": "Constant Power Factor Mode",
+            "termCode": "IEEE 1547.1 Clause 5.14.3",
+            "identifier": "5.14.3",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-1",
+            "description": "Verifies that a commanded power factor is held while active power and terminal voltage are varied across the continuous operating region.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Reactive Power and Voltage Control (Clause 5.14)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Voltage–Reactive Power (Volt-Var) Mode (5.14.4–5)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-2",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-2",
+            "name": "Voltage–Reactive Power (Volt-Var) Mode",
+            "termCode": "IEEE 1547.1 Clause 5.14.4–5",
+            "identifier": "5.14.4–5",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-2",
+            "description": "Verifies that reactive power follows the voltage–reactive power characteristic as terminal voltage is stepped either side of each breakpoint.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Reactive Power and Voltage Control (Clause 5.14)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Volt-Var Mode, Imbalanced Grid (5.14.6)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-3",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-3",
+            "name": "Volt-Var Mode, Imbalanced Grid",
+            "termCode": "IEEE 1547.1 Clause 5.14.6",
+            "identifier": "5.14.6",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-3",
+            "description": "Verifies volt-var operation when the phase voltages are imbalanced, so that a negative-sequence component is present at the terminal.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Reactive Power and Voltage Control (Clause 5.14)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Active Power–Reactive Power (Watt-Var) Mode (5.14.7)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-4",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-4",
+            "name": "Active Power–Reactive Power (Watt-Var) Mode",
+            "termCode": "IEEE 1547.1 Clause 5.14.7",
+            "identifier": "5.14.7",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-4",
+            "description": "Verifies that reactive power follows the active power–reactive power characteristic as available active power is varied over its range.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Reactive Power and Voltage Control (Clause 5.14)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Constant Reactive Power (Var) Mode (5.14.8)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-5",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-5",
+            "name": "Constant Reactive Power (Var) Mode",
+            "termCode": "IEEE 1547.1 Clause 5.14.8",
+            "identifier": "5.14.8",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-5",
+            "description": "Verifies that a commanded reactive power is held while active power is reduced and terminal voltage is stepped.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Reactive Power and Voltage Control (Clause 5.14)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Voltage–Active Power (Volt-Watt) Mode (5.14.9)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-6",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-6",
+            "name": "Voltage–Active Power (Volt-Watt) Mode",
+            "termCode": "IEEE 1547.1 Clause 5.14.9",
+            "identifier": "5.14.9",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-6",
+            "description": "Verifies that active power is limited along the voltage–active power characteristic as terminal voltage is stepped toward the upper limit.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Reactive Power and Voltage Control (Clause 5.14)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Volt-Watt Mode, Imbalanced Grid (5.14.10)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-7",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-7",
+            "name": "Volt-Watt Mode, Imbalanced Grid",
+            "termCode": "IEEE 1547.1 Clause 5.14.10",
+            "identifier": "5.14.10",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-7",
+            "description": "Verifies volt-watt operation when the phase voltages are imbalanced, so that a negative-sequence component is present at the terminal.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Reactive Power and Voltage Control (Clause 5.14)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Overvoltage and Undervoltage Trip (5.4.2–3)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-8",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-8",
+            "name": "Overvoltage and Undervoltage Trip",
+            "termCode": "IEEE 1547.1 Clause 5.4.2–3",
+            "identifier": "5.4.2–3",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-8",
+            "description": "Establishes the voltage at which the equipment ceases to energize and the elapsed time to cessation.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Voltage Trip and Ride-Through (Clause 5.4)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Low-Voltage Ride-Through (5.4.4)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-9",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-9",
+            "name": "Low-Voltage Ride-Through",
+            "termCode": "IEEE 1547.1 Clause 5.4.4",
+            "identifier": "5.4.4",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-9",
+            "description": "Establishes that the equipment rides through a sequence of voltage sags without tripping, in each required operating region.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Voltage Trip and Ride-Through (Clause 5.4)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Consecutive Low-Voltage Ride-Through (5.4.4.3)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-10",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-10",
+            "name": "Consecutive Low-Voltage Ride-Through",
+            "termCode": "IEEE 1547.1 Clause 5.4.4.3",
+            "identifier": "5.4.4.3",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-10",
+            "description": "Establishes that the equipment sustains the sag sequences when they are repeated without interruption.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Voltage Trip and Ride-Through (Clause 5.4)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Voltage Unbalance, Continuous Region (5.4.5)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-11",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-11",
+            "name": "Voltage Unbalance, Continuous Region",
+            "termCode": "IEEE 1547.1 Clause 5.4.5",
+            "identifier": "5.4.5",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-11",
+            "description": "Establishes that multiphase equipment continues operating and delivering power while its phase voltages are unbalanced inside the continuous region.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Voltage Trip and Ride-Through (Clause 5.4)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "High-Voltage Ride-Through (5.4.7)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-12",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-12",
+            "name": "High-Voltage Ride-Through",
+            "termCode": "IEEE 1547.1 Clause 5.4.7",
+            "identifier": "5.4.7",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-12",
+            "description": "Establishes that the equipment rides through a descending sequence of voltage swells without tripping.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Voltage Trip and Ride-Through (Clause 5.4)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Consecutive High-Voltage Ride-Through (5.4.7.4)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-13",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-13",
+            "name": "Consecutive High-Voltage Ride-Through",
+            "termCode": "IEEE 1547.1 Clause 5.4.7.4",
+            "identifier": "5.4.7.4",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-13",
+            "description": "Establishes that the equipment sustains the swell sequences when repeated without interruption.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Voltage Trip and Ride-Through (Clause 5.4)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "name": "Overfrequency Trip (5.5.1)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-14",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-14",
+            "name": "Overfrequency Trip",
+            "termCode": "IEEE 1547.1 Clause 5.5.1",
+            "identifier": "5.5.1",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-14",
+            "description": "Establishes the frequency at which the equipment ceases to energize, and the elapsed time to cessation, for each overfrequency region.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Frequency Trip and Ride-Through (Clauses 5.5 and 5.15)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "name": "Underfrequency Trip (5.5.2)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-15",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-15",
+            "name": "Underfrequency Trip",
+            "termCode": "IEEE 1547.1 Clause 5.5.2",
+            "identifier": "5.5.2",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-15",
+            "description": "Establishes the frequency at which the equipment ceases to energize, and the elapsed time to cessation, for each underfrequency region.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Frequency Trip and Ride-Through (Clauses 5.5 and 5.15)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "name": "Low-Frequency Ride-Through (5.5.3)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-16",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-16",
+            "name": "Low-Frequency Ride-Through",
+            "termCode": "IEEE 1547.1 Clause 5.5.3",
+            "identifier": "5.5.3",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-16",
+            "description": "Establishes that the equipment stays in operation through a sustained low-frequency excursion below the continuous operating region.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Frequency Trip and Ride-Through (Clauses 5.5 and 5.15)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "name": "High-Frequency Ride-Through (5.5.4)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-17",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-17",
+            "name": "High-Frequency Ride-Through",
+            "termCode": "IEEE 1547.1 Clause 5.5.4",
+            "identifier": "5.5.4",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-17",
+            "description": "Establishes that the equipment stays in operation through a sustained high-frequency excursion above the continuous operating region.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Frequency Trip and Ride-Through (Clauses 5.5 and 5.15)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "name": "Rate of Change of Frequency, ROCOF (5.5.5)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-18",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-18",
+            "name": "Rate of Change of Frequency, ROCOF",
+            "termCode": "IEEE 1547.1 Clause 5.5.5",
+            "identifier": "5.5.5",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-18",
+            "description": "Establishes the rate of change of frequency the equipment withstands, evaluated from the transitions of the frequency ride-through tests.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Frequency Trip and Ride-Through (Clauses 5.5 and 5.15)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "name": "Voltage Phase-Angle Change Ride-Through (5.5.6)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-19",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-19",
+            "name": "Voltage Phase-Angle Change Ride-Through",
+            "termCode": "IEEE 1547.1 Clause 5.5.6",
+            "identifier": "5.5.6",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-19",
+            "description": "Establishes that the equipment rides through sudden changes in the voltage phase angle at its terminal without tripping.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Frequency Trip and Ride-Through (Clauses 5.5 and 5.15)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "name": "Frequency-Droop Response (5.15.2–3)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-20",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-20",
+            "name": "Frequency-Droop Response",
+            "termCode": "IEEE 1547.1 Clause 5.15.2–3",
+            "identifier": "5.15.2–3",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-20",
+            "description": "Establishes that active power follows the frequency-droop characteristic above and below nominal, with deadband and response time observed.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Frequency Trip and Ride-Through (Clauses 5.5 and 5.15)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "name": "Enter Service (5.6)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-21",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-21",
+            "name": "Enter Service",
+            "termCode": "IEEE 1547.1 Clause 5.6",
+            "identifier": "5.6",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-21",
+            "description": "Establishes that export is withheld until the enter service criteria are satisfied and the delay has elapsed.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Service, Synchronization and Control (Clauses 5.6, 5.7, 5.13 and 5.16)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 22,
+          "name": "Synchronization (5.7)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-22",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-22",
+            "name": "Synchronization",
+            "termCode": "IEEE 1547.1 Clause 5.7",
+            "identifier": "5.7",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-22",
+            "description": "Establishes that closure is permitted only while the voltage, frequency and phase-angle differences all lie inside the allowable window.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Service, Synchronization and Control (Clauses 5.6, 5.7, 5.13 and 5.16)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 23,
+          "name": "Limit Active Power (5.13)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-23",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-23",
+            "name": "Limit Active Power",
+            "termCode": "IEEE 1547.1 Clause 5.13",
+            "identifier": "5.13",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-23",
+            "description": "Establishes that active power is held to a commanded limit, and that voltage and frequency response take precedence over that limit.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Service, Synchronization and Control (Clauses 5.6, 5.7, 5.13 and 5.16)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 24,
+          "name": "Voltage and Frequency Regulation Priority (5.16.1)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-24",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-24",
+            "name": "Voltage and Frequency Regulation Priority",
+            "termCode": "IEEE 1547.1 Clause 5.16.1",
+            "identifier": "5.16.1",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-24",
+            "description": "Establishes that voltage and frequency regulation functions operating simultaneously are resolved by the equipment in the required order.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Service, Synchronization and Control (Clauses 5.6, 5.7, 5.13 and 5.16)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 25,
+          "name": "Limitation of DC Injection for Inverters (5.9)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-25",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-25",
+            "name": "Limitation of DC Injection for Inverters",
+            "termCode": "IEEE 1547.1 Clause 5.9",
+            "identifier": "5.9",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-25",
+            "description": "Establishes that the direct-current component of current delivered by the equipment stays within the permitted limit during steady rated operation.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Power Quality and Measurement (Clauses 5.9, 5.11, 5.12 and 5.17)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 26,
+          "name": "Open Phase (5.11)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-26",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-26",
+            "name": "Open Phase",
+            "termCode": "IEEE 1547.1 Clause 5.11",
+            "identifier": "5.11",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-26",
+            "description": "Establishes that the equipment ceases to energize the area network upon loss of an individual phase at the point of connection.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Power Quality and Measurement (Clauses 5.9, 5.11, 5.12 and 5.17)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 27,
+          "name": "Current Distortion (5.12)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-27",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-27",
+            "name": "Current Distortion",
+            "termCode": "IEEE 1547.1 Clause 5.12",
+            "identifier": "5.12",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-27",
+            "description": "Establishes the harmonic, inter-harmonic and total rated-current distortion the equipment produces under balanced steady conditions.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Power Quality and Measurement (Clauses 5.9, 5.11, 5.12 and 5.17)"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 28,
+          "name": "Limitation of Overvoltage Contribution (5.17)",
+          "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-28",
+          "item": {
+            "@type": "DefinedTerm",
+            "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-28",
+            "name": "Limitation of Overvoltage Contribution",
+            "termCode": "IEEE 1547.1 Clause 5.17",
+            "identifier": "5.17",
+            "url": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-28",
+            "description": "Establishes the overvoltage the equipment contributes when a switching action creates a generation-load island.",
+            "inDefinedTermSet": {
+              "@id": "https://impedyme.com/#ieee-1547-1-type-tests"
+            },
+            "inLanguage": "en",
+            "additionalProperty": [
+              {
+                "@type": "PropertyValue",
+                "name": "Test family",
+                "value": "Power Quality and Measurement (Clauses 5.9, 5.11, 5.12 and 5.17)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#test-categories",
+      "name": "The four categories of IEEE 1547.1 conformance test",
+      "description": "The conformance programme is not a single event. It is four distinct activities, applied at different points in a product's life.",
+      "numberOfItems": 4,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "subjectOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article"
+      },
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Type tests",
+          "item": {
+            "@type": "Thing",
+            "name": "Type tests",
+            "description": "Happens once per product design. Covers the full behavioural programme against the requirements standard. Runs in a laboratory, on a conformance bench."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Production tests",
+          "item": {
+            "@type": "Thing",
+            "name": "Production tests",
+            "description": "Happens for every unit shipped. Covers abbreviated checks on abnormal voltage and frequency response, plus documentation. Runs at the factory, end of line."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Commissioning tests and evaluations",
+          "item": {
+            "@type": "Thing",
+            "name": "Commissioning tests and evaluations",
+            "description": "Happens per installation. Verifies that the installed system behaves correctly at its point of connection. Runs on site."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Periodic tests",
+          "item": {
+            "@type": "Thing",
+            "name": "Periodic tests",
+            "description": "Happens at intervals over service life. Confirms that protective behaviour has not drifted. Runs on site."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#regional-frameworks",
+      "name": "Grid code compliance frameworks by region",
+      "description": "Comparable obligations exist in every major market and converge on the same functional families — ride-through, grid support, anti-islanding, power quality — while differing in thresholds, category structures, and how compliance is verified.",
+      "numberOfItems": 5,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "subjectOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article"
+      },
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "North America",
+          "item": {
+            "@type": "Thing",
+            "name": "North America",
+            "description": "Governing framework: the requirements standard plus its conformance test procedures companion. Verification: a single prescriptive test-procedure document feeding a laboratory certification."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "European Union",
+          "item": {
+            "@type": "Thing",
+            "name": "European Union",
+            "description": "Governing framework: the harmonised network code for generators, implemented through European connection standards for low- and medium-voltage generating plant. Verification: the framework mandates that compliance be verified but leaves procedures largely to member states."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Germany",
+          "item": {
+            "@type": "Thing",
+            "name": "Germany",
+            "description": "Governing framework: national application rules for low, medium, and high voltage connection. Verification: a certificate-based scheme with separate national test and modelling guidelines."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "United Kingdom",
+          "item": {
+            "@type": "Thing",
+            "name": "United Kingdom",
+            "description": "Governing framework: engineering recommendations for small and larger generating units. Verification: type-test evidence assessed against the recommendation."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Australia / New Zealand",
+          "item": {
+            "@type": "Thing",
+            "name": "Australia / New Zealand",
+            "description": "Governing framework: the national inverter requirements standard with region-based setpoints. Verification: an approved-inverter listing maintained by the market body."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#bench-functions",
+      "name": "The four functions of a grid code compliance bench",
+      "description": "Strip away the specifics and a conformance bench performs four functions. These are the same on any bench anywhere in the world; what differs is how many separate instruments are needed to deliver them.",
+      "numberOfItems": 4,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "subjectOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article"
+      },
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Drive the terminal",
+          "item": {
+            "@type": "Thing",
+            "name": "Drive the terminal",
+            "description": "Produce a controlled alternating-current condition at the equipment's grid connection — voltage, frequency, phase angle, and balance, each independently commandable."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Supply the input",
+          "item": {
+            "@type": "Thing",
+            "name": "Supply the input",
+            "description": "Provide the direct-current source that the equipment under test converts."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Measure the response",
+          "item": {
+            "@type": "Thing",
+            "name": "Measure the response",
+            "description": "Capture terminal voltage and output current with the bandwidth and accuracy the procedures require."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Execute the procedure",
+          "item": {
+            "@type": "Thing",
+            "name": "Execute the procedure",
+            "description": "Sequence the run, hold each condition for its required dwell, repeat it across settings, and retain the record."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#source-capabilities",
+      "name": "Capabilities the type tests demand of the source",
+      "description": "Reading the type-test programme as a specification for the bench rather than for the product under test yields a clear list of requirements.",
+      "numberOfItems": 7,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "subjectOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article"
+      },
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Regenerative, bidirectional power flow",
+          "item": {
+            "@type": "Thing",
+            "name": "Regenerative, bidirectional power flow",
+            "description": "The equipment under test exports. The source must absorb that power continuously, not dissipate it, and must maintain the commanded condition while doing so."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Independent per-phase control",
+          "item": {
+            "@type": "Thing",
+            "name": "Independent per-phase control",
+            "description": "Several tests require one phase to be driven while others are held, or phases to be driven in pairs. A source that can only move all three together cannot execute them."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Phase-angle stepping",
+          "item": {
+            "@type": "Thing",
+            "name": "Phase-angle stepping",
+            "description": "Angle-change ride-through requires genuine, abrupt angle displacement, on one phase and on all three, repeatable at arbitrary points on the wave."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Step fidelity",
+          "item": {
+            "@type": "Thing",
+            "name": "Step fidelity",
+            "description": "A large number of procedures specify a step, not a ramp, precisely because a ramp makes the instant of crossing a matter of interpretation — and the measured clearing time with it."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Low output distortion",
+          "item": {
+            "@type": "Thing",
+            "name": "Low output distortion",
+            "description": "Current distortion tests measure the equipment's contribution. A source that injects its own distortion contaminates the result."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Adequate stiffness relative to the device rating",
+          "item": {
+            "@type": "Thing",
+            "name": "Adequate stiffness relative to the device rating",
+            "description": "Whether a swell level can be held steady while the equipment under test reacts is a property of the source impedance relative to the device rating. This must be stated before coverage is claimed."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Measurement accuracy within the required class",
+          "item": {
+            "@type": "Thing",
+            "name": "Measurement accuracy within the required class",
+            "description": "The criteria are accuracy-bounded. A measurement path that cannot resolve the criterion cannot evidence it."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#campaign-failure-modes",
+      "name": "Why grid code compliance campaigns fail",
+      "description": "Across the programme, failures cluster in a small number of places. Every item is discoverable in-house, before a laboratory campaign begins, on a bench that can execute the same procedures.",
+      "numberOfItems": 6,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "subjectOf": {
+        "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#article"
+      },
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Ride-through behaviour under combined stress",
+          "item": {
+            "@type": "Thing",
+            "name": "Ride-through behaviour under combined stress",
+            "description": "Equipment that rides through a clean sag often fails a consecutive sequence, or fails when the sag is applied to a single phase rather than all three."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Settling and response times",
+          "item": {
+            "@type": "Thing",
+            "name": "Settling and response times",
+            "description": "The characteristic is met, but not within the declared response time — or the declared response time was optimistic in the datasheet and nobody re-checked it."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Priority conflicts",
+          "item": {
+            "@type": "Thing",
+            "name": "Priority conflicts",
+            "description": "Functions that behave correctly in isolation resolve in the wrong order when enabled together."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Setting ranges",
+          "item": {
+            "@type": "Thing",
+            "name": "Setting ranges",
+            "description": "The equipment meets the trip requirement at its default setting but its adjustable range does not span what the standard requires."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Bench limitations misread as device failures",
+          "item": {
+            "@type": "Thing",
+            "name": "Bench limitations misread as device failures",
+            "description": "A source too soft for the device rating cannot hold a swell; a measurement path outside the required accuracy class cannot evidence a criterion. Both produce results that look like device failures and are not."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Configuration drift",
+          "item": {
+            "@type": "Thing",
+            "name": "Configuration drift",
+            "description": "Firmware changes after testing, and the certified configuration no longer matches the shipped one."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-grid-code-compliance",
+      "name": "Grid code compliance testing",
+      "description": "Proving under controlled and repeatable laboratory conditions that equipment behaves the way a network operator's grid code requires.",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Grid_code"
+      ]
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-der",
+      "name": "Distributed energy resource",
+      "description": "A generating or storage resource connected to the distribution system, whose interconnection behaviour is governed by IEEE Std 1547.",
+      "alternateName": "DER",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Distributed_generation"
+      ]
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-phil",
+      "name": "Power hardware-in-the-loop simulation",
+      "description": "A test method that couples a real-time simulation model to real power hardware through an amplifier interface, used for pre-compliance and unintentional islanding testing.",
+      "alternateName": "Power-HIL",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Hardware-in-the-loop_simulation"
+      ]
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-hil",
+      "name": "Hardware-in-the-loop simulation",
+      "description": "Real-time simulation of a plant model against physical controller or power hardware under test.",
+      "alternateName": "HIL",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Hardware-in-the-loop_simulation"
+      ]
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-ride-through",
+      "name": "Voltage and frequency ride-through",
+      "description": "The requirement that a distributed energy resource stays connected and operating through voltage and frequency excursions rather than disconnecting."
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-islanding",
+      "name": "Unintentional islanding",
+      "description": "The condition in which a distributed energy resource continues to energize a section of network after it has been separated from the area electric power system.",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Islanding"
+      ]
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-inverter",
+      "name": "Grid-connected inverter",
+      "description": "The power electronic converter that interfaces a distributed energy resource to the alternating-current network and is the subject of the type-test programme.",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Power_inverter"
+      ]
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-power-quality",
+      "name": "Power quality",
+      "description": "Current distortion, direct-current injection and overvoltage contribution limits verified in the fifth family of the type-test programme.",
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Electric_power_quality"
+      ]
+    },
+    {
+      "@type": "Thing",
+      "@id": "https://impedyme.com/#topic-grid-emulator",
+      "name": "Regenerative grid emulator",
+      "description": "A bidirectional alternating-current source that drives voltage, frequency, phase angle and balance at the terminal of equipment under test while absorbing its exported power."
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-16x9",
+      "url": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-grid-code-compliance-testing-chp-series-16x9.jpg",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-grid-code-compliance-testing-chp-series-16x9.jpg",
+      "width": 1920,
+      "height": 1080,
+      "caption": "The Impedyme CHP Series regenerative grid emulator configured for an IEEE 1547.1 type-test campaign.",
+      "description": "Impedyme CHP Series cabinet driving an IEEE 1547.1 grid code compliance test bench, with an inverter under test connected at the alternating-current terminal.",
+      "inLanguage": "en",
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "creditText": "Impedyme Inc.",
+      "representativeOfPage": true
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-4x3",
+      "url": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-grid-code-compliance-testing-chp-series-4x3.jpg",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-grid-code-compliance-testing-chp-series-4x3.jpg",
+      "width": 1440,
+      "height": 1080,
+      "caption": "The Impedyme CHP Series regenerative grid emulator configured for an IEEE 1547.1 type-test campaign.",
+      "description": "Impedyme CHP Series cabinet driving an IEEE 1547.1 grid code compliance test bench, with an inverter under test connected at the alternating-current terminal.",
+      "inLanguage": "en",
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "creditText": "Impedyme Inc."
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-grid-code-compliance-testing-chp-series-1x1",
+      "url": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-grid-code-compliance-testing-chp-series-1x1.jpg",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-grid-code-compliance-testing-chp-series-1x1.jpg",
+      "width": 1080,
+      "height": 1080,
+      "caption": "The Impedyme CHP Series regenerative grid emulator configured for an IEEE 1547.1 type-test campaign.",
+      "description": "Impedyme CHP Series cabinet driving an IEEE 1547.1 grid code compliance test bench, with an inverter under test connected at the alternating-current terminal.",
+      "inLanguage": "en",
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "creditText": "Impedyme Inc."
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-1-type-test-catalogue-grid-emulator-application",
+      "url": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-1-type-test-catalogue-grid-emulator-application.jpg",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-1-type-test-catalogue-grid-emulator-application.jpg",
+      "width": 1600,
+      "height": 900,
+      "caption": "The type-test catalogue in the Grid Emulator application: each tile states the clause, the quantity driven at the terminal, and a thumbnail of the profile.",
+      "description": "Screenshot of the Impedyme Grid Emulator test application showing IEEE 1547.1 type-test tiles with clause numbers and profile thumbnails.",
+      "inLanguage": "en",
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "creditText": "Impedyme Inc."
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#ieee-1547-1-type-test-families-diagram",
+      "url": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-1-type-test-families-diagram.jpg",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/08/ieee-1547-1-type-test-families-diagram.jpg",
+      "width": 1600,
+      "height": 900,
+      "caption": "The twenty-eight type-test scenarios grouped into five families: reactive power and voltage control, voltage trip and ride-through, frequency trip and ride-through, service and synchronization, and power quality.",
+      "description": "Diagram grouping the 28 IEEE 1547.1 type-test scenarios into five test families with their governing clauses.",
+      "inLanguage": "en",
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "creditText": "Impedyme Inc."
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/resource-center/ieee-1547-grid-code-compliance-testing/#chp-series-grid-code-compliance-bench-four-functions",
+      "url": "https://impedyme.com/wp-content/uploads/2026/08/chp-series-grid-code-compliance-bench-four-functions.jpg",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/08/chp-series-grid-code-compliance-bench-four-functions.jpg",
+      "width": 1600,
+      "height": 900,
+      "caption": "The four functions of a conformance bench — drive the terminal, supply the input, measure the response, execute the procedure — delivered from a single CHP Series cabinet.",
+      "description": "Block diagram of an IEEE 1547.1 conformance bench showing the regenerative alternating-current source, direct-current supply, measurement path and test sequencer.",
+      "inLanguage": "en",
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "creditText": "Impedyme Inc."
+    }
+  ]
+}
