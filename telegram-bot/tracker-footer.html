@@ -1,0 +1,236 @@
+<!--
+  ==========================================================================================
+   IMPEDYME VISIT TRACKER  —  paste this in the FOOTER of every page of impedyme.com
+  ==========================================================================================
+
+   WHAT IT DOES
+   ------------
+   1. Reads ?uid=... from the personal link and remembers it in the browser.
+   2. Sends one "pageview" event, then a "heartbeat" every minute while the tab is visible.
+   3. Sends the visitor's IP country (from ipwho.is) AND their laptop timezone.
+      >>> The timezone is what the Telegram bot uses to detect Asia/Tehran. <<<
+   4. Optionally shows a red banner on the site itself when the timezone is Asia/Tehran,
+      so the user is told immediately instead of only in Telegram.
+
+   HOW TO EDIT
+   -----------
+   Everything you may want to change is inside the CONFIG block below.
+  ========================================================================================== -->
+
+<script>
+(function () {
+  "use strict";
+
+  /* ========================================================================================
+   * CONFIG — change anything here
+   * ====================================================================================== */
+  var CONFIG = {
+
+    /* ---- where the data goes ---------------------------------------------------------- */
+    // The /exec URL of the SPREADSHEET script (sheet-logger.gs), NOT the bot script.
+    ENDPOINT: "PASTE_YOUR_SHEET_WEBAPP_URL_HERE",
+
+    /* ---- timing ------------------------------------------------------------------------ */
+    SESSION_GAP_MINUTES: 30,   // after this much inactivity a new "visit" starts
+    HEARTBEAT_SECONDS:   60,   // how often a heartbeat is sent while the tab is open
+    GEO_TIMEOUT_SECONDS:  8,   // give up on the IP lookup after this and start tracking anyway
+
+    /* ---- IP lookup --------------------------------------------------------------------- */
+    GEO_API: "https://ipwho.is/",   // must return { ip, city, country }
+
+    /* ---- the on-site timezone warning --------------------------------------------------
+     * Set SHOW_TIMEZONE_BANNER to false if you do not want any banner on the website.
+     * The list below must match TZ_RULES in bot.gs, otherwise the site and the bot
+     * would disagree about who is blocked.
+     * ---------------------------------------------------------------------------------- */
+    SHOW_TIMEZONE_BANNER: true,
+    BLOCKED_TIMEZONE_KEYWORDS: ["tehran", "iran"],
+
+    // Banner texts — edit freely. {timezone} is replaced with the detected timezone.
+    BANNER_TITLE_EN: "Your timezone is {timezone} — your visits are NOT counted",
+    BANNER_TEXT_EN:  "Change your computer timezone to the country of your VPN, " +
+                     "then reload this page with your personal link.",
+    BANNER_TEXT_FA:  "تایم‌زون سیستم شما روی {timezone} است و بازدید شما محاسبه نمی‌شود. " +
+                     "لطفاً تایم‌زون لپ‌تاپ را به کشور VPN خود تغییر دهید و صفحه را دوباره باز کنید.",
+    BANNER_CLOSE_LABEL: "✕",
+
+    // Banner colours / position — plain CSS values.
+    BANNER_BACKGROUND: "#b00020",
+    BANNER_TEXT_COLOR: "#ffffff",
+    BANNER_POSITION:   "top",     // "top" or "bottom"
+    BANNER_Z_INDEX:    999999,
+
+    /* ---- storage keys (only change if they clash with something else on your site) ------ */
+    KEY_UID:        "impedyme_uid",
+    KEY_VISIT_ID:   "impedyme_visit_id",
+    KEY_LAST_SEEN:  "impedyme_last_seen",
+    KEY_GEO:        "impedyme_geo",
+
+    /* ---- debugging --------------------------------------------------------------------- */
+    DEBUG: false   // true = print every event in the browser console (F12)
+  };
+  /* ==================== end of CONFIG — logic starts below ============================== */
+
+
+  function log() {
+    if (CONFIG.DEBUG && window.console) console.log.apply(console, ["[impedyme]"].concat([].slice.call(arguments)));
+  }
+
+  /* ---- 1) the visitor's laptop timezone, e.g. "Asia/Tehran" ---------------------------- */
+  var userTimezone = "Unknown";
+  var tzOffsetMinutes = 0;
+  try {
+    userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+    // Minutes AHEAD of UTC. Tehran = +210, Rome in summer = +120. Useful for double-checking.
+    tzOffsetMinutes = -new Date().getTimezoneOffset();
+  } catch (err) { log("timezone detection failed", err); }
+  log("timezone:", userTimezone, "offset:", tzOffsetMinutes);
+
+  /* ---- 2) who is this? ----------------------------------------------------------------- */
+  var uid = null;
+  try {
+    uid = new URLSearchParams(location.search).get("uid") || localStorage.getItem(CONFIG.KEY_UID);
+    if (uid) localStorage.setItem(CONFIG.KEY_UID, uid);
+  } catch (err) { log("uid read failed", err); }
+
+  // Show the banner even to visitors without a uid? No — only tracked users need it.
+  if (!uid) { log("no uid, tracking disabled"); return; }
+
+  /* ---- 3) warn on the page itself when the timezone is blocked -------------------------- */
+  if (CONFIG.SHOW_TIMEZONE_BANNER && isBlockedTimezone(userTimezone)) showTimezoneBanner();
+
+  function isBlockedTimezone(timezone) {
+    var tz = String(timezone || "").toLowerCase();
+    for (var i = 0; i < CONFIG.BLOCKED_TIMEZONE_KEYWORDS.length; i++) {
+      if (tz.indexOf(CONFIG.BLOCKED_TIMEZONE_KEYWORDS[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function showTimezoneBanner() {
+    function build() {
+      if (document.getElementById("impedyme-tz-banner")) return;   // never add it twice
+
+      var bar = document.createElement("div");
+      bar.id = "impedyme-tz-banner";
+      bar.setAttribute("dir", "auto");
+      bar.style.cssText =
+        "position:fixed;left:0;right:0;" + CONFIG.BANNER_POSITION + ":0;" +
+        "z-index:" + CONFIG.BANNER_Z_INDEX + ";" +
+        "background:" + CONFIG.BANNER_BACKGROUND + ";color:" + CONFIG.BANNER_TEXT_COLOR + ";" +
+        "font:14px/1.5 system-ui,Segoe UI,Tahoma,sans-serif;padding:12px 44px 12px 16px;" +
+        "text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.25)";
+
+      var title = document.createElement("div");
+      title.style.cssText = "font-weight:700;margin-bottom:4px";
+      title.textContent = CONFIG.BANNER_TITLE_EN.replace("{timezone}", userTimezone);
+
+      var english = document.createElement("div");
+      english.textContent = CONFIG.BANNER_TEXT_EN.replace("{timezone}", userTimezone);
+
+      var persian = document.createElement("div");
+      persian.style.cssText = "margin-top:4px;opacity:.95";
+      persian.textContent = CONFIG.BANNER_TEXT_FA.replace("{timezone}", userTimezone);
+
+      var close = document.createElement("button");
+      close.type = "button";
+      close.textContent = CONFIG.BANNER_CLOSE_LABEL;
+      close.setAttribute("aria-label", "close");
+      close.style.cssText =
+        "position:absolute;top:8px;right:10px;background:transparent;border:0;" +
+        "color:" + CONFIG.BANNER_TEXT_COLOR + ";font-size:18px;cursor:pointer;line-height:1";
+      close.onclick = function () { bar.parentNode && bar.parentNode.removeChild(bar); };
+
+      bar.appendChild(title);
+      bar.appendChild(english);
+      bar.appendChild(persian);
+      bar.appendChild(close);
+      document.body.appendChild(bar);
+    }
+
+    if (document.body) build();
+    else document.addEventListener("DOMContentLoaded", build);
+  }
+
+  /* ---- 4) visit id: a new one after SESSION_GAP_MINUTES of silence ---------------------- */
+  var now      = Date.now();
+  var lastSeen = Number(localStorage.getItem(CONFIG.KEY_LAST_SEEN) || 0);
+  var visitId  = localStorage.getItem(CONFIG.KEY_VISIT_ID);
+
+  if (!visitId || now - lastSeen > CONFIG.SESSION_GAP_MINUTES * 60 * 1000) {
+    visitId = uid + "-" + now;
+    localStorage.setItem(CONFIG.KEY_VISIT_ID, visitId);
+  }
+
+  /* ---- 5) where did the visitor come from? (must contain "google" to earn coins) -------- */
+  var cameFrom = "direct";
+  try {
+    if (document.referrer) {
+      var referrerHost = new URL(document.referrer).hostname.replace(/^www\./, "");
+      var ownHost      = location.hostname.replace(/^www\./, "");
+      cameFrom = (referrerHost === ownHost) ? "" : referrerHost;   // "" = internal navigation
+    }
+  } catch (err) { cameFrom = ""; }
+
+  /* ---- 6) IP / country, cached for the whole browser session --------------------------- */
+  var geo = {};
+  try { geo = JSON.parse(sessionStorage.getItem(CONFIG.KEY_GEO) || "{}"); } catch (err) { geo = {}; }
+
+  /* ---- 7) sending ----------------------------------------------------------------------- */
+  function send(eventType) {
+    try { localStorage.setItem(CONFIG.KEY_LAST_SEEN, String(Date.now())); } catch (err) {}
+
+    var payload = JSON.stringify({
+      uid:       uid,
+      visitId:   visitId,
+      type:      eventType,                                  // "pageview" or "heartbeat"
+      site:      location.hostname,
+      page:      location.pathname,
+      referrer:  eventType === "pageview" ? cameFrom : "",   // only the first event has a source
+      ip:        geo.ip      || "Unknown",
+      city:      geo.city    || "Unknown",
+      country:   geo.country || "Unknown",
+      timezone:  userTimezone,                               // <-- checked by the bot
+      tzOffset:  tzOffsetMinutes,                            // <-- extra proof of the timezone
+      ts:        new Date().toISOString(),
+      userAgent: navigator.userAgent
+    });
+
+    log("send", eventType, payload);
+
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(CONFIG.ENDPOINT, payload);
+    } else {
+      fetch(CONFIG.ENDPOINT, { method: "POST", body: payload, mode: "no-cors", keepalive: true })
+        .catch(function (err) { log("send failed", err); });
+    }
+  }
+
+  function start() {
+    send("pageview");
+    setInterval(function () {
+      if (document.visibilityState === "visible") send("heartbeat");
+    }, CONFIG.HEARTBEAT_SECONDS * 1000);
+  }
+
+  /* ---- 8) start now if we already know the IP, otherwise look it up first ---------------- */
+  if (geo.ip) {
+    start();
+  } else {
+    var started = false;
+    function startOnce() { if (!started) { started = true; start(); } }
+
+    var fallbackTimer = setTimeout(startOnce, CONFIG.GEO_TIMEOUT_SECONDS * 1000);
+
+    fetch(CONFIG.GEO_API)
+      .then(function (response) { return response.json(); })
+      .then(function (data) {
+        geo = { ip: data.ip || "", city: data.city || "", country: data.country || "" };
+        try { sessionStorage.setItem(CONFIG.KEY_GEO, JSON.stringify(geo)); } catch (err) {}
+        log("geo", geo);
+      })
+      .catch(function (err) { log("geo lookup failed", err); })
+      .then(function () { clearTimeout(fallbackTimer); startOnce(); });
+  }
+})();
+</script>
