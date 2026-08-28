@@ -1,0 +1,175 @@
+<script>
+(function () {
+  // 1. YOUR ENDPOINT
+  var ENDPOINT = "PASTE_YOUR_TRACKER_WEB_APP_URL_HERE";
+  var SESSION_GAP_MINUTES = 30;
+  var HEARTBEAT_SECONDS = 60;
+
+  // ===== TIMEZONE GATE =====
+  // فقط ایران: اگر ساعت لپ‌تاپ روی ایران باشد، بازدید کوین حساب نمی‌شود.
+  var IRAN_OFFSET_MINUTES = 210;           // UTC+03:30 — تنها کشوری که این آفست را دارد
+  var IRAN_ZONE_IDS = ["Asia/Tehran", "Iran"];
+
+  var uid = new URLSearchParams(location.search).get("uid") || localStorage.getItem("impedyme_uid");
+  if (!uid) return;
+  localStorage.setItem("impedyme_uid", uid);
+
+  var now = Date.now();
+  var lastSeen = Number(localStorage.getItem("impedyme_last_seen") || 0);
+  var visitId = localStorage.getItem("impedyme_visit_id");
+  if (!visitId || now - lastSeen > SESSION_GAP_MINUTES * 60 * 1000) {
+    visitId = uid + "-" + now;
+    localStorage.setItem("impedyme_visit_id", visitId);
+  }
+
+  var cameFrom = "direct";
+  try {
+    if (document.referrer) {
+      var refHost = new URL(document.referrer).hostname.replace(/^www\./, "");
+      cameFrom = refHost === location.hostname.replace(/^www\./, "") ? "" : refHost;
+    }
+  } catch (err) { cameFrom = ""; }
+
+  var geo = {};
+  try { geo = JSON.parse(sessionStorage.getItem("impedyme_geo") || "{}"); } catch (err) {}
+
+  // ===== خواندن ساعت دستگاه =====
+  var deviceZone = "";
+  try { deviceZone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (err) {}
+  // getTimezoneOffset مثبت است وقتی غرب UTC هستیم، پس علامت را برعکس می‌کنیم
+  var deviceOffset = -new Date().getTimezoneOffset();
+
+  function isIranClock() {
+    if (IRAN_ZONE_IDS.indexOf(deviceZone) !== -1) return true;
+    // اگر کاربر منطقه زمانی نامعتبر داشته باشد، خود آفست ۳:۳۰ هم ایران است
+    return deviceOffset === IRAN_OFFSET_MINUTES;
+  }
+
+  function offsetLabel(minutes) {
+    var sign = minutes < 0 ? "-" : "+";
+    var abs = Math.abs(minutes);
+    var hh = String(Math.floor(abs / 60));
+    var mm = String(abs % 60);
+    while (hh.length < 2) hh = "0" + hh;
+    while (mm.length < 2) mm = "0" + mm;
+    return "UTC" + sign + hh + ":" + mm;
+  }
+
+  // نام شهر را از شناسه‌ی منطقه زمانی بیرون می‌کشد: "Europe/Rome" -> "Rome"
+  function cityOf(zoneId) {
+    if (!zoneId) return "";
+    var parts = String(zoneId).split("/");
+    return parts[parts.length - 1].replace(/_/g, " ");
+  }
+
+  // ===== پیام هشدار روی صفحه =====
+  function showWarning() {
+    if (document.getElementById("impedyme-tz-warning")) return;
+
+    var msg = "⚠️ ساعت لپ‌تاپ شما روی ایران است (" + offsetLabel(deviceOffset) + ").<br>" +
+              "این بازدید <b>کوین حساب نمی‌شود</b> تا وقتی منطقه زمانی را عوض کنید.";
+
+    // اگر IP کشور دیگری را نشان می‌دهد، دقیقاً بگو چه چیزی را انتخاب کند
+    if (geo.tzOffset !== undefined && geo.tzOffset !== null) {
+      var want = offsetLabel(geo.tzOffset);
+      var city = cityOf(geo.tzId);
+      msg += "<br><br>IP شما از <b>" + (geo.country || "کشور دیگری") + "</b> است که " +
+             want + " دارد.<br>" +
+             "در تنظیمات ساعت، شهری با اختلاف " + want + " انتخاب کنید" +
+             (city ? " — مثلاً <b>" + city + "</b>." : ".");
+    } else {
+      msg += "<br><br>منطقه زمانی را روی همان کشوری بگذارید که VPN شما روی آن است.";
+    }
+
+    msg += "<br><br><small>مسیر: Windows → Settings → Time &amp; language → Date &amp; time" +
+           "<br>گزینه «Set time zone automatically» را خاموش کنید.</small>";
+
+    var box = document.createElement("div");
+    box.id = "impedyme-tz-warning";
+    box.setAttribute("dir", "rtl");
+    box.style.cssText =
+      "position:fixed;left:0;right:0;bottom:0;z-index:2147483647;" +
+      "background:#b3261e;color:#fff;padding:16px 20px;" +
+      "font:14px/1.7 Tahoma,system-ui,sans-serif;text-align:center;" +
+      "box-shadow:0 -2px 12px rgba(0,0,0,.3)";
+    box.innerHTML =
+      '<div style="max-width:760px;margin:0 auto;position:relative">' + msg +
+      '<span id="impedyme-tz-close" style="position:absolute;top:-4px;left:0;' +
+      'cursor:pointer;font-size:20px;line-height:1;opacity:.8">&times;</span></div>';
+    document.body.appendChild(box);
+
+    var close = document.getElementById("impedyme-tz-close");
+    if (close) close.onclick = function () { box.style.display = "none"; };
+  }
+
+  function maybeWarn() {
+    if (!isIranClock()) return;
+    if (document.body) showWarning();
+    else document.addEventListener("DOMContentLoaded", showWarning);
+  }
+
+  function send(eventType) {
+    localStorage.setItem("impedyme_last_seen", String(Date.now()));
+    var payload = JSON.stringify({
+      uid: uid, visitId: visitId, type: eventType,
+      site: location.hostname, page: location.pathname,
+      referrer: eventType === "pageview" ? cameFrom : "",
+      ip: geo.ip || "Unknown",
+      city: geo.city || "Unknown",
+      country: geo.country || "Unknown",
+      ts: new Date().toISOString(), userAgent: navigator.userAgent,
+      // فیلدهای جدید منطقه زمانی
+      timezone: deviceZone || "Unknown",
+      tzOffset: deviceOffset,
+      ipTimezone: geo.tzId || "",
+      ipTzOffset: (geo.tzOffset === undefined ? null : geo.tzOffset),
+      iranClock: isIranClock()
+    });
+
+    // Use fetch with 'no-cors' mode as a fallback to try and bypass some basic filters
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(ENDPOINT, payload);
+    } else {
+      fetch(ENDPOINT, { method: "POST", body: payload, mode: 'no-cors', keepalive: true });
+    }
+  }
+
+  function start() {
+    maybeWarn();
+    send("pageview");
+    setInterval(function () {
+      if (document.visibilityState === "visible") send("heartbeat");
+    }, HEARTBEAT_SECONDS * 1000);
+  }
+
+  if (geo.ip) {
+    start();
+  } else {
+    var started = false;
+    // Increased fallback to 8 seconds because Iranian internet can be slow
+    var fallback = setTimeout(function () {
+      if (!started) { started = true; start(); }
+    }, 8000);
+
+    // Using ipwho.is which generally works better in Iran than ipapi.co
+    fetch("https://ipwho.is/")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var tz = d.timezone || {};
+        geo = {
+            ip: d.ip || "",
+            city: d.city || "",
+            country: d.country || "", // ipwho.is uses 'country', not 'country_name'
+            // ipwho.is منطقه زمانی IP را هم می‌دهد: offset بر حسب ثانیه است
+            tzId: tz.id || "",
+            tzOffset: (typeof tz.offset === "number" ? Math.round(tz.offset / 60) : null)
+        };
+        sessionStorage.setItem("impedyme_geo", JSON.stringify(geo));
+      })
+      .catch(function (e) { console.log("Geo error", e); })
+      .then(function () {
+        if (!started) { started = true; clearTimeout(fallback); start(); }
+      });
+  }
+})();
+</script>
