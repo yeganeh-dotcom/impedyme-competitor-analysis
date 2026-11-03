@@ -1,0 +1,432 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+
+    {
+      "@type": "Organization",
+      "@id": "https://impedyme.com/#organization",
+      "name": "Impedyme",
+      "legalName": "Impedyme Inc.",
+      "url": "https://impedyme.com/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Vienna",
+        "addressRegion": "VA",
+        "addressCountry": "US"
+      },
+      "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, motor emulators, grid emulators and real-time load emulators for power-electronics development and validation."
+    },
+
+    {
+      "@type": "WebSite",
+      "@id": "https://impedyme.com/#website",
+      "url": "https://impedyme.com/",
+      "name": "Impedyme",
+      "publisher": { "@id": "https://impedyme.com/#organization" }
+    },
+
+    {
+      "@type": "WebPage",
+      "@id": "https://impedyme.com/customers/flex-automotive#webpage",
+      "url": "https://impedyme.com/customers/flex-automotive",
+      "name": "Every Motor, Every Fault: Testing the Zone Controller — Flex Automotive Customer Success Story",
+      "description": "How Flex Automotive verifies its zone-controller portfolio against emulated brushed and brushless DC motors from 1 A to 30 A on Impedyme's CHP Series Motor Emulator: –45 % testing time, –40 % validation time, +50 % test coverage, +55 % system safety.",
+      "inLanguage": "en",
+      "isPartOf": { "@id": "https://impedyme.com/#website" },
+      "breadcrumb": { "@id": "https://impedyme.com/customers/flex-automotive#breadcrumb" },
+      "mainEntity": { "@id": "https://impedyme.com/customers/flex-automotive#article" },
+      "primaryImageOfPage": { "@id": "https://impedyme.com/customers/flex-automotive#image-success-story" },
+      "image": [
+        { "@id": "https://impedyme.com/customers/flex-automotive#image-success-story" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#image-header-desktop" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#image-header-mobile" }
+      ],
+      "about": [
+        { "@id": "https://flex.com/#flex-automotive" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#motor-emulator-testbench" }
+      ],
+      "mentions": { "@id": "https://impedyme.com/customers/flex-automotive#customers-and-partners" }
+    },
+
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://impedyme.com/customers/flex-automotive#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://impedyme.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Customers and Partners", "item": "https://impedyme.com/customers" },
+        { "@type": "ListItem", "position": 3, "name": "Flex Automotive", "item": "https://impedyme.com/customers/flex-automotive" }
+      ]
+    },
+
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/customers/flex-automotive#customers-and-partners",
+      "name": "Customers and Partners",
+      "description": "Impedyme customers and partners featured in this customer success story.",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Flex Automotive",
+          "item": { "@id": "https://flex.com/#flex-automotive" }
+        }
+      ]
+    },
+
+    {
+      "@type": "Organization",
+      "@id": "https://flex.com/#organization",
+      "name": "Flex",
+      "url": "https://flex.com/",
+      "description": "One of the world's leading manufacturing and technology partners."
+    },
+
+    {
+      "@type": "Organization",
+      "@id": "https://flex.com/#flex-automotive",
+      "name": "Flex Automotive",
+      "legalName": "Flex Automotive GmbH",
+      "parentOrganization": { "@id": "https://flex.com/#organization" },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Filderstadt",
+        "addressCountry": "DE"
+      },
+      "description": "Flex Automotive GmbH develops modular zone-controller platforms for software-defined vehicles: eFuses, high- and low-side switches, motor and actuator drivers, and in-vehicle networking in configurable, pre-validated building blocks.",
+      "knowsAbout": [
+        "Automotive zone controllers",
+        "Software-defined vehicles",
+        "eFuses",
+        "Motor and actuator drivers",
+        "In-vehicle networking"
+      ],
+      "employee": { "@id": "https://impedyme.com/customers/flex-automotive#ronald-de-jong" },
+      "owns": { "@id": "https://impedyme.com/customers/flex-automotive#motor-emulator-testbench" },
+      "makesOffer": {
+        "@type": "Offer",
+        "itemOffered": { "@id": "https://impedyme.com/customers/flex-automotive#flex-zone-controller-portfolio" }
+      }
+    },
+
+    {
+      "@type": "Product",
+      "@id": "https://impedyme.com/customers/flex-automotive#flex-zone-controller-portfolio",
+      "name": "Flex Automotive zone-controller portfolio",
+      "manufacturer": { "@id": "https://flex.com/#flex-automotive" },
+      "category": "Automotive zone controller",
+      "description": "Modular zone-controller platform for software-defined vehicles whose motor outputs operate a range of low-current brushed and brushless DC motor loads from approximately 1 A to 30 A."
+    },
+
+    {
+      "@type": "Person",
+      "@id": "https://impedyme.com/customers/flex-automotive#ronald-de-jong",
+      "name": "Ronald de Jong",
+      "jobTitle": "Manager, Electrification and System Engineering",
+      "worksFor": { "@id": "https://flex.com/#flex-automotive" },
+      "workLocation": {
+        "@type": "Place",
+        "address": { "@type": "PostalAddress", "addressLocality": "Filderstadt", "addressCountry": "DE" }
+      },
+      "description": "Ronald de Jong is Manager, Electrification and System Engineering at Flex Automotive GmbH in Filderstadt, Germany, where his team is responsible for design verification of the new automotive zone-controller portfolio — including the brushed and brushless motor outputs verified on the Impedyme Motor Emulator.",
+      "knowsAbout": ["Electrification", "System engineering", "Automotive zone controllers", "Design verification", "Motor emulation"]
+    },
+
+    {
+      "@type": "Product",
+      "@id": "https://impedyme.com/customers/flex-automotive#motor-emulator-testbench",
+      "name": "Impedyme CHP Series Motor Emulator Testbench",
+      "brand": { "@type": "Brand", "name": "Impedyme" },
+      "manufacturer": { "@id": "https://impedyme.com/#organization" },
+      "category": "Real-time Power HIL motor emulator",
+      "description": "A Motor Emulator Testbench built on the CHP Series in a 19-inch, 42U liquid-cooled cabinet, sized for zone-controller motor outputs from 1 A to 30 A. Programmable real-time brushed and brushless DC motor models run on the module's FPGA (AMD/Xilinx Zynq UltraScale+, quad-core Arm + 600K logic cells under IMPEDYME-RT) behind a bidirectional, four-quadrant electrical interface.",
+      "image": { "@id": "https://impedyme.com/customers/flex-automotive#image-success-story" },
+      "isRelatedTo": [
+        { "@id": "https://impedyme.com/customers/flex-automotive#sw-motorsim-studio" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#sw-powerhil-studio" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#sw-impedyme-rt" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#sw-fpga-scope" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#sw-mlx" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#fault-inject-unit" }
+      ],
+      "additionalProperty": [
+        { "@type": "PropertyValue", "name": "Motor emulation current range", "minValue": 1, "maxValue": 30, "unitText": "A", "description": "Low-current motor emulation, swept in software" },
+        { "@type": "PropertyValue", "name": "Motor models", "value": "Brushed and brushless DC motors on one platform" },
+        { "@type": "PropertyValue", "name": "Model parameters", "value": "Winding resistance and inductance, back EMF, inertia, friction, mechanical loading, speed and torque profiles" },
+        { "@type": "PropertyValue", "name": "Dynamic cases", "value": "Startup, acceleration, steady operation, reversal, braking, regeneration, stall, current limiting, open load" },
+        { "@type": "PropertyValue", "name": "Cabinet", "value": "19-inch, 42U, liquid-cooled" },
+        { "@type": "PropertyValue", "name": "Processor per module", "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA" },
+        { "@type": "PropertyValue", "name": "FPGA update rate", "value": 200, "unitText": "ns", "description": "Real-time motor models" },
+        { "@type": "PropertyValue", "name": "Synchronization links", "value": "4 × SFP+ per module, up to 12.5 Gbps", "description": "Daisy-chain control and measurement for parallel and multiphase operation" },
+        { "@type": "PropertyValue", "name": "Analog inputs per module", "value": 8, "description": "Up to 2.5 MS/s" },
+        { "@type": "PropertyValue", "name": "Module power rating", "minValue": 5, "maxValue": 50, "unitText": "kW", "description": "Scalable to 5 MW" },
+        { "@type": "PropertyValue", "name": "Optional environmental chamber", "value": "1000 L, 0–80 °C, 15–95 % RH" },
+        { "@type": "PropertyValue", "name": "Protection", "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, soft start/stop" }
+      ]
+    },
+
+    {
+      "@type": "Product",
+      "@id": "https://impedyme.com/customers/flex-automotive#fault-inject-unit",
+      "name": "Impedyme Fault Inject Unit",
+      "brand": { "@type": "Brand", "name": "Impedyme" },
+      "manufacturer": { "@id": "https://impedyme.com/#organization" },
+      "description": "Accessed over Ethernet and controlled from PowerHIL Studio, the Fault Inject Unit applies short-circuit cases (DC link, phase-to-phase, phase-to-ground, and sensor lines) and open-circuit cases on demand."
+    },
+
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/flex-automotive#sw-motorsim-studio",
+      "name": "MotorSim Studio",
+      "applicationCategory": "Motor emulation software",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Motor-emulation control: brushed and brushless DC motor models on the FPGA; winding R and L, back EMF, inertia, friction, and mechanical-load profiles; parameter variation and LUT management."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/flex-automotive#sw-powerhil-studio",
+      "name": "PowerHIL Studio",
+      "applicationCategory": "Power HIL testbench operation software",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Testbench operation: cabinet-level control, signal routing, safety monitoring, automated regression sequencing, failure emulation, and Fault Inject Unit control."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/flex-automotive#sw-impedyme-rt",
+      "name": "IMPEDYME-RT",
+      "applicationCategory": "Real-time operating system",
+      "operatingSystem": "Linux with proprietary real-time kernel",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update); real-time monitoring, control, and parameter tuning from MATLAB."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/flex-automotive#sw-fpga-scope",
+      "name": "FPGA Scope",
+      "applicationCategory": "Real-time data acquisition",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Real-time FPGA-based capture of voltage, current, speed, position, and status with trigger-based precision — waveform evidence for every startup, stall, and fault case."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/flex-automotive#sw-mlx",
+      "name": "MLX",
+      "applicationCategory": "Post-processing and analytics software",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Post-processing and analytics of streamed data in MATLAB — operating-point sweeps, efficiency and response metrics, pass/fail overlays, and automated test reports."
+    },
+
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/customers/flex-automotive#image-success-story",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/flex-success-story-scaled.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/flex-success-story-scaled.webp",
+      "encodingFormat": "image/webp",
+      "name": "Flex Automotive customer success story — Every Motor, Every Fault: Testing the Zone Controller",
+      "caption": "Impedyme customer success story: Flex Automotive verifies its zone controllers against emulated brushed and brushless DC motors from 1 A to 30 A on Impedyme's CHP Series Motor Emulator — –45 % testing time, –40 % validation time, +50 % test coverage, +55 % system safety.",
+      "creator": { "@id": "https://impedyme.com/#organization" },
+      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/customers/flex-automotive#image-header-desktop",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/flex-header-desktop.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/flex-header-desktop.webp",
+      "encodingFormat": "image/webp",
+      "name": "Flex Automotive success story header (desktop)",
+      "caption": "Impedyme CHP Series Motor Emulator cabinets alongside a vehicle with its zone-controller architecture highlighted.",
+      "creator": { "@id": "https://impedyme.com/#organization" }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/customers/flex-automotive#image-header-mobile",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/flex-header-mobile-scaled.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/flex-header-mobile-scaled.webp",
+      "encodingFormat": "image/webp",
+      "name": "Flex Automotive success story header (mobile)",
+      "caption": "Impedyme CHP Series Motor Emulator cabinets alongside a vehicle with its zone-controller architecture highlighted.",
+      "creator": { "@id": "https://impedyme.com/#organization" }
+    },
+
+    {
+      "@type": "TechArticle",
+      "@id": "https://impedyme.com/customers/flex-automotive#article",
+      "headline": "Every Motor, Every Fault: Testing the Zone Controller",
+      "alternativeHeadline": "How Flex Automotive verifies its zone-controller portfolio against emulated brushed and brushless DC motors from 1 A to 30 A on Impedyme's Motor Emulator",
+      "description": "See how Flex Automotive verifies the motor outputs of its new automotive zone-controller portfolio on Impedyme's CHP Series Motor Emulator — with brushed and brushless DC motors emulated from approximately 1 A to 30 A and faults injected on demand. Learn how software-defined motor models replace the collection of physical motors, harnesses, and mechanical fixtures a zone-controller portfolio would otherwise need — and turn startup, stall, regeneration, and fault cases into repeatable, automated regression tests.",
+      "genre": "Customer success story",
+      "articleSection": ["The Challenge", "The Solution", "In Practice", "Architecture", "The Result", "At a Glance", "The Added Value", "Why It Works"],
+      "inLanguage": "en",
+      "datePublished": "2026-11-03",
+      "dateModified": "2026-11-03",
+      "image": [
+        { "@id": "https://impedyme.com/customers/flex-automotive#image-success-story" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#image-header-desktop" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#image-header-mobile" }
+      ],
+      "author": { "@id": "https://impedyme.com/#organization" },
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "mainEntityOfPage": { "@id": "https://impedyme.com/customers/flex-automotive#webpage" },
+      "about": [
+        { "@id": "https://flex.com/#flex-automotive" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#motor-emulator-testbench" },
+        { "@type": "Thing", "name": "Motor emulation" },
+        { "@type": "Thing", "name": "Automotive zone-controller verification" },
+        { "@type": "Thing", "name": "Brushed and brushless DC motors" },
+        { "@type": "Thing", "name": "Power Hardware-in-the-Loop (PHIL)" },
+        { "@type": "Thing", "name": "Fault injection" }
+      ],
+      "mentions": [
+        { "@id": "https://flex.com/#flex-automotive" },
+        { "@id": "https://flex.com/#organization" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#flex-zone-controller-portfolio" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#ronald-de-jong" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#fault-inject-unit" },
+        { "@id": "https://impedyme.com/customers/flex-automotive#customers-and-partners" },
+        { "@type": "SoftwareApplication", "name": "MATLAB/Simulink", "publisher": { "@type": "Organization", "name": "MathWorks" } },
+        { "@type": "Organization", "name": "AMD/Xilinx" }
+      ],
+      "keywords": "Flex Automotive, Flex, Impedyme, motor emulator, CHP Series, Power HIL, zone controller, software-defined vehicle, brushed DC motor, brushless DC motor, BLDC, 1 A to 30 A, startup, stall, back EMF, regeneration, fault injection, eFuse, automated regression testing, MATLAB/Simulink",
+      "hasPart": [
+        {
+          "@type": "ItemList",
+          "@id": "https://impedyme.com/customers/flex-automotive#headline-impact",
+          "name": "Headline impact",
+          "description": "Impact reported and approved by Flex Automotive.",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Testing time", "value": -45, "unitText": "%" } },
+            { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Validation time", "value": -40, "unitText": "%" } },
+            { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Test coverage", "value": 50, "unitText": "%" } },
+            { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "System safety", "value": 55, "unitText": "%" } }
+          ]
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/flex-automotive#the-challenge",
+          "name": "The Challenge — One controller family, many motors",
+          "text": "Flex is one of the world's leading manufacturing and technology partners, and its automotive business — Flex Automotive GmbH in Filderstadt, Germany — develops modular zone-controller platforms for software-defined vehicles: eFuses, high- and low-side switches, motor and actuator drivers, and in-vehicle networking in configurable, pre-validated building blocks. In Flex's own words, the new zone-controller portfolio must operate a range of low-current brushed and brushless DC motor loads. Conventional verification depends on physical motors, wiring harnesses, and mechanical fixtures that vary from one motor type to another — which makes it difficult to reproduce current profiles, startup behavior, stall conditions, back EMF, regeneration, and fault cases consistently across controller variants and software releases. Flex needed one reusable verification environment for every motor output and product configuration — programmable motor behavior across the full 1 A to 30 A range, synchronized with automated test sequences."
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/flex-automotive#the-solution",
+          "name": "The Solution — An emulated motor for every output",
+          "text": "Impedyme configured a Motor Emulator Testbench built on the CHP Series in a 19-inch, 42U liquid-cooled cabinet, sized for the zone controller's 1 A to 30 A motor outputs. Programmable real-time motor models run directly on the module's FPGA — AMD/Xilinx Zynq UltraScale+, quad-core Arm + 600K logic cells under IMPEDYME-RT — behind a bidirectional, four-quadrant electrical interface, so each controller output drives what it sees as a real machine, at real current. In MotorSim Studio, engineers select brushed or brushless DC motor models and set winding resistance and inductance, back EMF, inertia, friction, and mechanical loading, along with speed and torque profiles and operating sequences. The same controlled motor behavior repeats identically across controller hardware, firmware, and calibration revisions. A Fault Inject Unit, accessed over Ethernet and controlled from PowerHIL Studio, applies short-circuit cases (DC link, phase-to-phase, phase-to-ground, and sensor lines) and open-circuit cases on demand. PowerHIL Studio sequences the campaigns and enforces safety limits; FPGA Scope captures synchronized voltage, current, speed, position, and status data; an optional environmental chamber (1000 L, 0–80 °C, 15–95 % RH) extends the same tests across temperature and humidity."
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/flex-automotive#in-practice",
+          "name": "In Practice — Startup to stall, reversal to regeneration",
+          "text": "A representative test connects a zone-controller motor output directly to the Impedyme Motor Emulator. The emulator reproduces the selected brushed or brushless motor — winding resistance and inductance, back EMF, inertia, friction, and mechanical loading — and engineers evaluate startup, acceleration, steady operation, reversal, braking, regeneration, stall response, current limiting, open-load behavior, and selected electrical faults under controlled and repeatable conditions. Because motor models are reusable and currents sweep across the full 1 A to 30 A range in software, the same automated regression sequence runs against every zone-controller variant — and again after every hardware or software change — with the controller's own eFuses and protection logic responding to each case."
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/flex-automotive#architecture",
+          "name": "Architecture — Testbed configuration",
+          "text": "Figure 1 — The Flex Automotive testbed: the CHP Series module emulates brushed and brushless DC motors on the zone controller's outputs from 1 A to 30 A, while the Fault Inject Unit and PowerHIL Studio script fault and regression campaigns captured in FPGA Scope. The platform is sized for growth: PowerHIL Studio configures additional CHP modules and channels, four SFP+ ports per module (up to 12.5 Gbps) daisy-chain control and measurement for parallel and multiphase operation, and eight standard analog inputs per module (up to 2.5 MS/s) bring external measurements into the loop — so the same architecture extends from one output to the full portfolio, with CHP modules offered from 5 kW to 50 kW, scalable to 5 MW."
+        },
+        {
+          "@type": "Table",
+          "@id": "https://impedyme.com/customers/flex-automotive#table-1",
+          "name": "Table 1 — The software suite delivered with the Flex Automotive testbench",
+          "about": [
+            { "@id": "https://impedyme.com/customers/flex-automotive#sw-motorsim-studio" },
+            { "@id": "https://impedyme.com/customers/flex-automotive#sw-powerhil-studio" },
+            { "@id": "https://impedyme.com/customers/flex-automotive#sw-impedyme-rt" },
+            { "@id": "https://impedyme.com/customers/flex-automotive#sw-fpga-scope" },
+            { "@id": "https://impedyme.com/customers/flex-automotive#sw-mlx" }
+          ],
+          "text": "MotorSim Studio: brushed and brushless DC motor models on the FPGA; winding R and L, back EMF, inertia, friction, and mechanical-load profiles; parameter variation and LUT management. PowerHIL Studio: cabinet-level control, signal routing, safety monitoring, automated regression sequencing, failure emulation, and Fault Inject Unit control. IMPEDYME-RT: Linux with proprietary real-time kernel running MATLAB/Simulink models on Arm + FPGA (200 ns). FPGA Scope: real-time capture of voltage, current, speed, position, and status. MLX: operating-point sweeps, efficiency and response metrics, pass/fail overlays, automated test reports."
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/flex-automotive#the-result",
+          "name": "The Result — A common verification workflow for the portfolio",
+          "text": "The emulator creates a common verification workflow for the zone-controller portfolio. Test engineers load reusable brushed or brushless motor models, sweep current and operating conditions from approximately 1 A to 30 A, automate regression sequences, and capture synchronized voltage, current, speed, position, and status data — reducing bench reconfiguration and improving consistency between development teams and product variants. The measured impact, as reported and approved by Flex Automotive: development time down 30 %, testing time down 45 %, validation time down 40 %, and testing costs down 30 %; engineering productivity up 40 %, test coverage up 50 %, system safety up 55 %, and confidence before hardware deployment up 50 %. Replacing repeated motor and fixture changes with software-defined configurations accelerates verification, and reusable automated tests apply to each variant and rerun after hardware or software changes. The platform enables repeatable startup, stall, rapid load-change, reversal, regenerative, current-limit, parameter-variation, and fault-oriented cases across the 1 A to 30 A range — conditions that are difficult to reproduce precisely and safely with a collection of physical brushed and brushless motors. For a platform built from pre-validated blocks, the testbench completes the story: every output proven the same way the platform is built — modular, repeatable, and by design."
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://impedyme.com/customers/flex-automotive#at-a-glance",
+          "name": "At a Glance — Key facts",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "1 A to 30 A — low-current motor emulation range" },
+            { "@type": "ListItem", "position": 2, "name": "Brushed + brushless — DC motor models on one platform" },
+            { "@type": "ListItem", "position": 3, "name": "Startup · stall · regen — repeatable dynamic cases" },
+            { "@type": "ListItem", "position": 4, "name": "Fault Inject Unit — short- and open-circuit on demand" },
+            { "@type": "ListItem", "position": 5, "name": "0–80 °C · 15–95 % RH — optional 1000 L chamber" },
+            { "@type": "ListItem", "position": 6, "name": "Zynq UltraScale+ — quad-core Arm + 600K-cell FPGA" },
+            { "@type": "ListItem", "position": 7, "name": "200 ns FPGA update rate — real-time motor models" },
+            { "@type": "ListItem", "position": 8, "name": "Module ratings to suit — 5 kW to 50 kW, scalable to 5 MW" }
+          ]
+        },
+        {
+          "@type": "Table",
+          "@id": "https://impedyme.com/customers/flex-automotive#table-2",
+          "name": "Table 2 — Impact reported by Flex Automotive compared with its previous workflow",
+          "description": "All quantified benefits reviewed and approved by Flex Automotive GmbH; external publication permission received.",
+          "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Reduced development time", "value": -30, "unitText": "%" } },
+              { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Reduced testing time", "value": -45, "unitText": "%" } },
+              { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Reduced validation time", "value": -40, "unitText": "%" } },
+              { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "Reduced testing costs", "value": -30, "unitText": "%" } },
+              { "@type": "ListItem", "position": 5, "item": { "@type": "PropertyValue", "name": "Improved engineering productivity", "value": 40, "unitText": "%" } },
+              { "@type": "ListItem", "position": 6, "item": { "@type": "PropertyValue", "name": "Improved test coverage", "value": 50, "unitText": "%" } },
+              { "@type": "ListItem", "position": 7, "item": { "@type": "PropertyValue", "name": "Improved system safety", "value": 55, "unitText": "%" } },
+              { "@type": "ListItem", "position": 8, "item": { "@type": "PropertyValue", "name": "Improved confidence before hardware deployment", "value": 50, "unitText": "%" } }
+            ]
+          }
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/flex-automotive#the-added-value",
+          "name": "The Added Value — A load bench that keeps up with a modular platform",
+          "text": "Flex chose Impedyme because its approach combines programmable real-time motor models with a bidirectional electrical interface sized for the required 1 A to 30 A range: one platform reproduces brushed and brushless motor behavior, changes motor and load parameters in software, and synchronizes measurements with automated test sequences — a reusable verification environment for multiple zone-controller outputs and product configurations. The capabilities Flex values most — the 1 A to 30 A operating range, brushed and brushless DC motor emulation, zone-controller verification, startup and stall testing, dynamic mechanical loads, back EMF and regeneration, motor parameter variation, automated regression testing, and protection and fault testing — are exactly what this testbench delivers. And every module is a fault-isolating unit with layered protection — over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, and soft start/stop — so a test that goes wrong stops the test, not the program."
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://impedyme.com/customers/flex-automotive#why-it-works",
+          "name": "Why It Works — The advantages",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Brushed and brushless DC motors emulated on one platform" },
+            { "@type": "ListItem", "position": 2, "name": "Full 1 A to 30 A range swept in software" },
+            { "@type": "ListItem", "position": 3, "name": "Startup, stall, reversal, braking, and regeneration — repeatable" },
+            { "@type": "ListItem", "position": 4, "name": "Motor variants as parameter sets, not physical motors and fixtures" },
+            { "@type": "ListItem", "position": 5, "name": "Fault Inject Unit: scripted short- and open-circuit cases" },
+            { "@type": "ListItem", "position": 6, "name": "Automated regression reused across every variant and release" },
+            { "@type": "ListItem", "position": 7, "name": "Native MATLAB/Simulink workflow — no third-party HIL simulator" },
+            { "@type": "ListItem", "position": 8, "name": "Comprehensive protection: OV/OC/OP/OT, short-circuit, desaturation" }
+          ]
+        },
+        {
+          "@type": "Table",
+          "@id": "https://impedyme.com/customers/flex-automotive#table-3",
+          "name": "Table 3 — What the Motor Emulator testbench replaces on Flex's verification bench",
+          "text": "Motor loads: conventional — one physical motor and fixture per motor type; Impedyme — brushed and brushless DC motors emulated on FPGA, variants as parameter sets. Current range: conventional — different motors to cover 1 A to 30 A; Impedyme — one emulator swept across the full range in software. Dynamic cases: conventional — hard to reproduce startup, stall, regeneration; Impedyme — scripted startup, stall, reversal, braking, and regenerative cases. Fault coverage: conventional — risky, manual, often destructive; Impedyme — Fault Inject Unit with scripted short-circuit, open-circuit, and sensor-line cases. Regression: conventional — bench rebuilt per variant and release; Impedyme — automated sequences rerun after every hardware or software change. Environmental testing: conventional — separate rig in the chamber; Impedyme — same testbench with the optional 0–80 °C / 15–95 % RH chamber."
+        },
+        {
+          "@type": "Quotation",
+          "@id": "https://impedyme.com/customers/flex-automotive#quote-1",
+          "text": "Impedyme's low-current Motor Emulator approach provides a flexible way to verify our automotive zone controllers against both brushed and brushless motor loads. The software-defined platform can improve repeatability and reduce the mechanical and wiring changes normally required between test cases.",
+          "creator": { "@id": "https://impedyme.com/customers/flex-automotive#ronald-de-jong" },
+          "about": { "@id": "https://impedyme.com/customers/flex-automotive#motor-emulator-testbench" }
+        },
+        {
+          "@type": "Quotation",
+          "@id": "https://impedyme.com/customers/flex-automotive#quote-2",
+          "text": "The greatest value is flexibility at low current. Engineers can select the motor type, electrical parameters, speed and torque profile, load condition, and operating sequence without replacing a physical motor or mechanical fixture.",
+          "creator": { "@id": "https://impedyme.com/customers/flex-automotive#ronald-de-jong" },
+          "about": { "@id": "https://impedyme.com/customers/flex-automotive#motor-emulator-testbench" }
+        },
+        {
+          "@type": "Quotation",
+          "@id": "https://impedyme.com/customers/flex-automotive#quote-3",
+          "text": "Automotive electronics teams developing zone controllers should consider Impedyme when one product portfolio must be verified against many motor types and operating conditions. A configurable motor emulator can consolidate multiple physical benches into a repeatable, automatable validation workflow.",
+          "creator": { "@id": "https://impedyme.com/customers/flex-automotive#ronald-de-jong" },
+          "about": { "@id": "https://impedyme.com/customers/flex-automotive#motor-emulator-testbench" }
+        }
+      ]
+    }
+  ]
+}
+</script>
