@@ -1,0 +1,406 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+
+    {
+      "@type": "Organization",
+      "@id": "https://impedyme.com/#organization",
+      "name": "Impedyme",
+      "legalName": "Impedyme Inc.",
+      "url": "https://impedyme.com/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Vienna",
+        "addressRegion": "VA",
+        "addressCountry": "US"
+      },
+      "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, grid emulators, regenerative load banks and motor emulators for power-electronics development and validation."
+    },
+
+    {
+      "@type": "WebSite",
+      "@id": "https://impedyme.com/#website",
+      "url": "https://impedyme.com/",
+      "name": "Impedyme",
+      "publisher": { "@id": "https://impedyme.com/#organization" }
+    },
+
+    {
+      "@type": "WebPage",
+      "@id": "https://impedyme.com/customers/duke-energy#webpage",
+      "url": "https://impedyme.com/customers/duke-energy",
+      "name": "The Grid on Demand: Source, Load, and Everything Between — Duke Energy Customer Success Story",
+      "description": "How Duke Energy validates grid-connected equipment with an Impedyme Grid Emulator and bidirectional regenerative Load Bank, integrated into one laboratory system: –45 % testing time, –40 % validation time, +55 % test coverage, +55 % system safety.",
+      "inLanguage": "en",
+      "isPartOf": { "@id": "https://impedyme.com/#website" },
+      "breadcrumb": { "@id": "https://impedyme.com/customers/duke-energy#breadcrumb" },
+      "mainEntity": { "@id": "https://impedyme.com/customers/duke-energy#article" },
+      "primaryImageOfPage": { "@id": "https://impedyme.com/customers/duke-energy#image-success-story" },
+      "image": [
+        { "@id": "https://impedyme.com/customers/duke-energy#image-success-story" },
+        { "@id": "https://impedyme.com/customers/duke-energy#image-header-desktop" },
+        { "@id": "https://impedyme.com/customers/duke-energy#image-header-mobile" }
+      ],
+      "about": [
+        { "@id": "https://www.duke-energy.com/#organization" },
+        { "@id": "https://impedyme.com/customers/duke-energy#grid-emulator-load-bank" }
+      ],
+      "mentions": { "@id": "https://impedyme.com/customers/duke-energy#customers-and-partners" }
+    },
+
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://impedyme.com/customers/duke-energy#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://impedyme.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Customers and Partners", "item": "https://impedyme.com/customers" },
+        { "@type": "ListItem", "position": 3, "name": "Duke Energy", "item": "https://impedyme.com/customers/duke-energy" }
+      ]
+    },
+
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/customers/duke-energy#customers-and-partners",
+      "name": "Customers and Partners",
+      "description": "Impedyme customers and partners featured in this customer success story.",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Duke Energy",
+          "item": { "@id": "https://www.duke-energy.com/#organization" }
+        }
+      ]
+    },
+
+    {
+      "@type": "Organization",
+      "@id": "https://www.duke-energy.com/#organization",
+      "name": "Duke Energy",
+      "url": "https://www.duke-energy.com/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Charlotte",
+        "addressRegion": "NC",
+        "addressCountry": "US"
+      },
+      "areaServed": ["The Carolinas", "Florida", "The Midwest"],
+      "description": "Duke Energy, headquartered in Charlotte, North Carolina, is one of the largest energy holding companies in the United States, delivering electricity to millions of customers across the Carolinas, Florida, and the Midwest.",
+      "knowsAbout": [
+        "Electric utility",
+        "Energy infrastructure",
+        "Inverter-based resources",
+        "Energy storage",
+        "Grid-connected equipment validation"
+      ],
+      "employee": { "@id": "https://impedyme.com/customers/duke-energy#chris-seeley" },
+      "owns": { "@id": "https://impedyme.com/customers/duke-energy#grid-emulator-load-bank" }
+    },
+
+    {
+      "@type": "Person",
+      "@id": "https://impedyme.com/customers/duke-energy#chris-seeley",
+      "name": "Chris Seeley",
+      "jobTitle": "Sr. Tech Specialist",
+      "worksFor": { "@id": "https://www.duke-energy.com/#organization" },
+      "description": "Chris Seeley is a Senior Technical Specialist at Duke Energy, where he validates grid-connected equipment, inverters, and power-conversion systems — including the source, load, and interfacing work carried out on the Impedyme Grid Emulator and regenerative Load Bank.",
+      "knowsAbout": ["Grid-connected equipment", "Inverters", "Power-conversion systems", "Grid emulation", "Regenerative load testing"]
+    },
+
+    {
+      "@type": "Product",
+      "@id": "https://impedyme.com/customers/duke-energy#grid-emulator-load-bank",
+      "name": "Impedyme CHP Series Grid Emulator and Bidirectional Regenerative Load Bank",
+      "brand": { "@type": "Brand", "name": "Impedyme" },
+      "manufacturer": { "@id": "https://impedyme.com/#organization" },
+      "category": "Four-quadrant grid emulator and regenerative load bank / Power HIL testbench",
+      "description": "A coordinated Grid Emulator and bidirectional regenerative Load Bank built on the CHP Series in 19-inch, 42U liquid-cooled cabinets. Every CHP module is a regenerative, four-quadrant, bidirectional power stage with its own AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT, executing MATLAB/Simulink models directly on the Arm cores and FPGA with a 200 ns FPGA update rate.",
+      "image": { "@id": "https://impedyme.com/customers/duke-energy#image-success-story" },
+      "isRelatedTo": [
+        { "@id": "https://impedyme.com/customers/duke-energy#sw-gridsim-studio" },
+        { "@id": "https://impedyme.com/customers/duke-energy#sw-powerhil-studio" },
+        { "@id": "https://impedyme.com/customers/duke-energy#sw-impedyme-rt" },
+        { "@id": "https://impedyme.com/customers/duke-energy#sw-fpga-scope" },
+        { "@id": "https://impedyme.com/customers/duke-energy#sw-mlx" },
+        { "@id": "https://impedyme.com/customers/duke-energy#integration-interfacing" }
+      ],
+      "additionalProperty": [
+        { "@type": "PropertyValue", "name": "Grid emulation", "value": "Four-quadrant", "description": "Voltage and frequency profiles, unbalance, harmonics, FPGA-emulated RLC grid impedance" },
+        { "@type": "PropertyValue", "name": "Load bank", "value": "Bidirectional, regenerative — source and sink at commanded operating points" },
+        { "@type": "PropertyValue", "name": "Integrated interfacing", "value": "Analog and digital I/O, communications, E-stop and interlock circuits, measurement scaling, control sequences, data capture" },
+        { "@type": "PropertyValue", "name": "System efficiency", "value": "94 %+", "description": "Energy returned, not dissipated; facility supplies only losses" },
+        { "@type": "PropertyValue", "name": "Cabinet", "value": "19-inch, 42U, liquid-cooled" },
+        { "@type": "PropertyValue", "name": "Processor per module", "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K FPGA logic cells" },
+        { "@type": "PropertyValue", "name": "FPGA update rate", "value": 200, "unitText": "ns", "description": "Real-time models on FPGA" },
+        { "@type": "PropertyValue", "name": "Synchronization links", "value": "4 × SFP+ up to 12.5 Gbps", "description": "Daisy-chain sync, parallel and multiphase operation" },
+        { "@type": "PropertyValue", "name": "Module power rating", "minValue": 5, "maxValue": 50, "unitText": "kW", "description": "Scalable to 5 MW in the same architecture and software" },
+        { "@type": "PropertyValue", "name": "Protection", "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, soft start/stop" }
+      ]
+    },
+
+    {
+      "@type": "Service",
+      "@id": "https://impedyme.com/customers/duke-energy#integration-interfacing",
+      "name": "Impedyme Integration & Interfacing",
+      "provider": { "@id": "https://impedyme.com/#organization" },
+      "serviceType": "Test-laboratory integration and interfacing",
+      "description": "Analog and digital I/O, communications, E-stop and interlock circuits, measurement scaling, and control sequences engineered by Impedyme to connect the DUT, laboratory controls, and facility power infrastructure."
+    },
+
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/duke-energy#sw-gridsim-studio",
+      "name": "GridSim Studio",
+      "applicationCategory": "Grid emulation software",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Grid-parameter and profile management; V/I source modes in AC and DC; voltage and frequency profiles; FPGA-emulated RLC grid impedance; harmonics per phase; unbalance, sag/swell, frequency, and phase disturbances; layered protection with fault logging."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/duke-energy#sw-powerhil-studio",
+      "name": "PowerHIL Studio",
+      "applicationCategory": "Power HIL test sequencing and control software",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Cabinet-level control and signal routing; per-module mode and reference selection; dynamic test sequencing; failure emulation; safety limits and device-level protections; launches MLX, Simulink, and FPGA Scope."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/duke-energy#sw-impedyme-rt",
+      "name": "IMPEDYME-RT",
+      "applicationCategory": "Real-time operating system",
+      "operatingSystem": "Linux with proprietary real-time kernel",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update); real-time monitoring, control, and parameter tuning from MATLAB."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/duke-energy#sw-fpga-scope",
+      "name": "FPGA Scope",
+      "applicationCategory": "On-module oscilloscope / data acquisition",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "On-module oscilloscope: waveform preview before enable, per-phase real-time monitoring, trigger-based capture, measurement table (max / min / pk-pk / gain / phase), and sync verification across modules."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://impedyme.com/customers/duke-energy#sw-mlx",
+      "name": "MLX",
+      "applicationCategory": "Post-processing and analytics software",
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "description": "Post-processing and analytics of streamed data in MATLAB — operating-point sweeps, efficiency and response metrics, pass/fail overlays, and automated test reports."
+    },
+
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/customers/duke-energy#image-success-story",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/duke-energy-success-story-scaled.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/duke-energy-success-story-scaled.webp",
+      "encodingFormat": "image/webp",
+      "name": "Duke Energy customer success story — The Grid on Demand: Source, Load, and Everything Between",
+      "caption": "Impedyme customer success story: Duke Energy validates grid-connected equipment with an Impedyme Grid Emulator and bidirectional regenerative Load Bank integrated into one laboratory system — –45 % testing time, –40 % validation time, +55 % test coverage, +55 % system safety.",
+      "creator": { "@id": "https://impedyme.com/#organization" },
+      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/customers/duke-energy#image-header-desktop",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/Duke-energy-header-desktop.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/Duke-energy-header-desktop.webp",
+      "encodingFormat": "image/webp",
+      "name": "Duke Energy success story header (desktop)",
+      "caption": "Impedyme CHP Series Grid Emulator and regenerative Load Bank cabinets in front of a high-voltage transmission tower.",
+      "creator": { "@id": "https://impedyme.com/#organization" }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/customers/duke-energy#image-header-mobile",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/Duke-energy-header-mobile.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/Duke-energy-header-mobile.webp",
+      "encodingFormat": "image/webp",
+      "name": "Duke Energy success story header (mobile)",
+      "caption": "Impedyme CHP Series Grid Emulator and regenerative Load Bank cabinets in front of a high-voltage transmission tower.",
+      "creator": { "@id": "https://impedyme.com/#organization" }
+    },
+
+    {
+      "@type": "TechArticle",
+      "@id": "https://impedyme.com/customers/duke-energy#article",
+      "headline": "The Grid on Demand: Source, Load, and Everything Between",
+      "alternativeHeadline": "How Duke Energy validates grid-connected equipment with an Impedyme Grid Emulator and bidirectional regenerative Load Bank — integrated into one laboratory system",
+      "description": "See how Duke Energy uses an Impedyme Grid Emulator and a bidirectional regenerative Load Bank to validate grid-connected inverters and power-conversion systems — with programmable grid conditions on one side of the device under test and controlled source-and-sink loading on the other. Learn how Impedyme's interfacing support brings the source, load, device under test, controls, communications, measurements, and safety interlocks together as one coordinated laboratory system — repeatable, regenerative, and automated.",
+      "genre": "Customer success story",
+      "articleSection": ["The Challenge", "The Solution", "In Practice", "Architecture", "The Result", "At a Glance", "The Added Value", "Why It Works"],
+      "inLanguage": "en",
+      "datePublished": "2026-11-03",
+      "dateModified": "2026-11-03",
+      "image": [
+        { "@id": "https://impedyme.com/customers/duke-energy#image-success-story" },
+        { "@id": "https://impedyme.com/customers/duke-energy#image-header-desktop" },
+        { "@id": "https://impedyme.com/customers/duke-energy#image-header-mobile" }
+      ],
+      "author": { "@id": "https://impedyme.com/#organization" },
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "mainEntityOfPage": { "@id": "https://impedyme.com/customers/duke-energy#webpage" },
+      "about": [
+        { "@id": "https://www.duke-energy.com/#organization" },
+        { "@id": "https://impedyme.com/customers/duke-energy#grid-emulator-load-bank" },
+        { "@type": "Thing", "name": "Grid emulation" },
+        { "@type": "Thing", "name": "Regenerative load bank" },
+        { "@type": "Thing", "name": "Grid-connected inverter validation" },
+        { "@type": "Thing", "name": "Power Hardware-in-the-Loop (PHIL)" },
+        { "@type": "Thing", "name": "Bidirectional power flow" }
+      ],
+      "mentions": [
+        { "@id": "https://www.duke-energy.com/#organization" },
+        { "@id": "https://impedyme.com/customers/duke-energy#chris-seeley" },
+        { "@id": "https://impedyme.com/customers/duke-energy#integration-interfacing" },
+        { "@id": "https://impedyme.com/customers/duke-energy#customers-and-partners" },
+        { "@type": "SoftwareApplication", "name": "MATLAB/Simulink", "publisher": { "@type": "Organization", "name": "MathWorks" } },
+        { "@type": "Organization", "name": "AMD/Xilinx" }
+      ],
+      "keywords": "Duke Energy, Impedyme, grid emulator, regenerative load bank, bidirectional load bank, CHP Series, Power HIL, four-quadrant grid emulation, grid-connected inverter testing, power-conversion systems, harmonics, grid impedance, phase unbalance, voltage and frequency disturbances, E-stop, interlocks, utility test laboratory, MATLAB/Simulink",
+      "hasPart": [
+        {
+          "@type": "ItemList",
+          "@id": "https://impedyme.com/customers/duke-energy#headline-impact",
+          "name": "Headline impact",
+          "description": "Impact reported and approved by Duke Energy.",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Testing time", "value": -45, "unitText": "%" } },
+            { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Validation time", "value": -40, "unitText": "%" } },
+            { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Test coverage", "value": 55, "unitText": "%" } },
+            { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "System safety", "value": 55, "unitText": "%" } }
+          ]
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/duke-energy#the-challenge",
+          "name": "The Challenge — More than a stable source and a resistor",
+          "text": "Duke Energy, headquartered in Charlotte, North Carolina, is one of the largest energy holding companies in the United States, delivering electricity to millions of customers across the Carolinas, Florida, and the Midwest. As inverter-based resources, storage, and power electronics spread across its system, the equipment connecting to the grid has to be proven under the conditions the grid will actually present. In Duke Energy's own words, validating grid-connected equipment requires more than a stable AC source or a conventional resistive load. The test system must reproduce normal grid conditions, voltage and frequency disturbances, unbalance, harmonics, impedance, and bidirectional power flow while safely absorbing or returning energy. Separate source, load, control, measurement, and protection systems create complex interfaces, fragmented data, and long setup cycles. Duke Energy needed programmable grid conditions and bidirectional loading as one coordinated system — with the electrical, controls, communications, measurement, and interlock integration to make it run safely and repeatably."
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/duke-energy#the-solution",
+          "name": "The Solution — Grid emulator and regenerative load, integrated as one lab",
+          "text": "Impedyme delivered a coordinated Grid Emulator and bidirectional regenerative Load Bank built on the CHP Series in 19-inch, 42U liquid-cooled cabinets. Every CHP module is a regenerative, four-quadrant, bidirectional power stage with its own AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT — a Linux OS with Impedyme's proprietary real-time kernel that executes MATLAB/Simulink models directly on the Arm cores and the FPGA with a 200 ns FPGA update rate. CHP modules are offered across a power range from 5 kW to 50 kW, scalable to 5 MW, so the same architecture sizes to the program. On the grid side, GridSim Studio configures the emulator as a four-quadrant programmable grid source: voltage and frequency profiles, phase unbalance and disturbances, harmonic injection, and an RLC grid impedance emulated inside the FPGA. On the opposite power interface of the device under test, the regenerative Load Bank sinks or sources power at commanded operating points — and returns energy through the test architecture instead of burning it as heat. Impedyme also delivered the integration: analog and digital I/O, communications, E-stop and interlock circuits, measurement scaling, control sequences, and data capture, interfaced to the DUT, the laboratory controls, and the facility power infrastructure. PowerHIL Studio sequences the tests and enforces the safety envelope; FPGA Scope captures every port synchronously; MLX returns the results to MATLAB for analysis and reporting."
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/duke-energy#in-practice",
+          "name": "In Practice — The complete power path, source to sink",
+          "text": "A representative test connects the Grid Emulator to the AC side of a grid-connected inverter or power-conversion system and the bidirectional Load Bank to the opposite power interface. Engineers vary voltage, frequency, phase balance, harmonics, and grid impedance while commanding source and sink operating points through the DUT. Impedyme's interfacing support coordinates the analog and digital I/O, communications, E-stop and interlock circuits, measurement scaling, control sequences, and data capture, so the complete system — source, DUT, load, controls, and safety — operates safely and repeatably, and regenerative power flow recirculates through the test architecture."
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/duke-energy#architecture",
+          "name": "Architecture — Testbed configuration",
+          "text": "Figure 1 — Duke Energy testbed: the Grid Emulator feeds the AC side of the device under test, the bidirectional Load Bank sources or sinks power on its opposite interface, and Impedyme's integration ties DUT, controls, measurements, and interlocks into one regenerative system. Because channels are software-assigned, source and load roles can be re-mapped without rewiring — combined in parallel as a higher-power grid emulator, or split into independent source and load groups for different programs. Adding modules — scalable to 5 MW in the same architecture — extends power without changing profiles, sequences, or the software suite, so the same laboratory system carries from component bring-up to system-level validation."
+        },
+        {
+          "@type": "Table",
+          "@id": "https://impedyme.com/customers/duke-energy#table-1",
+          "name": "Table 1 — Impedyme software and integration delivered with the Duke Energy testbench",
+          "about": [
+            { "@id": "https://impedyme.com/customers/duke-energy#sw-gridsim-studio" },
+            { "@id": "https://impedyme.com/customers/duke-energy#sw-powerhil-studio" },
+            { "@id": "https://impedyme.com/customers/duke-energy#sw-impedyme-rt" },
+            { "@id": "https://impedyme.com/customers/duke-energy#sw-fpga-scope" },
+            { "@id": "https://impedyme.com/customers/duke-energy#sw-mlx" },
+            { "@id": "https://impedyme.com/customers/duke-energy#integration-interfacing" }
+          ],
+          "text": "GridSim Studio: grid-parameter and profile management, voltage and frequency profiles, FPGA-emulated RLC grid impedance, harmonics, unbalance and disturbances, layered protection. PowerHIL Studio: cabinet-level control, signal routing, test sequencing, failure emulation, safety limits. IMPEDYME-RT: Linux with proprietary real-time kernel running MATLAB/Simulink models on Arm + FPGA (200 ns). FPGA Scope: on-module oscilloscope, trigger-based capture, synchronized measurement. MLX: operating-point sweeps, efficiency and response metrics, pass/fail overlays, automated test reports. Integration & interfacing: analog and digital I/O, communications, E-stop and interlock circuits, measurement scaling, and control sequences connecting the DUT, laboratory controls, and facility power infrastructure."
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/duke-energy#the-result",
+          "name": "The Result — One reusable workflow for grid-connected equipment",
+          "text": "The platform creates a reusable workflow for equipment bring-up, performance characterization, grid-disturbance testing, source and load sweeps, regenerative operation, and protection verification. Programmable profiles are automated and repeated across firmware, hardware, and control revisions, and integrated measurements and coordinated controls reduce manual setup and make results easy to compare across test campaigns. The measured impact, as reported and approved by Duke Energy: development time down 30 %, testing time down 45 %, validation time down 40 %, and testing costs down 35 %; engineering productivity up 40 %, test coverage up 55 %, system safety up 55 %, and confidence before hardware deployment up 50 %. The integrated source, load, automation, and interfacing architecture reduces custom bench engineering and lets approved test profiles be reused across devices and revisions. The platform also enabled testing that was previously difficult, expensive, or impossible: repeatable voltage and frequency disturbances, phase unbalance, harmonic injection, programmable grid impedance, bidirectional power flow, regenerative loading, rapid operating-point changes, and selected fault or protection cases — all difficult to reproduce with conventional utility feeds and passive load banks. The result is a laboratory where the grid is a profile, the load is a setpoint, and every test runs the same way twice."
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://impedyme.com/customers/duke-energy#at-a-glance",
+          "name": "At a Glance — Key metrics",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Four-quadrant grid emulation — V, f, unbalance, harmonics, impedance" },
+            { "@type": "ListItem", "position": 2, "name": "Regenerative load bank — bidirectional source and sink" },
+            { "@type": "ListItem", "position": 3, "name": "Integrated interfacing — I/O, comms, E-stop, interlocks" },
+            { "@type": "ListItem", "position": 4, "name": "94 %+ system efficiency — energy returned, not dissipated" },
+            { "@type": "ListItem", "position": 5, "name": "Zynq UltraScale+ per module — quad-core Arm + 600K FPGA logic cells" },
+            { "@type": "ListItem", "position": 6, "name": "200 ns FPGA update rate — real-time models on FPGA" },
+            { "@type": "ListItem", "position": 7, "name": "4 × SFP+ up to 12.5 Gbps — daisy-chain sync, parallel & multiphase" },
+            { "@type": "ListItem", "position": 8, "name": "Module ratings to suit — 5 kW to 50 kW, scalable to 5 MW; same architecture and software" }
+          ]
+        },
+        {
+          "@type": "Table",
+          "@id": "https://impedyme.com/customers/duke-energy#table-2",
+          "name": "Table 2 — Impact reported by Duke Energy compared with its previous workflow",
+          "description": "All quantified benefits reviewed and approved by Duke Energy; external publication permission received.",
+          "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Reduced development time", "value": -30, "unitText": "%" } },
+              { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Reduced testing time", "value": -45, "unitText": "%" } },
+              { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Reduced validation time", "value": -40, "unitText": "%" } },
+              { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "Reduced testing costs", "value": -35, "unitText": "%" } },
+              { "@type": "ListItem", "position": 5, "item": { "@type": "PropertyValue", "name": "Improved engineering productivity", "value": 40, "unitText": "%" } },
+              { "@type": "ListItem", "position": 6, "item": { "@type": "PropertyValue", "name": "Improved test coverage", "value": 55, "unitText": "%" } },
+              { "@type": "ListItem", "position": 7, "item": { "@type": "PropertyValue", "name": "Improved system safety", "value": 55, "unitText": "%" } },
+              { "@type": "ListItem", "position": 8, "item": { "@type": "PropertyValue", "name": "Improved confidence before hardware deployment", "value": 50, "unitText": "%" } }
+            ]
+          }
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://impedyme.com/customers/duke-energy#the-added-value",
+          "name": "The Added Value — A test platform, not a pile of instruments",
+          "text": "Duke Energy chose Impedyme for a coordinated Grid Emulator and bidirectional Load Bank architecture with regenerative operation and application-specific integration support: a programmable grid source that also absorbs power from the device under test and returns energy through the test architecture — with the electrical, controls, communications, measurement, interlock, and automation interfaces needed to make the equipment function as one laboratory system. The capabilities Duke Energy rates most valuable — four-quadrant grid emulation, the bidirectional regenerative load, voltage and frequency profiles, harmonics and grid impedance, phase unbalance and disturbances, source and sink operation, DUT and facility interfacing, controls and communications, safety interlocks and E-stop, and automation and data capture — are the system. And every module is a fault-isolating unit with layered protection — over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, and soft start/stop — so a test that goes wrong stops the test, not the program."
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://impedyme.com/customers/duke-energy#why-it-works",
+          "name": "Why It Works — The advantages",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Four-quadrant grid emulation — voltage, frequency, unbalance, harmonics, impedance" },
+            { "@type": "ListItem", "position": 2, "name": "Regenerative load bank: source and sink at commanded operating points" },
+            { "@type": "ListItem", "position": 3, "name": "DUT, controls, communications, and interlocks integrated by Impedyme" },
+            { "@type": "ListItem", "position": 4, "name": "Grid disturbances and protection cases as repeatable profiles" },
+            { "@type": "ListItem", "position": 5, "name": "Energy recirculated — 94 %+ efficiency, no passive load bank" },
+            { "@type": "ListItem", "position": 6, "name": "Automated sequences and synchronized data capture" },
+            { "@type": "ListItem", "position": 7, "name": "Native MATLAB/Simulink workflow — no third-party HIL simulator" },
+            { "@type": "ListItem", "position": 8, "name": "Comprehensive protection: OV/OC/OP/OT, short-circuit, desaturation" },
+            { "@type": "ListItem", "position": 9, "name": "Module power ratings to match the program — 5 kW to 50 kW, scalable to 5 MW — without redesign" }
+          ]
+        },
+        {
+          "@type": "Table",
+          "@id": "https://impedyme.com/customers/duke-energy#table-3",
+          "name": "Table 3 — What the Impedyme platform replaces in Duke Energy's test laboratory",
+          "text": "Grid source: conventional — utility feed or fixed AC source; Impedyme — four-quadrant Grid Emulator with programmable V, f, unbalance, harmonics, impedance. Load: conventional — passive resistive load bank (dissipative); Impedyme — bidirectional regenerative Load Bank, source and sink. Integration: conventional — separate source, load, controls, and protection systems; Impedyme — one coordinated system with I/O, comms, E-stop, interlocks integrated by Impedyme. Disturbance testing: conventional — hard to reproduce on a utility feed; Impedyme — voltage, frequency, unbalance, and harmonic profiles on demand. Energy handling: conventional — full test power drawn and dissipated; Impedyme — regenerative, facility supplies only losses. Data: conventional — fragmented measurements per instrument; Impedyme — synchronized capture in FPGA Scope, analysis in MLX."
+        },
+        {
+          "@type": "Quotation",
+          "@id": "https://impedyme.com/customers/duke-energy#quote-1",
+          "text": "Impedyme's Grid Emulator and bidirectional Load Bank provide a flexible, regenerative environment for validating grid-connected power equipment. Their interfacing support helps bring the source, load, DUT, controls, measurements, and safety systems together as one coordinated test platform.",
+          "creator": { "@id": "https://impedyme.com/customers/duke-energy#chris-seeley" },
+          "about": { "@id": "https://impedyme.com/customers/duke-energy#grid-emulator-load-bank" }
+        },
+        {
+          "@type": "Quotation",
+          "@id": "https://impedyme.com/customers/duke-energy#quote-2",
+          "text": "The greatest advantage is the combination of flexible grid emulation, controlled bidirectional loading, and hands-on interfacing support. Engineers can reproduce source and load conditions in software, coordinate regenerative power flow, and execute repeatable tests without rebuilding the bench for each device or program.",
+          "creator": { "@id": "https://impedyme.com/customers/duke-energy#chris-seeley" },
+          "about": { "@id": "https://impedyme.com/customers/duke-energy#grid-emulator-load-bank" }
+        },
+        {
+          "@type": "Quotation",
+          "@id": "https://impedyme.com/customers/duke-energy#quote-3",
+          "text": "Utilities and power-equipment laboratories should consider Impedyme when they need both programmable grid conditions and bidirectional loading, especially when successful deployment depends on detailed electrical and controls integration. The combined platform supports repeatable component and system-level validation while reducing wasted energy and bench complexity.",
+          "creator": { "@id": "https://impedyme.com/customers/duke-energy#chris-seeley" },
+          "about": { "@id": "https://impedyme.com/customers/duke-energy#grid-emulator-load-bank" }
+        }
+      ]
+    }
+  ]
+}
+</script>
