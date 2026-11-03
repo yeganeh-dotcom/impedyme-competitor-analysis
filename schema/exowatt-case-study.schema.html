@@ -1,13 +1,3 @@
-<!--
-  Schema.org JSON-LD for the Exowatt customer case study page.
-  Paste this <script> block into the <head> (or end of <body>) of the page.
-
-  BEFORE PUBLISHING, replace:
-    - PAGE_URL   https://impedyme.com/customers/exowatt   -> real page URL (search & replace)
-    - Image URLs (hero, figure-1, figure-2, logos)            -> real image URLs
-    - datePublished / dateModified                            -> real dates
-    - sameAs links (LinkedIn etc.)                            -> real profiles, or delete
--->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -17,13 +7,15 @@
       "@type": "Organization",
       "@id": "https://impedyme.com/#organization",
       "name": "Impedyme",
+      "legalName": "Impedyme Inc.",
       "url": "https://impedyme.com/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://impedyme.com/images/impedyme-logo.png"
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Vienna",
+        "addressRegion": "VA",
+        "addressCountry": "US"
       },
-      "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, grid emulators and real-time load emulators for power-electronics development and validation.",
-      "makesOffer": { "@id": "https://impedyme.com/customers/exowatt#chp-testbench" }
+      "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, grid emulators, regenerative load banks and motor emulators for power-electronics development and validation."
     },
 
     {
@@ -38,13 +30,19 @@
       "@type": "WebPage",
       "@id": "https://impedyme.com/customers/exowatt#webpage",
       "url": "https://impedyme.com/customers/exowatt",
-      "name": "Exowatt Case Study — Grid Emulation and Full-Power SST Testing with Impedyme CHP Series Power HIL",
-      "description": "How Exowatt uses Impedyme's CHP Series Power HIL testbench to emulate the utility grid and a real-time AC/DC load around its solid-state transformer, running IEEE 1547 / UL 1741 scenarios at full power: –40 % development time, –80 % testing time, –50 % validation time, +60 % engineering productivity.",
+      "name": "Bringing the Grid into the Lab: 800 V Full-Power SST Testing — Exowatt Customer Success Story",
+      "description": "How Exowatt validates grid-forming controls and solid-state transformers at the full 800 V DC-link operating point on Impedyme's Power HIL platform: –40 % development time, –80 % testing time, –50 % validation time, +60 % engineering productivity.",
       "inLanguage": "en",
       "isPartOf": { "@id": "https://impedyme.com/#website" },
       "breadcrumb": { "@id": "https://impedyme.com/customers/exowatt#breadcrumb" },
       "mainEntity": { "@id": "https://impedyme.com/customers/exowatt#article" },
-      "primaryImageOfPage": { "@id": "https://impedyme.com/customers/exowatt#figure-1" },
+      "primaryImageOfPage": { "@id": "https://impedyme.com/customers/exowatt#image-success-story" },
+      "image": [
+        { "@id": "https://impedyme.com/customers/exowatt#image-success-story" },
+        { "@id": "https://impedyme.com/customers/exowatt#image-header-desktop" },
+        { "@id": "https://impedyme.com/customers/exowatt#image-header-mobile" },
+        { "@id": "https://impedyme.com/customers/exowatt#figure-2" }
+      ],
       "about": [
         { "@id": "https://www.exowatt.com/#organization" },
         { "@id": "https://impedyme.com/customers/exowatt#chp-testbench" }
@@ -66,7 +64,7 @@
       "@type": "ItemList",
       "@id": "https://impedyme.com/customers/exowatt#customers-and-partners",
       "name": "Customers and Partners",
-      "description": "Impedyme customers and partners featured in this case study.",
+      "description": "Impedyme customers and partners featured in this customer success story.",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -134,6 +132,7 @@
       "manufacturer": { "@id": "https://impedyme.com/#organization" },
       "category": "Power Hardware-in-the-Loop (Power HIL) testbench / regenerative grid and load emulator",
       "description": "A Power HIL testbench built on CHP Series modules in a single 19-inch, 42U liquid-cooled cabinet. Each CHP module is a regenerative, four-quadrant, bidirectional power stage with its own AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT, executing MATLAB/Simulink models directly on the Arm cores and FPGA with a 200 ns FPGA update rate.",
+      "image": { "@id": "https://impedyme.com/customers/exowatt#figure-2" },
       "isRelatedTo": [
         { "@id": "https://impedyme.com/customers/exowatt#sw-gridsim-studio" },
         { "@id": "https://impedyme.com/customers/exowatt#sw-powerhil-studio" },
@@ -145,6 +144,7 @@
         { "@type": "PropertyValue", "name": "Cabinet", "value": "19-inch, 42U, integrated liquid cooling — no external chiller" },
         { "@type": "PropertyValue", "name": "Module power rating", "minValue": 5, "maxValue": 50, "unitText": "kW", "description": "Scalable to 5 MW in the same architecture and software" },
         { "@type": "PropertyValue", "name": "Maximum scalable system power", "value": 5, "unitText": "MW" },
+        { "@type": "PropertyValue", "name": "DC-link operating point tested", "value": 800, "unitText": "V" },
         { "@type": "PropertyValue", "name": "FPGA update rate", "value": 200, "unitText": "ns", "description": "Real-time grid and load models on FPGA" },
         { "@type": "PropertyValue", "name": "Processor per module", "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K FPGA logic cells" },
         { "@type": "PropertyValue", "name": "Synchronization links", "value": "4 × SFP+ up to 12.5 Gbps", "description": "Daisy-chain sync, parallel and multiphase operation" },
@@ -180,7 +180,7 @@
       "applicationCategory": "Real-time operating system",
       "operatingSystem": "Linux with proprietary real-time kernel",
       "publisher": { "@id": "https://impedyme.com/#organization" },
-      "description": "Linux with proprietary real-time kernel per module; runs Simulink SST-environment and load models on Arm + FPGA (200 ns FPGA update); real-time monitoring, control, and parameter tuning from MATLAB."
+      "description": "Linux with proprietary real-time kernel per module; runs Exowatt's Simulink SST-environment and load models on Arm + FPGA (200 ns FPGA update); real-time monitoring, control, and parameter tuning from MATLAB."
     },
     {
       "@type": "SoftwareApplication",
@@ -201,34 +201,61 @@
 
     {
       "@type": "ImageObject",
-      "@id": "https://impedyme.com/customers/exowatt#figure-1",
-      "contentUrl": "https://impedyme.com/images/exowatt-figure-1-sst-test-setup.png",
-      "url": "https://impedyme.com/images/exowatt-figure-1-sst-test-setup.png",
-      "name": "Figure 1 — Representative SST test setup",
-      "caption": "Representative SST test setup: CHP Series cabinets act as both source and load around the solid-state transformer under test — one emulating the utility grid feeding the SST, the other emulating a data-center load profile — so grid events and load behavior are reproduced at real power with the energy recirculated between them."
+      "@id": "https://impedyme.com/customers/exowatt#image-success-story",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/success-story-exowatt.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/success-story-exowatt.webp",
+      "encodingFormat": "image/webp",
+      "name": "Exowatt customer success story — Bringing the Grid into the Lab: 800 V Full-Power SST Testing",
+      "caption": "Impedyme customer success story: Exowatt validates grid-forming controls and solid-state transformers at the full 800 V DC-link operating point on Impedyme's Power HIL platform — –40 % development time, –80 % testing time, –50 % validation time, +60 % engineering productivity.",
+      "creator": { "@id": "https://impedyme.com/#organization" },
+      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/customers/exowatt#image-header-desktop",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/exowatt-header-desktop.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/exowatt-header-desktop.webp",
+      "encodingFormat": "image/webp",
+      "name": "Exowatt success story header (desktop)",
+      "caption": "Exowatt engineers on site beside Exowatt P3 thermal energy storage units.",
+      "creator": { "@id": "https://impedyme.com/#organization" }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/customers/exowatt#image-header-mobile",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/exowatt-header-mobile.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/exowatt-header-mobile.webp",
+      "encodingFormat": "image/webp",
+      "name": "Exowatt success story header (mobile)",
+      "caption": "Exowatt engineers on site beside Exowatt P3 thermal energy storage units.",
+      "creator": { "@id": "https://impedyme.com/#organization" }
     },
     {
       "@type": "ImageObject",
       "@id": "https://impedyme.com/customers/exowatt#figure-2",
-      "contentUrl": "https://impedyme.com/images/exowatt-figure-2-testbed-architecture.png",
-      "url": "https://impedyme.com/images/exowatt-figure-2-testbed-architecture.png",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2026/11/Exowatt-Power-HIL-testbed.webp",
+      "url": "https://impedyme.com/wp-content/uploads/2026/11/Exowatt-Power-HIL-testbed.webp",
+      "encodingFormat": "image/webp",
       "name": "Figure 2 — Exowatt Power HIL testbed",
-      "caption": "Exowatt Power HIL testbed: the source-side system emulates the grid, the SST under test sits on the busbar, and the load-side system runs the real-time AC/DC load model; power is recovered on the shared DC bus."
+      "caption": "Exowatt Power HIL testbed: the source-side system emulates the grid, the SST under test sits on the busbar, and the load-side system runs the real-time AC/DC load model; power is recovered on the shared DC bus.",
+      "creator": { "@id": "https://impedyme.com/#organization" }
     },
 
     {
       "@type": "TechArticle",
       "@id": "https://impedyme.com/customers/exowatt#article",
-      "headline": "Exowatt: Grid Emulation and Full-Power SST Testing with Impedyme CHP Series Power HIL",
-      "alternativeHeadline": "Grid emulation · IEEE 1547 / UL 1741 scenarios · regenerative full-power SST testing",
-      "description": "See how Exowatt uses Impedyme's CHP Series Power HIL testbench to emulate the utility grid on one channel group and a real-time AC/DC load on the other, with its solid-state transformer (SST) connected between them at full power — including operation at its 800 V DC-link operating point. Exowatt engineers run grid-compliance and fault scenarios on demand — without a utility interconnection, a dissipative load bank, or an external chiller — and validate control firmware in closed loop from MATLAB/Simulink before the hardware ever sees a real grid.",
-      "genre": "Customer case study",
+      "headline": "Bringing the Grid into the Lab: 800 V Full-Power SST Testing",
+      "alternativeHeadline": "How Exowatt validates grid-forming controls and solid-state transformers at the full 800 V DC-link operating point on Impedyme's Power HIL platform",
+      "description": "See how Exowatt uses Impedyme's CHP Series Power HIL testbench to emulate the utility grid on one channel group and a real-time AC/DC load on the other, with its solid-state transformer (SST) connected between them at full power — including operation at its 800 V DC-link operating point. Learn how this approach lets Exowatt engineers run grid-compliance and fault scenarios on demand — without a utility interconnection, a dissipative load bank, or an external chiller — and validate control firmware in closed loop from MATLAB/Simulink before the hardware ever sees a real grid.",
+      "genre": "Customer success story",
       "articleSection": ["The Challenge", "The Solution", "In Practice", "Architecture", "The Result", "At a Glance", "The Added Value", "Why It Works"],
       "inLanguage": "en",
-      "datePublished": "2026-11-02",
-      "dateModified": "2026-11-02",
+      "datePublished": "2026-11-03",
+      "dateModified": "2026-11-03",
       "image": [
-        { "@id": "https://impedyme.com/customers/exowatt#figure-1" },
+        { "@id": "https://impedyme.com/customers/exowatt#image-success-story" },
+        { "@id": "https://impedyme.com/customers/exowatt#image-header-desktop" },
+        { "@id": "https://impedyme.com/customers/exowatt#image-header-mobile" },
         { "@id": "https://impedyme.com/customers/exowatt#figure-2" }
       ],
       "author": { "@id": "https://impedyme.com/#organization" },
@@ -239,6 +266,7 @@
         { "@id": "https://impedyme.com/customers/exowatt#chp-testbench" },
         { "@type": "Thing", "name": "Solid-state transformer (SST) testing" },
         { "@type": "Thing", "name": "Grid emulation" },
+        { "@type": "Thing", "name": "Grid-forming inverter controls" },
         { "@type": "Thing", "name": "Power Hardware-in-the-Loop (PHIL)" },
         { "@type": "Thing", "name": "IEEE 1547" },
         { "@type": "Thing", "name": "UL 1741" }
@@ -251,13 +279,13 @@
         { "@type": "SoftwareApplication", "name": "MATLAB/Simulink", "publisher": { "@type": "Organization", "name": "MathWorks" } },
         { "@type": "Organization", "name": "AMD/Xilinx" }
       ],
-      "keywords": "Exowatt, Impedyme, CHP Series, Power HIL, PHIL, grid emulation, grid simulator, solid-state transformer, SST testing, IEEE 1547, UL 1741, ride-through, islanding, regenerative load, MATLAB/Simulink, AI data centers, thermal energy storage, 800 V DC link",
+      "keywords": "Exowatt, Impedyme, CHP Series, Power HIL, PHIL, grid emulation, grid simulator, solid-state transformer, SST testing, 800 V DC link, grid-forming controls, IEEE 1547, UL 1741, ride-through, islanding, regenerative load, MATLAB/Simulink, AI data centers, thermal energy storage",
       "hasPart": [
         {
           "@type": "ItemList",
           "@id": "https://impedyme.com/customers/exowatt#measured-impact",
           "name": "Measured impact",
-          "description": "As reported by Exowatt's engineering team.",
+          "description": "Impact reported by Exowatt's engineering team.",
           "itemListElement": [
             { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Development time", "value": -40, "unitText": "%" } },
             { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Testing time", "value": -80, "unitText": "%" } },
@@ -269,8 +297,7 @@
           "@type": "WebPageElement",
           "@id": "https://impedyme.com/customers/exowatt#the-challenge",
           "name": "The Challenge — Testing a grid that isn't there yet",
-          "text": "Exowatt, founded in 2023 and headquartered in Miami, Florida, develops modular, 24/7 dispatchable solar power systems for AI data centers and heavy industry. Its flagship Exowatt P3 — a 40-foot container system — replaces photovoltaic panels and lithium-ion batteries with a thermal architecture: lenses concentrate sunlight into high-temperature heat stored in long-lasting ceramic bricks, and a heat engine converts that heat back into electricity on demand. Between the heat engine and the data-center or grid connection sits a power-conversion stage that must interface cleanly with both. At the heart of that stage is a solid-state transformer: a multi-stage power-electronic converter that replaces the passive line-frequency transformer with an actively controlled AC/DC front end, a DC link, and an isolated DC/DC stage. The SST's behavior — its ride-through, its harmonic interaction with the grid impedance, its islanding and reconnection logic, its response to load steps — is defined by firmware, and that firmware has to be proven under grid conditions the real grid will not deliver on request. Validating grid-forming inverter controls and power-conversion architectures for a novel thermal energy storage system required testing scenarios that are impractical or unsafe to replicate with full hardware: paralleled sources on a shared DC bus, grid transients, fault conditions, and energy mixing between battery storage and generation assets. Iterating controls directly on prototype hardware was slow, high-risk, and gated by hardware availability. Conventional alternatives fell short as well — stitching a real-time simulator and separate power amplifiers together from different vendors adds toolchains, cost, and integration risk, and gives no single environment in which to reproduce IEEE 1547 / UL 1741 scenarios at real power. Because the SST sits between two emulated networks — the grid on one side and the load on the other — Exowatt needed both ends of the converter to be programmable, bidirectional, and synchronized so that a disturbance injected on the grid side and the resulting load-side response could be captured in the same real-time frame.",
-          "associatedMedia": { "@id": "https://impedyme.com/customers/exowatt#figure-1" }
+          "text": "Exowatt, founded in 2023 and headquartered in Miami, Florida, develops modular, 24/7 dispatchable solar power systems for AI data centers and heavy industry. Its flagship Exowatt P3 — a 40-foot container system — replaces photovoltaic panels and lithium-ion batteries with a thermal architecture: lenses concentrate sunlight into high-temperature heat stored in long-lasting ceramic bricks, and a heat engine converts that heat back into electricity on demand. Between the heat engine and the data-center or grid connection sits a power-conversion stage that must interface cleanly with both. At the heart of that stage is a solid-state transformer: a multi-stage power-electronic converter that replaces the passive line-frequency transformer with an actively controlled AC/DC front end, a DC link, and an isolated DC/DC stage. The SST's behavior — its ride-through, its harmonic interaction with the grid impedance, its islanding and reconnection logic, its response to load steps — is defined by firmware, and that firmware has to be proven under grid conditions the real grid will not deliver on request. Validating grid-forming inverter controls and power-conversion architectures for a novel thermal energy storage system required testing scenarios that are impractical or unsafe to replicate with full hardware: paralleled sources on a shared DC bus, grid transients, fault conditions, and energy mixing between battery storage and generation assets. Iterating controls directly on prototype hardware was slow, high-risk, and gated by hardware availability. Conventional alternatives fell short as well — stitching a real-time simulator and separate power amplifiers together from different vendors adds toolchains, cost, and integration risk, and gives no single environment in which to reproduce IEEE 1547 / UL 1741 scenarios at real power. Because the SST sits between two emulated networks — the grid on one side and the load on the other — Exowatt needed both ends of the converter to be programmable, bidirectional, and synchronized so that a disturbance injected on the grid side and the resulting load-side response could be captured in the same real-time frame. Figure 1 — Representative SST test setup: CHP Series cabinets act as both source and load around the solid-state transformer under test — one emulating the utility grid feeding the SST, the other emulating a data-center load profile — so grid events and load behavior are reproduced at real power with the energy recirculated between them."
         },
         {
           "@type": "WebPageElement",
