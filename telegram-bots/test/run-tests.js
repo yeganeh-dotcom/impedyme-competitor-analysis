@@ -80,7 +80,8 @@ const logRow = (ts, ev, page, ref, o = {}) => [ts.toISOString(), o.uid || "ali12
 const G = "https://www.google.com/";
 const aliTab = ss.insertSheet("User - ali123456");
 aliTab.appendRow(LOG_HEADERS);
-const base = Date.now() - 3 * 86400000;
+// Aligned to a full UTC hour (= :30 in Tehran) so a few minutes of visits never straddle two hourly buckets.
+const base = Math.floor((Date.now() - 3 * 86400000) / 3600000) * 3600000;
 for (let day = 0; day < 2; day++) for (let h = 0; h < 6; h++) for (let k = 0; k < 6; k++) {
   const ts = new Date(base + day * 86400000 + h * 3600000 + k * 60000);
   aliTab.appendRow(logRow(ts, "pageview", "/grid-emulator", G));
@@ -121,7 +122,7 @@ test("removing ALL keywords does not reduce coins", () => {
 test("new keyword: new visits earn, hourly cap per date-hour, old keyword no longer earns", () => {
   adminSays("✏️ ثبت کلمات جدید");
   assert(allText(adminSays("motor emulator, https://www.impedyme.com/motor-emulator")).includes("جدید: <b>1</b>"));
-  const start = Date.now() + 60000;
+  const start = Math.ceil((Date.now() + 60000) / 3600000) * 3600000 + 60000;
   for (let h = 0; h < 5; h++) for (let k = 0; k < 6; k++) aliTab.appendRow(logRow(new Date(start + h * 3600000 + k * 60000), "pageview", "/motor-emulator", G));
   for (let k = 0; k < 3; k++) aliTab.appendRow(logRow(new Date(start + k * 60000), "pageview", "/grid-emulator", G));
   assert.strictEqual(walletTotal(111), 6); // PV 31+25=56 → floor(56/20)=2 (+1 coin)
@@ -169,16 +170,32 @@ test("withdrawal reserves coins, blocks duplicates, reject refunds, paid deducts
   assert.strictEqual(walletTotal(111), 0);
   assert(allText(userSays(111, "درخواست تسویه 💳")).includes("در حال بررسی"));
   const id1 = wdId(2);
-  adminClicks("w|" + id1 + "|reject");
-  assert(world.sent.some((s) => s.token === "USERTOKEN" && s.payload.text.includes("رد شد")));
+  const ask = adminClicks("w|" + id1 + "|reject");
+  assert(!ask.some((s) => s.token === "USERTOKEN"), "first click only asks for confirmation");
+  assert(ask.some((s) => s.method === "editMessageText" && JSON.stringify(s.payload.reply_markup).includes("rejectok")));
+  const rej = adminSays("شماره کارت به نام شما نیست"); // optional reason typed instead of the button
+  const rejMsg = rej.find((s) => s.token === "USERTOKEN");
+  assert(rejMsg && rejMsg.payload.text.includes("رد شد") && rejMsg.payload.text.includes("دلیل: شماره کارت به نام شما نیست") &&
+    rejMsg.payload.text.includes("موجودی فعلی شما: <b>70 سکه"), JSON.stringify(rejMsg));
   assert.strictEqual(walletTotal(111), 70);
   userSays(111, "درخواست تسویه 💳"); userSays(111, card);
   const id2 = wdId(3);
   adminClicks("w|" + id2 + "|paid");
-  assert(world.sent.some((s) => s.token === "USERTOKEN" && s.payload.text.includes("پرداخت شد")));
+  adminClicks("w|" + id2 + "|back"); // changed my mind
+  assert.strictEqual(adminSays("hello").filter((s) => s.token === "USERTOKEN").length, 0, "after back, typed text is not a tracking number");
+  assert.strictEqual(sheetRows("Withdrawals")[3][6], "Pending");
+  adminClicks("w|" + id2 + "|paid");
+  const paid = adminSays("TRK-778899"); // tracking number typed instead of the button
+  const paidMsg = paid.find((s) => s.token === "USERTOKEN");
+  assert(paidMsg && paidMsg.payload.text.includes("مدیریت درخواست تسویه شما را پرداخت کرد") && paidMsg.payload.text.includes("TRK-778899") &&
+    paidMsg.payload.text.includes("موجودی فعلی شما: <b>0 سکه"), JSON.stringify(paidMsg));
+  const h = sheetRows("Withdrawals")[0], row = sheetRows("Withdrawals")[3];
+  assert.strictEqual(row[h.indexOf("Status")], "Paid");
+  assert.strictEqual(row[h.indexOf("AdminNote")], "TRK-778899");
   assert.strictEqual(walletTotal(111), 0);
   const again = adminClicks("w|" + id2 + "|paid");
   assert(again.some((s) => s.method === "answerCallbackQuery" && s.payload.text.includes("قبلاً")), "no double payment");
+  assert(allText(adminSays("💳 درخواستهای تسویه")).includes("🔖 TRK-778899"), "recent payments are listed");
 });
 
 test("legacy pending withdrawal: gets an ID and deducts only when admin marks it paid", () => {
@@ -186,6 +203,8 @@ test("legacy pending withdrawal: gets an ID and deducts only when admin marks it
   const t = allText(adminSays("💳 درخواستهای تسویه"));
   assert(t.includes("R2") && t.includes("در انتظار: <b>1</b>"), t);
   adminClicks("w|R2|paid");
+  assert.strictEqual(walletTotal(222), 69, "nothing changes before confirmation");
+  adminClicks("w|R2|paidok");
   assert.strictEqual(walletTotal(222), 9);
 });
 
@@ -193,6 +212,21 @@ test("admin user list shows exactly the wallet numbers", () => {
   const t = allText(adminSays("👥 آمار و لیست کاربران"));
   assert(/Ali[\s\S]*?موجودی: 0 سکه/.test(t), t);
   assert(/Sara Karimi[\s\S]*?موجودی: 9 سکه/.test(t), t);
+});
+
+test("paying keeps coins the user earned while the request was waiting", () => {
+  adminSays("/coin 123456 65");
+  userSays(111, "درخواست تسویه 💳"); userSays(111, card);
+  assert.strictEqual(walletTotal(111), 0);
+  adminSays("/coin 123456 +3"); // earned while waiting
+  const id3 = wdId(4);
+  adminClicks("w|" + id3 + "|paid");
+  const sent = adminClicks("w|" + id3 + "|paidok");
+  const m = sent.find((s) => s.token === "USERTOKEN");
+  assert(m && m.payload.text.includes("موجودی فعلی شما: <b>3 سکه"), JSON.stringify(m));
+  assert(sent.some((s) => s.method === "editMessageText" && s.payload.text.includes("موجودی فعلی کاربر: <b>3 سکه")));
+  assert.strictEqual(walletTotal(111), 3);
+  adminSays("/coin 123456 صفر");
 });
 
 test("broadcast containing the word 'کاربران' is really broadcast (old bug)", () => {

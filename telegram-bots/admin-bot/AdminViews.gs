@@ -171,18 +171,7 @@ function handleAdminCallback_(cb) {
       tgAnswerCb_(token, cb.id, op === "add" ? "+" + amount : op === "sub" ? "-" + amount : "⏳");
       return applyCoinOp_(chatId, d[1], { op: op, amount: amount }, mid);
     }
-    if (d[0] === "w") {
-      var r = processWithdrawal_(adminId, d[1], d[2]);
-      if (!r.ok) {
-        tgAnswerCb_(token, cb.id, r.reason === "already" ? "این درخواست قبلاً بررسی شده: " + r.req.status : "درخواست پیدا نشد", true);
-        if (r.req && mid) tgEdit_(token, chatId, mid, withdrawalAdminText_(r.req, null), null);
-        return;
-      }
-      tgAnswerCb_(token, cb.id, d[2] === "reject" ? "رد شد؛ سکه‌ها برگشت" : "پرداخت ثبت شد");
-      if (mid) tgEdit_(token, chatId, mid, withdrawalAdminText_(r.req, r.user) + "\n\n🕒 بررسی‌شده در " + fmtDate_(new Date()), null);
-      notifyWithdrawalResult_(r.req, d[2]);
-      return;
-    }
+    if (d[0] === "w") return handleWithdrawalCallback_(cb.id, chatId, mid, adminId, d[1], d[2], props);
     tgAnswerCb_(token, cb.id, "");
   } catch (err) {
     tgAnswerCb_(token, cb.id, "⚠️ " + String(err && err.message ? err.message : err).substring(0, 180), true);
@@ -259,24 +248,116 @@ function showWithdrawals_(chatId) {
   var rejected = w.list.filter(function (x) { return x.status === WD_STATUS.REJECTED; }).length;
   var pendingToman = 0;
   pending.forEach(function (x) { pendingToman += (x.coins === null ? parseAmountCoins_(x.amount) : x.coins) * coinValue_(); });
+  var recent = w.list.filter(function (x) { return x.status === WD_STATUS.PAID || x.status === WD_STATUS.REJECTED; })
+    .sort(function (a, b) { return (toMs_(b.processedAt) || toMs_(b.date) || 0) - (toMs_(a.processedAt) || toMs_(a.date) || 0); })
+    .slice(0, 5);
+  var recentTxt = recent.length ? "\n\n🧾 <b>آخرین بررسی‌ها:</b>\n" + recent.map(function (x) {
+    return (x.status === WD_STATUS.PAID ? "✅ " : "❌ ") + esc_(x.name) + " | " + esc_(x.amount) + " | " +
+      fmtDate_(isBlank_(x.processedAt) ? x.date : x.processedAt, "MM/dd HH:mm") + (x.note ? " | 🔖 " + esc_(x.note) : "");
+  }).join("\n") : "";
   aSend_(chatId, "💳 <b>درخواست‌های تسویه</b>\n⏳ در انتظار: <b>" + pending.length + "</b> (" + fmtNum_(pendingToman) + " تومان)\n" +
     "✅ پرداخت‌شده: " + paid + "\n❌ ردشده: " + rejected +
-    (pending.length ? "\n\nبرای هر درخواست، بعد از واریز «✅ پرداخت شد» را بزنید. «❌ رد» سکه‌ها را به کاربر برمی‌گرداند." : "\n\n📭 درخواست بازی وجود ندارد."));
+    (pending.length ? "\n\nبعد از واریز، زیر همان درخواست «✅ پرداخت شد» را بزنید؛ وضعیت «پرداخت‌شده» می‌شود و به کاربر پیام می‌رود. «❌ رد» سکه‌ها را به کاربر برمی‌گرداند." : "\n\n📭 درخواست بازی وجود ندارد.") +
+    recentTxt);
   var token = cfg_("ADMIN_BOT_TOKEN");
   pending.slice(0, 15).forEach(function (req) { tgSend_(token, chatId, withdrawalAdminText_(req, null), withdrawalButtons_(req)); });
   if (pending.length > 15) aSend_(chatId, "… و " + (pending.length - 15) + " درخواست دیگر؛ پس از بررسی این‌ها دوباره دکمه را بزنید.");
 }
 
-function notifyWithdrawalResult_(req, action) {
+/**
+ * دکمه‌های زیر هر درخواست تسویه:
+ *  paid / paid0 / reject  → مرحله تأیید (و امکان تایپ شماره پیگیری یا دلیل رد)
+ *  paidok / paid0ok / rejectok → ثبت نهایی، تغییر وضعیت در شیت و پیام به کاربر
+ *  back → برگشت به دکمه‌های اصلی
+ */
+function handleWithdrawalCallback_(cbId, chatId, mid, adminId, reqId, act, props) {
+  var token = cfg_("ADMIN_BOT_TOKEN");
+  var req = findWithdrawal_(reqId);
+  if (!req) return tgAnswerCb_(token, cbId, "درخواست پیدا نشد", true);
+  if (req.status !== WD_STATUS.PENDING && act !== "back") {
+    tgAnswerCb_(token, cbId, "این درخواست قبلاً بررسی شده: " + wdStatusFa_(req.status), true);
+    if (mid) tgEdit_(token, chatId, mid, withdrawalAdminText_(req, null), null);
+    return;
+  }
+  if (act === "paid" || act === "paid0" || act === "reject") {
+    props.setProperty("state_" + chatId, "waiting_wd_note");
+    props.setProperty("wd_note_req_" + chatId, reqId);
+    props.setProperty("wd_note_act_" + chatId, act);
+    props.setProperty("wd_note_msg_" + chatId, String(mid || ""));
+    props.setProperty("wd_note_at_" + chatId, String(Date.now()));
+    tgAnswerCb_(token, cbId, "");
+    var prompt = act === "reject" ?
+      "❓ <b>رد این درخواست را تأیید می‌کنید؟</b>\nسکه‌های رزروشده به موجودی کاربر برمی‌گردد و به او پیام می‌رود.\n" +
+      "📝 <b>اختیاری:</b> برای ارسال <b>دلیل رد</b> به کاربر، به جای دکمه، دلیل را همین حالا تایپ و ارسال کنید." :
+      "❓ <b>مبلغ را واریز کرده‌اید؟</b>\nبا تأیید، وضعیت «✅ پرداخت‌شده» می‌شود، سکه‌های این درخواست برای همیشه کسر می‌ماند و به کاربر پیام «مدیریت پرداخت کرد» می‌رود.\n" +
+      "🔖 <b>اختیاری:</b> برای ارسال <b>شماره پیگیری واریز</b> به کاربر، به جای دکمه، شماره پیگیری را همین حالا تایپ و ارسال کنید.";
+    return tgEdit_(token, chatId, mid, withdrawalAdminText_(req, null) + "\n\n" + prompt, withdrawalConfirmButtons_(req, act));
+  }
+  if (props.getProperty("wd_note_req_" + chatId) === reqId) clearWdNoteState_(chatId, props);
+  if (act === "back") {
+    tgAnswerCb_(token, cbId, "");
+    return tgEdit_(token, chatId, mid, withdrawalAdminText_(req, null), withdrawalButtons_(req));
+  }
+  if (act === "paidok" || act === "paid0ok" || act === "rejectok") {
+    tgAnswerCb_(token, cbId, "⏳ در حال ثبت...");
+    return finishWithdrawal_(chatId, adminId, reqId, act.replace(/ok$/, ""), "", mid, false);
+  }
+  tgAnswerCb_(token, cbId, "");
+}
+
+function clearWdNoteState_(chatId, props) {
+  if (props.getProperty("state_" + chatId) === "waiting_wd_note") props.deleteProperty("state_" + chatId);
+  ["wd_note_req_", "wd_note_act_", "wd_note_msg_", "wd_note_at_"].forEach(function (k) { props.deleteProperty(k + chatId); });
+}
+
+/** وقتی ادمین بعد از زدن «✅ پرداخت شد» یا «❌ رد»، شماره پیگیری/دلیل را تایپ می‌کند */
+function onWithdrawalNote_(chatId, text, props) {
+  var reqId = props.getProperty("wd_note_req_" + chatId);
+  var act = props.getProperty("wd_note_act_" + chatId);
+  var mid = Number(props.getProperty("wd_note_msg_" + chatId)) || null;
+  var at = Number(props.getProperty("wd_note_at_" + chatId)) || 0;
+  clearWdNoteState_(chatId, props);
+  if (!reqId || !act || Date.now() - at > 10 * 60 * 1000) {
+    return aSend_(chatId, "⏱ مهلت ثبت شماره پیگیری/دلیل (۱۰ دقیقه) گذشته است و چیزی ثبت نشد.\nدوباره از «" + ADMIN_BTN.WITHDRAWALS + "» روی دکمه همان درخواست بزنید.");
+  }
+  return finishWithdrawal_(chatId, chatId, reqId, act, String(text).trim().substring(0, 200), mid, true);
+}
+
+/** ثبت نهایی پرداخت/رد: تغییر وضعیت در شیت + پیام به کاربر + نمایش موجودی جدید کاربر به ادمین */
+function finishWithdrawal_(chatId, adminId, reqId, action, note, mid, announce) {
+  var token = cfg_("ADMIN_BOT_TOKEN");
+  var r = processWithdrawal_(adminId, reqId, action, note);
+  if (!r.ok) {
+    if (r.req && mid) tgEdit_(token, chatId, mid, withdrawalAdminText_(r.req, null), null);
+    return aSend_(chatId, r.reason === "already" ? "⚠️ این درخواست قبلاً بررسی شده است (" + wdStatusFa_(r.req.status) + ")." : "⚠️ درخواست پیدا نشد.");
+  }
+  var sent = notifyWithdrawalResult_(r.req, action, r.balance);
+  var done = (action === "reject" ? "❌ درخواست رد شد و سکه‌ها به موجودی کاربر برگشت." : "✅ پرداخت ثبت شد و وضعیت به «پرداخت‌شده» تغییر کرد.") + "\n" +
+    (sent && sent.ok ? "📨 پیام برای کاربر ارسال شد." : "⚠️ ارسال پیام به کاربر ناموفق بود" + (sent && sent.description ? " (" + esc_(sent.description) + ")" : "") + ".") +
+    (r.balance ? "\n🪙 موجودی فعلی کاربر: <b>" + r.balance.coins + " سکه</b> (" + fmtNum_(r.balance.toman) + " تومان)" : "");
+  var full = withdrawalAdminText_(r.req, r.user) + "\n\n" + done;
+  if (mid) tgEdit_(token, chatId, mid, full, null);
+  if (announce || !mid) aSend_(chatId, announce && mid ? done : full);
+}
+
+function notifyWithdrawalResult_(req, action, balance) {
+  var bal = balance ? "🪙 موجودی فعلی شما: <b>" + balance.coins + " سکه</b>\n" : "";
   var text;
   if (action === "reject") {
-    text = "❌ درخواست تسویه شما (کد <code>" + esc_(req.id) + "</code>) توسط مدیریت رد شد" +
-      (req.coins ? " و " + req.coins + " سکه به موجودی شما برگشت." : ".") + "\nبرای اطلاعات بیشتر با پشتیبانی در تماس باشید.";
+    text = "❌ <b>درخواست تسویه شما رد شد</b>\n\n" +
+      "🧾 کد درخواست: <code>" + esc_(req.id) + "</code>\n" +
+      (req.coins ? "↩️ " + req.coins + " سکه به موجودی شما برگشت.\n" : "") +
+      (req.note ? "📝 دلیل: " + esc_(req.note) + "\n" : "") +
+      bal + "\nبرای اطلاعات بیشتر با پشتیبانی در تماس باشید.";
   } else {
-    text = "✅ درخواست تسویه شما (کد <code>" + esc_(req.id) + "</code>) پرداخت شد.\n💵 مبلغ: " + esc_(req.amount) +
-      "\n💳 کارت: <code>" + esc_(req.card) + "</code>\n\nاز همکاری شما سپاسگزاریم 🌹";
+    text = "✅ <b>مدیریت درخواست تسویه شما را پرداخت کرد</b>\n\n" +
+      "🧾 کد درخواست: <code>" + esc_(req.id) + "</code>\n" +
+      "💵 مبلغ: " + esc_(req.amount) + "\n" +
+      "💳 کارت: <code>" + esc_(req.card) + "</code>\n" +
+      (req.note ? "🔖 شماره پیگیری واریز: <code>" + esc_(req.note) + "</code>\n" : "") +
+      bal + "\nاز همکاری شما سپاسگزاریم 🌹";
   }
-  notifyUser_(req.chatId, text);
+  return notifyUser_(req.chatId, text);
 }
 
 /* ------------------------- وضعیت سیستم ------------------------- */

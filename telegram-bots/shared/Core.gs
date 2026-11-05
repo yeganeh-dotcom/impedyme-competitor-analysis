@@ -15,7 +15,7 @@
  *    سنجیده می‌شود که «در زمان همان بازدید» فعال بوده‌اند.
  *  نتیجه: عوض کردن کلمات یا آپدیت کد، هرگز سکه کسی را کم نمی‌کند.
  */
-var CORE_VERSION = "v2.0.0";
+var CORE_VERSION = "v2.1.0";
 
 var SHEETS = {
   USERS: "Users",
@@ -28,7 +28,7 @@ var SHEETS = {
 var USER_HEADERS = ["ChatID", "UID", "Name", "Email", "EarnedCoins", "Adjustment", "TotalCoins", "LastUpdated",
   "CountedPV", "CountedHB", "ProcessedRows", "LegacyBonus", "LinkUid", "LogTab", "JoinedAt"];
 var KW_HEADERS = ["Keyword", "URL", "AddedAt", "RemovedAt"];
-var WD_HEADERS = ["ChatID", "UID", "Name", "Card", "Amount", "Date", "Status", "Coins", "RequestID", "ProcessedAt"];
+var WD_HEADERS = ["ChatID", "UID", "Name", "Card", "Amount", "Date", "Status", "Coins", "RequestID", "ProcessedAt", "AdminNote"];
 var HISTORY_HEADERS = ["Date", "Admin", "ChatID", "UID", "Name", "Action", "Delta", "NewAdjustment", "BalanceAfter", "Note"];
 var SETTINGS_HEADERS = ["Key", "Value"];
 
@@ -719,7 +719,8 @@ function readWithdrawals_() {
         row: i + 2, chatId: chatId, uid: String(g("UID")).trim(), name: String(g("Name")).trim(),
         card: String(g("Card")).trim(), amount: g("Amount"), date: g("Date"),
         status: normalizeWdStatus_(g("Status")), coins: isBlank_(g("Coins")) ? null : num_(g("Coins")),
-        id: rid || ("R" + (i + 2)), hasId: !!rid, processedAt: g("ProcessedAt")
+        id: rid || ("R" + (i + 2)), hasId: !!rid, processedAt: g("ProcessedAt"),
+        note: String(g("AdminNote") || "").trim()
       });
     });
   }
@@ -783,8 +784,19 @@ function createWithdrawal_(user, cardDigits) {
   });
 }
 
-/** action: "paid" (کسر سکه) | "paid0" (درخواست قدیمی که قبلاً دستی کسر شده) | "reject" (برگشت سکه) */
-function processWithdrawal_(adminId, reqId, action) {
+function findWithdrawal_(reqId) {
+  var list = readWithdrawals_().list;
+  for (var i = 0; i < list.length; i++) if (list[i].id === reqId) return list[i];
+  return null;
+}
+
+/**
+ * action: "paid" (پرداخت شد؛ سکه‌های رزروشده برای همیشه کسر می‌مانند)
+ *       | "paid0" (درخواست قدیمی که قبلاً دستی کسر شده)
+ *       | "reject" (رد؛ سکه‌ها به موجودی کاربر برمی‌گردند)
+ * note: شماره پیگیری واریز یا دلیل رد (اختیاری) که برای کاربر هم ارسال می‌شود
+ */
+function processWithdrawal_(adminId, reqId, action, note) {
   return withLock_(function () {
     var w = readWithdrawals_();
     var req = null;
@@ -798,12 +810,19 @@ function processWithdrawal_(adminId, reqId, action) {
     if (!req.hasId) upd.RequestID = req.id;
     if (action === "paid" && req.coins === null) upd.Coins = parseAmountCoins_(req.amount);
     if (action === "paid0") upd.Coins = 0;
+    if (note) upd.AdminNote = "'" + note;
     writeCells_(w.sh, req.row, w.map, upd);
     req.status = upd.Status;
+    req.processedAt = upd.ProcessedAt;
+    req.note = note || req.note;
     if (upd.Coins !== undefined) req.coins = upd.Coins;
     var user = findUserByChatId_(req.chatId);
-    if (user) logHistory_(adminId, user, "withdraw_" + action, 0, user.adj, "", reqId);
-    return { ok: true, req: req, user: user };
+    var balance = null;
+    if (user) {
+      balance = getFreshBalance_(user);
+      logHistory_(adminId, user, "withdraw_" + action, 0, user.adj, balance.coins, reqId + (note ? " | " + note : ""));
+    }
+    return { ok: true, req: req, user: user, balance: balance };
   });
 }
 
@@ -1005,15 +1024,25 @@ function walletText_(user, b) {
   return t;
 }
 
+function wdStatusFa_(s) {
+  if (s === WD_STATUS.PENDING) return "⏳ در انتظار پرداخت";
+  if (s === WD_STATUS.PAID) return "✅ پرداخت‌شده";
+  if (s === WD_STATUS.REJECTED) return "❌ ردشده";
+  return String(s);
+}
+
 function withdrawalAdminText_(req, user) {
   var coinsTxt = req.coins === null ? "نامشخص (درخواست قدیمی؛ " + parseAmountCoins_(req.amount) + " سکه از روی مبلغ)" : req.coins + " سکه";
-  return "💳 <b>درخواست تسویه</b> <code>" + esc_(req.id) + "</code>\n" +
+  var t = "💳 <b>درخواست تسویه</b> <code>" + esc_(req.id) + "</code>\n" +
     "👤 " + esc_(req.name || (user && user.name) || "—") + " (ID: <code>" + esc_(req.uid) + "</code>)\n" +
     "💰 مبلغ: <b>" + esc_(req.amount) + "</b>\n" +
     "🪙 سکه: " + coinsTxt + "\n" +
     "💳 کارت: <code>" + esc_(req.card) + "</code>\n" +
-    "📅 تاریخ: " + fmtDate_(req.date) + "\n" +
-    "📌 وضعیت: <b>" + esc_(req.status) + "</b>";
+    "📅 تاریخ درخواست: " + fmtDate_(req.date) + "\n" +
+    "📌 وضعیت: <b>" + wdStatusFa_(req.status) + "</b>";
+  if (req.status !== WD_STATUS.PENDING && !isBlank_(req.processedAt)) t += "\n🕒 تاریخ بررسی: " + fmtDate_(req.processedAt);
+  if (req.note) t += "\n" + (req.status === WD_STATUS.REJECTED ? "📝 دلیل رد: " : "🔖 شماره پیگیری: ") + "<code>" + esc_(req.note) + "</code>";
+  return t;
 }
 
 function withdrawalButtons_(req) {
@@ -1021,4 +1050,10 @@ function withdrawalButtons_(req) {
   var rows = [[{ text: "✅ پرداخت شد", callback_data: "w|" + req.id + "|paid" }, { text: "❌ رد (برگشت سکه)", callback_data: "w|" + req.id + "|reject" }]];
   if (req.coins === null) rows.push([{ text: "☑️ پرداخت شده و قبلاً دستی کسر شده", callback_data: "w|" + req.id + "|paid0" }]);
   return { inline_keyboard: rows };
+}
+
+/** مرحله تأیید (جلوگیری از کلیک اشتباهی روی دکمه پرداخت/رد) */
+function withdrawalConfirmButtons_(req, action) {
+  var ok = action === "reject" ? "❌ بله، رد شود" : "✅ بله، پرداخت کردم";
+  return { inline_keyboard: [[{ text: ok, callback_data: "w|" + req.id + "|" + action + "ok" }, { text: "↩️ بازگشت", callback_data: "w|" + req.id + "|back" }]] };
 }

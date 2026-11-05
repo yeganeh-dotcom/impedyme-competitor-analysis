@@ -162,6 +162,8 @@ function handleAdminMessage_(msg) {
     case "waiting_single_msg_content":
       props.deleteProperty(stateKey);
       return aSend_(chatId, sendToUser_(props.getProperty("msg_target_" + chatId), rawText));
+    case "waiting_wd_note":
+      return onWithdrawalNote_(chatId, rawText, props);
     case "waiting_coin_val":
       var p = parseCoinInput_(rawText);
       if (!p) return aSend_(chatId, "❌ مقدار نامعتبر است. مثال: <code>+5</code> یا <code>-3</code> یا <code>20</code> یا <code>صفر</code>", cancelKeyboard_());

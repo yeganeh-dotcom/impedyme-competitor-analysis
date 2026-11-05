@@ -90,6 +90,28 @@ different formula. Now:
 - The formula, visible in the sheet:
   `balance = floor(CountedPV/20) + floor(CountedHB/15) + LegacyBonus + Adjustment − (pending + paid withdrawals)`
 
+## 4. Paying withdrawals (درخواست تسویه): Pending → Paid
+
+1. The user sends **درخواست تسویه 💳** and a card number. Their coins are **reserved right away**:
+   the wallet shows `⏳ در انتظار تسویه` and a balance of 0, so they can't request the same money twice.
+2. Every admin gets a message with **✅ پرداخت شد** and **❌ رد** buttons under the request.
+   **💳 درخواستهای تسویه** also lists all open requests, plus the last 5 that were handled.
+3. After you transfer the money, press **✅ پرداخت شد**. The bot asks you to confirm, so a
+   mis-tap can't do anything. Then either:
+   - press **✅ بله، پرداخت کردم**, or
+   - **type the bank tracking number** (شماره پیگیری) and send it.
+4. The request becomes **Paid** in the *Withdrawals* sheet (`Status`, `ProcessedAt`, `AdminNote`).
+   The paid coins stay deducted for good, and the user gets:
+   > ✅ مدیریت درخواست تسویه شما را پرداخت کرد — کد درخواست، مبلغ، کارت، شماره پیگیری، موجودی فعلی شما: 0 سکه
+5. **❌ رد** works the same way; you can type a reason. The coins go back to the user, who is told
+   the reason and their new balance.
+
+"Reset" means the paid coins are removed. Coins the user earned **while waiting** for payment are
+kept, because they belong to new work. To clear everything anyway, use *♻️ صفر کردن موجودی* in
+*🪙 مدیریت سکه کاربر*.
+
+Change the status with the buttons, not by editing the sheet by hand. Otherwise the user is never notified.
+
 ---
 
 ## Installation (≈10 minutes)
@@ -153,7 +175,7 @@ keywords with the bot, not by deleting rows.
 node telegram-bots/test/run-tests.js
 ```
 
-This runs 15 end-to-end scenarios against mocked Sheets and Telegram:
+This runs 16 end-to-end scenarios against mocked Sheets and Telegram:
 
 - migration keeps balances
 - keyword changes don't reduce coins
