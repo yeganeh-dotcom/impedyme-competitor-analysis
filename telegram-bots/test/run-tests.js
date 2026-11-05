@@ -4,8 +4,10 @@ const { MockSpreadsheet, makeProject, run, formatDate } = require("./mocks");
 
 const LOG_HEADERS = ["Timestamp", "User", "Visit ID", "Event", "Site", "Page", "Came From", "IP", "City", "Country", "Timezone", "User Agent", "Traffic Type"];
 const world = { ss: new MockSpreadsheet(), sent: [], logs: [], failHook: null };
-const USER = makeProject(["shared/Config.gs", "shared/Core.gs", "user-bot/UserBot.gs"], world);
-const ADMIN = makeProject(["shared/Config.gs", "shared/Core.gs", "admin-bot/AdminBot.gs", "admin-bot/AdminViews.gs"], world);
+// BUNDLED=1 runs the same scenarios against the paste-ready files in dist/ (built by build.sh)
+const BUNDLED = !!process.env.BUNDLED;
+const USER = makeProject(BUNDLED ? ["dist/user-bot.gs"] : ["shared/Config.gs", "shared/Core.gs", "user-bot/UserBot.gs"], world);
+const ADMIN = makeProject(BUNDLED ? ["dist/admin-bot.gs"] : ["shared/Config.gs", "shared/Core.gs", "admin-bot/AdminBot.gs", "admin-bot/AdminViews.gs"], world);
 const ADMIN_ID = 999;
 
 let updateId = 1000;

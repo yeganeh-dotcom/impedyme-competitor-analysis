@@ -11,8 +11,17 @@ telegram-bots/
 ├── admin-bot/AdminViews.gs ← admin bot project only
 ├── sheet-logger/Logger.gs  ← optional: new version of the script inside the Google Sheet
 ├── website/footer.html     ← optional: new version of the website tracker
-└── test/                   ← node telegram-bots/test/run-tests.js
+├── dist/                   ← PASTE-READY: one file per destination (built by build.sh)
+│   ├── user-bot.gs         ←   whole user bot project (Config + Core + UserBot)
+│   ├── admin-bot.gs        ←   whole admin bot project (Config + Core + AdminBot + AdminViews)
+│   ├── google-sheet.gs     ←   the Google Sheet's script (Extensions → Apps Script)
+│   └── footer.html         ←   website footer
+└── test/                   ← node telegram-bots/test/run-tests.js   (BUNDLED=1 tests dist/)
 ```
+
+**Simplest install:** put one file in each project. Delete all old code files in the user bot
+project and paste `dist/user-bot.gs`; do the same with `dist/admin-bot.gs` in the admin project.
+After editing any source file, run `bash telegram-bots/build.sh` to rebuild `dist/`.
 
 > Tokens and the sheet ID are **not** in this repo. Put them in `Config.gs`, or better, in each
 > project's *Project Settings → Script Properties* using the same key names.

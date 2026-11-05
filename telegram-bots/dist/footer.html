@@ -1,0 +1,66 @@
+<!--
+  OPTIONAL upgrade of the website footer tracker (same ENDPOINT as before).
+  Fixes:
+   1. Sends `query` (location.search) so Google-Ads clicks (?gclid=, ?gad_source=…) can be detected.
+      The old version only sent location.pathname, so sponsored clicks looked organic.
+   2. Heartbeats start even if the IP lookup (ipwho.is) fails or is slow (4s timeout).
+      Before, a failed lookup meant the user earned no heartbeat coins at all.
+   3. The ?uid= from the personal link always wins over an older stored uid.
+-->
+<script>
+(function () {
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbyRu7YvI0Wi0njcBWJ9i0WDdjAcLnByBrNaRwYl3IWcgco1CV5FwToWyzXCLZPolKzGkQ/exec";
+  var HEARTBEAT_SECONDS = 60;
+
+  var params = new URLSearchParams(location.search);
+  var uid = params.get("uid");
+  try {
+    if (uid) localStorage.setItem("impedyme_uid", uid);
+    else uid = localStorage.getItem("impedyme_uid");
+  } catch (e) {}
+  if (!uid) return;
+
+  var visitId;
+  try {
+    visitId = localStorage.getItem("impedyme_visit_id") || (uid + "-" + Date.now());
+    localStorage.setItem("impedyme_visit_id", visitId);
+  } catch (e) { visitId = uid + "-" + Date.now(); }
+
+  var userTimezone = "";
+  try { userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) {}
+
+  var geo = {};
+  function send(eventType) {
+    var payload = JSON.stringify({
+      uid: uid,
+      visitId: visitId,
+      type: eventType,
+      site: location.hostname,
+      page: location.pathname,
+      query: location.search,
+      referrer: document.referrer || "direct",
+      ip: geo.ip || "Unknown",
+      city: geo.city || "Unknown",
+      country: geo.country || "Unknown",
+      timezone: userTimezone,
+      userAgent: navigator.userAgent,
+      ts: new Date().toISOString()
+    });
+    if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, payload)) return;
+    try { fetch(ENDPOINT, { method: "POST", body: payload, mode: "no-cors", keepalive: true }); } catch (e) {}
+  }
+
+  var started = false;
+  function start() {
+    if (started) return;
+    started = true;
+    send("pageview");
+    setInterval(function () { if (document.visibilityState === "visible") send("heartbeat"); }, HEARTBEAT_SECONDS * 1000);
+  }
+
+  var timer = setTimeout(start, 4000); // don't wait forever for the IP lookup
+  fetch("https://ipwho.is/").then(function (r) { return r.json(); }).then(function (d) {
+    if (d && d.success !== false) geo = { ip: d.ip, country: d.country, city: d.city };
+  }).catch(function () {}).then(function () { clearTimeout(timer); start(); });
+})();
+</script>
