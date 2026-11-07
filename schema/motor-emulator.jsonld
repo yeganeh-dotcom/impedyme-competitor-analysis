@@ -1,0 +1,304 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://impedyme.com/#organization",
+      "name": "Impedyme",
+      "url": "https://impedyme.com/",
+      "description": "Impedyme develops scalable hardware-in-the-loop (HIL), power hardware-in-the-loop (PHIL), real-time simulation, motor emulation and grid emulation systems for power electronics testing.",
+      "knowsAbout": [
+        "Motor emulation",
+        "Inverter hardware testing",
+        "Hardware-in-the-loop (HIL) simulation",
+        "Power hardware-in-the-loop (PHIL) testing",
+        "FPGA-based real-time simulation",
+        "Real-Time Control Prototyping (RCP)",
+        "Electric drivetrain testing"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://impedyme.com/#website",
+      "url": "https://impedyme.com/",
+      "name": "Impedyme",
+      "inLanguage": "en-US",
+      "publisher": { "@id": "https://impedyme.com/#organization" }
+    },
+    {
+      "@type": "ItemPage",
+      "@id": "https://impedyme.com/motor-emulator/#webpage",
+      "url": "https://impedyme.com/motor-emulator/",
+      "name": "Motor Emulator for Inverter Hardware Development",
+      "description": "Validate inverter hardware for electrified mobility under real-world conditions with Impedyme's motor emulator, from signal-level testing with the RCP box to power-level testing with the CHP system.",
+      "inLanguage": "en-US",
+      "isPartOf": { "@id": "https://impedyme.com/#website" },
+      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "breadcrumb": { "@id": "https://impedyme.com/motor-emulator/#breadcrumb" },
+      "mainEntity": { "@id": "https://impedyme.com/motor-emulator/#product" },
+      "primaryImageOfPage": { "@id": "https://impedyme.com/motor-emulator/#primaryimage" },
+      "image": [
+        { "@id": "https://impedyme.com/motor-emulator/#primaryimage" },
+        { "@id": "https://impedyme.com/motor-emulator/#image-rcp-box" },
+        { "@id": "https://impedyme.com/motor-emulator/#image-fpga-hil" }
+      ],
+      "hasPart": { "@id": "https://impedyme.com/motor-emulator/#faq" },
+      "about": [
+        { "@id": "https://impedyme.com/motor-emulator/#product" },
+        { "@type": "Thing", "name": "Power inverter", "sameAs": "https://en.wikipedia.org/wiki/Power_inverter" },
+        { "@type": "Thing", "name": "Hardware-in-the-loop simulation", "sameAs": "https://en.wikipedia.org/wiki/Hardware-in-the-loop_simulation" }
+      ],
+      "mentions": [
+        { "@type": "Thing", "name": "Electric motor", "sameAs": "https://en.wikipedia.org/wiki/Electric_motor" },
+        { "@type": "Thing", "name": "Field-programmable gate array (FPGA)", "sameAs": "https://en.wikipedia.org/wiki/Field-programmable_gate_array" },
+        { "@type": "Thing", "name": "Electric vehicle", "sameAs": "https://en.wikipedia.org/wiki/Electric_vehicle" },
+        { "@id": "https://impedyme.com/#customer-nasa" },
+        { "@id": "https://impedyme.com/#customer-jlg" },
+        { "@id": "https://impedyme.com/#customer-duke-energy" },
+        { "@id": "https://impedyme.com/#customer-exowatt" },
+        { "@id": "https://impedyme.com/#customer-flex" },
+        { "@id": "https://impedyme.com/#customer-cea-liten" },
+        { "@id": "https://impedyme.com/#customer-lucid" },
+        { "@id": "https://impedyme.com/#customer-unbox-robotics" }
+      ],
+      "keywords": "motor emulator, motor emulation, inverter testing, inverter hardware development, EV inverter validation, hardware-in-the-loop, HIL, FPGA, RCP box, CHP, four-quadrant, electrified mobility",
+      "relatedLink": "https://impedyme.com/motor-emulator-for-inverter-hardware-video/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://impedyme.com/motor-emulator/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://impedyme.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Motor Emulator", "item": "https://impedyme.com/motor-emulator/" }
+      ]
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/motor-emulator/#primaryimage",
+      "url": "https://impedyme.com/wp-content/uploads/2025/08/motor-emulation-inverter-testing-impedyme.webp",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2025/08/motor-emulation-inverter-testing-impedyme.webp",
+      "caption": "Motor emulation for inverter testing with the Impedyme motor emulator",
+      "encodingFormat": "image/webp",
+      "representativeOfPage": true,
+      "creator": { "@id": "https://impedyme.com/#organization" },
+      "creditText": "Impedyme",
+      "copyrightNotice": "© Impedyme"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/motor-emulator/#image-rcp-box",
+      "url": "https://impedyme.com/wp-content/uploads/2025/06/signal-level-inverter-validation-with-impedyme-rcp-box-scaled.webp",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2025/06/signal-level-inverter-validation-with-impedyme-rcp-box-scaled.webp",
+      "caption": "Signal-level inverter validation with the Impedyme RCP box",
+      "encodingFormat": "image/webp",
+      "creator": { "@id": "https://impedyme.com/#organization" },
+      "creditText": "Impedyme",
+      "copyrightNotice": "© Impedyme"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://impedyme.com/motor-emulator/#image-fpga-hil",
+      "url": "https://impedyme.com/wp-content/uploads/2025/06/Enabling-Ultra-Fast-High-Fidelity-HIL-with-FPGA-Technology-motor-emulator.webp",
+      "contentUrl": "https://impedyme.com/wp-content/uploads/2025/06/Enabling-Ultra-Fast-High-Fidelity-HIL-with-FPGA-Technology-motor-emulator.webp",
+      "caption": "Enabling ultra-fast, high-fidelity HIL with FPGA technology: the Impedyme motor emulator",
+      "encodingFormat": "image/webp",
+      "creator": { "@id": "https://impedyme.com/#organization" },
+      "creditText": "Impedyme",
+      "copyrightNotice": "© Impedyme"
+    },
+    {
+      "@type": "Brand",
+      "@id": "https://impedyme.com/#brand",
+      "name": "Impedyme"
+    },
+    {
+      "@type": "Product",
+      "@id": "https://impedyme.com/motor-emulator/#product",
+      "name": "Impedyme Motor Emulator",
+      "alternateName": "Impedyme Motor Emulation Platform",
+      "url": "https://impedyme.com/motor-emulator/",
+      "mainEntityOfPage": { "@id": "https://impedyme.com/motor-emulator/#webpage" },
+      "description": "The Impedyme Motor Emulator is an active, programmable motor emulation platform for developing and validating inverter hardware for electrified mobility. Engineers start with low-power, signal-level testing of unmodified controller hardware on the Real-Time Control Prototyping (RCP) box, then scale to power-level validation under real-world voltage and current with the CHP motor emulator, all on one unified platform. Unlike passive R-L loads, which apply only reactive power and cannot return power to the inverter's DC side, the motor emulator's four-quadrant operation enables active power testing under true-to-life conditions, so components such as diodes and switches are stressed realistically. It helps teams accelerate inverter development, increase testing precision and bring electric mobility products to market faster.",
+      "category": "Test & Measurement > Hardware-in-the-Loop (HIL) Test Systems > Motor Emulators",
+      "brand": { "@id": "https://impedyme.com/#brand" },
+      "manufacturer": { "@id": "https://impedyme.com/#organization" },
+      "image": [
+        { "@id": "https://impedyme.com/motor-emulator/#primaryimage" },
+        { "@id": "https://impedyme.com/motor-emulator/#image-fpga-hil" },
+        { "@id": "https://impedyme.com/motor-emulator/#image-rcp-box" }
+      ],
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Engineers developing and validating inverter hardware for electrified mobility and electric drivetrains"
+      },
+      "additionalProperty": [
+        { "@type": "PropertyValue", "name": "Testing levels", "value": "Signal level (RCP box) and power level (CHP system) on one unified motor emulation platform" },
+        { "@type": "PropertyValue", "name": "Operating mode", "value": "Four-quadrant operation for full torque/speed range and active power testing under true-to-life conditions" },
+        { "@type": "PropertyValue", "name": "UUT commissioning", "value": "Only four parameters need to be defined to start testing" },
+        { "@type": "PropertyValue", "name": "Live parameter adjustment", "value": "Parameters such as R and L can be changed with a mouse click during operation" },
+        { "@type": "PropertyValue", "name": "Facility power connection", "value": 5, "unitCode": "KWT", "unitText": "kW AC" },
+        { "@type": "PropertyValue", "name": "Cooling", "value": "Stand-alone liquid cooling; no facility water connection or external chiller required" },
+        { "@type": "PropertyValue", "name": "Real-time simulation", "value": "Ultra-fast, high-fidelity HIL powered by FPGA technology" },
+        { "@type": "PropertyValue", "name": "Device under test", "value": "Unmodified controller hardware (signal level) and inverter hardware (power level)" },
+        { "@type": "PropertyValue", "name": "Advantage over passive R-L loads", "value": "Emulates realistic active power and power flow, while passive R-L loads apply only reactive power and cannot return power to the inverter's DC side" },
+        { "@type": "PropertyValue", "name": "Development phases", "value": "All R&D phases, from concept to production, with full traceability" },
+        { "@type": "PropertyValue", "name": "Applications", "value": "Inverter hardware development and validation for electrified mobility and modern electric drivetrains" }
+      ],
+      "isRelatedTo": [
+        {
+          "@type": "Product",
+          "@id": "https://impedyme.com/motor-emulator/#chp-motor-emulator",
+          "name": "Impedyme CHP Motor Emulator",
+          "description": "Active, programmable power-level motor emulator for inverter hardware testing. It delivers functional validation under real-world voltage and current conditions, providing a more realistic and detailed testing environment than conventional inductive (passive R-L) setups for modern electric drivetrains.",
+          "category": "Power-level motor emulator",
+          "brand": { "@id": "https://impedyme.com/#brand" },
+          "manufacturer": { "@id": "https://impedyme.com/#organization" }
+        },
+        {
+          "@type": "Product",
+          "@id": "https://impedyme.com/motor-emulator/#rcp-box",
+          "name": "Impedyme RCP Box",
+          "alternateName": "Impedyme Real-Time Control Prototyping (RCP) Box",
+          "description": "Low-power, signal-level motor emulation for early-stage inverter development, when uncertainty is high. The RCP box lets engineers test unmodified controller hardware against high-fidelity real-time simulation without risking physical components.",
+          "category": "Signal-level motor emulator / Real-Time Control Prototyping (RCP)",
+          "image": { "@id": "https://impedyme.com/motor-emulator/#image-rcp-box" },
+          "brand": { "@id": "https://impedyme.com/#brand" },
+          "manufacturer": { "@id": "https://impedyme.com/#organization" }
+        }
+      ],
+      "subjectOf": { "@id": "https://impedyme.com/motor-emulator/#faq" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://impedyme.com/motor-emulator/#faq",
+      "isPartOf": { "@id": "https://impedyme.com/motor-emulator/#webpage" },
+      "about": { "@id": "https://impedyme.com/motor-emulator/#product" },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can the Impedyme motor emulator be used for both low and high-power testing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The Impedyme motor emulator supports both signal-level testing—using the Real-Time Control Prototyping (RCP) box—and high-power hardware emulation with the CHP system. This flexible architecture allows engineers to streamline development from concept to production, using one unified motor emulation platform."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://impedyme.com/motor-emulator/#customers",
+      "name": "Organizations that have used the Impedyme Motor Emulator",
+      "description": "Aerospace, automotive, energy, industrial equipment, manufacturing, research and robotics organizations that have used the Impedyme motor emulator.",
+      "numberOfItems": 8,
+      "itemListOrder": "https://schema.org/ItemListUnordered",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "NASA",
+          "item": {
+            "@type": "GovernmentOrganization",
+            "@id": "https://impedyme.com/#customer-nasa",
+            "name": "NASA",
+            "alternateName": "National Aeronautics and Space Administration",
+            "url": "https://www.nasa.gov/",
+            "sameAs": ["https://en.wikipedia.org/wiki/NASA", "https://www.wikidata.org/wiki/Q23548"]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "JLG Industries",
+          "item": {
+            "@type": "Organization",
+            "@id": "https://impedyme.com/#customer-jlg",
+            "name": "JLG Industries",
+            "alternateName": "JLG",
+            "url": "https://www.jlg.com/",
+            "sameAs": "https://en.wikipedia.org/wiki/JLG_Industries"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Duke Energy",
+          "item": {
+            "@type": "Organization",
+            "@id": "https://impedyme.com/#customer-duke-energy",
+            "name": "Duke Energy",
+            "url": "https://www.duke-energy.com/",
+            "sameAs": "https://en.wikipedia.org/wiki/Duke_Energy"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Exowatt",
+          "item": {
+            "@type": "Organization",
+            "@id": "https://impedyme.com/#customer-exowatt",
+            "name": "Exowatt",
+            "url": "https://exowatt.com/",
+            "sameAs": "https://en.wikipedia.org/wiki/Exowatt"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Flex",
+          "item": {
+            "@type": "Organization",
+            "@id": "https://impedyme.com/#customer-flex",
+            "name": "Flex",
+            "legalName": "Flex Ltd.",
+            "url": "https://flex.com/",
+            "sameAs": "https://en.wikipedia.org/wiki/Flex_Ltd."
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "CEA-Liten",
+          "item": {
+            "@type": "ResearchOrganization",
+            "@id": "https://impedyme.com/#customer-cea-liten",
+            "name": "CEA-Liten",
+            "alternateName": ["Liten", "Innovation Laboratory for New Energy Technologies and Nanomaterials"],
+            "url": "https://liten.cea.fr/",
+            "parentOrganization": {
+              "@type": "ResearchOrganization",
+              "name": "CEA",
+              "alternateName": ["French Alternative Energies and Atomic Energy Commission", "Commissariat à l'énergie atomique et aux énergies alternatives"],
+              "url": "https://www.cea.fr/",
+              "sameAs": "https://en.wikipedia.org/wiki/French_Alternative_Energies_and_Atomic_Energy_Commission"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Lucid Motors",
+          "item": {
+            "@type": "Organization",
+            "@id": "https://impedyme.com/#customer-lucid",
+            "name": "Lucid Motors",
+            "alternateName": ["Lucid", "Lucid Group"],
+            "url": "https://www.lucidmotors.com/",
+            "sameAs": "https://en.wikipedia.org/wiki/Lucid_Motors"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Unbox Robotics",
+          "item": {
+            "@type": "Organization",
+            "@id": "https://impedyme.com/#customer-unbox-robotics",
+            "name": "Unbox Robotics",
+            "url": "https://unboxrobotics.com/"
+          }
+        }
+      ]
+    }
+  ]
+}
