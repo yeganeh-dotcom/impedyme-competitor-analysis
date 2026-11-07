@@ -48,18 +48,17 @@
         {
           "@type": "Thing",
           "name": "Power inverter",
-          "description": "Inverter hardware is the core of an electric vehicle, handling DC/AC conversion, motor control and energy optimization.",
-          "sameAs": "https://en.wikipedia.org/wiki/Power_inverter"
+          "description": "Inverter hardware is the core of an electric vehicle, handling DC/AC conversion, motor control and energy optimization."
         },
-        { "@type": "Thing", "name": "Hardware-in-the-loop simulation", "sameAs": "https://en.wikipedia.org/wiki/Hardware-in-the-loop_simulation" }
+        { "@type": "Thing", "name": "Hardware-in-the-loop simulation" }
       ],
       "mentions": [
-        { "@type": "Thing", "name": "Electric motor", "sameAs": "https://en.wikipedia.org/wiki/Electric_motor" },
-        { "@type": "Thing", "name": "Dynamometer", "sameAs": "https://en.wikipedia.org/wiki/Dynamometer" },
-        { "@type": "Thing", "name": "Regenerative braking", "sameAs": "https://en.wikipedia.org/wiki/Regenerative_braking" },
-        { "@type": "Thing", "name": "Field-programmable gate array (FPGA)", "sameAs": "https://en.wikipedia.org/wiki/Field-programmable_gate_array" },
-        { "@type": "Thing", "name": "Electric vehicle", "sameAs": "https://en.wikipedia.org/wiki/Electric_vehicle" },
-        { "@type": "Thing", "name": "eVTOL aircraft", "sameAs": "https://en.wikipedia.org/wiki/EVTOL" },
+        { "@type": "Thing", "name": "Electric motor" },
+        { "@type": "Thing", "name": "Dynamometer" },
+        { "@type": "Thing", "name": "Regenerative braking" },
+        { "@type": "Thing", "name": "Field-programmable gate array (FPGA)" },
+        { "@type": "Thing", "name": "Electric vehicle" },
+        { "@type": "Thing", "name": "eVTOL aircraft" },
         { "@id": "https://impedyme.com/#customer-nasa" },
         { "@id": "https://impedyme.com/#customer-jlg" },
         { "@id": "https://impedyme.com/#customer-duke-energy" },
@@ -275,8 +274,7 @@
             "@id": "https://impedyme.com/#customer-nasa",
             "name": "NASA",
             "alternateName": "National Aeronautics and Space Administration",
-            "url": "https://www.nasa.gov/",
-            "sameAs": ["https://en.wikipedia.org/wiki/NASA", "https://www.wikidata.org/wiki/Q23548"]
+            "url": "https://www.nasa.gov/"
           }
         },
         {
@@ -288,8 +286,7 @@
             "@id": "https://impedyme.com/#customer-jlg",
             "name": "JLG Industries",
             "alternateName": "JLG",
-            "url": "https://www.jlg.com/",
-            "sameAs": "https://en.wikipedia.org/wiki/JLG_Industries"
+            "url": "https://www.jlg.com/"
           }
         },
         {
@@ -300,8 +297,7 @@
             "@type": "Organization",
             "@id": "https://impedyme.com/#customer-duke-energy",
             "name": "Duke Energy",
-            "url": "https://www.duke-energy.com/",
-            "sameAs": "https://en.wikipedia.org/wiki/Duke_Energy"
+            "url": "https://www.duke-energy.com/"
           }
         },
         {
@@ -312,8 +308,7 @@
             "@type": "Organization",
             "@id": "https://impedyme.com/#customer-exowatt",
             "name": "Exowatt",
-            "url": "https://exowatt.com/",
-            "sameAs": "https://en.wikipedia.org/wiki/Exowatt"
+            "url": "https://exowatt.com/"
           }
         },
         {
@@ -325,8 +320,7 @@
             "@id": "https://impedyme.com/#customer-flex",
             "name": "Flex",
             "legalName": "Flex Ltd.",
-            "url": "https://flex.com/",
-            "sameAs": "https://en.wikipedia.org/wiki/Flex_Ltd."
+            "url": "https://flex.com/"
           }
         },
         {
@@ -343,8 +337,7 @@
               "@type": "ResearchOrganization",
               "name": "CEA",
               "alternateName": ["French Alternative Energies and Atomic Energy Commission", "Commissariat à l'énergie atomique et aux énergies alternatives"],
-              "url": "https://www.cea.fr/",
-              "sameAs": "https://en.wikipedia.org/wiki/French_Alternative_Energies_and_Atomic_Energy_Commission"
+              "url": "https://www.cea.fr/"
             }
           }
         },
@@ -357,8 +350,7 @@
             "@id": "https://impedyme.com/#customer-lucid",
             "name": "Lucid Motors",
             "alternateName": ["Lucid", "Lucid Group"],
-            "url": "https://www.lucidmotors.com/",
-            "sameAs": "https://en.wikipedia.org/wiki/Lucid_Motors"
+            "url": "https://www.lucidmotors.com/"
           }
         },
         {

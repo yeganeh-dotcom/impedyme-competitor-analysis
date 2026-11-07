@@ -19,8 +19,7 @@ Schema for https://impedyme.com/motor-emulator/ ("Motor Emulator for Inverter Ha
   The page uses its plain URL; everything else uses the URL plus `#name`.
 - JSON strings cannot contain line breaks, and the last item in a list or object must not end with a comma.
   Either mistake makes Google skip the whole block.
-- The `sameAs` links (Wikipedia/Wikidata) tell search and AI engines exactly which organization or concept is meant.
-  They are not clickable links and pass no link equity.
+- There are no `sameAs` links. Customers are identified by name and official website (`url`).
 - The award ("2025 ... Powertrain Test Innovation of the Year") is not in the schema yet: ATTI's 2025 shortlist lists
   Impedyme under *Sustainable* Powertrain Test Innovation of the Year, and the win could not be confirmed here.
 
