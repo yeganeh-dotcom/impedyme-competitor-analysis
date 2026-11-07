@@ -6,12 +6,23 @@ Schema for https://impedyme.com/motor-emulator/ ("Motor Emulator for Inverter Ha
 
 | Node | What it carries |
 | --- | --- |
-| `ItemPage` | Page title, description, images, breadcrumb, topics (`about`), customers and concepts (`mentions`) |
-| `Product` (Impedyme Motor Emulator) | Description, the page's key features as `additionalProperty`, related CHP Motor Emulator and RCP Box products |
-| `FAQPage` | The page's FAQ (low- and high-power testing) |
+| `ItemPage` | Page title, description, images, breadcrumb, topics (`about`), customers and concepts (`mentions`), in-content links to the HIL and inverter-test pages (`significantLink`), video page (`relatedLink`) |
+| `Product` (Impedyme Motor Emulator) | Full description, the four user groups from "Who Uses Motor Emulation?" (`audience`), 14 key facts as `additionalProperty`, related CHP Motor Emulator and RCP Box products |
+| `FAQPage` | All 8 FAQs on the page, word for word |
 | `ItemList` | Organizations that have used the motor emulator: NASA, JLG, Duke Energy, Exowatt, Flex, CEA-Liten, Lucid, Unbox Robotics |
-| `ImageObject` ×3 | The three page images, with captions and image credit |
+| `ImageObject` ×3 | The three page images, with captions and image credit (`@id` = image URL) |
 | `Organization`, `WebSite`, `Brand`, `BreadcrumbList` | Site-level entities, using the `#organization` / `#website` IDs that Yoast and Rank Math also use |
+
+### Editing rules
+
+- Every node needs its own `@id`. Two nodes with the same `@id` are read as one thing, so never reuse an ID.
+  The page uses its plain URL; everything else uses the URL plus `#name`.
+- JSON strings cannot contain line breaks, and the last item in a list or object must not end with a comma.
+  Either mistake makes Google skip the whole block.
+- The `sameAs` links (Wikipedia/Wikidata) tell search and AI engines exactly which organization or concept is meant.
+  They are not clickable links and pass no link equity.
+- The award ("2025 ... Powertrain Test Innovation of the Year") is not in the schema yet: ATTI's 2025 shortlist lists
+  Impedyme under *Sustainable* Powertrain Test Innovation of the Year, and the win could not be confirmed here.
 
 ### Install
 

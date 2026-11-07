@@ -27,31 +27,39 @@
     },
     {
       "@type": "ItemPage",
-      "@id": "https://impedyme.com/motor-emulator/#webpage",
+      "@id": "https://impedyme.com/motor-emulator/",
       "url": "https://impedyme.com/motor-emulator/",
       "name": "Motor Emulator for Inverter Hardware Development",
-      "description": "Validate inverter hardware for electrified mobility under real-world conditions with Impedyme's motor emulator, from signal-level testing with the RCP box to power-level testing with the CHP system.",
+      "description": "Impedyme's motor emulator replaces prototype motors and dynamometers in inverter testing, from signal-level tests with the RCP Box to power-level validation with the CHP Motor Emulator.",
       "inLanguage": "en-US",
       "isPartOf": { "@id": "https://impedyme.com/#website" },
       "publisher": { "@id": "https://impedyme.com/#organization" },
       "breadcrumb": { "@id": "https://impedyme.com/motor-emulator/#breadcrumb" },
       "mainEntity": { "@id": "https://impedyme.com/motor-emulator/#product" },
-      "primaryImageOfPage": { "@id": "https://impedyme.com/motor-emulator/#primaryimage" },
+      "primaryImageOfPage": { "@id": "https://impedyme.com/wp-content/uploads/2025/08/motor-emulation-inverter-testing-impedyme.webp" },
       "image": [
-        { "@id": "https://impedyme.com/motor-emulator/#primaryimage" },
-        { "@id": "https://impedyme.com/motor-emulator/#image-rcp-box" },
-        { "@id": "https://impedyme.com/motor-emulator/#image-fpga-hil" }
+        { "@id": "https://impedyme.com/wp-content/uploads/2025/08/motor-emulation-inverter-testing-impedyme.webp" },
+        { "@id": "https://impedyme.com/wp-content/uploads/2025/06/signal-level-inverter-validation-with-impedyme-rcp-box-scaled.webp" },
+        { "@id": "https://impedyme.com/wp-content/uploads/2025/06/Enabling-Ultra-Fast-High-Fidelity-HIL-with-FPGA-Technology-motor-emulator.webp" }
       ],
       "hasPart": { "@id": "https://impedyme.com/motor-emulator/#faq" },
       "about": [
         { "@id": "https://impedyme.com/motor-emulator/#product" },
-        { "@type": "Thing", "name": "Power inverter", "sameAs": "https://en.wikipedia.org/wiki/Power_inverter" },
+        {
+          "@type": "Thing",
+          "name": "Power inverter",
+          "description": "Inverter hardware is the core of an electric vehicle, handling DC/AC conversion, motor control and energy optimization.",
+          "sameAs": "https://en.wikipedia.org/wiki/Power_inverter"
+        },
         { "@type": "Thing", "name": "Hardware-in-the-loop simulation", "sameAs": "https://en.wikipedia.org/wiki/Hardware-in-the-loop_simulation" }
       ],
       "mentions": [
         { "@type": "Thing", "name": "Electric motor", "sameAs": "https://en.wikipedia.org/wiki/Electric_motor" },
+        { "@type": "Thing", "name": "Dynamometer", "sameAs": "https://en.wikipedia.org/wiki/Dynamometer" },
+        { "@type": "Thing", "name": "Regenerative braking", "sameAs": "https://en.wikipedia.org/wiki/Regenerative_braking" },
         { "@type": "Thing", "name": "Field-programmable gate array (FPGA)", "sameAs": "https://en.wikipedia.org/wiki/Field-programmable_gate_array" },
         { "@type": "Thing", "name": "Electric vehicle", "sameAs": "https://en.wikipedia.org/wiki/Electric_vehicle" },
+        { "@type": "Thing", "name": "eVTOL aircraft", "sameAs": "https://en.wikipedia.org/wiki/EVTOL" },
         { "@id": "https://impedyme.com/#customer-nasa" },
         { "@id": "https://impedyme.com/#customer-jlg" },
         { "@id": "https://impedyme.com/#customer-duke-energy" },
@@ -61,8 +69,12 @@
         { "@id": "https://impedyme.com/#customer-lucid" },
         { "@id": "https://impedyme.com/#customer-unbox-robotics" }
       ],
-      "keywords": "motor emulator, motor emulation, inverter testing, inverter hardware development, EV inverter validation, hardware-in-the-loop, HIL, FPGA, RCP box, CHP, four-quadrant, electrified mobility",
-      "relatedLink": "https://impedyme.com/motor-emulator-for-inverter-hardware-video/"
+      "significantLink": [
+        "https://impedyme.com/hardware-in-the-loop/",
+        "https://impedyme.com/resource-center/inverter-test/"
+      ],
+      "relatedLink": "https://impedyme.com/motor-emulator-video/",
+      "keywords": "motor emulator, motor emulation, inverter hardware development, motor simulator, motor simulation, electric motor emulator, e-motor emulator, e motor emulator"
     },
     {
       "@type": "BreadcrumbList",
@@ -74,10 +86,10 @@
     },
     {
       "@type": "ImageObject",
-      "@id": "https://impedyme.com/motor-emulator/#primaryimage",
+      "@id": "https://impedyme.com/wp-content/uploads/2025/08/motor-emulation-inverter-testing-impedyme.webp",
       "url": "https://impedyme.com/wp-content/uploads/2025/08/motor-emulation-inverter-testing-impedyme.webp",
       "contentUrl": "https://impedyme.com/wp-content/uploads/2025/08/motor-emulation-inverter-testing-impedyme.webp",
-      "caption": "Motor emulation for inverter testing with the Impedyme motor emulator",
+      "caption": "Motor emulation for inverter testing with the Impedyme Motor Emulator",
       "encodingFormat": "image/webp",
       "representativeOfPage": true,
       "creator": { "@id": "https://impedyme.com/#organization" },
@@ -86,10 +98,10 @@
     },
     {
       "@type": "ImageObject",
-      "@id": "https://impedyme.com/motor-emulator/#image-rcp-box",
+      "@id": "https://impedyme.com/wp-content/uploads/2025/06/signal-level-inverter-validation-with-impedyme-rcp-box-scaled.webp",
       "url": "https://impedyme.com/wp-content/uploads/2025/06/signal-level-inverter-validation-with-impedyme-rcp-box-scaled.webp",
       "contentUrl": "https://impedyme.com/wp-content/uploads/2025/06/signal-level-inverter-validation-with-impedyme-rcp-box-scaled.webp",
-      "caption": "Signal-level inverter validation with the Impedyme RCP box",
+      "caption": "Signal-level inverter validation with the Impedyme RCP Box",
       "encodingFormat": "image/webp",
       "creator": { "@id": "https://impedyme.com/#organization" },
       "creditText": "Impedyme",
@@ -97,10 +109,10 @@
     },
     {
       "@type": "ImageObject",
-      "@id": "https://impedyme.com/motor-emulator/#image-fpga-hil",
+      "@id": "https://impedyme.com/wp-content/uploads/2025/06/Enabling-Ultra-Fast-High-Fidelity-HIL-with-FPGA-Technology-motor-emulator.webp",
       "url": "https://impedyme.com/wp-content/uploads/2025/06/Enabling-Ultra-Fast-High-Fidelity-HIL-with-FPGA-Technology-motor-emulator.webp",
       "contentUrl": "https://impedyme.com/wp-content/uploads/2025/06/Enabling-Ultra-Fast-High-Fidelity-HIL-with-FPGA-Technology-motor-emulator.webp",
-      "caption": "Enabling ultra-fast, high-fidelity HIL with FPGA technology: the Impedyme motor emulator",
+      "caption": "Enabling ultra-fast, high-fidelity HIL with FPGA technology: the Impedyme Motor Emulator",
       "encodingFormat": "image/webp",
       "creator": { "@id": "https://impedyme.com/#organization" },
       "creditText": "Impedyme",
@@ -117,39 +129,45 @@
       "name": "Impedyme Motor Emulator",
       "alternateName": "Impedyme Motor Emulation Platform",
       "url": "https://impedyme.com/motor-emulator/",
-      "mainEntityOfPage": { "@id": "https://impedyme.com/motor-emulator/#webpage" },
-      "description": "The Impedyme Motor Emulator is an active, programmable motor emulation platform for developing and validating inverter hardware for electrified mobility. Engineers start with low-power, signal-level testing of unmodified controller hardware on the Real-Time Control Prototyping (RCP) box, then scale to power-level validation under real-world voltage and current with the CHP motor emulator, all on one unified platform. Unlike passive R-L loads, which apply only reactive power and cannot return power to the inverter's DC side, the motor emulator's four-quadrant operation enables active power testing under true-to-life conditions, so components such as diodes and switches are stressed realistically. It helps teams accelerate inverter development, increase testing precision and bring electric mobility products to market faster.",
+      "mainEntityOfPage": { "@id": "https://impedyme.com/motor-emulator/" },
+      "disambiguatingDescription": "Motor emulator that replaces prototype motors and dynamometers in inverter testing for electric vehicles and electrified mobility, from signal level (Impedyme RCP Box) to power level (Impedyme CHP Motor Emulator).",
+      "description": "The Impedyme Motor Emulator is a hardware-in-the-loop (HIL) and power hardware-in-the-loop (PHIL) motor emulator for testing and validating inverter hardware for electric vehicles and electrified mobility. Impedyme designed it to replace prototype motors and dynamometers during inverter development, so engineers can validate inverter hardware earlier, more safely and at lower cost. The Impedyme Motor Emulator reproduces the electrical behavior of an electric motor at the inverter's terminals: an FPGA-based real-time motor model calculates the current a real motor would draw at each instant, and a power stage forces that current. The inverter under test runs as if it were driving a real motor, with back-EMF, inductance, and changing speed and load, but nothing on the test bench rotates. The platform supports two test levels. At signal level, the Impedyme RCP Box tests unmodified controller hardware against a real-time motor model without any high voltage on the bench. At power level, the Impedyme CHP Motor Emulator validates inverter hardware under real-world voltage and current. Motor models and test cases carry over from one level to the next, so the test history stays connected from concept to production. Unlike passive R-L loads, which apply only reactive power and cannot return power to the inverter's DC side, the Impedyme Motor Emulator runs in four quadrants across the full torque-speed range. It applies active power to the inverter, returns power to the inverter's DC side for regenerative braking tests, and stresses diodes and switches the way they will be stressed in service, so weak points show up long before the hardware reaches a vehicle. Testing starts once four parameters are defined, values such as R and L can be changed while the system is running, and the system needs only a 5 kW AC supply and no water connection because it is stand-alone and liquid cooled with no external chiller. By replacing passive loads and reducing reliance on dynamometers, teams can start testing earlier, test more scenarios and find problems while they are still easy to fix.",
       "category": "Test & Measurement > Hardware-in-the-Loop (HIL) Test Systems > Motor Emulators",
       "brand": { "@id": "https://impedyme.com/#brand" },
       "manufacturer": { "@id": "https://impedyme.com/#organization" },
       "image": [
-        { "@id": "https://impedyme.com/motor-emulator/#primaryimage" },
-        { "@id": "https://impedyme.com/motor-emulator/#image-fpga-hil" },
-        { "@id": "https://impedyme.com/motor-emulator/#image-rcp-box" }
+        { "@id": "https://impedyme.com/wp-content/uploads/2025/08/motor-emulation-inverter-testing-impedyme.webp" },
+        { "@id": "https://impedyme.com/wp-content/uploads/2025/06/Enabling-Ultra-Fast-High-Fidelity-HIL-with-FPGA-Technology-motor-emulator.webp" },
+        { "@id": "https://impedyme.com/wp-content/uploads/2025/06/signal-level-inverter-validation-with-impedyme-rcp-box-scaled.webp" }
       ],
-      "audience": {
-        "@type": "BusinessAudience",
-        "audienceType": "Engineers developing and validating inverter hardware for electrified mobility and electric drivetrains"
-      },
+      "audience": [
+        { "@type": "BusinessAudience", "audienceType": "EV traction inverter developers", "description": "Validating drive inverters across the full vehicle operating range" },
+        { "@type": "BusinessAudience", "audienceType": "Industrial drive manufacturers", "description": "Testing variable-speed drives against different motor designs" },
+        { "@type": "BusinessAudience", "audienceType": "eVTOL and electric aircraft teams", "description": "Validating propulsion inverters where safety margins are critical" },
+        { "@type": "BusinessAudience", "audienceType": "Tier-1 suppliers and test labs", "description": "Repeatable, high-throughput validation for multiple customer programs" }
+      ],
       "additionalProperty": [
-        { "@type": "PropertyValue", "name": "Testing levels", "value": "Signal level (RCP box) and power level (CHP system) on one unified motor emulation platform" },
-        { "@type": "PropertyValue", "name": "Operating mode", "value": "Four-quadrant operation for full torque/speed range and active power testing under true-to-life conditions" },
-        { "@type": "PropertyValue", "name": "UUT commissioning", "value": "Only four parameters need to be defined to start testing" },
-        { "@type": "PropertyValue", "name": "Live parameter adjustment", "value": "Parameters such as R and L can be changed with a mouse click during operation" },
+        { "@type": "PropertyValue", "name": "Test levels", "value": "Signal level with the Impedyme RCP Box (no high voltage on the bench) and power level with the Impedyme CHP Motor Emulator, on one platform" },
+        { "@type": "PropertyValue", "name": "Real-time motor model", "value": "FPGA-based model that calculates the current a real motor would draw at each instant; a power stage forces that current" },
+        { "@type": "PropertyValue", "name": "Emulated motor behavior", "value": "Back-EMF, inductance, and changing speed and load, with no rotating parts on the test bench" },
+        { "@type": "PropertyValue", "name": "Operating mode", "value": "Four-quadrant operation (motoring and generating) across the full torque-speed range" },
+        { "@type": "PropertyValue", "name": "Regenerative braking testing", "value": "Power flows back to the inverter's DC side, as during regenerative braking in a real vehicle" },
+        { "@type": "PropertyValue", "name": "Device under test", "value": "Unmodified controller and inverter hardware; the emulator supplies the electrical behavior and feedback signals of a real motor" },
+        { "@type": "PropertyValue", "name": "Fault testing", "value": "Faults can be introduced with no risk to a motor or dynamometer; fault handling can be tested first at signal level with no high voltage present" },
+        { "@type": "PropertyValue", "name": "UUT commissioning", "value": "Testing starts once four parameters are defined" },
+        { "@type": "PropertyValue", "name": "Live parameter adjustment", "value": "Values such as R and L can be changed with a mouse click while the system is running" },
         { "@type": "PropertyValue", "name": "Facility power connection", "value": 5, "unitCode": "KWT", "unitText": "kW AC" },
-        { "@type": "PropertyValue", "name": "Cooling", "value": "Stand-alone liquid cooling; no facility water connection or external chiller required" },
-        { "@type": "PropertyValue", "name": "Real-time simulation", "value": "Ultra-fast, high-fidelity HIL powered by FPGA technology" },
-        { "@type": "PropertyValue", "name": "Device under test", "value": "Unmodified controller hardware (signal level) and inverter hardware (power level)" },
-        { "@type": "PropertyValue", "name": "Advantage over passive R-L loads", "value": "Emulates realistic active power and power flow, while passive R-L loads apply only reactive power and cannot return power to the inverter's DC side" },
-        { "@type": "PropertyValue", "name": "Development phases", "value": "All R&D phases, from concept to production, with full traceability" },
-        { "@type": "PropertyValue", "name": "Applications", "value": "Inverter hardware development and validation for electrified mobility and modern electric drivetrains" }
+        { "@type": "PropertyValue", "name": "Cooling", "value": "Stand-alone liquid cooling; no water connection or external chiller required" },
+        { "@type": "PropertyValue", "name": "Test continuity", "value": "Motor models and test cases carry over from signal level to power level, keeping test history connected from concept to production" },
+        { "@type": "PropertyValue", "name": "Advantage over passive R-L loads", "value": "Passive R-L loads cause limited component stress (reactive power only, so diodes and switches are not tested under real active power) and an inactive DC path (no power returned to the inverter's DC side); the motor emulator applies active power and returns power to the DC side" },
+        { "@type": "PropertyValue", "name": "Replaces", "value": "Prototype motors, dynamometers and passive R-L loads during inverter development" }
       ],
       "isRelatedTo": [
         {
           "@type": "Product",
           "@id": "https://impedyme.com/motor-emulator/#chp-motor-emulator",
           "name": "Impedyme CHP Motor Emulator",
-          "description": "Active, programmable power-level motor emulator for inverter hardware testing. It delivers functional validation under real-world voltage and current conditions, providing a more realistic and detailed testing environment than conventional inductive (passive R-L) setups for modern electric drivetrains.",
+          "description": "The Impedyme CHP Motor Emulator is an active, programmable power-level motor emulator for inverter hardware testing. It validates inverter hardware under real-world voltage and current, giving a more realistic and detailed test environment than conventional inductive (passive R-L) setups for modern electric drivetrains. It operates in four quadrants, emulating both motoring and generating conditions, so power flows back to the inverter's DC side as it would during regenerative braking. It needs only a 5 kW AC connection and no water connection, because it is a stand-alone liquid-cooled system with no external chiller.",
           "category": "Power-level motor emulator",
           "brand": { "@id": "https://impedyme.com/#brand" },
           "manufacturer": { "@id": "https://impedyme.com/#organization" }
@@ -159,9 +177,9 @@
           "@id": "https://impedyme.com/motor-emulator/#rcp-box",
           "name": "Impedyme RCP Box",
           "alternateName": "Impedyme Real-Time Control Prototyping (RCP) Box",
-          "description": "Low-power, signal-level motor emulation for early-stage inverter development, when uncertainty is high. The RCP box lets engineers test unmodified controller hardware against high-fidelity real-time simulation without risking physical components.",
+          "description": "The Impedyme RCP Box provides low-power, signal-level motor emulation for early-stage inverter development. It tests unmodified controller hardware against a high-fidelity real-time motor model with no high voltage on the bench, so testing can start as soon as controller hardware is available, long before the power stage or a prototype motor exists. Fault handling can be tested safely at signal level before moving to power-level tests with the Impedyme CHP Motor Emulator.",
           "category": "Signal-level motor emulator / Real-Time Control Prototyping (RCP)",
-          "image": { "@id": "https://impedyme.com/motor-emulator/#image-rcp-box" },
+          "image": { "@id": "https://impedyme.com/wp-content/uploads/2025/06/signal-level-inverter-validation-with-impedyme-rcp-box-scaled.webp" },
           "brand": { "@id": "https://impedyme.com/#brand" },
           "manufacturer": { "@id": "https://impedyme.com/#organization" }
         }
@@ -171,15 +189,71 @@
     {
       "@type": "FAQPage",
       "@id": "https://impedyme.com/motor-emulator/#faq",
-      "isPartOf": { "@id": "https://impedyme.com/motor-emulator/#webpage" },
+      "isPartOf": { "@id": "https://impedyme.com/motor-emulator/" },
       "about": { "@id": "https://impedyme.com/motor-emulator/#product" },
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a motor emulator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A motor emulator is a power electronics system that reproduces the electrical behavior of an electric motor at the inverter's terminals. A real-time motor model calculates the current a real motor would draw, and the emulator's power stage forces that current, so the inverter behaves as if it were driving a real machine with no rotating parts on the bench."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is a motor emulator different from a dynamometer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A dynamometer tests the inverter with a real motor connected to a mechanical load. A motor emulator reproduces the motor electrically, so no prototype motor, shaft or mechanical load is needed. This makes it faster to set up, safer for fault testing, and much easier to switch between different motor designs."
+          }
+        },
         {
           "@type": "Question",
           "name": "Can the Impedyme motor emulator be used for both low and high-power testing?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The Impedyme motor emulator supports both signal-level testing—using the Real-Time Control Prototyping (RCP) box—and high-power hardware emulation with the CHP system. This flexible architecture allows engineers to streamline development from concept to production, using one unified motor emulation platform."
+            "text": "Yes. The Impedyme motor emulator supports both signal-level testing, using the RCP box, and high-power hardware emulation with the CHP system. This flexible architecture allows engineers to streamline development from concept to production on one unified motor emulation platform."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to modify my inverter or controller to use the motor emulator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The motor emulator is designed to test unmodified controller and inverter hardware. The emulator provides the electrical behavior and feedback signals a real motor would, so your hardware and control software run exactly as they would in the final application."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What facilities are needed to install the CHP motor emulator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Facility requirements are minimal. The CHP motor emulator needs only a 5 kW AC connection for power and no water connection, because it is a stand-alone liquid-cooled system that does not require an external chiller."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a motor emulator test regenerative braking?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The CHP motor emulator operates in four quadrants, so it can emulate both motoring and generating conditions. Power flows back to the inverter's DC side just as it would during regenerative braking in a real vehicle."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to test fault conditions with a motor emulator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Because there are no rotating parts, faults can be introduced without the risk of damaging a motor or a dynamometer. You can also test fault handling first at signal level with the RCP box, where no high voltage is present, before moving to power-level tests."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should motor emulation start in the development cycle?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As early as possible. Signal-level emulation with the RCP box can begin as soon as controller hardware is available, long before the power stage or a prototype motor exists. Testing can then scale to power level with the CHP motor emulator once the inverter hardware is ready."
           }
         }
       ]
@@ -188,7 +262,7 @@
       "@type": "ItemList",
       "@id": "https://impedyme.com/motor-emulator/#customers",
       "name": "Organizations that have used the Impedyme Motor Emulator",
-      "description": "Aerospace, automotive, energy, industrial equipment, manufacturing, research and robotics organizations that have used the Impedyme motor emulator.",
+      "description": "Engineering teams at NASA, JLG Industries, Duke Energy, Exowatt, Flex, CEA-Liten, Lucid Motors and Unbox Robotics use Impedyme real-time test platforms, including the Impedyme Motor Emulator. They span aerospace, automotive, energy, industrial equipment, manufacturing, research and robotics.",
       "numberOfItems": 8,
       "itemListOrder": "https://schema.org/ItemListUnordered",
       "itemListElement": [
