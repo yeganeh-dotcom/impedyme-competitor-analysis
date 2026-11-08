@@ -64,7 +64,6 @@
         { "@id": "https://impedyme.com/#customer-duke-energy" },
         { "@id": "https://impedyme.com/#customer-exowatt" },
         { "@id": "https://impedyme.com/#customer-flex" },
-        { "@id": "https://impedyme.com/#customer-cea-liten" },
         { "@id": "https://impedyme.com/#customer-lucid" },
         { "@id": "https://impedyme.com/#customer-unbox-robotics" }
       ],
@@ -261,8 +260,8 @@
       "@type": "ItemList",
       "@id": "https://impedyme.com/motor-emulator/#customers",
       "name": "Organizations that have used the Impedyme Motor Emulator",
-      "description": "Engineering teams at NASA, JLG Industries, Duke Energy, Exowatt, Flex, CEA-Liten, Lucid Motors and Unbox Robotics use Impedyme real-time test platforms, including the Impedyme Motor Emulator. They span aerospace, automotive, energy, industrial equipment, manufacturing, research and robotics.",
-      "numberOfItems": 8,
+      "description": "Engineering teams at NASA, JLG Industries, Duke Energy, Exowatt, Flex, Lucid Motors and Unbox Robotics use Impedyme real-time test platforms, including the Impedyme Motor Emulator. They span aerospace, automotive, energy, industrial equipment, manufacturing and robotics.",
+      "numberOfItems": 7,
       "itemListOrder": "https://schema.org/ItemListUnordered",
       "itemListElement": [
         {
@@ -326,24 +325,6 @@
         {
           "@type": "ListItem",
           "position": 6,
-          "name": "CEA-Liten",
-          "item": {
-            "@type": "ResearchOrganization",
-            "@id": "https://impedyme.com/#customer-cea-liten",
-            "name": "CEA-Liten",
-            "alternateName": ["Liten", "Innovation Laboratory for New Energy Technologies and Nanomaterials"],
-            "url": "https://liten.cea.fr/",
-            "parentOrganization": {
-              "@type": "ResearchOrganization",
-              "name": "CEA",
-              "alternateName": ["French Alternative Energies and Atomic Energy Commission", "Commissariat à l'énergie atomique et aux énergies alternatives"],
-              "url": "https://www.cea.fr/"
-            }
-          }
-        },
-        {
-          "@type": "ListItem",
-          "position": 7,
           "name": "Lucid Motors",
           "item": {
             "@type": "Organization",
@@ -355,7 +336,7 @@
         },
         {
           "@type": "ListItem",
-          "position": 8,
+          "position": 7,
           "name": "Unbox Robotics",
           "item": {
             "@type": "Organization",

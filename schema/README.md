@@ -9,7 +9,7 @@ Schema for https://impedyme.com/motor-emulator/ ("Motor Emulator for Inverter Ha
 | `ItemPage` | Page title, description, images, breadcrumb, topics (`about`), customers and concepts (`mentions`), in-content links to the HIL and inverter-test pages (`significantLink`), video page (`relatedLink`) |
 | `Product` (Impedyme Motor Emulator) | Full description, the four user groups from "Who Uses Motor Emulation?" (`audience`), 14 key facts as `additionalProperty`, related CHP Motor Emulator and RCP Box products |
 | `FAQPage` | All 8 FAQs on the page, word for word |
-| `ItemList` | Organizations that have used the motor emulator: NASA, JLG, Duke Energy, Exowatt, Flex, CEA-Liten, Lucid, Unbox Robotics |
+| `ItemList` | Organizations that have used the motor emulator: NASA, JLG, Duke Energy, Exowatt, Flex, Lucid, Unbox Robotics |
 | `ImageObject` ×3 | The three page images, with captions and image credit (`@id` = image URL) |
 | `Organization`, `WebSite`, `Brand`, `BreadcrumbList` | Site-level entities, using the `#organization` / `#website` IDs that Yoast and Rank Math also use |
 
@@ -25,8 +25,13 @@ Schema for https://impedyme.com/motor-emulator/ ("Motor Emulator for Inverter Ha
 
 ### Install
 
-Wrap the file contents in `<script type="application/ld+json"> … </script>` and add it to the
-motor-emulator page only. If the tool you paste into asks for JSON only, use the file as-is.
+Use `motor-emulator-schema.php`. It holds the same JSON and prints it in the page `<head>` only on
+https://impedyme.com/motor-emulator/. Paste it as a PHP snippet in the Code Snippets or WPCode plugin
+(safest: the plugin switches a broken snippet off instead of taking the site down), or at the end of the
+child theme's `functions.php`. Do not add an opening `<?php` tag. If an edit breaks the JSON, the snippet
+prints only an HTML comment ("Motor emulator schema skipped") instead of invalid markup.
+
+When you change the schema, change the JSON inside the PHP file (and `motor-emulator.jsonld`, so the two match).
 
 ### Before publishing
 
