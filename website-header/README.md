@@ -70,13 +70,16 @@ scripts stop loading on every page.
 [`wordpress/impedyme-hero-snippet.html`](wordpress/impedyme-hero-snippet.html) is the same header as
 one block of HTML for an Elementor **HTML** widget or a Gutenberg **Custom HTML** block.
 
-1. Upload these three files from [`media/`](media/) in **Media > Add New**:
-   `header-inverter-testing.mp4`, `header-inverter-testing.jpg`, `impedyme-header-end.jpg`.
-2. Open the snippet and check that the three URLs containing `2026/11` match the uploaded files
+Both videos and the Simulink image already point to the files on impedyme.com
+(`2025/03/impedyme-heade.mp4`, `2025/07/header-inverter-testing.mp4`).
+
+1. Upload the two still images from [`media/`](media/) in **Media > Add New**:
+   `header-inverter-testing.jpg` (shown while the slide-2 video loads) and
+   `impedyme-header-end.jpg` (shown on slide 1 when a phone blocks autoplay).
+   They are optional: without them those moments show black.
+2. Open the snippet and check that the two URLs containing `2026/11` match the uploaded images
    (copy each file's URL from the Media Library if they differ).
 3. Paste the whole snippet into the widget or block.
-
-The header video and the Simulink image in the snippet already point to the files on impedyme.com.
 
 ## Changing text, links, colours or timing
 
