@@ -1,0 +1,671 @@
+/*!
+ * Impedyme hero slider — styles
+ * One responsive header for desktop, tablet and mobile (replaces the separate
+ * "desktop-header" and "mobile-header" Slider Revolution modules).
+ *
+ * Layout is driven by the width of the hero itself (container queries):
+ *   >= 1024px  overlay layout: text left, solutions table top-right, image bottom-right
+ *   768-1023px stacked layout: video, then text + button, then solutions table
+ *   < 768px    stacked layout without the solutions table (mobile)
+ *   phones held sideways: video and text side by side, no table
+ *
+ * Every selector is prefixed with .imp-hero so the theme (BeTheme) cannot leak in
+ * and these rules cannot leak out.
+ */
+
+.imp-hero {
+  /* Brand + motion tokens. Change these to restyle the whole hero. */
+  --imp-orange: #ed9a09;                         /* button background */
+  --imp-hover-center: #ffb90b;                   /* button hover: radial gradient centre */
+  --imp-hover-edge: #ff7146;                     /* button hover: radial gradient edge */
+  --imp-line: #f7f7f7;                           /* table lines */
+  --imp-font: Roboto, "Helvetica Neue", Arial, sans-serif;
+  --imp-ease: cubic-bezier(0.77, 0, 0.175, 1);   /* same curve Slider Revolution used (power3.inOut) */
+  --imp-fade: 0.9s;                              /* slide cross-fade; keep in sync with FADE_MS in the JS */
+  --imp-hero-offset: 70px;                       /* height of the site's top bar, so the hero fits one screen */
+
+  container: imp-hero / inline-size;
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #fff;
+  font-family: var(--imp-font);
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.imp-hero *,
+.imp-hero *::before,
+.imp-hero *::after {
+  box-sizing: border-box;
+}
+
+/*
+ * Guards against WordPress auto-formatting (wpautop): if an editor wraps parts of the
+ * markup in paragraphs or adds line breaks, those wrappers disappear from the layout.
+ */
+.imp-hero p {
+  display: contents;
+  margin: 0;
+  padding: 0;
+}
+
+.imp-hero br { display: none; }
+
+/* If the hero is placed inside an editor paragraph, browsers leave empty paragraphs around it. */
+p:empty:has(+ .imp-hero) { display: none; }
+.imp-hero + p:empty { display: none; }
+
+/* ------------------------------------------------------------------ */
+/* Stage, track and slides                                             */
+/* ------------------------------------------------------------------ */
+
+.imp-hero__stage {
+  /* Height of the video area in the stacked (tablet / mobile) layout. */
+  --imp-media-h: min(56.25cqw, 62svh);
+  /* Arrow size and distance from the edge; text columns use them to keep clear. */
+  --imp-arrow-size: 40px;
+  --imp-arrow-inset: 10px;
+
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  touch-action: pan-y;            /* vertical scroll stays native, horizontal swipes change slides */
+}
+
+.imp-hero__track {
+  display: grid;
+}
+
+.imp-hero__slide {
+  grid-area: 1 / 1;               /* all slides share one cell, so the hero never jumps in height */
+  position: relative;
+  min-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--imp-fade) ease, visibility 0s linear var(--imp-fade);
+}
+
+.imp-hero__slide.is-active {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--imp-fade) ease, visibility 0s;
+}
+
+/* ------------------------------------------------------------------ */
+/* Video                                                               */
+/* ------------------------------------------------------------------ */
+
+.imp-hero__media {
+  position: relative;
+  overflow: hidden;
+  height: var(--imp-media-h);
+  background-color: #000;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* Slide 2: the video fills the whole slide behind the button. */
+.imp-hero__media--fill {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  background-size: cover;
+}
+
+.imp-hero .imp-hero__video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #000;
+  /* The header video is on pure black, so "contain" never crops the racks
+     and the letterbox is invisible against the black hero. */
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+}
+
+.imp-hero__media--fill .imp-hero__video {
+  object-fit: cover;              /* real-world footage fills the slide */
+}
+
+/* Shown when a browser blocks autoplay (e.g. iPhone Low Power Mode): poster instead of video. */
+.imp-hero__media.is-static .imp-hero__video {
+  visibility: hidden;
+}
+
+/* ------------------------------------------------------------------ */
+/* Headline + button                                                   */
+/* ------------------------------------------------------------------ */
+
+.imp-hero__intro {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 4cqw, 26px);
+  padding: clamp(18px, 4.6cqw, 36px) 20px clamp(26px, 6.5cqw, 44px);
+  text-align: center;
+}
+
+.imp-hero .imp-hero__title {
+  max-width: 36em;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #fff;
+  font-family: var(--imp-font);
+  font-size: clamp(15px, 4cqw, 22px);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  text-wrap: balance;
+}
+
+.imp-hero a.imp-hero__btn {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.55em 1.5em;
+  border: 0;
+  border-radius: 8px;
+  background: var(--imp-orange);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font-family: var(--imp-font);
+  font-size: clamp(15px, 4.1cqw, 16px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  text-wrap: balance;
+  white-space: normal;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hover: radial gradient (yellow centre to orange-red edge), faded in like the current site. */
+.imp-hero a.imp-hero__btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(circle, var(--imp-hover-center) 0%, var(--imp-hover-edge) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imp-hero a.imp-hero__btn:focus-visible::before {
+  opacity: 1;
+}
+
+/* Hover styles only where a real pointer can hover (no "stuck" hover after a tap on phones). */
+@media (hover: hover) {
+  .imp-hero a.imp-hero__btn:hover::before {
+    opacity: 1;
+  }
+
+  .imp-hero a.imp-hero__cell:hover .imp-hero__cell-title {
+    color: var(--imp-orange);
+  }
+
+  .imp-hero .imp-hero__arrow:hover {
+    background: var(--imp-orange);
+  }
+}
+
+.imp-hero a.imp-hero__btn:hover,
+.imp-hero a.imp-hero__btn:focus,
+.imp-hero a.imp-hero__btn:active,
+.imp-hero a.imp-hero__btn:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+.imp-hero a.imp-hero__btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Solutions table (hidden on mobile)                                  */
+/* ------------------------------------------------------------------ */
+
+.imp-hero__grid {
+  display: none;
+  position: relative;
+  z-index: 2;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  font-size: 18px;                /* title size; everything in the table scales from it (em) */
+}
+
+.imp-hero__lines {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;               /* lines "draw" in from the table's own edges */
+  pointer-events: none;
+}
+
+.imp-hero__line {
+  position: absolute;
+  display: block;
+  background: var(--imp-line);
+}
+
+.imp-hero__line--h {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+}
+
+.imp-hero__line--v1,
+.imp-hero__line--v2 {
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+}
+
+.imp-hero__line--v1 { left: 33.3333%; }
+.imp-hero__line--v2 { left: 66.6667%; }
+
+.imp-hero a.imp-hero__cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+  min-width: 0;
+  margin: 0;
+  padding: 0.9em 0.5em;
+  border: 0;
+  background: none;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.imp-hero a.imp-hero__cell:hover,
+.imp-hero a.imp-hero__cell:focus,
+.imp-hero a.imp-hero__cell:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+.imp-hero a.imp-hero__cell:focus-visible {
+  outline: 2px solid var(--imp-orange);
+  outline-offset: -4px;
+  border-radius: 6px;
+}
+
+.imp-hero__cell-title {
+  display: block;
+  font-family: var(--imp-font);
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.25;
+  white-space: nowrap;            /* the table is sized so the longest title fits on one line */
+  transition: color 0.25s ease;
+}
+
+.imp-hero__cell-sub {
+  display: block;
+  font-family: var(--imp-font);
+  font-size: 0.78em;
+  font-weight: 400;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.imp-hero a.imp-hero__cell:focus-visible .imp-hero__cell-title {
+  color: var(--imp-orange);
+}
+
+/* ------------------------------------------------------------------ */
+/* Product image (Simulink blocksets) and slide-2 button               */
+/* ------------------------------------------------------------------ */
+
+.imp-hero .imp-hero__product {
+  position: absolute;
+  right: 3%;
+  bottom: 7%;
+  z-index: 2;
+  display: block;
+  width: clamp(96px, 28%, 230px);
+  max-width: none;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+}
+
+.imp-hero__tagwrap {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: clamp(22px, 6cqw, 40px);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* Arrows                                                              */
+/* ------------------------------------------------------------------ */
+
+.imp-hero .imp-hero__arrow {
+  all: unset;                     /* the theme styles every button element; start from nothing */
+  position: absolute;
+  top: calc(var(--imp-media-h) / 2);
+  z-index: 5;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: var(--imp-arrow-size);
+  height: var(--imp-arrow-size);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background-color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.imp-hero .imp-hero__arrow--prev { left: var(--imp-arrow-inset); }
+.imp-hero .imp-hero__arrow--next { right: var(--imp-arrow-inset); }
+
+.imp-hero .imp-hero__arrow svg {
+  display: block;
+  width: 45%;
+  height: 45%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.imp-hero .imp-hero__arrow:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tablet: show the solutions table under the button                   */
+/* ------------------------------------------------------------------ */
+
+@container imp-hero (min-width: 768px) {
+  .imp-hero__grid {
+    display: grid;
+    width: min(100% - 48px, 760px);
+    margin: 0 auto clamp(30px, 4.5cqw, 48px);
+  }
+
+  .imp-hero__intro {
+    padding-bottom: clamp(26px, 4cqw, 40px);
+  }
+
+  .imp-hero__stage {
+    --imp-arrow-size: 44px;
+    --imp-arrow-inset: 16px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Desktop + landscape tablets: overlay layout on top of the video     */
+/* ------------------------------------------------------------------ */
+
+@container imp-hero (min-width: 1024px) {
+  .imp-hero__stage {
+    width: 100%;                  /* a definite width keeps max-height from narrowing the hero */
+    aspect-ratio: 16 / 9;
+    min-height: 440px;
+    max-height: calc(100vh - var(--imp-hero-offset));
+    max-height: calc(100svh - var(--imp-hero-offset));
+  }
+
+  .imp-hero__track {
+    position: absolute;
+    inset: 0;
+  }
+
+  .imp-hero__slide--intro .imp-hero__media {
+    position: absolute;
+    inset: 0;
+    height: auto;
+  }
+
+  /* Left column: headline + button, vertically centred, clear of the racks. */
+  .imp-hero__intro {
+    position: absolute;
+    top: 50%;
+    left: max(60px, 5%);
+    width: 23.5%;
+    padding: 0;
+    gap: clamp(18px, 2.3cqw, 40px);
+    transform: translateY(-50%);
+  }
+
+  .imp-hero .imp-hero__title {
+    max-width: none;
+    font-size: clamp(14px, 1.36cqw, 28px);
+    line-height: 1.55;
+  }
+
+  .imp-hero a.imp-hero__btn {
+    min-height: clamp(42px, 3.9cqw, 64px);
+    padding: 0.5em clamp(14px, 1.4cqw, 28px);
+    font-size: clamp(13px, 1.2cqw, 22px);
+  }
+
+  /* Top-right: solutions table, above the short rack. Width is in em of the title size,
+     so "Aerospace & Defense" (9.5em in Roboto) always stays on one line. */
+  .imp-hero__grid {
+    position: absolute;
+    top: 9%;
+    right: max(56px, 4.5%);
+    width: 32em;
+    margin: 0;
+    font-size: clamp(13px, 1.15cqw, 24px);
+  }
+
+  .imp-hero__line--h { height: clamp(1px, 0.14cqw, 2px); }
+  .imp-hero__line--v1,
+  .imp-hero__line--v2 { width: clamp(1px, 0.14cqw, 2px); }
+
+  .imp-hero a.imp-hero__cell {
+    padding: 0.75em 0.5em;
+  }
+
+  /* Bottom-right: Simulink blocksets image, right of the racks. */
+  .imp-hero .imp-hero__product {
+    right: max(56px, 4.5%);
+    bottom: 7%;
+    width: clamp(150px, 19%, 340px);
+  }
+
+  /* Slide 2 button: upper right, as on the current site. */
+  .imp-hero__tagwrap {
+    top: 25%;
+    right: 13%;
+    bottom: auto;
+    left: auto;
+  }
+
+  .imp-hero__slide--inverter a.imp-hero__btn {
+    padding-inline: clamp(20px, 2.6cqw, 52px);
+  }
+
+  .imp-hero__stage {
+    --imp-arrow-size: clamp(36px, 3cqw, 48px);
+    --imp-arrow-inset: clamp(10px, 1.4cqw, 28px);
+  }
+
+  .imp-hero .imp-hero__arrow {
+    top: 50%;
+  }
+}
+
+/* Phones (portrait): a slightly closer crop of the header video so the racks read larger. */
+@container imp-hero (max-width: 599.98px) {
+  .imp-hero__stage { --imp-media-h: 66.667cqw; }
+  .imp-hero__slide--intro .imp-hero__video { object-fit: cover; }
+  .imp-hero__slide--intro .imp-hero__media { background-size: cover; }
+  .imp-hero .imp-hero__product { right: 2.5%; width: 25%; }
+}
+
+/* Phones in landscape: video and text side by side so the hero fits one screen; no table. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .imp-hero .imp-hero__grid { display: none; }
+
+  @container imp-hero (max-width: 1023.98px) {
+    .imp-hero__stage { --imp-media-h: min(32.6cqw, 72svh); }
+
+    .imp-hero__slide--intro {
+      display: grid;
+      grid-template-columns: 58% minmax(0, 1fr);
+    }
+
+    .imp-hero__slide--intro .imp-hero__media {
+      align-self: start;
+      background-size: contain;
+    }
+
+    .imp-hero__slide--intro .imp-hero__video { object-fit: contain; }
+    .imp-hero .imp-hero__product { right: 2.5%; width: 26%; }
+
+    .imp-hero__intro {
+      align-self: center;
+      gap: 12px;
+      padding: 12px calc(var(--imp-arrow-inset) + var(--imp-arrow-size) + 8px) 12px 8px;
+    }
+
+    .imp-hero .imp-hero__title { font-size: 15px; }
+
+    .imp-hero a.imp-hero__btn {
+      min-height: 44px;
+      padding-inline: 1em;
+      font-size: 15px;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Entrance animations                                                 */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Before the script runs, animated elements are hidden and a CSS-only failsafe
+ * fades them in after the same delays, so nothing stays invisible if JS fails.
+ */
+.imp-hero [data-imp-anim] {
+  opacity: 0;
+  animation: imp-hero-failsafe 0.8s ease 3s both;
+}
+
+.imp-hero [data-imp-anim][data-imp-at="end"] {
+  animation-delay: 5s;
+}
+
+@keyframes imp-hero-failsafe {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Script ready: each element waits at its start position (set in px by the script). */
+.imp-hero.is-ready [data-imp-anim] {
+  animation: none;
+  opacity: 0;
+  transform: translate3d(var(--imp-fx, 0px), var(--imp-fy, 0px), 0);
+}
+
+/* Measuring pass: read the final position of every element. */
+.imp-hero.is-measuring [data-imp-anim] {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Slide states set by the script: .is-content (3 s into the video) and .is-end (end of video). */
+.imp-hero.is-ready .is-content [data-imp-anim]:not([data-imp-at="end"]),
+.imp-hero.is-ready .is-end [data-imp-anim][data-imp-at="end"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition:
+    transform var(--imp-dur, 1.8s) var(--imp-ease) var(--imp-delay, 0s),
+    opacity var(--imp-dur, 1.8s) var(--imp-ease) var(--imp-delay, 0s);
+}
+
+/* Timing per element (delays are counted from the 3-second mark). */
+.imp-hero__title { --imp-dur: 1.8s; }
+.imp-hero__slide--intro .imp-hero__btn { --imp-dur: 1.6s; --imp-delay: 0.35s; }
+.imp-hero__line { --imp-dur: 1.5s; }
+.imp-hero__line--v2 { --imp-delay: 0.1s; }
+/* Table cells all set off from the left edge; the right column (longest path) leaves first,
+   so cells fan out to their places without overtaking each other. */
+.imp-hero__cell { --imp-dur: 1.8s; }
+.imp-hero__cell:nth-of-type(3) { --imp-delay: 0.15s; }
+.imp-hero__cell:nth-of-type(6) { --imp-delay: 0.2s; }
+.imp-hero__cell:nth-of-type(2) { --imp-delay: 0.25s; }
+.imp-hero__cell:nth-of-type(5) { --imp-delay: 0.3s; }
+.imp-hero__cell:nth-of-type(1) { --imp-delay: 0.35s; }
+.imp-hero__cell:nth-of-type(4) { --imp-delay: 0.4s; }
+.imp-hero__product { --imp-dur: 1.5s; }
+.imp-hero__slide--inverter .imp-hero__btn {
+  --imp-dur: 0.9s;
+  --imp-delay: 0.2s;
+  --imp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Reduced motion: no travel, just a gentle fade. */
+@media (prefers-reduced-motion: reduce) {
+  .imp-hero.is-ready [data-imp-anim] {
+    transform: none;
+  }
+
+  .imp-hero.is-ready .is-content [data-imp-anim]:not([data-imp-at="end"]),
+  .imp-hero.is-ready .is-end [data-imp-anim][data-imp-at="end"] {
+    transform: none;
+    transition: opacity 0.6s ease var(--imp-delay, 0s);
+  }
+
+  .imp-hero a.imp-hero__btn::before,
+  .imp-hero .imp-hero__arrow {
+    transition: none;
+  }
+}
