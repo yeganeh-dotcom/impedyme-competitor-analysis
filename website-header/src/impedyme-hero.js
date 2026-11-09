@@ -12,6 +12,7 @@
  * Auto-advance pauses while the mouse is on one of the hero's links or buttons, or a keyboard
  * user is inside it; the active video pauses whenever the hero is off-screen or the tab is hidden.
  * Arrows, swipe (touch) and the left/right arrow keys change slides.
+ * The header is stretched to the full window width even inside a boxed theme column.
  */
 (function () {
   'use strict';
@@ -63,6 +64,18 @@
     var preloaded = false;
     var raf = 0;
     var last = 0;
+
+    /* ---------- full width: span the whole window, whatever column the header sits in ---------- */
+
+    function fitWidth() {
+      var de = document.documentElement;
+      var sbw = Math.max(0, window.innerWidth - de.clientWidth);   // desktop scrollbar (0 on phones/Mac)
+      if (sbw > 40) sbw = 0;                                         // zoomed or unusual viewport: ignore
+      root.style.setProperty('--imp-sbw', sbw + 'px');
+      root.style.setProperty('--imp-shift', '0px');
+      var left = root.getBoundingClientRect().left + (window.pageXOffset || 0);
+      root.style.setProperty('--imp-shift', (Math.abs(left) < 0.5 ? 0 : -left).toFixed(2) + 'px');
+    }
 
     /* ---------- start positions for the entrance animations ---------- */
 
@@ -320,16 +333,22 @@
 
     var resizeTimer = 0;
     var onResize = function () {
+      fitWidth();
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(measure, 120);
     };
-    if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(root);
-    else window.addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(onResize);
+      ro.observe(document.documentElement);   // page width changes, e.g. when a scrollbar appears
+      ro.observe(root);                       // the header's own size (layout switches, fonts)
+    }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 
     /* ---------- start ---------- */
 
     slides.forEach(function (s, i) { if (i !== 0) s.el.classList.remove('is-active'); });
+    fitWidth();
     measure();
     root.classList.add('is-ready');
     go(0, false);

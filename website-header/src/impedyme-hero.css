@@ -1,7 +1,8 @@
 /*!
  * Impedyme hero slider — styles
  * One responsive header for desktop, tablet and mobile (replaces the separate
- * "desktop-header" and "mobile-header" Slider Revolution modules).
+ * "desktop-header" and "mobile-header" Slider Revolution modules). It always spans
+ * the full width of the browser window, even when placed inside a boxed column.
  *
  * Layout is driven by the width of the hero itself (container queries):
  *   >= 1024px  overlay layout: text left, solutions table top-right, image bottom-right
@@ -24,11 +25,22 @@
   --imp-fade: 0.9s;                              /* slide cross-fade; keep in sync with FADE_MS in the JS */
   --imp-hero-offset: 70px;                       /* height of the site's top bar, so the hero fits one screen */
 
+  /*
+   * Full width: the header always spans the whole browser window, even inside a boxed
+   * theme column (BeTheme adds 12px side margins on desktop and 33px side padding on
+   * mobile). The script fills in --imp-sbw (desktop scrollbar width) and --imp-shift
+   * (only needed if the column is not centred), so it lines up to the exact pixel.
+   */
+  --imp-page-w: calc(100vw - var(--imp-sbw, 0px));
+
   container: imp-hero / inline-size;
   position: relative;
   display: block;
-  width: 100%;
-  margin: 0;
+  box-sizing: border-box;
+  width: var(--imp-page-w);
+  max-width: none;
+  min-width: 0;
+  margin: 0 0 0 calc(50% - var(--imp-page-w) / 2 + var(--imp-shift, 0px));
   padding: 0;
   background: #000;
   color: #fff;

@@ -36,6 +36,9 @@ orange-red edge) fades in, like the current site.
 | Phone held sideways | Video and text side by side so everything fits on one screen. No table. |
 
 **Other behaviour**
+- Always full width: the header spans the whole browser window, edge to edge, even inside a
+  boxed column (on impedyme.com, BeTheme adds 12 px side margins on desktop and 33 px side
+  padding on mobile; the header breaks out of both).
 - Arrows on both sides; swipe on touch screens; left and right arrow keys.
 - The slideshow pauses while the mouse is on a link or button, so a slide never changes
   under a click. It continues about 1 s after the mouse leaves.
@@ -54,8 +57,8 @@ The plugin includes the videos and images, so nothing needs to go to the Media L
 2. Edit the homepage in BeBuilder. The first two sections hold the old sliders:
    - **Section with the `desktop-header` slider**: in its Column item, replace the Slider Revolution
      shortcode with `[impedyme_hero]`. Then open the section settings and **turn off "hide on tablet"
-     and "hide on mobile"** (today this section is hidden on those devices). Set the section width
-     to full width on all devices, not "full width except mobile".
+     and "hide on mobile"** (today this section is hidden on those devices). The section's width
+     setting does not matter: the header stretches to the full window width by itself.
    - **Section with the `mobile-header` slider**: delete it, or hide it on all devices.
 3. Save, clear any page cache, and check the homepage on a computer, a tablet and a phone.
 
@@ -125,7 +128,8 @@ visit http://localhost:8000). Resize the window to see the tablet and mobile lay
 ## How it was tested
 
 Headless Chromium (Playwright), at 16 screen sizes from 320 × 568 to 2560 × 1440 including
-landscape phones. Checked: no horizontal scrolling at any size; nothing overlaps the racks; the
+landscape phones. Checked: no horizontal scrolling at any size; edge-to-edge width inside a copy
+of the homepage's BeTheme column structure (also with a desktop scrollbar and an off-centre column); nothing overlaps the racks; the
 full slide cycle and its timing; arrows, keyboard and swipe; hover pause; autoplay blocked; a
 missing video; reduced motion; no JavaScript; pausing off-screen. An axe-core accessibility scan
 found no issues. The plugin was rendered through PHP, and the snippet was run through WordPress's
