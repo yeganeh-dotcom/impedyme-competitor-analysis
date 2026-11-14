@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impedyme LinkedIn Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f5f9;--panel:#ffffff;--text:#151a24;--muted:#5d6678;--border:#dfe3eb;
+  --accent:#2457d6;--accent-soft:#e7eefc;--ok:#13804b;--ok-soft:#e3f5ec;--bad:#c2372f;--bad-soft:#fbe9e7;
+  --chat:#e9eef5;--bot:#ffffff;--me:#d9f2d0;--btn:#ffffff;--btn-text:#1e4fc4;--kb:#f7f8fb;--new:#a15c00;--new-soft:#fff3dc;
+  --shadow:0 10px 30px rgba(20,30,60,.12);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f131a;--panel:#171c25;--text:#e8ecf3;--muted:#9aa4b6;--border:#2a3240;
+  --accent:#7aa2ff;--accent-soft:#1e2a44;--ok:#4fd18b;--ok-soft:#14302a;--bad:#ff7b70;--bad-soft:#3a1f1e;
+  --chat:#0c1016;--bot:#1d2430;--me:#24402a;--btn:#202837;--btn-text:#9dbbff;--kb:#141922;--new:#ffbf5e;--new-soft:#3a2c12;
+  --shadow:0 10px 30px rgba(0,0,0,.45);
+}}
+:root[data-theme="dark"]{
+  --bg:#0f131a;--panel:#171c25;--text:#e8ecf3;--muted:#9aa4b6;--border:#2a3240;
+  --accent:#7aa2ff;--accent-soft:#1e2a44;--ok:#4fd18b;--ok-soft:#14302a;--bad:#ff7b70;--bad-soft:#3a1f1e;
+  --chat:#0c1016;--bot:#1d2430;--me:#24402a;--btn:#202837;--btn-text:#9dbbff;--kb:#141922;--new:#ffbf5e;--new-soft:#3a2c12;
+  --shadow:0 10px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.75 "Vazirmatn",Tahoma,"Segoe UI",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 40px}
+header.top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+h1{font-size:22px;margin:0 0 4px;font-weight:800}
+.sub{color:var(--muted);margin:0;max-width:760px}
+.reset{border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer}
+.reset:hover{border-color:var(--accent)}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 10px;padding:0;list-style:none}
+.steps li{padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:var(--panel);color:var(--muted);font-size:13px}
+.steps li.done{color:var(--ok);border-color:var(--ok);background:var(--ok-soft)}
+.steps li.cur{color:#fff;background:var(--accent);border-color:var(--accent);font-weight:600}
+.steps li .n{display:inline-grid;place-items:center;min-width:18px;height:18px;margin-inline-end:6px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:11.5px;font-weight:700}
+.steps li.done .n{background:var(--ok);color:#fff}.steps li.cur .n{background:#fff;color:var(--accent)}
+.hint{background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-weight:600}
+.tabs{display:none;gap:8px;margin-bottom:12px}
+.tabs button{flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font:inherit;cursor:pointer;position:relative}
+.tabs button.on{border-color:var(--accent);color:var(--accent);font-weight:700}
+.badge{position:absolute;top:6px;left:10px;width:10px;height:10px;border-radius:50%;background:var(--bad);display:none}
+.badge.show{display:block}
+.phones{display:flex;gap:28px;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.phone{width:380px;max-width:100%;height:700px;background:var(--panel);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.ph-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800}
+.ph-head b{display:block;line-height:1.3}
+.ph-head small{color:var(--muted)}
+.chat{flex:1;overflow-y:auto;background:var(--chat);padding:12px 10px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:88%;animation:pop .18s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg.bot{align-self:flex-start}
+.msg.me{align-self:flex-end}
+.bubble{background:var(--bot);border-radius:14px;padding:8px 12px;box-shadow:0 1px 1px rgba(0,0,0,.06);overflow-wrap:anywhere}
+.msg.me .bubble{background:var(--me)}
+.bubble code{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;direction:ltr;unicode-bidi:embed;background:var(--accent-soft);padding:0 4px;border-radius:4px}
+.ltr{direction:ltr;unicode-bidi:embed;display:inline-block}
+.muted{color:var(--muted);font-size:13px}
+.newtag{display:inline-block;margin-top:6px;background:var(--new-soft);color:var(--new);border-radius:8px;padding:4px 8px;font-size:13px}
+.ptitle{display:block;direction:ltr;text-align:left;font-weight:600;margin:4px 0}
+.status-ok{color:var(--ok);font-weight:600}.status-bad{color:var(--bad);font-weight:600}.status-wait{color:var(--new);font-weight:600}
+.irows{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.irow{display:flex;gap:4px}
+.ib{flex:1;border:0;border-radius:10px;padding:7px 8px;background:var(--btn);color:var(--btn-text);font:inherit;font-size:13.5px;cursor:pointer;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.ib:hover:not(:disabled){filter:brightness(.97)}
+.ib.ok{color:var(--ok)}.ib.bad{color:var(--bad)}
+.ib:disabled{opacity:.45;cursor:default}
+.ib.lbl{opacity:1;cursor:default;color:var(--muted)}
+.kb{background:var(--kb);border-top:1px solid var(--border);padding:8px;display:flex;flex-direction:column;gap:6px}
+.kbrow{display:flex;gap:6px}
+.kbb{flex:1;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:10px;padding:8px 6px;font:inherit;font-size:13.5px;cursor:pointer;position:relative}
+.kbb:hover{border-color:var(--accent)}
+.kbb .dot{position:absolute;top:-7px;right:8px;background:var(--new);color:#fff;font-size:10.5px;border-radius:6px;padding:0 5px;line-height:16px}
+.inrow{display:none;gap:6px;padding:8px;border-top:1px solid var(--border);background:var(--panel)}
+.inrow.show{display:flex}
+.inrow input{flex:1;min-width:0;border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:var(--bg);color:var(--text);font:inherit;font-size:13px;direction:ltr}
+.send{border:0;border-radius:10px;background:var(--accent);color:#fff;font:inherit;font-weight:700;padding:0 14px;cursor:pointer}
+.pulse{outline:3px solid var(--new);outline-offset:1px;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{outline-color:transparent}}
+@media (prefers-reduced-motion:reduce){.pulse,.msg{animation:none}}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1f2633;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+.foot{margin-top:22px;color:var(--muted);font-size:13.5px}
+.foot ul{margin:6px 0 0;padding-inline-start:20px}
+@media (max-width:860px){
+  .tabs{display:flex}
+  .phone{height:640px;width:100%}
+  .phone.hide{display:none}
+  h1{font-size:19px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>دموی بخش «💼 لینکدین» در ربات Impedyme</h1>
+      <p class="sub">نمونه کلیک‌پذیر: ربات کاربر و ربات ادمین کنار هم. کاربر علاوه بر جستجوی گوگل، با بازنشر پست‌های شرکت در لینکدین سکه می‌گیرد و همه سکه‌ها در یک کیف پول جمع می‌شوند. داده‌ها نمونه هستند و چیزی به تلگرام یا لینکدین ارسال نمی‌شود.</p>
+    </div>
+    <button class="reset" id="reset">↺ شروع دوباره دمو</button>
+  </header>
+  <ol class="steps" id="steps"></ol>
+  <div class="hint" id="hint"></div>
+  <div class="tabs" id="tabs">
+    <button data-tab="u" class="on">📱 ربات کاربر<span class="badge" id="badge-u"></span></button>
+    <button data-tab="a">👑 ربات ادمین<span class="badge" id="badge-a"></span></button>
+  </div>
+  <div class="phones">
+    <section class="phone" id="ph-u" aria-label="ربات کاربر">
+      <div class="ph-head"><div class="avatar" style="background:#2457d6">I</div><div><b>Impedyme Bot</b><small>ربات کاربر · سارا احمدی</small></div></div>
+      <div class="chat" id="u-chat"></div>
+      <div class="inrow" id="u-in"><input id="u-text" aria-label="پیام"><button class="send" id="u-send" data-hint="send-u">➤</button></div>
+      <div class="kb" id="u-kb"></div>
+    </section>
+    <section class="phone" id="ph-a" aria-label="ربات ادمین">
+      <div class="ph-head"><div class="avatar" style="background:#13804b">A</div><div><b>Impedyme Admin</b><small>ربات ادمین · شما</small></div></div>
+      <div class="chat" id="a-chat"></div>
+      <div class="inrow" id="a-in"><input id="a-text" aria-label="پیام"><button class="send" id="a-send">➤</button></div>
+      <div class="kb" id="a-kb"></div>
+    </section>
+  </div>
+  <div class="foot">
+    <b>در این دمو:</b>
+    <ul>
+      <li>عددها پیش‌فرض‌اند و از «⚙️ تنظیمات لینکدین» در ربات ادمین تغییر می‌کنند: هر بازنشر تاییدشده ۲ سکه، حداکثر ۳ بازنشر در روز، پاداش دعوت ۲ سکه، جوایز فصل ۱۰۰/۸۰/۶۰/۴۰/۲۰ سکه.</li>
+      <li>کاربر متن بازنشر را با کلمات خودش می‌نویسد و برچسب <span class="ltr">#ImpedymePartner</span> را اضافه می‌کند؛ ربات متن آماده نمی‌دهد.</li>
+      <li>دکمه‌های قدیمی هر دو ربات سر جایشان می‌مانند؛ اینجا فقط دکمه‌های مرتبط نشان داده شده‌اند.</li>
+    </ul>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function () {
+  "use strict";
+  var CFG = { shareCoins: 2, dailyCap: 3, refCoins: 2, toman: 5000, tag: "#ImpedymePartner", prizes: [100, 80, 60, 40, 20], seasonDaysLeft: 38 };
+  var POSTS = [
+    { id: "post_1", title: "Unlocking the Power of Permanent Magnet Synchronous Machines (PMSM)" },
+    { id: "post_2", title: "The Problem with R-L Loads in Inverter Development" },
+    { id: "post_3", title: "The Hidden Risks of High-Voltage DC in AI Data Centers" },
+    { id: "post_12", title: "Night of the Real-time Emulators" }
+  ];
+  var STEPS = ["منوی جدید", "عضویت ۳ مرحله‌ای", "تایید ادمین", "بازنشر پست", "بررسی ادمین", "کیف پول یکپارچه", "رتبه و دعوت"];
+  var S;
+  function $(id) { return document.getElementById(id); }
+  function fa(n) { return String(n).replace(/\d/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹"[d]; }); }
+  function money(n) { return Number(n).toLocaleString("fa-IR"); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function link(u) { return '<span class="ltr" style="font-size:12.5px">' + esc(u) + "</span>"; }
+  function toast(t) {
+    var el = $("toast"); el.textContent = t; el.classList.add("show");
+    clearTimeout(toast.timer); toast.timer = setTimeout(function () { el.classList.remove("show"); }, 2600);
+  }
+  function scroll(who) { var c = $(who + "-chat"); c.scrollTop = c.scrollHeight; }
+
+  /* ---------- chat primitives ---------- */
+  function renderButtons(wrap, rows) {
+    var old = wrap.querySelector(".irows"); if (old) old.remove();
+    if (!rows || !rows.length) return;
+    var box = document.createElement("div"); box.className = "irows";
+    rows.forEach(function (row) {
+      if (!row || !row.length) return;
+      var r = document.createElement("div"); r.className = "irow";
+      row.forEach(function (b) {
+        var el = document.createElement("button");
+        el.className = "ib" + (b.kind ? " " + b.kind : "") + (b.label ? " lbl" : "");
+        el.textContent = b.t;
+        if (b.hint) el.dataset.hint = b.hint;
+        if (b.label) el.disabled = true;
+        else el.addEventListener("click", function () {
+          if (b.keep !== true) box.querySelectorAll(".ib").forEach(function (x) { x.disabled = true; });
+          b.fn(wrap);
+          applyHint();
+        });
+        r.appendChild(el);
+      });
+      box.appendChild(r);
+    });
+    wrap.appendChild(box);
+  }
+  function bot(who, html, rows) {
+    var w = document.createElement("div"); w.className = "msg bot";
+    var b = document.createElement("div"); b.className = "bubble"; b.innerHTML = html;
+    w.appendChild(b); renderButtons(w, rows);
+    $(who + "-chat").appendChild(w); scroll(who); ping(who);
+    return w;
+  }
+  function edit(w, html, rows) { w.querySelector(".bubble").innerHTML = html; renderButtons(w, rows); }
+  function me(who, text) {
+    var w = document.createElement("div"); w.className = "msg me";
+    var b = document.createElement("div"); b.className = "bubble"; b.textContent = text;
+    w.appendChild(b); $(who + "-chat").appendChild(w); scroll(who);
+  }
+  function setKb(who, rows, handler) {
+    var kb = $(who + "-kb"); kb.innerHTML = "";
+    rows.forEach(function (row) {
+      var r = document.createElement("div"); r.className = "kbrow";
+      row.forEach(function (k) {
+        var t = typeof k === "string" ? k : k.t;
+        var el = document.createElement("button"); el.className = "kbb"; el.textContent = t;
+        if (k.hint) el.dataset.hint = k.hint;
+        if (k.isNew) { var d = document.createElement("span"); d.className = "dot"; d.textContent = "جدید"; el.appendChild(d); }
+        el.addEventListener("click", function () { me(who, t); handler(t); applyHint(); });
+        r.appendChild(el);
+      });
+      kb.appendChild(r);
+    });
+  }
+  function ask(who, value, onSend) { $(who + "-in").classList.add("show"); $(who + "-text").value = value; S.onSend[who] = onSend; }
+  function closeAsk(who) { $(who + "-in").classList.remove("show"); if (S) S.onSend[who] = null; }
+  function doSend(who) {
+    var v = $(who + "-text").value.trim();
+    if (!v || !S.onSend[who]) return;
+    var cb = S.onSend[who];
+    closeAsk(who);
+    if (cb(v) === false) { S.onSend[who] = cb; $(who + "-in").classList.add("show"); }
+    applyHint();
+  }
+
+  /* ---------- guided tour ---------- */
+  function step(n, hintHtml, key) {
+    S.step = n; S.hintKey = key || null;
+    var ol = $("steps"); ol.innerHTML = "";
+    STEPS.forEach(function (s, i) {
+      var li = document.createElement("li");
+      li.innerHTML = '<span class="n">' + (i + 1 < n ? "✓" : fa(i + 1)) + "</span>" + s;
+      li.className = i + 1 < n ? "done" : i + 1 === n ? "cur" : "";
+      ol.appendChild(li);
+    });
+    $("hint").innerHTML = "👉 " + hintHtml;
+    applyHint();
+  }
+  function isMobile() { return window.matchMedia("(max-width:860px)").matches; }
+  function applyHint() {
+    document.querySelectorAll(".pulse").forEach(function (e) { e.classList.remove("pulse"); });
+    if (!S || !S.hintKey) return;
+    var targets = Array.prototype.filter.call(document.querySelectorAll('[data-hint="' + S.hintKey + '"]'), function (e) { return !e.disabled; });
+    targets.forEach(function (e) { e.classList.add("pulse"); });
+    var t = targets[0];
+    if (!t || !isMobile()) return;
+    var ph = t.closest(".phone");
+    if (ph && ph.classList.contains("hide")) document.querySelector('.tabs [data-tab="' + ph.id.slice(3) + '"]').classList.add("pulse");
+  }
+  function ping(who) { if (isMobile() && $("ph-" + who).classList.contains("hide")) $("badge-" + who).classList.add("show"); }
+  function showTab(who) {
+    ["u", "a"].forEach(function (x) {
+      $("ph-" + x).classList.toggle("hide", x !== who);
+      document.querySelector('.tabs [data-tab="' + x + '"]').classList.toggle("on", x === who);
+    });
+    $("badge-" + who).classList.remove("show"); scroll(who); applyHint();
+  }
+
+  /* ---------- user bot ---------- */
+  var USER_KB = [
+    ["کلمات امروز 🔑", { t: "💼 لینکدین", hint: "kb-li", isNew: true }],
+    [{ t: "کیف پول 💰", hint: "wallet" }, "درخواست تسویه 💳"],
+    [{ t: "🏆 رتبه و جایزه", hint: "board", isNew: true }, { t: "🤝 دعوت دوستان", hint: "invite", isNew: true }],
+    ["اطلاعات کاربری 👤", "راهنما"]
+  ];
+  function onUserKey(t) {
+    if (t === "💼 لینکدین") return liEntry();
+    if (t === "کیف پول 💰") return wallet();
+    if (t === "🏆 رتبه و جایزه") return board();
+    if (t === "🤝 دعوت دوستان") return invite();
+    if (t === "کلمات امروز 🔑") return bot("u", "🔑 <b>کلمات کلیدی فعال امروز:</b><br>1. <code>grid emulator</code><br>2. <code>motor emulator</code><br><span class=\"muted\">(بخش جستجوی گوگل همان نسخه فعلی است و تغییری نکرده.)</span>");
+    bot("u", "این بخش همان امکانات فعلی ربات است و در این دمو تغییری نکرده.");
+  }
+  function liEntry() {
+    if (S.member === "approved") {
+      var open = nextOpen(S.postIdx);
+      if (open === -1) return bot("u", "🎉 <b>همه پست‌های فعلی را انجام داده‌اید!</b><br>پست تازه که اضافه شود همین‌جا خبرتان می‌کنیم. تا آن موقع از «کلمات امروز 🔑» هم سکه بگیرید.");
+      return postCard(open, true);
+    }
+    if (S.member === "pending") return bot("u", "⏳ عضویت لینکدین شما در حال بررسی است. نتیجه همین‌جا اطلاع داده می‌شود.");
+    bot("u", "💼 <b>کسب سکه از لینکدین</b><br>پست‌های Impedyme را در لینکدین با یکی‌دو جمله از خودتان بازنشر کنید و برای هر بازنشر تاییدشده <b>+" + fa(CFG.shareCoins) +
+      " سکه</b> (" + money(CFG.shareCoins * CFG.toman) + " تومان) بگیرید.<br><br><b>مرحله ۱ از ۳:</b> صفحه شرکت را در لینکدین دنبال (Follow) کنید تا پست‌های تازه را ببینید.",
+      [[{ t: "🔗 باز کردن صفحه شرکت", keep: true, fn: function () { toast("در ربات واقعی، صفحه Impedyme در لینکدین باز می‌شود."); } }],
+       [{ t: "✅ دنبال کردم، مرحله ۲", hint: "followed", fn: step2 }]]);
+    step(2, "در ربات کاربر روی «✅ دنبال کردم، مرحله ۲» بزنید.", "followed");
+  }
+  function step2() {
+    bot("u", "<b>مرحله ۲ از ۳:</b> لینک پروفایل لینکدین خود را بفرستید.<br>نمونه: <code>https://www.linkedin.com/in/your-name</code>",
+      [[{ t: "❓ لینک پروفایلم کجاست؟", keep: true, fn: function () { bot("u", "در اپ لینکدین: روی عکس خودتان بزنید ← <b>View profile</b> ← دکمه «⋯» ← <b>Share via</b> ← <b>Copy link</b>."); } }]]);
+    ask("u", "https://www.linkedin.com/in/sara-ahmadi-ee", onProfile);
+    step(2, "یک لینک نمونه در کادر پایین ربات کاربر آماده است؛ ارسال (➤) را بزنید. می‌توانید یک لینک اشتباه هم امتحان کنید.", "send-u");
+  }
+  function onProfile(v) {
+    me("u", v);
+    if (!/linkedin\.com\/in\/[^\/?#\s]+/i.test(v)) {
+      bot("u", "⚠️ این لینک پروفایل شخصی لینکدین نیست. لینک باید شبیه <code>linkedin.com/in/...</code> باشد. دوباره بفرستید:");
+      return false;
+    }
+    if (S.taken.indexOf(v.toLowerCase().replace(/\/+$/, "")) !== -1) { bot("u", "⚠️ این پروفایل قبلاً با حساب دیگری ثبت شده است."); return false; }
+    S.profile = v; S.member = "pending";
+    bot("u", "<b>مرحله ۳ از ۳:</b> ⏳ در انتظار تایید مدیر.<br>مدیر پروفایل شما را باز می‌کند و بررسی می‌کند که صفحه شرکت را دنبال کرده باشید. نتیجه همین‌جا اطلاع داده می‌شود.");
+    memberCard();
+    step(3, "در <b>ربات ادمین</b> درخواست عضویت آمده؛ تایید کنید (یا «❌ رد» را امتحان کنید تا دلیل‌های آماده را ببینید).", "m-ok");
+  }
+
+  /* ---------- admin: membership ---------- */
+  var MEMBER_REASONS = ["پروفایل باز نمی‌شود یا خصوصی است", "صفحه شرکت را دنبال نکرده‌اید", "پروفایل ناقص است (بدون عکس یا سابقه)", "این پروفایل قبلاً با حساب دیگری ثبت شده است"];
+  function memberText() {
+    return "🧑‍💼 <b>درخواست عضویت لینکدین</b><br>👤 سارا احمدی <span class=\"ltr\">(ID: <code>482913</code>)</span><br>🔗 " + link(S.profile) +
+      "<br>✅ این پروفایل قبلاً با حساب دیگری ثبت نشده<br><span class=\"muted\">پروفایل را باز کنید و دنبال کردن صفحه شرکت را بررسی کنید.</span>";
+  }
+  function memberButtons() { return [[{ t: "✅ تایید", kind: "ok", hint: "m-ok", fn: approveMember }, { t: "❌ رد", kind: "bad", fn: memberReasons }]]; }
+  function memberCard() { S.pendingMembers = 1; bot("a", memberText(), memberButtons()); }
+  function memberReasons(w) {
+    var rows = MEMBER_REASONS.map(function (r) { return [{ t: r, fn: function (ww) { rejectMember(ww, r); } }]; });
+    rows.push([{ t: "✏️ دلیل دلخواه", keep: true, fn: function () { toast("در ربات واقعی، دلیل را تایپ می‌کنید."); } },
+               { t: "↩️ بازگشت", fn: function (ww) { edit(ww, memberText(), memberButtons()); } }]);
+    edit(w, memberText() + "<br><br><b>دلیل رد را انتخاب کنید:</b>", rows);
+  }
+  function rejectMember(w, reason) {
+    S.pendingMembers = 0; S.member = "rejected";
+    edit(w, memberText() + "<br><br><span class=\"status-bad\">❌ رد شد</span> — دلیل: " + esc(reason), null);
+    bot("u", "❌ عضویت لینکدین شما تایید نشد.<br>دلیل: <b>" + esc(reason) + "</b><br>بعد از اصلاح، دوباره لینک بفرستید.", [[{ t: "🔄 ارسال دوباره لینک", hint: "resend", fn: step2 }]]);
+    step(2, "کاربر دلیل رد را دید. در ربات کاربر «🔄 ارسال دوباره لینک» را بزنید و این بار در ادمین تایید کنید.", "resend");
+  }
+  function approveMember(w) {
+    S.pendingMembers = 0; S.member = "approved";
+    edit(w, memberText() + "<br><br><span class=\"status-ok\">✅ تایید شد</span>", null);
+    bot("u", "🎉 <b>عضویت لینکدین شما تایید شد!</b><br>روش کار در سه قدم:<br>۱) پست را باز کنید.<br>۲) Repost ← <b>Repost with your thoughts</b> و یکی‌دو جمله <b>با کلمات خودتان</b> بنویسید، به‌علاوه برچسب <code>" + CFG.tag +
+      "</code><br>۳) لینک بازنشر را اینجا بفرستید؛ بعد از تایید، سکه به کیف پول اضافه می‌شود.",
+      [[{ t: "🚀 شروع — اولین پست", hint: "start", fn: function () { postCard(0, true); } }]]);
+    step(4, "در ربات کاربر «🚀 شروع — اولین پست» را بزنید.", "start");
+  }
+
+  /* ---------- user: posts ---------- */
+  function nextOpen(from) {
+    for (var k = 0; k < POSTS.length; k++) {
+      var j = (from + k) % POSTS.length, st = S.claims[POSTS[j].id];
+      if (!st || st === "rejected") return j;
+    }
+    return -1;
+  }
+  function statusLabel(st) {
+    if (st === "approved") return '<span class="status-ok">✅ تایید شد</span>';
+    if (st === "pending") return '<span class="status-wait">⏳ در انتظار بررسی</span>';
+    if (st === "rejected") return '<span class="status-bad">❌ رد شد — می‌توانید دوباره بفرستید</span>';
+    return "انجام نشده";
+  }
+  function postCard(i, fresh) {
+    S.postIdx = (i + POSTS.length) % POSTS.length;
+    var p = POSTS[S.postIdx], st = S.claims[p.id];
+    var remaining = POSTS.filter(function (x) { return !S.claims[x.id] || S.claims[x.id] === "rejected"; }).length;
+    var html = "📌 <b>پست " + fa(S.postIdx + 1) + " از " + fa(POSTS.length) + "</b><span class=\"ptitle\">" + esc(p.title) + "</span>" +
+      "🎁 پاداش بازنشر با معرفی: <b>+" + fa(CFG.shareCoins) + " سکه</b><br>وضعیت: " + statusLabel(st) +
+      "<br>📊 باقی‌مانده: " + fa(remaining) + " پست · امروز: " + fa(S.today) + " از " + fa(CFG.dailyCap);
+    if (!S.anyClaim) html += "<br><span class=\"muted\">راهنما: پست را باز کنید ← Repost with your thoughts ← یکی‌دو جمله از خودتان + " + CFG.tag + " ← لینک را بفرستید.</span>";
+    var rows = [[{ t: "🔗 باز کردن پست", keep: true, fn: function () { toast("در ربات واقعی، همین پست در لینکدین باز می‌شود."); } }]];
+    if ((!st || st === "rejected") && S.today >= CFG.dailyCap) rows.push([{ t: "⏳ سقف امروز پر است — فردا ادامه دهید", label: true }]);
+    else if (!st || st === "rejected") rows.push([{ t: "📤 بازنشر کردم — ارسال لینک", hint: "shared", fn: function () { askShare(S.postIdx); } }]);
+    rows.push([{ t: "◀️", keep: true, fn: function () { postCard(S.postIdx - 1, false); } },
+               { t: fa(S.postIdx + 1) + "/" + fa(POSTS.length), label: true },
+               { t: "▶️", keep: true, fn: function () { postCard(S.postIdx + 1, false); } }]);
+    if (fresh || !S.card) S.card = bot("u", html, rows); else edit(S.card, html, rows);
+    if (S.step === 4 && (!st || st === "rejected")) step(4, "روی «📤 بازنشر کردم — ارسال لینک» بزنید (با ◀️ ▶️ بین پست‌ها جابه‌جا می‌شوید).", "shared");
+  }
+  function askShare(i) {
+    if (S.today >= CFG.dailyCap) { bot("u", "⏳ به سقف امروز (" + fa(CFG.dailyCap) + " بازنشر) رسیدید. فردا ادامه دهید."); return; }
+    bot("u", "لینک بازنشر خود را برای این پست بفرستید:<span class=\"ptitle\">" + esc(POSTS[i].title) + "</span><span class=\"muted\">یادآوری: متن با کلمات خودتان + <span class=\"ltr\">" + CFG.tag + "</span></span>");
+    ask("u", "https://www.linkedin.com/posts/sara-ahmadi-ee_impedymepartner-activity-73905" + Math.floor(10000 + Math.random() * 89999), function (v) { return onShare(i, v); });
+    step(4, "لینک نمونه بازنشر در کادر پایین ربات کاربر آماده است؛ ارسال (➤) را بزنید.", "send-u");
+  }
+  function onShare(i, v) {
+    me("u", v);
+    if (!/linkedin\.com\/(posts|feed\/update)\//i.test(v)) { bot("u", "⚠️ این لینک یک پست لینکدین نیست. لینک بازنشر را از دکمه «⋯» ← <b>Copy link to post</b> بردارید."); return false; }
+    if (S.links.indexOf(v) !== -1) { bot("u", "⚠️ این لینک قبلاً ثبت شده است."); return false; }
+    var p = POSTS[i];
+    S.links.push(v); S.claims[p.id] = "pending"; S.today++; S.anyClaim = true; S.pendingClaims++;
+    if (S.card) postCard(i, false);
+    bot("u", "✅ ثبت شد. پس از بررسی مدیر، <b>+" + fa(CFG.shareCoins) + " سکه</b> به کیف پول شما اضافه می‌شود.");
+    claimCard(i, v);
+    step(5, "در <b>ربات ادمین</b> بازنشر را بررسی کنید و «✅ تایید» را بزنید (یا «❌ رد» را امتحان کنید).", "c-ok");
+  }
+
+  /* ---------- admin: share claims ---------- */
+  var CLAIM_REASONS = ["بازنشر شما در لینکدین پیدا نشد", "برچسب " + CFG.tag + " در متن نیست", "متن کپی‌شده یا بی‌ربط است", "بازنشر بعد از ثبت حذف شده است"];
+  function claimText(i, v) {
+    return "🔔 <b>بازنشر جدید برای بررسی</b><br>👤 سارا احمدی <span class=\"ltr\">(ID: <code>482913</code>)</span><br>📌 <span class=\"ltr\">" + esc(POSTS[i].title) + "</span><br>🔗 " + link(v) +
+      "<br><span class=\"muted\">بررسی کنید: بازنشر وجود دارد · <span class=\"ltr\">" + CFG.tag + "</span> در متن هست · متن با کلمات خود کاربر است.</span>";
+  }
+  function claimButtons(i, v) {
+    return [[{ t: "✅ تایید (+" + fa(CFG.shareCoins) + ")", kind: "ok", hint: "c-ok", fn: function (w) { approveClaim(w, i, v); } },
+             { t: "❌ رد", kind: "bad", fn: function (w) { claimReasons(w, i, v); } }]];
+  }
+  function claimCard(i, v) { bot("a", claimText(i, v), claimButtons(i, v)); }
+  function claimReasons(w, i, v) {
+    var rows = CLAIM_REASONS.map(function (r) { return [{ t: r, fn: function (ww) { rejectClaim(ww, i, v, r); } }]; });
+    rows.push([{ t: "↩️ بازگشت", fn: function (ww) { edit(ww, claimText(i, v), claimButtons(i, v)); } }]);
+    edit(w, claimText(i, v) + "<br><br><b>دلیل رد را انتخاب کنید:</b>", rows);
+  }
+  function rejectClaim(w, i, v, reason) {
+    var p = POSTS[i];
+    S.claims[p.id] = "rejected"; S.today = Math.max(0, S.today - 1); S.pendingClaims--;
+    edit(w, claimText(i, v) + "<br><br><span class=\"status-bad\">❌ رد شد</span> — " + esc(reason), null);
+    if (S.card) postCard(S.postIdx, false);
+    bot("u", "❌ بازنشر شما تایید نشد.<span class=\"ptitle\">" + esc(p.title) + "</span>دلیل: <b>" + esc(reason) + "</b>",
+      [[{ t: "🔄 اصلاح و ارسال دوباره", hint: "fix", fn: function () { askShare(i); } }]]);
+    step(4, "کاربر دلیل را دید؛ در ربات کاربر «🔄 اصلاح و ارسال دوباره» را بزنید و این بار در ادمین تایید کنید.", "fix");
+  }
+  function approveClaim(w, i, v) {
+    var p = POSTS[i];
+    S.claims[p.id] = "approved"; S.li += CFG.shareCoins; S.pendingClaims--; S.approvedToday++;
+    edit(w, claimText(i, v) + "<br><br><span class=\"status-ok\">✅ تایید شد</span> — " + fa(CFG.shareCoins) + " سکه به کیف پول کاربر اضافه شد.", null);
+    if (S.card) postCard(S.postIdx, false);
+    var next = nextOpen(S.postIdx);
+    var rows = [[{ t: "💰 کیف پول", hint: "wallet", fn: function () { me("u", "کیف پول 💰"); wallet(); } }]];
+    if (next !== -1) rows[0].push({ t: "▶️ پست بعدی", fn: function () { postCard(next, true); } });
+    bot("u", "✅ بازنشر شما تایید شد: <b>+" + fa(CFG.shareCoins) + " سکه</b> 🎉", rows);
+    if (S.step < 6) step(6, "در ربات کاربر «💰 کیف پول» را بزنید تا کیف پول یکپارچه را ببینید.", "wallet");
+  }
+
+  /* ---------- user: wallet, ranking, invite ---------- */
+  function wallet() {
+    var total = S.google + S.li + S.ref;
+    bot("u", "💰 <b>کیف پول</b><br>🔍 سکه جستجوی گوگل: " + fa(S.google) + "<br>💼 سکه لینکدین: " + fa(S.li) + "<br>🤝 سکه دعوت و 🏆 جایزه: " + fa(S.ref) +
+      "<br>━━━━━━━━━━<br>🪙 <b>مجموع: " + fa(total) + " سکه</b> = " + money(total * CFG.toman) +
+      " تومان<br><span class=\"muted\">همه سکه‌ها در یک کیف پول هستند و با همان «درخواست تسویه 💳» برداشت می‌شوند.</span>");
+    if (S.step === 6) step(7, "در ربات کاربر «🏆 رتبه و جایزه» و «🤝 دعوت دوستان» را ببینید.", "board");
+  }
+  function board() {
+    var score = 9 + Object.keys(S.claims).filter(function (k) { return S.claims[k] === "approved"; }).length;
+    var top = [["🥇", "مهسا ر.", 42], ["🥈", "امیر ک.", 37], ["🥉", "نیلوفر م.", 31], ["۴.", "رضا ت.", 24], ["۵.", "پویا ش.", 19]];
+    var html = "🏆 <b>رتبه‌بندی فصل ۱</b> — " + fa(CFG.seasonDaysLeft) + " روز تا پایان فصل<br>";
+    top.forEach(function (n, i) { html += n[0] + " " + n[1] + " — " + fa(n[2]) + " فعالیت — جایزه <b>" + fa(CFG.prizes[i]) + " سکه</b><br>"; });
+    html += "━━━━━━━━━━<br>رتبه شما: <b>" + fa(12) + "</b> با " + fa(score) + " فعالیت<br><span class=\"muted\">امتیاز = فعالیت‌های تاییدشده گوگل و لینکدین از شروع فصل. جایزه‌ها پایان فصل خودکار به کیف پول اضافه می‌شوند.</span>";
+    bot("u", html);
+    if (S.step === 7) step(7, "حالا «🤝 دعوت دوستان» را در ربات کاربر بزنید.", "invite");
+  }
+  function invite() {
+    bot("u", "🤝 <b>دعوت دوستان</b><br>لینک اختصاصی شما:<br><code>t.me/ImpedymeBot?start=ref_482913</code><br><br>وقتی دوستتان ثبت‌نام کند و <b>اولین فعالیتش تایید شود</b>، " + fa(CFG.refCoins) +
+      " سکه به شما می‌رسد؛ دعوت‌های ساختگی چیزی دریافت نمی‌کنند.<br>دعوت‌های موفق شما: " + fa(S.refs),
+      [[{ t: "🧪 شبیه‌سازی: اولین فعالیت دوستم تایید شد", hint: "sim", fn: function () {
+        S.refs++; S.ref += CFG.refCoins;
+        bot("u", "🎉 اولین فعالیت دوست شما (علی) تایید شد: <b>+" + fa(CFG.refCoins) + " سکه دعوت</b>", [[{ t: "💰 کیف پول", fn: function () { me("u", "کیف پول 💰"); wallet(); } }]]);
+        step(8, "✅ دمو کامل شد. هر دکمه‌ای را دوباره امتحان کنید، یا «↺ شروع دوباره دمو» را بزنید.", null);
+      } }]]);
+    if (S.step === 7) step(7, "دکمه «🧪 شبیه‌سازی…» را بزنید تا پاداش دعوت را ببینید.", "sim");
+  }
+
+  /* ---------- admin keyboard ---------- */
+  var ADMIN_KB = [
+    [{ t: "💼 صف لینکدین", isNew: true }, { t: "📌 پست‌های لینکدین", isNew: true }],
+    [{ t: "⚙️ تنظیمات لینکدین", isNew: true }, { t: "🏁 فصل و جوایز", isNew: true }],
+    ["👥 آمار و لیست کاربران", "💳 درخواستهای تسویه"]
+  ];
+  function onAdminKey(t) {
+    if (t === "💼 صف لینکدین") return bot("a", "💼 <b>صف لینکدین</b><br>⏳ عضویت در انتظار: " + fa(S.pendingMembers) + "<br>🔔 بازنشر در انتظار: " + fa(Math.max(0, S.pendingClaims)) +
+      "<br>✅ تاییدشده امروز: " + fa(S.approvedToday) + "<br><span class=\"muted\">کارت‌های در انتظار بالاتر در همین گفتگو هستند.</span>");
+    if (t === "📌 پست‌های لینکدین") {
+      var h = "📌 <b>پست‌های فعال لینکدین</b><br>";
+      POSTS.forEach(function (p, i) { h += fa(i + 1) + ". <span class=\"ltr\">" + esc(p.title) + "</span><br>"; });
+      return bot("a", h, [[{ t: "➕ افزودن پست", keep: true, fn: function () { toast("در ربات واقعی: عنوان و لینک پست را می‌فرستید."); } },
+                           { t: "⏸ غیرفعال کردن", keep: true, fn: function () { toast("پست از لیست کاربران برداشته می‌شود؛ سکه‌های قبلی حفظ می‌شود."); } }]]);
+    }
+    if (t === "⚙️ تنظیمات لینکدین") return bot("a", "⚙️ <b>تنظیمات لینکدین</b><br>🪙 سکه هر بازنشر: " + fa(CFG.shareCoins) + "<br>📅 حداکثر بازنشر در روز: " + fa(CFG.dailyCap) +
+      "<br>🤝 پاداش دعوت: " + fa(CFG.refCoins) + " سکه<br>🏷 برچسب لازم: <span class=\"ltr\">" + CFG.tag + "</span><br>🏆 جوایز فصل: " + CFG.prizes.map(fa).join(" / ") + " سکه<br>📆 طول فصل: " + fa(45) + " روز");
+    if (t === "🏁 فصل و جوایز") return bot("a", "🏁 <b>فصل ۱</b> — " + fa(CFG.seasonDaysLeft) + " روز مانده<br>جوایز پایان فصل خودکار پرداخت می‌شوند و هر فصل فقط یک بار.",
+      [[{ t: "🎁 پرداخت جوایز الان", keep: true, fn: function () { toast("در ربات واقعی، جوایز ۵ نفر اول پرداخت و فصل بعد شروع می‌شود."); } }]]);
+    bot("a", "این بخش همان امکانات فعلی ربات ادمین است و در این دمو تغییری نکرده.");
+  }
+
+  function reset() {
+    S = { member: "none", profile: "", taken: ["https://www.linkedin.com/in/taken-profile"], postIdx: 0, claims: {}, links: [], today: 0, anyClaim: false,
+      google: 12, li: 0, ref: 0, refs: 0, pendingMembers: 0, pendingClaims: 0, approvedToday: 0, card: null, onSend: { u: null, a: null }, step: 1, hintKey: null };
+    ["u", "a"].forEach(function (w) { $(w + "-chat").innerHTML = ""; closeAsk(w); $("badge-" + w).classList.remove("show"); });
+    bot("u", "سلام سارا 👋 منوی اصلی:<br><span class=\"newtag\">🆕 «💼 لینکدین» اضافه شد: با بازنشر پست‌های شرکت در لینکدین سکه بیشتری بگیرید.</span>");
+    bot("a", "👑 <b>پنل مدیریت</b><br>دکمه‌های جدید لینکدین به منو اضافه شده‌اند؛ درخواست‌های کاربران همین‌جا با دکمه تایید/رد می‌رسند.");
+    setKb("u", USER_KB, onUserKey);
+    setKb("a", ADMIN_KB, onAdminKey);
+    if (isMobile()) showTab("u");
+    step(1, "در ربات کاربر روی دکمه جدید «💼 لینکدین» بزنید.", "kb-li");
+  }
+
+  ["u", "a"].forEach(function (w) {
+    $(w + "-send").addEventListener("click", function () { doSend(w); });
+    $(w + "-text").addEventListener("keydown", function (e) { if (e.key === "Enter") doSend(w); });
+  });
+  document.querySelectorAll(".tabs button").forEach(function (b) { b.addEventListener("click", function () { showTab(b.dataset.tab); }); });
+  window.addEventListener("resize", function () {
+    if (!isMobile()) ["u", "a"].forEach(function (w) { $("ph-" + w).classList.remove("hide"); });
+    else if (!document.querySelector(".phone.hide")) showTab("u");
+  });
+  $("reset").addEventListener("click", reset);
+  reset();
+})();
+</script>
+</body>
+</html>
