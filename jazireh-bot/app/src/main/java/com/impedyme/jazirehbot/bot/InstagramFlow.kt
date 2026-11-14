@@ -29,8 +29,7 @@ class InstagramFlow(private val ui: UiDriver, private val prefs: Prefs) {
     suspend fun ensureAccount(account: String) {
         open()
         for (attempt in 1..2) {
-            val tab = ui.waitFor(7_000) { ui.byIdOrText(s("ig.profileTabIds"), s("ig.profileTabDesc"), exact = true) }
-                ?: throw StepFailed("Instagram profile tab not found – is Instagram logged in and showing its main screen?")
+            val tab = goToMainScreen()
             ui.click(tab, "profileTab")
             delay(1800)
             dismissPopups()
@@ -68,6 +67,34 @@ class InstagramFlow(private val ui: UiDriver, private val prefs: Prefs) {
         dismissPopups()
     }
 
+    private fun profileTab(): AccessibilityNodeInfo? {
+        ui.byIdOrText(s("ig.profileTabIds"), s("ig.profileTabDesc"), exact = true)?.let { return it }
+        val h = ui.screenSize().y
+        return ui.find { n ->
+            n.isVisibleToUser && n.clickableAncestorOrSelf() != null && n.bounds().top > h * 0.8 &&
+                ui.matchText(n, s("ig.profileTabDesc"), exact = false)
+        }
+    }
+
+    /** Gets Instagram to a screen where the bottom tab bar is visible and returns the profile tab. */
+    private suspend fun goToMainScreen(): AccessibilityNodeInfo {
+        for (i in 0 until 4) {
+            val tab = ui.waitFor(if (i == 0) 7_000 else 2_500) { profileTab() }
+            if (tab != null) return tab
+            dismissPopups()
+            if (profileTab() != null) continue
+            RunLog.d("No Instagram tab bar visible – pressing back")
+            ui.back()
+            delay(900)
+            if (ui.currentPackage() != pkg) {
+                ui.launch(pkg)
+                ui.waitForPackage(listOf(pkg), 8_000)
+                delay(1200)
+            }
+        }
+        throw StepFailed("Instagram profile tab not found – is Instagram logged in and showing its main screen?")
+    }
+
     private fun switcherRow(account: String): AccessibilityNodeInfo? =
         ui.find { it.isVisibleToUser && FaText.equalsLoose(it.textStr, account) && it.clickableAncestorOrSelf() != null }
 
@@ -75,10 +102,10 @@ class InstagramFlow(private val ui: UiDriver, private val prefs: Prefs) {
         val byId = ui.byId(s("ig.titleIds"))
         if (byId != null && FaText.looksLikeUsername(byId.textStr)) return byId
         val h = ui.screenSize().y
-        return ui.find { n ->
+        return ui.findAll { n ->
             n.isVisibleToUser && FaText.looksLikeUsername(n.textStr) && n.textStr.any { it.isLetter() } &&
                 n.bounds().top < h / 5 && n.bounds().height() > 0
-        }
+        }.minByOrNull { it.bounds().top }
     }
 
     private fun currentProfileUsername(): String? = profileTitleNode()?.textStr?.trim()?.trimStart('@')
@@ -107,7 +134,7 @@ class InstagramFlow(private val ui: UiDriver, private val prefs: Prefs) {
             ChallengeType.LIKE -> like()
             ChallengeType.FOLLOW -> follow()
             ChallengeType.COMMENT -> comment(pickComment(guide))
-            ChallengeType.REPOST -> repost()
+            ChallengeType.REPOST -> repost(guide)
             ChallengeType.SAVE -> save()
             ChallengeType.VISIT -> delay(3000)
             ChallengeType.UNKNOWN -> throw StepFailed("Unknown challenge type")
@@ -220,21 +247,32 @@ class InstagramFlow(private val ui: UiDriver, private val prefs: Prefs) {
         return list.random()
     }
 
-    suspend fun repost() {
+    /**
+     * «ری پست»: Instagram's native Repost button when it exists, otherwise "Add to story".
+     * Selector ig.repostMode = auto | native | story; a guide text mentioning «استوری» forces story.
+     */
+    suspend fun repost(guide: String) {
+        val mode = Selectors.str("ig.repostMode").lowercase()
+        val wantsStory = mode == "story" || (mode != "native" && FaText.containsLoose(guide, "استوری"))
+        if (!wantsStory && nativeRepost()) return
+        storyShare()
+    }
+
+    private suspend fun nativeRepost(): Boolean {
         val native = ui.byId(s("ig.repostIds")) ?: ui.byText(s("ig.repostDesc"), exact = true, clickableOnly = true)
-        if (native != null) {
-            ui.click(native, "repost")
-            delay(1800)
-            val confirm = ui.waitFor(4_000) {
-                ui.byText(s("ig.repostConfirmTexts"), exact = true, clickableOnly = true)
-            }
-            if (confirm != null) {
-                ui.click(confirm, "repostConfirm")
-                delay(2500)
-            }
-            RunLog.i("Reposted ✔ (native repost)")
-            return
+            ?: return false
+        ui.click(native, "repost")
+        delay(1800)
+        val confirm = ui.waitFor(4_000) { ui.byText(s("ig.repostConfirmTexts"), exact = true, clickableOnly = true) }
+        if (confirm != null) {
+            ui.click(confirm, "repostConfirm")
+            delay(2500)
         }
+        RunLog.i("Reposted ✔ (native repost)")
+        return true
+    }
+
+    private suspend fun storyShare() {
         val share = ui.byId(s("ig.shareIds")) ?: ui.byText(s("ig.shareDesc"), exact = true, clickableOnly = true)
             ?: throw StepFailed("Neither a Repost nor a Share button was found")
         ui.click(share, "share")

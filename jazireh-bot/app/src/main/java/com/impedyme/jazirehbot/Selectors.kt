@@ -29,6 +29,9 @@ object Selectors {
     "progressPattern": ["انجام ?شده با (\\d+) از (\\d+)"],
     "remainingPattern": ["باقی ?مانده:? ?(\\d+)"],
     "rewardPattern": ["پاداش"],
+    "popupDismissTexts": ["متوجه شدم", "باشه", "بستن", "بعداً", "بعدا", "رد کردن", "فهمیدم", "خیر"],
+    "cropConfirmTexts": ["Crop", "Done", "تایید", "تأیید", "برش", "ثبت", "ادامه"],
+    "cropConfirmIds": ["menu_crop", "crop_done", "done", "btn_done", "action_done"],
     "ignoreTexts": ["جزیره", "ثبت سفارش", "درآمد تقریبی", "نصب اپلیکیشن", "یوتیوب", "اکانت‌ها", "روند", "پروفایل"]
   },
   "ig": {
@@ -48,6 +51,7 @@ object Selectors {
     "commentInputHint": ["Add a comment", "افزودن نظر", "نظر بدهید", "نظر خود را", "نظری بنویسید"],
     "postCommentIds": ["layout_comment_thread_post_button_click_area", "layout_comment_thread_post_button", "post_button", "comment_composer_post_button"],
     "postCommentText": ["Post", "ارسال", "انتشار"],
+    "repostMode": ["auto"],
     "repostIds": ["repost_button", "row_feed_button_repost"],
     "repostDesc": ["Repost", "بازنشر", "ری‌پست"],
     "repostConfirmTexts": ["Repost", "بازنشر"],
@@ -60,7 +64,7 @@ object Selectors {
     "saveIds": ["row_feed_button_save", "save_button"],
     "saveDesc": ["Save", "ذخیره"],
     "savedDesc": ["Saved", "Remove", "ذخیره شده"],
-    "dismissTexts": ["Not now", "Not Now", "بعداً", "بعدا", "حالا نه", "اکنون نه", "Cancel", "لغو", "Skip", "رد شدن", "Maybe later", "Close", "بستن", "OK", "Dismiss"],
+    "dismissTexts": ["Not now", "Not Now", "بعداً", "بعدا", "حالا نه", "اکنون نه", "Cancel", "لغو", "Skip", "رد شدن", "Maybe later", "Dismiss"],
     "blockedTexts": ["Try Again Later", "Action Blocked", "We limit how often", "We restrict certain activity", "Suspicious Login", "بعداً دوباره امتحان کنید", "فعالیت شما محدود", "مسدود شد"]
   },
   "picker": {

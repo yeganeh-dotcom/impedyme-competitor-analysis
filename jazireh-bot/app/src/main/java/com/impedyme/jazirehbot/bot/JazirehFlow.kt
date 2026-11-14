@@ -30,8 +30,8 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
     }
 
     private fun s(k: String) = Selectors.get(k)
-    private val progressRe = Regex(Selectors.str("jazireh.progressPattern"))
-    private val remainingRe = Regex(Selectors.str("jazireh.remainingPattern"))
+    private val progressRe: Regex get() = Regex(Selectors.str("jazireh.progressPattern"))
+    private val remainingRe: Regex get() = Regex(Selectors.str("jazireh.remainingPattern"))
     private val pkg: String get() = prefs.jazirehPackage ?: ""
 
     // ---------- navigation ----------
@@ -43,6 +43,7 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
             delay(1200)
         }
         closeDialogIfOpen()
+        if (!onChallengesScreen()) dismissPopups()
         if (!onChallengesScreen()) {
             val tab = ui.waitFor(6_000) { ui.byText(s("jazireh.challengesTab"), exact = true) }
             if (tab != null) {
@@ -79,6 +80,20 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
         val x = ui.byText(s("jazireh.closeDialog"), exact = true, clickableOnly = true)
         if (x != null) ui.click(x, "closeDialog") else ui.back()
         delay(800)
+    }
+
+    /** Closes announcement / success popups that Jazireh shows on top of its screens. */
+    suspend fun dismissPopups() {
+        repeat(2) {
+            if (dialogOpen()) return
+            val n = ui.find {
+                it.isVisibleToUser && it.packageName?.toString() == pkg && it.clickableAncestorOrSelf() != null &&
+                    ui.matchText(it, s("jazireh.popupDismissTexts"), exact = true)
+            } ?: return
+            RunLog.i("Dismissing Jazireh popup: '${n.anyText}'")
+            ui.click(n, "jazirehPopup")
+            delay(900)
+        }
     }
 
     /** Re-focus Jazireh and make sure the challenge dialog for [card]/[account] is open. */
@@ -172,17 +187,22 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
     suspend fun selectSourcePage(account: String) {
         val label = ui.waitFor(5_000) { ui.byText(s("jazireh.sourcePageLabel")) }
             ?: throw StepFailed("«پیج مبدأ» label not found in the dialog")
-        val field = sourceField(label) ?: throw StepFailed("«پیج مبدأ» field not found below its label")
-        if (FaText.equalsLoose(field.textStr, account)) {
+        val shown = currentSource(label)
+        if (shown != null && FaText.containsLoose(shown, account)) {
             RunLog.i("Source page already @$account")
             return
         }
-        RunLog.i("Selecting source page @$account (field shows '${field.textStr}')")
+        val field = sourceField(label) ?: label
+        RunLog.i("Selecting source page @$account (field shows '${shown ?: field.textStr}')")
         val fieldBounds = field.bounds()
         ui.click(field, "sourcePageField")
         delay(1000)
         val option = ui.waitFor(5_000) {
             ui.find { n -> n.isVisibleToUser && FaText.equalsLoose(n.textStr, account) && n.bounds() != fieldBounds }
+                ?: ui.find { n ->
+                    n.isVisibleToUser && n.clickableAncestorOrSelf() != null &&
+                        FaText.containsLoose(n.textStr, account) && n.bounds() != fieldBounds
+                }
         }
         if (option != null) {
             ui.click(option, "sourcePageOption")
@@ -200,12 +220,24 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
                 throw StepFailed("@$account is not offered as «پیج مبدأ» – add this page in Jazireh > اکانت‌ها first")
             }
         }
-        val now = sourceField(label)
-        if (now == null || !FaText.equalsLoose(now.textStr, account)) {
-            throw StepFailed("Could not select @$account as source page (field shows '${now?.textStr}')")
+        val label2 = ui.byText(s("jazireh.sourcePageLabel")) ?: label
+        val now = currentSource(label2)
+        if (now == null || !FaText.containsLoose(now, account)) {
+            throw StepFailed("Could not select @$account as source page (field shows '${now ?: "?"}')")
         }
     }
 
+    /** Text currently shown as the selected source page, or null. */
+    private fun currentSource(label: AccessibilityNodeInfo): String? {
+        val own = label.textStr
+        val labelOnly = s("jazireh.sourcePageLabel").any { FaText.equalsLoose(own, it) }
+        if (!labelOnly && own.isNotBlank()) return own // label and value merged into one node
+        val field = sourceField(label) ?: return null
+        val t = field.textStr.ifBlank { field.descStr }
+        return t.ifBlank { null }
+    }
+
+    /** The control right below the «پیج مبدأ» label: username-looking text first, then editable, then clickable. */
     private fun sourceField(label: AccessibilityNodeInfo): AccessibilityNodeInfo? {
         val lb = label.bounds()
         val cands = ui.findAll { n ->
@@ -213,7 +245,13 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
             n.isVisibleToUser && r.top >= lb.bottom - 8 && r.top < lb.bottom + 400 && r.height() > 0 &&
                 (n.isEditable || n.isClickable || FaText.looksLikeUsername(n.textStr))
         }
-        return cands.minByOrNull { it.bounds().top }
+        return cands.minWithOrNull(compareBy({ rank(it) }, { it.bounds().top }))
+    }
+
+    private fun rank(n: AccessibilityNodeInfo): Int = when {
+        FaText.looksLikeUsername(n.textStr) -> 0
+        n.isEditable -> 1
+        else -> 2
     }
 
     fun readGuide(): String {
@@ -264,6 +302,7 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
                 delay(1500)
                 val url = readBrowserUrl()
                 if (url != null && url.contains("instagram.com")) {
+                    if (!hasTargetPath(url)) throw StepFailed("Browser only shows '$url' – cannot tell which post/profile to open")
                     RunLog.i("Link opened in a browser ($p): $url – handing it to Instagram")
                     ui.openUrl(url, ig)
                     if (ui.waitForPackage(listOf(ig), 10_000) != null) { delay(1500); return }
@@ -289,6 +328,11 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
     private fun isBrowser(p: String): Boolean =
         p in s("browser.packages") || p.contains("browser", true) || p.contains("chrome", true)
 
+    private fun hasTargetPath(url: String): Boolean {
+        val path = url.substringAfter("instagram.com", "").substringBefore('?').substringBefore('#').trim('/')
+        return path.isNotEmpty() && path !in setOf("explore", "accounts", "direct", "reels", "login")
+    }
+
     private fun readBrowserUrl(): String? {
         val bar = ui.byId(s("browser.urlBarIds"))
             ?: ui.find { it.isVisibleToUser && it.textStr.contains("instagram.com") && (it.isEditable || it.isClickable) }
@@ -308,6 +352,17 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
     suspend fun confirmScreenshotAttached() {
         if (ui.waitForPackage(listOf(pkg), 10_000) == null) throw StepFailed("Did not return to Jazireh after picking the image")
         delay(1500)
+        if (!dialogOpen()) {
+            // Some apps show a crop / preview screen before returning to the dialog.
+            val crop = ui.byId(s("jazireh.cropConfirmIds"))
+                ?: ui.byText(s("jazireh.cropConfirmTexts"), exact = true, clickableOnly = true)
+            if (crop != null) {
+                RunLog.i("Confirming crop/preview screen: ${crop.describe()}")
+                ui.click(crop, "cropConfirm")
+                delay(1500)
+                ui.waitUntil(6_000) { dialogOpen() }
+            }
+        }
         if (!dialogOpen()) throw StepFailed("Challenge dialog closed after picking the image")
         val attached = s("jazireh.screenshotAttachedTexts")
         if (attached.isNotEmpty() && ui.byText(attached) != null) {
@@ -339,5 +394,6 @@ class JazirehFlow(private val ui: UiDriver, private val prefs: Prefs) {
             throw StepFailed("Dialog did not close after «انجام شد» (screenshot probably not accepted)")
         }
         delay(800)
+        dismissPopups()
     }
 }
