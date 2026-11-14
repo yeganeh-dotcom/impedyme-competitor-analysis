@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- island -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,66 C30,56 42,50 54,50 C66,50 78,56 78,66 L78,70 L30,70 Z" />
+    <!-- palm trunk -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M52,50 L56,50 L57,30 L51,30 Z" />
+    <!-- palm leaves -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,30 C44,22 36,24 32,30 C40,28 48,30 54,34 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,30 C64,22 72,24 76,30 C68,28 60,30 54,34 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,30 C50,20 52,14 56,12 C56,18 56,24 54,30 Z" />
+    <!-- checkmark badge -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,74 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0" />
+    <path
+        android:fillColor="#1565C0"
+        android:pathData="M66,74 L70,78 L78,69 L80,71 L70,82 L64,76 Z" />
+</vector>

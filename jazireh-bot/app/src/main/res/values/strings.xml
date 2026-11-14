@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jazireh Bot</string>
+    <string name="service_label">Jazireh Bot (challenge automation)</string>
+    <string name="accessibility_description">Automates Jazireh Instagram challenges: opens Jazireh, switches Instagram to the selected account, performs the like / follow / comment / repost, takes the screenshot and submits it with «انجام شد». It only acts while the schedule is switched on inside the Jazireh Bot app.\n\nربات جزیره: چالش‌های اینستاگرام را با اکانت انتخاب‌شده انجام می‌دهد، اسکرین‌شات می‌گیرد و «انجام شد» را می‌زند. فقط وقتی زمان‌بندی در برنامه روشن باشد کار می‌کند.</string>
+</resources>
