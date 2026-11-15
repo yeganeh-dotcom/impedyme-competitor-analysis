@@ -103,7 +103,8 @@ class MainActivity : Activity() {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(16), dp(12), dp(16), dp(48))
         }
-        add(heading("Jazireh Bot", 22f))
+        val version = try { packageManager.getPackageInfo(packageName, 0).versionName } catch (e: Exception) { "?" }
+        add(heading("Jazireh Bot  v$version", 22f))
         add(para("Runs Jazireh Instagram challenges automatically with your own Instagram accounts. " +
             "Fill in the settings, grant the permissions, then switch the schedule on. " +
             "The phone must stay on and unlocked while it works."))

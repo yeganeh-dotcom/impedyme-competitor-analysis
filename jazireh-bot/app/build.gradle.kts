@@ -13,8 +13,10 @@ android {
         applicationId = "com.impedyme.jazirehbot"
         minSdk = 30          // AccessibilityService.takeScreenshot() needs Android 11+
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1.0"
+        // CI sets GITHUB_RUN_NUMBER, so every published build has a higher version than the last.
+        val build = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
+        versionCode = build
+        versionName = "0.1.$build"
     }
 
     // Local-only signing key so every CI build has the same signature and
