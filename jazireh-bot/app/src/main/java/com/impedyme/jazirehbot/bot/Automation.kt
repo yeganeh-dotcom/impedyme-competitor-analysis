@@ -60,6 +60,7 @@ class Automation(private val svc: BotService, private val ui: UiDriver) {
                 failed++
                 consecutiveFailures++
                 RunLog.e("✖ '${card.title}' with @$account failed: ${e.message}")
+                RunLog.d("Screen at failure (${ui.currentPackage()}):\n${ui.briefDump()}")
                 recover()
                 if (consecutiveFailures >= 3) throw RunAborted("3 items failed in a row – stopping this run (see log)")
             }
@@ -117,14 +118,15 @@ class Automation(private val svc: BotService, private val ui: UiDriver) {
         ui.humanDelay(1500)
 
         // 5) proof
-        val shot = ScreenshotSaver.capture(svc, prefs.screenshotFolder) ?: throw StepFailed("Screenshot failed")
+        val shot = ScreenshotSaver.capture(svc, prefs.screenshotFolder)
+            ?: throw StepFailed("Screenshot failed (see the lines above); try 'Test screenshot' in the app")
         RunLog.i("Screenshot saved: $shot")
         delay(1000)
 
         // 6) back to Jazireh → attach → «انجام شد»
         jz.bringToFrontWithDialog(card, account)
         jz.pressAddScreenshot()
-        picker.pickNewest(prefs.jazirehPackage ?: "")
+        picker.pickNewest(prefs.jazirehPackage ?: "", shot.displayName)
         jz.confirmScreenshotAttached()
         jz.pressDone()
         RunLog.i("✔ Submitted '${card.title}' for @$account")

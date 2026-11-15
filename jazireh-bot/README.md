@@ -49,6 +49,7 @@ Open **Jazireh Bot** and work through the status list at the top until everythin
 | **Exact alarms** | Allow | Makes the 10-minute schedule fire on time even in sleep mode |
 | **Battery** | Allow / "Unrestricted" | Stops Android from killing the bot |
 | **Notifications** | Allow | The ongoing notification shows the state and has *Run now / Stop / Pause* buttons |
+| **Photos access** | Allow | Lets the bot find the system screenshot in the gallery when the silent accessibility screenshot is not available |
 | **Pick Jazireh app** | Only if it was not detected automatically | The bot needs Jazireh's package name to launch it |
 | Phone → Settings → **Lock screen → None or Swipe** | Required | An accessibility service **cannot** enter a PIN/pattern. The bot turns the screen on by itself but cannot unlock a secure lock screen |
 | Phone → Settings → Display → **Screen timeout** → 10 min or more | Recommended | The bot keeps the screen on during a run; between runs the phone may sleep |
@@ -128,7 +129,8 @@ Typical places that need a look on a new phone:
 | `@… is not offered as «پیج مبدأ»` | Register that page in Jazireh → اکانت‌ها, or fix the spelling in *Instagram accounts* |
 | `@… is not in Instagram's account switcher` | Log into that account inside Instagram |
 | `Instagram is limiting this account` | Instagram blocked the action. Stop for several hours; lower the number of accounts or raise the pause |
-| `Could not pick the screenshot in the image picker` | Inspect the picker screen and extend `picker.confirmTexts` / `picker.imagesTabTexts` |
+| `Could not pick the screenshot in the image picker` | The log now contains a dump of the picker screen; send it. The bot first looks for the file name, then taps the newest tile, then tries *Photos / Images / Recent* and the Files-app drawer |
+| `Screenshot failed` / `takeScreenshot failed: …` | Tap **Test screenshot in 5 s** in the app and read the log line. The bot falls back to the system screenshot (Power + Volume down); grant **Photos access** so it can find that file in the gallery |
 | `Dialog did not close after «انجام شد»` | Jazireh rejected the submission (usually the screenshot). Check the exported log and the screenshot in the gallery |
 | Nothing happens at the scheduled time | Check *Exact alarms* and *Battery*; on Samsung also Settings → Battery → Background usage limits → remove Jazireh Bot from "sleeping apps" |
 

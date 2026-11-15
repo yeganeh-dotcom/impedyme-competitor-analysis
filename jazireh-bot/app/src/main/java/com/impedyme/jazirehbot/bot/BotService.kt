@@ -150,6 +150,17 @@ class BotService : AccessibilityService() {
         Notifications.showStatus(this, "Last run: $summary$next")
     }
 
+    /** Takes a test screenshot after [delayMs] and reports the result in the log. */
+    fun requestScreenshotTest(delayMs: Long) {
+        scope.launch {
+            RunLog.i("Test screenshot in ${delayMs / 1000}s – open any app")
+            delay(delayMs)
+            val shot = try { ScreenshotSaver.capture(this@BotService, Prefs(this@BotService).screenshotFolder) } catch (e: Exception) { RunLog.e("Test screenshot crashed", e); null }
+            if (shot != null) RunLog.i("Test screenshot OK: $shot – check your gallery")
+            else RunLog.e("Test screenshot FAILED – see the lines above")
+        }
+    }
+
     /** Dumps the UI tree of whatever is on screen after [delayMs] (lets the user switch apps first). */
     fun requestInspect(delayMs: Long) {
         scope.launch {

@@ -8,6 +8,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
@@ -63,10 +64,17 @@ class MainActivity : Activity() {
         if (prefs.jazirehPackage == null) AppFinder.findJazireh(this)?.let { prefs.jazirehPackage = it }
         setContentView(buildUi())
         loadFields()
-        if (Build.VERSION.SDK_INT >= 33 && !Notifications.canPost(this)) {
-            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
-        }
+        val missing = ArrayList<String>()
+        if (Build.VERSION.SDK_INT >= 33 && !Notifications.canPost(this)) missing.add(Manifest.permission.POST_NOTIFICATIONS)
+        if (!hasPhotoPermission()) missing.add(photoPermission())
+        if (missing.isNotEmpty()) requestPermissions(missing.toTypedArray(), 1)
     }
+
+    private fun photoPermission(): String =
+        if (Build.VERSION.SDK_INT >= 33) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
+
+    private fun hasPhotoPermission(): Boolean =
+        checkSelfPermission(photoPermission()) == PackageManager.PERMISSION_GRANTED
 
     override fun onResume() {
         super.onResume()
@@ -111,6 +119,7 @@ class MainActivity : Activity() {
             button("Battery") { openBatterySettings() },
             button("Notifications") { openNotificationSettings() },
         ))
+        add(row(button("Photos access") { requestPermissions(arrayOf(photoPermission()), 2) }))
 
         add(heading("2. Settings"))
         add(label("Jazireh app"))
@@ -143,8 +152,9 @@ class MainActivity : Activity() {
         ))
         add(row(
             button("Inspect screen in 8 s") { inspect() },
-            button("Reset today's ledger") { prefs.ledgerClear(); refreshStatus(); toast("Ledger cleared") },
+            button("Test screenshot in 5 s") { testScreenshot() },
         ))
+        add(row(button("Reset today's ledger") { prefs.ledgerClear(); refreshStatus(); toast("Ledger cleared") }))
 
         add(heading("4. Advanced – selectors"))
         add(para("Texts and view ids the bot looks for. Change them only if Jazireh or Instagram renamed something. " +
@@ -359,6 +369,17 @@ class MainActivity : Activity() {
         moveTaskToBack(true)
     }
 
+    private fun testScreenshot() {
+        val svc = BotService.instance
+        if (svc == null) {
+            toast("Enable the accessibility service first")
+            return
+        }
+        svc.requestScreenshotTest(5_000)
+        toast("Taking a test screenshot in 5 seconds – the result appears in the log")
+        moveTaskToBack(true)
+    }
+
     private fun pickJazirehApp() {
         val apps = AppFinder.launchable(this)
         if (apps.isEmpty()) {
@@ -464,6 +485,7 @@ class MainActivity : Activity() {
             if (pm.isIgnoringBatteryOptimizations(packageName)) "off ✔" else "ON ✖ → tap Battery"
         ).append('\n')
         sb.append("Notifications: ").append(if (Notifications.canPost(this)) "allowed ✔" else "blocked ✖").append('\n')
+        sb.append("Photos access: ").append(if (hasPhotoPermission()) "allowed ✔" else "denied (needed only for the system-screenshot fallback)").append('\n')
         sb.append("Screen lock: ").append(
             if (km.isKeyguardSecure) "PIN/pattern ✖ – the bot cannot unlock; use None or Swipe" else "none/swipe ✔"
         ).append('\n')

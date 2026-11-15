@@ -236,6 +236,27 @@ class UiDriver(private val svc: AccessibilityService) {
     fun isRtl(): Boolean =
         TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL
 
+    /** Short dump (visible nodes with text or id only) for the run log. */
+    fun briefDump(maxLines: Int = 60): String {
+        val sb = StringBuilder()
+        var n = 0
+        try {
+            for (root in roots()) {
+                sb.append("[window pkg=").append(root.packageName).append("]\n")
+                for (node in root.walk()) {
+                    if (n >= maxLines) return sb.append("  …\n").toString()
+                    if (!node.isVisibleToUser) continue
+                    if (node.anyText.isEmpty() && node.idShort.isEmpty()) continue
+                    sb.append("  ").append(node.describe()).append('\n')
+                    n++
+                }
+            }
+        } catch (e: Exception) {
+            sb.append("dump error: ").append(e.message)
+        }
+        return sb.toString()
+    }
+
     /** Human-readable dump of every window for the "Inspect screen" button. */
     fun dumpTree(): String {
         val sb = StringBuilder()

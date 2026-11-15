@@ -71,6 +71,8 @@ object Selectors {
     "allowTexts": ["Allow", "Allow all", "Allow access", "Allow limited access", "While using the app", "اجازه دادن", "مجاز", "اجازه", "هنگام استفاده از برنامه"],
     "confirmTexts": ["Done", "Add", "Select", "Open", "OK", "Use", "Confirm", "Upload", "تایید", "تأیید", "انجام شد", "افزودن", "انتخاب", "باز کردن", "استفاده", "تمام"],
     "imagesTabTexts": ["Photos", "Images", "Screenshots", "Recent", "تصاویر", "عکس‌ها", "اسکرین‌شات", "اخیر"],
+    "galleryOptionTexts": ["انتخاب از گالری", "از گالری", "گالری", "Choose from gallery", "From gallery", "Gallery", "Photos", "تصاویر", "عکس‌ها", "حافظه", "فایل‌ها", "Files"],
+    "drawerTexts": ["Show roots", "Open navigation drawer", "نمایش ریشه‌ها", "باز کردن کشوی پیمایش"],
     "cameraTexts": ["Camera", "Take photo", "دوربین", "عکس گرفتن", "گرفتن عکس"],
     "chooserTexts": ["Open with", "Complete action using", "Choose an app", "Select an app", "باز کردن با", "انتخاب برنامه", "تکمیل عملیات با"],
     "galleryAppTexts": ["Gallery", "Photos", "گالری", "عکس‌ها"],

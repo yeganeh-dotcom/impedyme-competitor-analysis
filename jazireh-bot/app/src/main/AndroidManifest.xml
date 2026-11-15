@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!-- Only used to find a system screenshot in the gallery when the accessibility screenshot fails. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <!-- Needed on Android 11+ to list installed apps (to find Jazireh) and launch them. -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
