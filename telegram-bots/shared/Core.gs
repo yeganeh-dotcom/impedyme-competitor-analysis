@@ -15,7 +15,7 @@
  *    سنجیده می‌شود که «در زمان همان بازدید» فعال بوده‌اند.
  *  نتیجه: عوض کردن کلمات یا آپدیت کد، هرگز سکه کسی را کم نمی‌کند.
  */
-var CORE_VERSION = "v2.1.0";
+var CORE_VERSION = "v2.2.0";
 
 var SHEETS = {
   USERS: "Users",
@@ -26,7 +26,7 @@ var SHEETS = {
 };
 
 var USER_HEADERS = ["ChatID", "UID", "Name", "Email", "EarnedCoins", "Adjustment", "TotalCoins", "LastUpdated",
-  "CountedPV", "CountedHB", "ProcessedRows", "LegacyBonus", "LinkUid", "LogTab", "JoinedAt"];
+  "CountedPV", "CountedHB", "ProcessedRows", "LegacyBonus", "LinkUid", "LogTab", "JoinedAt", "LinkedInCoins"];
 var KW_HEADERS = ["Keyword", "URL", "AddedAt", "RemovedAt"];
 var WD_HEADERS = ["ChatID", "UID", "Name", "Card", "Amount", "Date", "Status", "Coins", "RequestID", "ProcessedAt", "AdminNote"];
 var HISTORY_HEADERS = ["Date", "Admin", "ChatID", "UID", "Name", "Action", "Delta", "NewAdjustment", "BalanceAfter", "Note"];
@@ -112,6 +112,17 @@ function personalLink_(linkUid) {
 }
 
 function coinValue_() { return num_(cfg_("COIN_VALUE_TOMAN")) || 5000; }
+
+/** شناسه یکتا: پیشوند + زمان + ۴ حرف تصادفی؛ با شناسه‌های موجود هم چک می‌شود (دو درخواست در یک ثانیه تداخل نمی‌کنند) */
+function newId_(prefix, existing) {
+  var chars = "abcdefghijkmnpqrstuvwxyz23456789", id = "";
+  for (var n = 0; n < 20; n++) {
+    id = prefix + Utilities.formatDate(new Date(), tz_(), "yyMMddHHmmss");
+    for (var i = 0; i < 4; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
+    if (!existing || !existing[id]) return id;
+  }
+  return id;
+}
 
 function withLock_(fn) {
   var lock = LockService.getScriptLock();
@@ -603,10 +614,11 @@ function settleUser_(user, ctx) {
 function balanceOf_(user, wt) {
   wt = wt || { pending: 0, paid: 0, pendingCount: 0 };
   var activity = coinsFrom_(user.pv, user.hb) + user.bonus;
-  var raw = activity + user.adj - wt.pending - wt.paid;
+  var li = num_(user.liCoins); // سکه‌های بخش لینکدین (فقط اضافه می‌شود)
+  var raw = activity + li + user.adj - wt.pending - wt.paid;
   var coins = Math.max(0, raw);
   return {
-    activity: activity, adj: user.adj, pending: wt.pending, paid: wt.paid, pendingCount: wt.pendingCount || 0,
+    activity: activity, li: li, adj: user.adj, pending: wt.pending, paid: wt.paid, pendingCount: wt.pendingCount || 0,
     raw: raw, coins: coins, toman: coins * coinValue_()
   };
 }
@@ -616,7 +628,7 @@ function saveLedger_(user, b) {
   writeCells_(u.sh, user.row, u.map, {
     EarnedCoins: b.activity, TotalCoins: b.coins, LastUpdated: new Date(),
     CountedPV: user.pv, CountedHB: user.hb, ProcessedRows: user.processed,
-    LegacyBonus: user.bonus, LinkUid: user.linkUid, LogTab: user.logTab
+    LegacyBonus: user.bonus, LinkUid: user.linkUid, LogTab: user.logTab, LinkedInCoins: b.li
   });
 }
 
@@ -624,6 +636,7 @@ function saveLedger_(user, b) {
 function getFreshBalance_(user) {
   settleUser_(user, makeCtx_());
   user.wt = withdrawalTotals_(readWithdrawals_().list)[user.chatId];
+  user.liCoins = liInfoFor_(user.chatId).coins;
   var b = balanceOf_(user, user.wt);
   saveLedger_(user, b);
   return b;
@@ -636,6 +649,7 @@ function settleAllUsers_() {
   ctx.sheets = {};
   ss_().getSheets().forEach(function (s) { ctx.sheets[s.getName()] = s; });
   var wt = withdrawalTotals_(readWithdrawals_().list);
+  var liT = liTotals_();
   var res = { users: all.users, wt: wt, errors: 0, migrated: 0, bonusUsers: [] };
   var now = new Date();
   var map = all.map;
@@ -645,6 +659,7 @@ function settleAllUsers_() {
       settleUser_(u, ctx);
       if (wasNew) { res.migrated++; if (u.bonus > 0) res.bonusUsers.push(u); }
     } catch (e) { res.errors++; }
+    u.liCoins = (liT[u.chatId] || {}).coins || 0;
     u.balance = balanceOf_(u, wt[u.chatId]);
     var r = all.vals[u.row - 2];
     r[map.EarnedCoins - 1] = u.balance.activity;
@@ -656,9 +671,10 @@ function settleAllUsers_() {
     r[map.LegacyBonus - 1] = u.bonus;
     r[map.LinkUid - 1] = u.linkUid;
     r[map.LogTab - 1] = u.logTab;
+    r[map.LinkedInCoins - 1] = u.balance.li;
   });
   if (all.vals.length) {
-    var cols = ["EarnedCoins", "TotalCoins", "LastUpdated", "CountedPV", "CountedHB", "ProcessedRows", "LegacyBonus", "LinkUid", "LogTab"]
+    var cols = ["EarnedCoins", "TotalCoins", "LastUpdated", "CountedPV", "CountedHB", "ProcessedRows", "LegacyBonus", "LinkUid", "LogTab", "LinkedInCoins"]
       .map(function (h) { return map[h]; }).sort(function (a, b) { return a - b; });
     var i = 0;
     while (i < cols.length) {
@@ -750,6 +766,16 @@ function parseAmountCoins_(amount) {
 
 function formatCard_(digits) { return String(digits).replace(/(\d{4})(?=\d)/g, "$1-"); }
 
+/**
+ * نمایش شماره کارت در تلگرام: فقط ۱۶ رقم پشت سر هم.
+ * گروه‌های جدا‌شده با فاصله در متن فارسی (راست‌به‌چپ) برعکس نمایش داده می‌شوند (۷۸۹۰ ۳۴۵۶ ...)؛
+ * عدد یکپارچه هیچ‌وقت جابه‌جا نمی‌شود و با یک لمس هم کپی می‌شود.
+ */
+function cardDisplay_(card) {
+  var d = toEnDigits_(card).replace(/\D/g, "");
+  return d.length >= 12 && d.length <= 19 ? d : String(card === null || card === undefined ? "" : card);
+}
+
 function luhnOk_(digits) {
   var sum = 0, dbl = false;
   for (var i = digits.length - 1; i >= 0; i--) {
@@ -769,7 +795,9 @@ function createWithdrawal_(user, cardDigits) {
     if (t && t.pendingCount > 0) return { ok: false, reason: "pending", req: t.pendingReq };
     var b = getFreshBalance_(user);
     if (b.toman < num_(cfg_("MIN_WITHDRAW_TOMAN"))) return { ok: false, reason: "min", b: b };
-    var id = "W" + Utilities.formatDate(new Date(), tz_(), "yyMMddHHmmss") + Math.floor(10 + Math.random() * 90);
+    var ids = {};
+    w.list.forEach(function (x) { ids[x.id] = true; });
+    var id = newId_("W", ids);
     var row = blankRow_(w.map);
     var vals = {
       ChatID: user.chatId, UID: user.uid, Name: user.name, Card: formatCard_(cardDigits),
@@ -868,7 +896,7 @@ function adminFullReset_(adminId, chatId) {
     }
     var t = withdrawalTotals_(readWithdrawals_().list)[user.chatId] || { pending: 0, paid: 0 };
     user.pv = 0; user.hb = 0; user.bonus = 0; user.processed = 1;
-    user.adj = t.pending + t.paid;
+    user.adj = t.pending + t.paid - liInfoFor_(user.chatId).coins;
     var u = usersSheet_();
     writeCells_(u.sh, user.row, u.map, {
       EarnedCoins: 0, Adjustment: user.adj, TotalCoins: 0, LastUpdated: new Date(), CountedPV: 0, CountedHB: 0,
@@ -983,13 +1011,14 @@ var USER_BTN = {
   WITHDRAW: "درخواست تسویه 💳",
   INFO: "اطلاعات کاربری 👤",
   HELP: "راهنما",
-  RESTART: "شروع دوباره 🔄"
+  RESTART: "شروع دوباره 🔄",
+  LINKEDIN: "💼 لینکدین"
 };
 
 function userMainKeyboard_() {
   return {
     keyboard: [
-      [{ text: USER_BTN.KEYWORDS }],
+      [{ text: USER_BTN.KEYWORDS }, { text: USER_BTN.LINKEDIN }],
       [{ text: USER_BTN.WALLET }, { text: USER_BTN.WITHDRAW }],
       [{ text: USER_BTN.INFO }, { text: USER_BTN.HELP }],
       [{ text: USER_BTN.RESTART }]
@@ -1008,6 +1037,7 @@ function walletText_(user, b) {
     "📊 بازدید مجاز گوگل: " + user.pv + "\n" +
     "💓 فعالیت پیوسته گوگل: " + user.hb + "\n" +
     "🪙 سکه فعالیت: " + b.activity + "\n";
+  if (b.li) t += "💼 سکه لینکدین: " + b.li + "\n";
   if (b.adj) t += "⚙️ تنظیمات مدیریت: <b>" + signed_(b.adj) + " سکه</b>\n";
   if (b.pending) t += "⏳ در انتظار تسویه: <b>-" + b.pending + " سکه</b>\n";
   if (b.paid) t += "✅ تسویه‌شده تاکنون: <b>-" + b.paid + " سکه</b>\n";
@@ -1037,7 +1067,7 @@ function withdrawalAdminText_(req, user) {
     "👤 " + esc_(req.name || (user && user.name) || "—") + " (ID: <code>" + esc_(req.uid) + "</code>)\n" +
     "💰 مبلغ: <b>" + esc_(req.amount) + "</b>\n" +
     "🪙 سکه: " + coinsTxt + "\n" +
-    "💳 کارت: <code>" + esc_(req.card) + "</code>\n" +
+    "💳 کارت: <code>" + esc_(cardDisplay_(req.card)) + "</code>\n" +
     "📅 تاریخ درخواست: " + fmtDate_(req.date) + "\n" +
     "📌 وضعیت: <b>" + wdStatusFa_(req.status) + "</b>";
   if (req.status !== WD_STATUS.PENDING && !isBlank_(req.processedAt)) t += "\n🕒 تاریخ بررسی: " + fmtDate_(req.processedAt);

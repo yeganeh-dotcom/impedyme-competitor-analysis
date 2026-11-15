@@ -3,11 +3,11 @@ const assert = require("assert");
 const { MockSpreadsheet, makeProject, run, formatDate } = require("./mocks");
 
 const LOG_HEADERS = ["Timestamp", "User", "Visit ID", "Event", "Site", "Page", "Came From", "IP", "City", "Country", "Timezone", "User Agent", "Traffic Type"];
-const world = { ss: new MockSpreadsheet(), sent: [], logs: [], failHook: null };
+const world = { ss: new MockSpreadsheet(), sent: [], logs: [], failHook: null, uploads: 0, downloads: [] };
 // BUNDLED=1 runs the same scenarios against the paste-ready files in dist/ (built by build.sh)
 const BUNDLED = !!process.env.BUNDLED;
-const USER = makeProject(BUNDLED ? ["dist/user-bot.gs"] : ["shared/Config.gs", "shared/Core.gs", "user-bot/UserBot.gs"], world);
-const ADMIN = makeProject(BUNDLED ? ["dist/admin-bot.gs"] : ["shared/Config.gs", "shared/Core.gs", "admin-bot/AdminBot.gs", "admin-bot/AdminViews.gs"], world);
+const USER = makeProject(BUNDLED ? ["dist/user-bot.gs"] : ["shared/Config.gs", "shared/Core.gs", "shared/LinkedIn.gs", "user-bot/UserBot.gs", "user-bot/UserLinkedIn.gs"], world);
+const ADMIN = makeProject(BUNDLED ? ["dist/admin-bot.gs"] : ["shared/Config.gs", "shared/Core.gs", "shared/LinkedIn.gs", "admin-bot/AdminBot.gs", "admin-bot/AdminViews.gs", "admin-bot/AdminLinkedIn.gs"], world);
 const ADMIN_ID = 999;
 
 let updateId = 1000;
@@ -294,6 +294,112 @@ test("full reset (with confirmation) zeroes balance and clears logs", () => {
   aliTab.appendRow(logRow(new Date(Date.now() + 7200000), "pageview", "/motor-emulator", G));
   assert.strictEqual(walletTotal(111), 0);
   assert.strictEqual(usersRow(111).CountedPV, 1);
+});
+
+
+/* ------------------------------------ LinkedIn ------------------------------------ */
+const photoMsg = (chatId, fileId) => {
+  world.sent = [];
+  post(USER, { message: { chat: { id: chatId, type: "private" }, from: { id: chatId }, photo: [{ file_id: fileId + "_small" }, { file_id: fileId }] } });
+  return world.sent;
+};
+const userClicks = (chatId, data) => {
+  world.sent = [];
+  post(USER, { callback_query: { id: "ucb" + ++updateId, from: { id: chatId }, data, message: { message_id: 77, chat: { id: chatId } } } });
+  return world.sent;
+};
+const adminPhoto = (sent) => sent.find((x) => x.method === "sendPhoto" && x.token === "ADMINTOKEN");
+const firstCb = (msg) => JSON.parse(msg.payload.reply_markup).inline_keyboard[0][0].callback_data;
+const liRows = (name) => sheetRows(name).slice(1).filter((r) => r.some((v) => v !== ""));
+
+test("LinkedIn: nothing changes for existing users (IDs and coins)", () => {
+  assert.strictEqual(walletTotal(222), 9);
+  assert.strictEqual(String(usersRow(222).UID), "654321");
+  assert(allText(userSays(222, "کیف پول 💰")).indexOf("لینکدین") === -1, "no LinkedIn line before any LinkedIn coins");
+});
+
+test("LinkedIn: admin adds separate like and comment posts", () => {
+  assert(allText(adminSays("💼 لینکدین")).includes("مدیریت لینکدین"));
+  for (let i = 1; i <= 6; i++) { adminClicks("la|add|like"); adminSays("Like post " + i + "\nhttps://www.linkedin.com/posts/impedyme_like" + i + "-activity-1"); }
+  for (let i = 1; i <= 4; i++) { adminClicks("la|add|comment"); adminSays("Comment post " + i + "\nhttps://www.linkedin.com/posts/impedyme_c" + i + "-activity-2"); }
+  adminClicks("la|add|like");
+  assert(allText(adminSays("this is not a link")).includes("لینک پست لینکدین پیدا نشد"));
+  adminSays("/start");
+  const rows = liRows("LinkedInPosts");
+  assert.strictEqual(rows.filter((r) => r[1] === "like").length, 6);
+  assert.strictEqual(rows.filter((r) => r[1] === "comment").length, 4);
+});
+
+test("LinkedIn: follow Impedyme + profile + screenshot, admin approves, +3 coins", () => {
+  assert(allText(userSays(222, "💼 لینکدین")).includes("مرحله ۱ از ۳"));
+  assert(allText(userClicks(222, "li|followed")).includes("مرحله ۲ از ۳"));
+  assert(allText(userSays(222, "https://example.com/abc")).includes("پروفایل شخصی لینکدین نیست"));
+  assert(allText(userSays(222, "https://www.linkedin.com/in/sara-karimi")).includes("مرحله ۳ از ۳"));
+  assert(allText(userSays(222, "hello")).includes("به صورت عکس بفرستید"), "text instead of photo is refused");
+  const sent = photoMsg(222, "FOLLOWSHOT");
+  const toAdmin = adminPhoto(sent);
+  assert(toAdmin && firstCb(toAdmin) === "lm|222|ok", "admin gets the screenshot with approve button");
+  assert(world.downloads.some((u) => u.includes("FOLLOWSHOT")), "photo downloaded from user bot and uploaded to admin bot");
+  assert(allText(sent).includes("درخواست عضویت لینکدین ثبت شد"));
+  userSays(333, "💼 لینکدین"); userClicks(333, "li|followed"); userSays(333, "https://www.linkedin.com/in/Sara-Karimi/");
+  assert(allText(photoMsg(333, "X")).includes("قبلاً با حساب دیگری ثبت شده"), "one LinkedIn profile per account");
+  adminClicks("lm|222|ok");
+  assert(world.sent.some((x) => x.token === "USERTOKEN" && String(x.payload.text).includes("عضویت لینکدین شما تایید شد")));
+  assert.strictEqual(walletTotal(222), 12);
+  assert(allText(userSays(222, "کیف پول 💰")).includes("💼 سکه لینکدین: 3"));
+});
+
+test("LinkedIn: 5 likes = 1 coin, 3 comments = 1 coin, screenshot + approval each, no double claims", () => {
+  const posts = liRows("LinkedInPosts");
+  const likeIds = posts.filter((r) => r[1] === "like").map((r) => String(r[0]));
+  const comIds = posts.filter((r) => r[1] === "comment").map((r) => String(r[0]));
+  const list = userClicks(222, "li|list|like").find((x) => x.payload.reply_markup);
+  assert.strictEqual(list.payload.reply_markup.inline_keyboard.filter((r) => r[0].callback_data.startsWith("li|post|")).length, 6, "like list shows only like posts");
+  const card = allText(userClicks(222, "li|post|" + comIds[3]));
+  assert(card.includes("با کلمات خودتان") && card.includes("اسکرین‌شات"), "comment card asks for the user's own words");
+  const claim = (postId, file) => { userClicks(222, "li|shot|" + postId); return firstCb(adminPhoto(photoMsg(222, file))).split("|")[1]; };
+  const likeClaims = likeIds.slice(0, 5).map((id, i) => claim(id, "LIKE" + i));
+  assert(allText(userClicks(222, "li|shot|" + likeIds[0])).includes("قبلاً اسکرین‌شات"), "same post cannot be claimed twice");
+  likeClaims.slice(0, 4).forEach((c) => adminClicks("lc|" + c + "|ok"));
+  assert.strictEqual(walletTotal(222), 12, "4 likes are not a coin yet");
+  adminClicks("lc|" + likeClaims[4] + "|ok");
+  assert(world.sent.some((x) => x.token === "USERTOKEN" && String(x.payload.text).includes("لایک شما")));
+  assert.strictEqual(walletTotal(222), 13, "5 likes = 1 coin");
+  const comClaims = comIds.slice(0, 3).map((id, i) => claim(id, "COM" + i));
+  adminClicks("lc|" + comClaims[0] + "|no");
+  assert(world.sent.some((x) => x.method === "editMessageReplyMarkup" && JSON.stringify(x.payload).includes("|r|1")), "preset reasons shown");
+  adminClicks("lc|" + comClaims[0] + "|r|1");
+  assert(world.sent.some((x) => x.token === "USERTOKEN" && String(x.payload.text).includes("کپی‌شده")), "user told why");
+  const again = claim(comIds[0], "COM0b");
+  [comClaims[1], comClaims[2], again].forEach((c) => adminClicks("lc|" + c + "|ok"));
+  assert.strictEqual(walletTotal(222), 14, "3 comments = 1 coin");
+  const st = allText(userClicks(222, "li|home"));
+  assert(st.includes("لایک‌های تاییدشده: 5") && st.includes("کامنت‌های تاییدشده: 3") && st.includes("سکه‌های لینکدین: 5"), st);
+  assert(/Sara Karimi[\s\S]*?💼 لینکدین: \+5/.test(allText(adminSays("👥 آمار و لیست کاربران"))), "admin list shows LinkedIn coins");
+});
+
+test("card number is shown as one 16-digit block (never reversed)", () => {
+  adminSays("/coin 654321 70");
+  userSays(222, "درخواست تسویه 💳");
+  const sent = userSays(222, card.replace(/(\d{4})(?=\d)/g, "$1 "));
+  const adminMsg = sent.find((x) => x.token === "ADMINTOKEN" && String(x.payload.text).includes("درخواست تسویه"));
+  assert(adminMsg && adminMsg.payload.text.includes("<code>" + card + "</code>"), adminMsg && adminMsg.payload.text);
+  assert(allText(sent).includes("<code>" + card + "</code>"), "user confirmation too");
+  assert(allText(adminSays("💳 درخواستهای تسویه")).includes("<code>" + card + "</code>"), "withdrawal list too");
+});
+
+test("LinkedIn: custom reject reason typed by admin; paused posts disappear for users", () => {
+  const likeIds = liRows("LinkedInPosts").filter((r) => r[1] === "like").map((r) => String(r[0]));
+  userClicks(222, "li|shot|" + likeIds[5]);
+  const cid = firstCb(adminPhoto(photoMsg(222, "LIKE5"))).split("|")[1];
+  adminClicks("lc|" + cid + "|c");
+  const sent = adminSays("screenshot is from another post");
+  assert(sent.some((x) => x.token === "USERTOKEN" && String(x.payload.text).includes("screenshot is from another post")));
+  assert(sent.some((x) => x.method === "editMessageCaption" && String(x.payload.caption).includes("❌ رد شد")), "admin card updated");
+  adminClicks("lp|" + likeIds[5] + "|off");
+  const list = userClicks(222, "li|list|like").find((x) => x.payload.reply_markup);
+  assert.strictEqual(list.payload.reply_markup.inline_keyboard.filter((r) => r[0].callback_data.startsWith("li|post|")).length, 5);
+  assert.strictEqual(walletTotal(222), 0, "coins from earlier LinkedIn work stay counted (balance 0 only because of the withdrawal)");
 });
 
 console.log(`\nAll ${passed} scenario groups passed.`);

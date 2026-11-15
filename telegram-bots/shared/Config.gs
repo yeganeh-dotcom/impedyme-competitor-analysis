@@ -31,6 +31,12 @@ var CONFIG = {
   MOBILE_VIDEO_LINK: "https://drive.google.com/file/d/1j5E1EQpSxzMeFqqel631ynWrAUId-hSz/view?usp=drive_link",
   DESKTOP_VIDEO_LINK: "https://drive.google.com/file/d/1g19HjjOOZhgtjedNc987dP20h8_iLwYX/view?usp=drive_link",
 
+  // بخش لینکدین
+  LI_COMPANY_URL: "https://www.linkedin.com/company/impedyme/",
+  LI_FOLLOW_COINS: 3,        // سکه فالو صفحه Impedyme (یک بار، بعد از تایید)
+  LI_LIKES_PER_COIN: 5,      // هر ۵ لایک تاییدشده = ۱ سکه
+  LI_COMMENTS_PER_COIN: 3,   // هر ۳ کامنت تاییدشده = ۱ سکه
+
   // شناسه‌های تلگرام ادمین‌ها (اختیاری). اگر خالی باشد و در شیت Settings هم
   // چیزی ثبت نشده باشد، اولین نفری که به ربات ادمین /start بدهد ادمین می‌شود.
   ADMIN_IDS: ""

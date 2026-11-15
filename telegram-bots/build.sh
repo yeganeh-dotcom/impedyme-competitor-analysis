@@ -12,11 +12,13 @@ banner() {
   printf ' * Deploy > Manage deployments > Edit (pencil) > Version: New version > Deploy  (keeps the same URL).\n */\n\n'
 }
 
-{ banner "USER BOT = Config + Core + UserBot" "user-bot/"
-  cat shared/Config.gs; echo; cat shared/Core.gs; echo; cat user-bot/UserBot.gs; } > dist/user-bot.gs
+{ banner "USER BOT = Config + Core + LinkedIn + UserBot + UserLinkedIn" "user-bot/"
+  cat shared/Config.gs; echo; cat shared/Core.gs; echo; cat shared/LinkedIn.gs; echo
+  cat user-bot/UserBot.gs; echo; cat user-bot/UserLinkedIn.gs; } > dist/user-bot.gs
 
-{ banner "ADMIN BOT = Config + Core + AdminBot + AdminViews" "admin-bot/"
-  cat shared/Config.gs; echo; cat shared/Core.gs; echo; cat admin-bot/AdminBot.gs; echo; cat admin-bot/AdminViews.gs; } > dist/admin-bot.gs
+{ banner "ADMIN BOT = Config + Core + LinkedIn + AdminBot + AdminViews + AdminLinkedIn" "admin-bot/"
+  cat shared/Config.gs; echo; cat shared/Core.gs; echo; cat shared/LinkedIn.gs; echo
+  cat admin-bot/AdminBot.gs; echo; cat admin-bot/AdminViews.gs; echo; cat admin-bot/AdminLinkedIn.gs; } > dist/admin-bot.gs
 
 cp sheet-logger/Logger.gs dist/google-sheet.gs
 cp website/footer.html dist/footer.html

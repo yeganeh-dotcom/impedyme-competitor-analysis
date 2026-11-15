@@ -6,9 +6,12 @@ Two Google Apps Script bots, a user bot and an admin bot, share one Google Sheet
 telegram-bots/
 ├── shared/Config.gs        ← copy into BOTH projects (identical)
 ├── shared/Core.gs          ← copy into BOTH projects (identical): coin engine
+├── shared/LinkedIn.gs      ← copy into BOTH projects (identical): LinkedIn section
 ├── user-bot/UserBot.gs     ← user bot project only
 ├── admin-bot/AdminBot.gs   ← admin bot project only
 ├── admin-bot/AdminViews.gs ← admin bot project only
+├── admin-bot/AdminLinkedIn.gs ← admin bot project only
+├── user-bot/UserLinkedIn.gs ← user bot project only
 ├── sheet-logger/Logger.gs  ← optional: new version of the script inside the Google Sheet
 ├── website/footer.html     ← optional: new version of the website tracker
 ├── dist/                   ← PASTE-READY: one file per destination (built by build.sh)
@@ -121,6 +124,40 @@ kept, because they belong to new work. To clear everything anyway, use *♻️ �
 
 Change the status with the buttons, not by editing the sheet by hand. Otherwise the user is never notified.
 
+## 5. LinkedIn section (💼 لینکدین)
+
+A new **💼 لینکدین** button sits next to *کلمات امروز 🔑*. Everything else works as before. LinkedIn coins
+are **added** to the same wallet, and no existing coins or user IDs change.
+
+| Action | Coins (set in `Config.gs`) |
+|---|---|
+| Follow the Impedyme page (once, required to join) | `LI_FOLLOW_COINS` = 3 |
+| Approved likes | every `LI_LIKES_PER_COIN` = 5 likes → 1 coin |
+| Approved comments | every `LI_COMMENTS_PER_COIN` = 3 comments → 1 coin |
+
+**User:** taps 💼 لینکدین and joins in 3 steps:
+1. Follow the Impedyme page.
+2. Send their profile link.
+3. Send a screenshot of the page showing *Following*.
+
+After approval, there are two separate lists: **👍 like posts** and **💬 comment posts**. Each post card says
+what to do and has **📷 ارسال اسکرین‌شات**. Each post can be claimed once, and a rejected claim can be re-sent.
+On comment posts, users are told to write their **own** comment; the bot does not hand out ready-made comments.
+
+**Admin:** **💼 لینکدین** opens a panel with:
+- **Review queues:** each screenshot arrives with ✅/❌ buttons. ❌ shows preset reasons or a custom one, and the user is told why.
+- **Posts:** add like posts and comment posts by sending the post link, pause or resume posts, and announce a new post to members.
+
+New sheets are created automatically: `LinkedInMembers`, `LinkedInPosts`, `LinkedInClaims`, plus a
+`LinkedInCoins` column in *Users*.
+
+Paid likes, follows and comments go against LinkedIn's rules, and LinkedIn can restrict accounts it
+catches. Keep that risk in mind and tell users about it.
+
+**Card numbers** are now shown to admins as one 16-digit block. Before, a card typed with spaces was
+shown with its groups in reverse order inside the Persian text. A single block can't be reordered, and
+one tap copies it.
+
 ---
 
 ## Installation (≈10 minutes)
@@ -184,7 +221,7 @@ keywords with the bot, not by deleting rows.
 node telegram-bots/test/run-tests.js
 ```
 
-This runs 16 end-to-end scenarios against mocked Sheets and Telegram:
+This runs 22 end-to-end scenarios against mocked Sheets and Telegram:
 
 - migration keeps balances
 - keyword changes don't reduce coins

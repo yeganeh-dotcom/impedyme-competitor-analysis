@@ -104,10 +104,17 @@ function makeGlobals(project) {
   const world = project.world;
   const props = project.props;
   const respond = (url, payload) => {
-    world.sent.push({ url, method: url.split("/").pop(), token: url.split("/bot")[1].split("/")[0], payload });
+    const method = url.split("/").pop();
+    world.sent.push({ url, method, token: url.split("/bot")[1].split("/")[0], payload });
     const fail = world.failHook && world.failHook(url, payload);
     if (fail) return { getContentText: () => JSON.stringify(fail.body), getResponseCode: () => fail.code };
-    return { getContentText: () => JSON.stringify({ ok: true, result: { message_id: 1 } }), getResponseCode: () => 200 };
+    let body = { ok: true, result: { message_id: 1 } };
+    if (method === "getFile") body = { ok: true, result: { file_path: "photos/" + payload.file_id + ".jpg" } };
+    if (method === "sendPhoto") {
+      const id = typeof payload.photo === "string" ? payload.photo : "ADM_" + (++world.uploads);
+      body = { ok: true, result: { message_id: 2, photo: [{ file_id: "thumb" }, { file_id: id }] } };
+    }
+    return { getContentText: () => JSON.stringify(body), getResponseCode: () => 200 };
   };
   return {
     SpreadsheetApp: { openById: () => world.ss },
@@ -124,7 +131,10 @@ function makeGlobals(project) {
     CacheService: { getScriptCache: () => ({ get: (k) => project.cache.get(k) || null, put: (k, v) => project.cache.set(k, v) }) },
     LockService: { getScriptLock: () => ({ waitLock() {}, tryLock() { return true; }, releaseLock() {} }) },
     UrlFetchApp: {
-      fetch: (url, o) => respond(url, JSON.parse(o.payload)),
+      fetch: (url, o) => {
+        if (url.includes("/file/bot")) { world.downloads.push(url); return { getResponseCode: () => 200, getBlob: () => ({ blobOf: url }) }; }
+        return respond(url, o && typeof o.payload === "string" ? JSON.parse(o.payload) : (o ? o.payload : null));
+      },
       fetchAll: (reqs) => reqs.map((q) => respond(q.url, JSON.parse(q.payload)))
     },
     Utilities: { formatDate, sleep() {} },

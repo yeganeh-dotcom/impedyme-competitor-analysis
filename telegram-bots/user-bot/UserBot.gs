@@ -11,6 +11,7 @@ function doPost(e) {
     var update = JSON.parse(e.postData.contents);
     if (isDuplicateUpdate_(update, "u")) return;
     reportCoreVersion_("USER");
+    if (update.callback_query) return handleUserCallback_(update.callback_query);
     var msg = update.message;
     if (!msg || !msg.chat || (msg.chat.type && msg.chat.type !== "private")) return;
     handleUserMessage_(msg);
@@ -33,6 +34,11 @@ function handleUserMessage_(msg) {
   var stateKey = "state_" + chatId;
   var state = props.getProperty(stateKey) || "idle";
 
+  // اسکرین‌شات‌های بخش لینکدین (عکس یا فایل تصویری)
+  var photoId = msg.photo && msg.photo.length ? msg.photo[msg.photo.length - 1].file_id
+    : (msg.document && /^image\//i.test(String(msg.document.mime_type || "")) ? msg.document.file_id : null);
+  if (photoId) return onUserPhoto_(chatId, photoId, props);
+
   // دکمه‌های منو همیشه اولویت دارند و هر حالت نیمه‌کاره را لغو می‌کنند
   var isMenu = text === "/start" || text === CANCEL_TEXT || text === "انصراف" ||
     Object.keys(USER_BTN).some(function (k) { return USER_BTN[k] === text; });
@@ -44,9 +50,14 @@ function handleUserMessage_(msg) {
   if (state === "waiting_name") return onName_(chatId, text, props);
   if (state === "waiting_email") return onEmail_(chatId, text, props);
   if (state === "waiting_card") return onCard_(chatId, text, props);
+  if (state === "waiting_li_profile") return onLiProfile_(chatId, text, props);
+  if (state === "waiting_li_follow_shot" || state === "waiting_li_shot") {
+    return uSend_(chatId, "📷 لطفاً اسکرین‌شات را به صورت عکس بفرستید (یا برای انصراف یکی از دکمه‌های منو را بزنید).");
+  }
   if (text === USER_BTN.HELP || text === "گوشی" || text === "دسکتاپ") return showHelp_(chatId, text);
 
   var user = getUser_(chatId, props);
+  if (text === USER_BTN.LINKEDIN) return liEntry_(chatId, user, props);
   if (text === USER_BTN.WALLET) {
     if (!user) return askRegister_(chatId);
     return uSend_(chatId, walletText_(user, getFreshBalance_(user)));
@@ -218,7 +229,7 @@ function onCard_(chatId, text, props) {
   return uSend_(chatId, "✅ درخواست تسویه شما با موفقیت ثبت شد و در صف بررسی مدیریت قرار گرفت.\n\n" +
     "🧾 کد پیگیری: <code>" + esc_(res.id) + "</code>\n" +
     "💵 مبلغ: " + fmtNum_(res.toman) + " تومان (" + res.coins + " سکه)\n" +
-    "💳 کارت: <code>" + esc_(res.card) + "</code>\n\n" +
+    "💳 کارت: <code>" + esc_(cardDisplay_(res.card)) + "</code>\n\n" +
     "ℹ️ این سکه‌ها تا زمان بررسی رزرو شده‌اند؛ اگر درخواست رد شود، به حساب شما برمی‌گردند.");
 }
 

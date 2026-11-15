@@ -40,7 +40,8 @@ function getUsersSnapshot_(force) {
     return r;
   }
   var wt = withdrawalTotals_(readWithdrawals_().list);
-  all.users.forEach(function (u) { u.balance = balanceOf_(u, wt[u.chatId]); });
+  var liT = liTotals_();
+  all.users.forEach(function (u) { u.liCoins = (liT[u.chatId] || {}).coins || 0; u.balance = balanceOf_(u, wt[u.chatId]); });
   return { users: all.users, wt: wt, settledNow: false, lastMs: last };
 }
 
@@ -64,6 +65,7 @@ function showUsers_(chatId, force) {
     if (u.email) msg += "📧 " + esc_(u.email) + "\n";
     msg += "📊 بازدید: " + u.pv + " | 💓 فعالیت: " + u.hb + " | 🪙 سکه فعالیت: " + b.activity + "\n";
     var extra = [];
+    if (b.li) extra.push("💼 لینکدین: +" + b.li);
     if (b.adj) extra.push("⚙️ دستی: " + signed_(b.adj));
     if (b.pending) extra.push("⏳ تسویه: -" + b.pending);
     if (b.paid) extra.push("✅ پرداخت‌شده: -" + b.paid);
@@ -96,6 +98,7 @@ function coinCard_(u, b, header) {
     "👤 <b>" + esc_(u.name) + "</b> | 🆔 <code>" + esc_(u.uid) + "</code> | Chat: <code>" + esc_(u.chatId) + "</code>\n" +
     "📊 بازدید مجاز: " + u.pv + " | 💓 فعالیت: " + u.hb + "\n" +
     "🪙 سکه فعالیت: <b>" + b.activity + "</b>" + (u.bonus ? " (شامل " + u.bonus + " سکه حفظ‌شده از نسخه قبل)" : "") + "\n" +
+    (b.li ? "💼 سکه لینکدین: <b>" + b.li + "</b>\n" : "") +
     "⚙️ تنظیم دستی: <b>" + signed_(b.adj) + "</b>\n" +
     (b.pending ? "⏳ در انتظار تسویه: <b>-" + b.pending + "</b>\n" : "") +
     (b.paid ? "✅ تسویه‌شده: <b>-" + b.paid + "</b>\n" : "") +
@@ -159,6 +162,7 @@ function handleAdminCallback_(cb) {
   if (adminIds_().indexOf(adminId) === -1) return tgAnswerCb_(token, cb.id, "⛔️ دسترسی ندارید", true);
   var d = String(cb.data || "").split("|");
   var props = PropertiesService.getScriptProperties();
+  if (/^(lm|lc|la|lp)$/.test(d[0])) return liAdminCallback_(cb, chatId, mid, adminId, d, props);
   try {
     if (d[0] === "s" || d[0] === "k" || d[0] === "m") {
       var u = findUserByChatId_(d[1]);
@@ -196,6 +200,10 @@ function showCheck_(chatId, u) {
     t += "• وضعیت ردیف‌های لاگ:\n";
     Object.keys(br.counts).forEach(function (k) { t += "   " + (CREDIT_LABELS[k] || k) + ": " + br.counts[k] + "\n"; });
     t += "• اگر «همه» ورودی‌های ارگانیک گوگل (بدون فیلتر کلمه) شمرده می‌شد: حدود " + br.estimateAllGoogle + " سکه\n";
+  }
+  var li = liInfoFor_(u.chatId);
+  if (li.member || li.memberPending || li.likes || li.comments || li.pending) {
+    t += "• لینکدین" + (li.memberPending ? " (عضویت در انتظار تایید)" : "") + ":\n" + liProgressText_(li) + "\n";
   }
   t += "• ستون Credit در تب لاگ کاربر، دلیل شمرده شدن/نشدن هر بازدید را نشان می‌دهد.\n" +
     "• هر تغییر دستی سکه در شیت CoinHistory ثبت می‌شود.";
@@ -353,7 +361,7 @@ function notifyWithdrawalResult_(req, action, balance) {
     text = "✅ <b>مدیریت درخواست تسویه شما را پرداخت کرد</b>\n\n" +
       "🧾 کد درخواست: <code>" + esc_(req.id) + "</code>\n" +
       "💵 مبلغ: " + esc_(req.amount) + "\n" +
-      "💳 کارت: <code>" + esc_(req.card) + "</code>\n" +
+      "💳 کارت: <code>" + esc_(cardDisplay_(req.card)) + "</code>\n" +
       (req.note ? "🔖 شماره پیگیری واریز: <code>" + esc_(req.note) + "</code>\n" : "") +
       bal + "\nاز همکاری شما سپاسگزاریم 🌹";
   }
