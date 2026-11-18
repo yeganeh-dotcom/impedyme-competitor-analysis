@@ -9,10 +9,10 @@ add_action( 'wp_head', 'impedyme_jlg_success_story_schema', 5 );
 
 function impedyme_jlg_success_story_schema() {
 	// ---- Edit these if the live page or image addresses differ. ----
-	$page_url       = 'https://impedyme.com/success-stories/jlg/';
-	$img_story      = 'https://impedyme.com/wp-content/uploads/2026/11/jlg-success-story-scaled.webp';
-	$img_desktop    = 'https://impedyme.com/wp-content/uploads/2026/11/jlg-header-desktop.webp';
-	$img_mobile     = 'https://impedyme.com/wp-content/uploads/2026/11/jlg-header-mobile-scaled.webp';
+	$page_url       = 'https://impedyme.com/success-stories/jlg-industries/';
+	$img_desktop    = 'https://impedyme.com/wp-content/uploads/2026/11/jlg-desktop-header-scaled.webp';
+	$img_mobile     = 'https://impedyme.com/wp-content/uploads/2026/11/jlg-mobile-header-scaled.webp';
+	$img_logo       = 'https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp';
 	$date_published = '2026-11-18';
 	// -----------------------------------------------------------------
 
@@ -66,11 +66,11 @@ function impedyme_jlg_success_story_schema() {
       "isPartOf": { "@id": "https://impedyme.com/#website" },
       "breadcrumb": { "@id": "{{URL}}#breadcrumb" },
       "mainEntity": { "@id": "{{URL}}#article" },
-      "primaryImageOfPage": { "@id": "{{URL}}#image-success-story" },
+      "primaryImageOfPage": { "@id": "{{URL}}#image-header-desktop" },
       "image": [
-        { "@id": "{{URL}}#image-success-story" },
         { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" }
+        { "@id": "{{URL}}#image-header-mobile" },
+        { "@id": "{{URL}}#image-jlg-logo" }
       ],
       "about": [
         { "@id": "https://www.jlg.com/#organization" },
@@ -113,6 +113,8 @@ function impedyme_jlg_success_story_schema() {
       "name": "JLG Industries",
       "legalName": "JLG Industries, Inc.",
       "url": "https://www.jlg.com/",
+      "logo": { "@id": "{{URL}}#image-jlg-logo" },
+      "image": { "@id": "{{URL}}#image-jlg-logo" },
       "parentOrganization": { "@id": "https://www.oshkoshcorp.com/#organization" },
       "description": "JLG Industries, an Oshkosh Corporation business, designs and manufactures access equipment — aerial work platforms and telehandlers — for construction, industrial, and rental markets worldwide.",
       "knowsAbout": [
@@ -155,7 +157,7 @@ function impedyme_jlg_success_story_schema() {
       "manufacturer": { "@id": "https://impedyme.com/#organization" },
       "category": "Real-time Power HIL electric-powertrain testbench",
       "description": "An Impedyme Motor Emulator built on the CHP Series, integrated by Impedyme with the NI NHR Battery Emulator in JLG's lab, forming one coordinated environment that validates the complete electric powertrain — DC energy source, traction inverter, motor and mechanical load — including regenerative energy flow back to the emulated battery. Every CHP module is a regenerative, four-quadrant, bidirectional power stage with an AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT.",
-      "image": { "@id": "{{URL}}#image-success-story" },
+      "image": { "@id": "{{URL}}#image-header-desktop" },
       "isRelatedTo": [
         { "@id": "{{URL}}#ni-nhr-battery-emulator" },
         { "@id": "{{URL}}#sw-motorsim-studio" },
@@ -242,14 +244,13 @@ function impedyme_jlg_success_story_schema() {
 
     {
       "@type": "ImageObject",
-      "@id": "{{URL}}#image-success-story",
-      "contentUrl": "{{IMG_STORY}}",
-      "url": "{{IMG_STORY}}",
+      "@id": "{{URL}}#image-jlg-logo",
+      "contentUrl": "{{IMG_LOGO}}",
+      "url": "{{IMG_LOGO}}",
       "encodingFormat": "image/webp",
-      "name": "JLG Industries customer success story — One Bench for the Whole Electric Powertrain",
-      "caption": "Impedyme customer success story: JLG Industries validates battery, inverter, and motor interactions with an Impedyme Motor Emulator integrated with the NI NHR Battery Emulator — –50 % testing time, –45 % validation time, +55 % test coverage, +60 % system safety.",
-      "creator": { "@id": "https://impedyme.com/#organization" },
-      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+      "name": "JLG Industries logo",
+      "caption": "JLG Industries logo",
+      "copyrightHolder": { "@id": "https://www.jlg.com/#organization" }
     },
     {
       "@type": "ImageObject",
@@ -259,7 +260,8 @@ function impedyme_jlg_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "JLG Industries success story header (desktop)",
       "caption": "One Bench for the Whole Electric Powertrain — JLG Industries validates battery, inverter, and motor interactions with an Impedyme Motor Emulator integrated with the NI NHR Battery Emulator.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": { "@id": "https://impedyme.com/#organization" },
+      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
     },
     {
       "@type": "ImageObject",
@@ -284,7 +286,6 @@ function impedyme_jlg_success_story_schema() {
       "datePublished": "{{DATE}}",
       "dateModified": "{{DATE}}",
       "image": [
-        { "@id": "{{URL}}#image-success-story" },
         { "@id": "{{URL}}#image-header-desktop" },
         { "@id": "{{URL}}#image-header-mobile" }
       ],
@@ -463,9 +464,9 @@ JSONLD;
 		$schema,
 		array(
 			'{{URL}}'         => $page_url,
-			'{{IMG_STORY}}'   => $img_story,
 			'{{IMG_DESKTOP}}' => $img_desktop,
 			'{{IMG_MOBILE}}'  => $img_mobile,
+			'{{IMG_LOGO}}'    => $img_logo,
 			'{{DATE}}'        => $date_published,
 		)
 	);
