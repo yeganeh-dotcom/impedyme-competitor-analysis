@@ -9,7 +9,7 @@ add_action( 'wp_head', 'impedyme_nasa_success_story_schema', 5 );
 
 function impedyme_nasa_success_story_schema() {
 	// ---- Edit these if the live page or image addresses differ. ----
-	$page_url       = 'https://impedyme.com/success-stories/nasa/';
+	$page_url       = 'https://impedyme.com/success-stories/nasa-jpl/';
 	$img_story      = 'https://impedyme.com/wp-content/uploads/2026/11/nasa-success-story-scaled.webp';
 	$img_desktop    = 'https://impedyme.com/wp-content/uploads/2026/11/Nasa-header-desktop-scaled.webp';
 	$img_mobile     = 'https://impedyme.com/wp-content/uploads/2026/11/nasa-mobile-header-scaled.webp';
