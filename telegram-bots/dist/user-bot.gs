@@ -45,6 +45,15 @@ var CONFIG = {
   LI_LIKES_PER_COIN: 5,      // هر ۵ لایک تاییدشده = ۱ سکه
   LI_COMMENTS_PER_COIN: 3,   // هر ۳ کامنت تاییدشده = ۱ سکه
 
+  // LinkedIn API (اختیاری) — تا خالی باشند، لایک/کامنت با اسکرین‌شات و تایید ادمین بررسی می‌شود.
+  // بهتر است Client ID/Secret را در Script Properties با همین نام‌ها بگذارید، نه اینجا.
+  LI_CLIENT_ID: "",
+  LI_CLIENT_SECRET: "",
+  LI_ADMIN_REDIRECT_URL: "",   // لینک /exec ربات ادمین (در اپ لینکدین هم به Redirect URLs اضافه شود)
+  LI_USER_REDIRECT_URL: "",    // لینک /exec ربات کاربر (برای «🔗 اتصال حساب لینکدین»)
+  LI_API_VERSION: "202607",    // هدر LinkedIn-Version (YYYYMM)
+  LI_CHECK_MAX_HOURS: 24,      // اگر تا این مدت لایک/کامنت پیدا نشد، رد می‌شود
+
   // شناسه‌های تلگرام ادمین‌ها (اختیاری). اگر خالی باشد و در شیت Settings هم
   // چیزی ثبت نشده باشد، اولین نفری که به ربات ادمین /start بدهد ادمین می‌شود.
   ADMIN_IDS: ""
@@ -75,7 +84,7 @@ function cfg_(key) {
  *    سنجیده می‌شود که «در زمان همان بازدید» فعال بوده‌اند.
  *  نتیجه: عوض کردن کلمات یا آپدیت کد، هرگز سکه کسی را کم نمی‌کند.
  */
-var CORE_VERSION = "v2.2.0";
+var CORE_VERSION = "v2.3.0";
 
 var SHEETS = {
   USERS: "Users",
@@ -1158,9 +1167,11 @@ function withdrawalConfirmButtons_(req, action) {
  *  (این سکه‌ها فقط «اضافه» می‌شوند؛ موجودی و شناسه فعلی کاربران تغییری نمی‌کند.)
  */
 var LI = { MEMBERS: "LinkedInMembers", POSTS: "LinkedInPosts", CLAIMS: "LinkedInClaims" };
-var LI_MEMBER_HEADERS = ["ChatID", "UID", "Name", "ProfileURL", "Status", "FollowCoins", "UserFileId", "AdminFileId", "RequestedAt", "ReviewedAt", "Reason"];
-var LI_POST_HEADERS = ["PostID", "Type", "Title", "URL", "Active", "AddedAt"];
-var LI_CLAIM_HEADERS = ["ClaimID", "ChatID", "UID", "Name", "PostID", "Type", "Status", "UserFileId", "AdminFileId", "CreatedAt", "ReviewedAt", "Reason"];
+var LI_MEMBER_HEADERS = ["ChatID", "UID", "Name", "ProfileURL", "Status", "FollowCoins", "UserFileId", "AdminFileId", "RequestedAt", "ReviewedAt", "Reason",
+  "LinkedInID", "LinkedInName", "ConnectedAt"];
+var LI_POST_HEADERS = ["PostID", "Type", "Title", "URL", "Active", "AddedAt", "ApiURN"];
+var LI_CLAIM_HEADERS = ["ClaimID", "ChatID", "UID", "Name", "PostID", "Type", "Status", "UserFileId", "AdminFileId", "CreatedAt", "ReviewedAt", "Reason",
+  "Method", "CommentText", "CheckedAt"];
 var LI_ST = { PENDING: "Pending", APPROVED: "Approved", REJECTED: "Rejected" };
 
 var LI_REASONS = {
@@ -1294,7 +1305,7 @@ function liPosts_(type, includeInactive) {
   return liTable_(LI.POSTS, LI_POST_HEADERS).rows.map(function (r) {
     return {
       row: r.row, id: String(r.PostID).trim(), type: String(r.Type).trim().toLowerCase() === "comment" ? "comment" : "like",
-      title: String(r.Title || "").trim() || "پست لینکدین", url: String(r.URL || "").trim(),
+      title: String(r.Title || "").trim() || "پست لینکدین", url: String(r.URL || "").trim(), apiUrn: String(r.ApiURN || "").trim(),
       active: !(r.Active === false || String(r.Active).trim().toUpperCase() === "FALSE")
     };
   }).filter(function (p) {
@@ -1343,7 +1354,7 @@ function liUserClaims_(chatId) {
   return m;
 }
 
-function liCreateClaim_(user, post, userFileId) {
+function liCreateClaim_(user, post, userFileId, method) {
   return withLock_(function () {
     var t = liClaims_();
     var dup = t.rows.some(function (c) {
@@ -1352,7 +1363,8 @@ function liCreateClaim_(user, post, userFileId) {
     if (dup) return { ok: false, reason: "duplicate" };
     var claim = {
       ClaimID: liNewId_("L", t.rows, "ClaimID"), ChatID: user.chatId, UID: user.uid, Name: user.name, PostID: post.id, Type: post.type,
-      Status: LI_ST.PENDING, UserFileId: userFileId, AdminFileId: "", CreatedAt: new Date(), ReviewedAt: "", Reason: ""
+      Status: LI_ST.PENDING, UserFileId: userFileId || "", AdminFileId: "", CreatedAt: new Date(), ReviewedAt: "", Reason: "",
+      Method: method || "screenshot", CommentText: "", CheckedAt: ""
     };
     liAppend_(t, claim);
     return { ok: true, claim: claim };
@@ -1365,12 +1377,13 @@ function liFindClaim_(claimId) {
   return { t: t, c: null };
 }
 
-function liReviewClaim_(adminId, claimId, approve, reason) {
+function liReviewClaim_(adminId, claimId, approve, reason, extra) {
   return withLock_(function () {
     var x = liFindClaim_(claimId);
     if (!x.c) return { ok: false, reason: "notfound" };
     if (x.c.Status !== LI_ST.PENDING) return { ok: false, reason: "already", claim: x.c };
     var upd = { Status: approve ? LI_ST.APPROVED : LI_ST.REJECTED, ReviewedAt: new Date(), Reason: reason || "" };
+    if (extra) Object.keys(extra).forEach(function (k) { upd[k] = extra[k]; });
     writeCells_(x.t.sh, x.c.row, x.t.map, upd);
     Object.keys(upd).forEach(function (k) { x.c[k] = upd[k]; });
     var user = findUserByChatId_(x.c.ChatID);
@@ -1468,6 +1481,7 @@ function liMemberCaption_(m) {
     "👤 " + esc_(m.Name) + " (ID: <code>" + esc_(m.UID) + "</code>)\n" +
     "🔗 " + esc_(m.ProfileURL) + "\n" +
     "📷 اسکرین‌شات فالو صفحه Impedyme\n" +
+    (m.LinkedInID ? "🆔 LinkedIn: " + esc_(m.LinkedInName || "") + " <code>" + esc_(m.LinkedInID) + "</code>\n" : "") +
     "🕒 " + fmtDate_(m.RequestedAt) +
     (m.Status && m.Status !== LI_ST.PENDING ? "\n\n" + (m.Status === LI_ST.APPROVED ? "✅ تایید شد (+" + num_(m.FollowCoins) + " سکه فالو)" : "❌ رد شد" + (m.Reason ? " — " + esc_(m.Reason) : "")) : "");
 }
@@ -1484,6 +1498,7 @@ function liClaimCaption_(c, post) {
   var t = head + "\n👤 " + esc_(c.Name) + " (ID: <code>" + esc_(c.UID) + "</code>)\n" +
     "📌 " + esc_(post ? post.title : c.PostID) + "\n" +
     (post && post.url ? "🔗 " + esc_(post.url) + "\n" : "") +
+    (c.Method === "api" ? "🤖 بررسی خودکار با API" + (c.CommentText ? "\n💬 «" + esc_(String(c.CommentText).substring(0, 300)) + "»" : "") + "\n" : "") +
     "🕒 " + fmtDate_(c.CreatedAt);
   if (c.Status && c.Status !== LI_ST.PENDING) t += "\n\n" + (c.Status === LI_ST.APPROVED ? "✅ تایید شد" : "❌ رد شد" + (c.Reason ? " — " + esc_(c.Reason) : ""));
   return t;
@@ -1506,6 +1521,91 @@ function liProgressText_(info) {
     "💬 کامنت‌های تاییدشده: " + info.comments + " (هر " + c.commentsPerCoin + " کامنت = ۱ سکه؛ " + nextC + " کامنت تا سکه بعدی)\n" +
     (info.pending ? "⏳ در انتظار بررسی: " + info.pending + "\n" : "") +
     "🪙 <b>سکه‌های لینکدین: " + info.coins + "</b>";
+}
+
+/* ------------------------- شناسه لینکدین کاربر ------------------------- */
+
+/** شناسه را یکدست می‌کند: «urn:li:person:Ab12» یا «Ab12» ← «Ab12» */
+function liIdKey_(s) {
+  return String(s || "").trim().replace(/^urn:li:(person|member):/i, "");
+}
+
+/** ثبت/ویرایش نام و شناسه لینکدین یک عضو (توسط ادمین یا با «اتصال حساب لینکدین») */
+function liSetIdentity_(chatId, linkedinId, linkedinName) {
+  return withLock_(function () {
+    var x = liMember_(chatId);
+    if (!x.m) return false;
+    var upd = { ConnectedAt: new Date() };
+    if (linkedinId !== null && linkedinId !== undefined) upd.LinkedInID = linkedinId === "-" ? "" : "'" + liIdKey_(linkedinId);
+    if (linkedinName !== null && linkedinName !== undefined) upd.LinkedInName = linkedinName === "-" ? "" : linkedinName;
+    writeCells_(x.t.sh, x.m.row, x.t.map, upd);
+    return true;
+  });
+}
+
+/* ------------------------- LinkedIn API (اختیاری) ------------------------- */
+
+/** API آماده است وقتی ادمین «🔑 اتصال API لینکدین» را انجام داده و توکن منقضی نشده باشد */
+function liApiReady_() {
+  if (String(getSetting_("LI_API_READY")) !== "yes") return false;
+  var exp = toMs_(getSetting_("LI_TOKEN_EXPIRES"));
+  return exp === null || exp > Date.now();
+}
+
+function liOAuthConfigured_(redirectKey) {
+  return !!(cfg_("LI_CLIENT_ID") && cfg_("LI_CLIENT_SECRET") && /^https:\/\//.test(String(cfg_(redirectKey) || "")));
+}
+
+function liOAuthUrl_(scopes, redirectUrl, state) {
+  return "https://www.linkedin.com/oauth/v2/authorization?response_type=code" +
+    "&client_id=" + encodeURIComponent(cfg_("LI_CLIENT_ID")) +
+    "&redirect_uri=" + encodeURIComponent(redirectUrl) +
+    "&state=" + encodeURIComponent(state) +
+    "&scope=" + encodeURIComponent(scopes);
+}
+
+/** کد برگشتی از لینکدین را به توکن تبدیل می‌کند */
+function liExchangeCode_(code, redirectUrl) {
+  var resp = UrlFetchApp.fetch("https://www.linkedin.com/oauth/v2/accessToken", {
+    method: "post", muteHttpExceptions: true,
+    payload: { grant_type: "authorization_code", code: code, redirect_uri: redirectUrl, client_id: cfg_("LI_CLIENT_ID"), client_secret: cfg_("LI_CLIENT_SECRET") }
+  });
+  var j = {};
+  try { j = JSON.parse(resp.getContentText()); } catch (e) {}
+  return j.access_token ? { ok: true, token: j.access_token, expiresIn: Number(j.expires_in || 0), scope: String(j.scope || "") }
+    : { ok: false, error: j.error_description || j.error || ("HTTP " + resp.getResponseCode()) };
+}
+
+/** درخواست به API؛ برای /rest/ چند نسخه LinkedIn-Version امتحان می‌شود تا یکی پذیرفته شود */
+function liApiFetch_(token, url) {
+  var rest = url.indexOf("/rest/") !== -1;
+  var versions = rest ? [String(cfg_("LI_API_VERSION") || "202607"), "202604", "202601"] : [null];
+  var last = null;
+  for (var i = 0; i < versions.length; i++) {
+    var h = { Authorization: "Bearer " + token };
+    if (versions[i]) { h["LinkedIn-Version"] = versions[i]; h["X-Restli-Protocol-Version"] = "2.0.0"; }
+    var resp = UrlFetchApp.fetch(url, { method: "get", headers: h, muteHttpExceptions: true });
+    var text = resp.getContentText(), json = null;
+    try { json = JSON.parse(text); } catch (e) {}
+    last = { code: resp.getResponseCode(), text: text, json: json };
+    if (!(last.code === 426 || (last.code === 400 && /version/i.test(text)))) return last;
+  }
+  return last;
+}
+
+/** شناسه و نام صاحب توکن */
+function liApiMe_(token) {
+  var r = liApiFetch_(token, "https://api.linkedin.com/v2/me");
+  if (r.code !== 200 || !r.json || !r.json.id) return null;
+  var name = [r.json.localizedFirstName, r.json.localizedLastName].filter(Boolean).join(" ");
+  return { id: String(r.json.id), name: name };
+}
+
+/** صفحه ساده‌ای که بعد از ورود با لینکدین در مرورگر نشان داده می‌شود */
+function liPage_(text) {
+  var safe = String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return HtmlService.createHtmlOutput('<div dir="auto" style="font:17px/1.8 Tahoma,sans-serif;padding:24px;max-width:640px">' + safe + "</div>")
+    .setTitle("Impedyme");
 }
 
 /**
@@ -1753,12 +1853,23 @@ function checkUserWebhook() {
 /**
  * ============================================================
  *  UserLinkedIn.gs  —  بخش لینکدین در ربات کاربر
- *  (به LinkedIn.gs مشترک نیاز دارد؛ بقیه امکانات ربات دست نخورده‌اند)
+ *  (به LinkedIn.gs مشترک نیاز دارد؛ بخش کلیک سایت دست نخورده است)
  * ============================================================
+ *  ورود: ۱) لینک پروفایل  ۲) فالو صفحه Impedyme + اسکرین‌شات  ← ادمین هر دو را با هم تایید می‌کند
+ *  تا تایید نشود، کار لایک/کامنت باز نمی‌شود.
+ *  بررسی کارها: اگر API لینکدین وصل باشد و شناسه لینکدین کاربر ثبت شده باشد، با «✅ لایک کردم / ✅ کامنت گذاشتم»
+ *  خودکار بررسی می‌شود؛ در غیر این صورت با اسکرین‌شات و تایید ادمین.
  */
 
 function uInline_(chatId, text, rows) { return tgSend_(cfg_("USER_BOT_TOKEN"), chatId, text, { inline_keyboard: rows }); }
 function liShort_(t) { t = String(t); return t.length > 48 ? t.substring(0, 46) + "…" : t; }
+
+/** این کاربر کارهایش را با API بررسی می‌شود؟ */
+function liApiModeFor_(member) {
+  return !!member && liApiReady_() && liIdKey_(member.LinkedInID) !== "";
+}
+
+/* ------------------------- عضویت ------------------------- */
 
 /** دکمه «💼 لینکدین» */
 function liEntry_(chatId, user, props) {
@@ -1767,22 +1878,20 @@ function liEntry_(chatId, user, props) {
   if (m && m.Status === LI_ST.APPROVED) return liHome_(chatId, user);
   if (m && m.Status === LI_ST.PENDING) return uSend_(chatId, "⏳ درخواست عضویت لینکدین شما در حال بررسی است. نتیجه همین‌جا اطلاع داده می‌شود.");
   var c = liCfg_();
-  return uInline_(chatId,
+  props.setProperty("state_" + chatId, "waiting_li_profile");
+  return uSendCancel_(chatId,
     "💼 <b>کسب سکه از لینکدین</b>\n\n" +
     "➕ فالو صفحه Impedyme = " + c.followCoins + " سکه\n" +
     "👍 هر " + c.likesPerCoin + " لایک تاییدشده = ۱ سکه\n" +
     "💬 هر " + c.commentsPerCoin + " کامنت تاییدشده = ۱ سکه\n" +
-    "📷 برای هر کار یک اسکرین‌شات می‌فرستید و بعد از تایید مدیر، سکه به همان کیف پول اضافه می‌شود.\n\n" +
-    "<b>مرحله ۱ از ۳:</b> صفحه Impedyme را در لینکدین فالو کنید." +
-    (m && m.Status === LI_ST.REJECTED && m.Reason ? "\n\n❌ درخواست قبلی شما رد شد: " + esc_(m.Reason) : ""),
-    [[{ text: "🔗 باز کردن صفحه Impedyme", url: c.companyUrl }],
-     [{ text: "✅ فالو کردم، مرحله بعد", callback_data: "li|followed" }]]);
+    (m && m.Status === LI_ST.REJECTED && m.Reason ? "\n❌ درخواست قبلی شما رد شد: " + esc_(m.Reason) + "\n" : "") +
+    "\n<b>مرحله ۱ از ۲:</b> لینک پروفایل لینکدین خود را بفرستید.\nمثال: <code>https://www.linkedin.com/in/your-name</code>\n" +
+    "(در اپ لینکدین: روی عکس خودتان ← View profile ← «⋯» ← Share via ← Copy link)");
 }
 
 function liAskProfile_(chatId, props) {
   props.setProperty("state_" + chatId, "waiting_li_profile");
-  return uSendCancel_(chatId, "<b>مرحله ۲ از ۳:</b> لینک پروفایل لینکدین خود را بفرستید.\nمثال: <code>https://www.linkedin.com/in/your-name</code>\n\n" +
-    "(در اپ لینکدین: روی عکس خودتان ← View profile ← «⋯» ← Share via ← Copy link)");
+  return uSendCancel_(chatId, "<b>مرحله ۱ از ۲:</b> لینک پروفایل لینکدین خود را بفرستید.\nمثال: <code>https://www.linkedin.com/in/your-name</code>");
 }
 
 function onLiProfile_(chatId, text, props) {
@@ -1791,10 +1900,13 @@ function onLiProfile_(chatId, text, props) {
   }
   props.setProperty("li_profile_" + chatId, text.trim());
   props.setProperty("state_" + chatId, "waiting_li_follow_shot");
-  return uSendCancel_(chatId, "<b>مرحله ۳ از ۳:</b> یک <b>اسکرین‌شات</b> از صفحه Impedyme در لینکدین بفرستید که دکمه <b>Following</b> در آن دیده شود.");
+  return uInline_(chatId,
+    "<b>مرحله ۲ از ۲:</b> صفحه Impedyme را در لینکدین <b>فالو</b> کنید و یک <b>اسکرین‌شات</b> از صفحه بفرستید که دکمه <b>Following</b> در آن دیده شود.\n" +
+    "مدیر پروفایل و فالو را با هم بررسی و تایید می‌کند.",
+    [[{ text: "🔗 باز کردن صفحه Impedyme", url: liCfg_().companyUrl }]]);
 }
 
-/** عکس‌هایی که کاربر می‌فرستد (اسکرین‌شات فالو یا لایک/کامنت) */
+/** عکس‌هایی که کاربر می‌فرستد (اسکرین‌شات فالو، یا لایک/کامنت وقتی API وصل نیست) */
 function onUserPhoto_(chatId, fileId, props) {
   var state = props.getProperty("state_" + chatId) || "idle";
   var user = getUser_(chatId, props);
@@ -1810,8 +1922,8 @@ function onUserPhoto_(chatId, fileId, props) {
     if (!r.ok) return liHome_(chatId, user);
     var fid = liNotifyAdminsShot_(fileId, liMemberCaption_(r.member), liMemberButtons_(user.chatId));
     liSaveAdminFile_(LI.MEMBERS, LI_MEMBER_HEADERS, "ChatID", user.chatId, fid);
-    return uSend_(chatId, "✅ درخواست عضویت لینکدین ثبت شد و برای بررسی به مدیر ارسال شد.\n" +
-      "بعد از تایید، " + liCfg_().followCoins + " سکه فالو به کیف پول شما اضافه می‌شود و پست‌ها برایتان باز می‌شوند.");
+    return uSend_(chatId, "✅ پروفایل و اسکرین‌شات فالو ثبت شد و برای بررسی به مدیر ارسال شد.\n" +
+      "بعد از تایید، " + liCfg_().followCoins + " سکه فالو به کیف پول شما اضافه می‌شود و پست‌های لایک و کامنت باز می‌شوند.");
   }
 
   if (state === "waiting_li_shot") {
@@ -1820,27 +1932,37 @@ function onUserPhoto_(chatId, fileId, props) {
     props.deleteProperty("li_post_" + chatId);
     var post = postId ? liPost_(postId) : null;
     if (!post || !post.active) return uSend_(chatId, "⚠️ این پست دیگر فعال نیست.");
-    var cr = liCreateClaim_(user, post, fileId);
-    if (!cr.ok) return uSend_(chatId, "⏳ برای این پست قبلاً اسکرین‌شات فرستاده‌اید و در حال بررسی یا تاییدشده است.");
+    var cr = liCreateClaim_(user, post, fileId, "screenshot");
+    if (!cr.ok) return uSend_(chatId, "⏳ برای این پست قبلاً ثبت کرده‌اید و در حال بررسی یا تاییدشده است.");
     var cfid = liNotifyAdminsShot_(fileId, liClaimCaption_(cr.claim, post), liClaimButtons_(cr.claim.ClaimID));
     liSaveAdminFile_(LI.CLAIMS, LI_CLAIM_HEADERS, "ClaimID", cr.claim.ClaimID, cfid);
     return uInline_(chatId, "✅ اسکرین‌شات " + liTypeFa_(post.type) + " شما ثبت شد و بعد از تایید مدیر حساب می‌شود.",
       [[{ text: liTypeIcon_(post.type) + " پست‌های " + liTypeFa_(post.type) + " دیگر", callback_data: "li|list|" + post.type }]]);
   }
 
-  return uSend_(chatId, "برای ارسال اسکرین‌شات، اول از «" + USER_BTN.LINKEDIN + "» پست را انتخاب کنید و «📷 ارسال اسکرین‌شات» را بزنید.");
+  return uSend_(chatId, "برای ارسال اسکرین‌شات، اول از «" + USER_BTN.LINKEDIN + "» شروع کنید.");
 }
 
-/** صفحه اصلی بخش لینکدین (برای عضو تاییدشده) */
+/* ------------------------- صفحه اصلی و لیست پست‌ها ------------------------- */
+
 function liHome_(chatId, user) {
+  var member = liMember_(chatId).m;
   var info = liInfoFor_(chatId);
   var claims = liUserClaims_(chatId);
   var open = function (type) {
     return liPosts_(type).filter(function (p) { var c = claims[p.id]; return !c || c.Status === LI_ST.REJECTED; }).length;
   };
-  return uInline_(chatId, "💼 <b>بخش لینکدین</b>\n\n" + liProgressText_(info) + "\n\nکدام را انجام می‌دهید؟",
-    [[{ text: "👍 پست‌های لایک (" + open("like") + " انجام‌نشده)", callback_data: "li|list|like" }],
-     [{ text: "💬 پست‌های کامنت (" + open("comment") + " انجام‌نشده)", callback_data: "li|list|comment" }]]);
+  var api = liApiModeFor_(member);
+  var rows = [
+    [{ text: "👍 پست‌های لایک (" + open("like") + " انجام‌نشده)", callback_data: "li|list|like" }],
+    [{ text: "💬 پست‌های کامنت (" + open("comment") + " انجام‌نشده)", callback_data: "li|list|comment" }]
+  ];
+  if (!api && liApiReady_() && liOAuthConfigured_("LI_USER_REDIRECT_URL")) {
+    rows.push([{ text: "🔗 اتصال حساب لینکدین (بررسی خودکار)", callback_data: "li|connect" }]);
+  }
+  return uInline_(chatId, "💼 <b>بخش لینکدین</b>\n\n" + liProgressText_(info) + "\n\n" +
+    (api ? "🤖 لایک و کامنت‌های شما خودکار با API لینکدین بررسی می‌شوند." : "📷 برای هر لایک/کامنت یک اسکرین‌شات می‌فرستید و مدیر تایید می‌کند.") +
+    "\n\nکدام را انجام می‌دهید؟", rows);
 }
 
 function liList_(chatId, user, type) {
@@ -1861,40 +1983,94 @@ function liList_(chatId, user, type) {
   var head = type === "comment"
     ? "💬 <b>پست‌های کامنت</b>\nزیر این پست‌ها یک کامنت با کلمات خودتان بنویسید."
     : "👍 <b>پست‌های لایک</b>\nاین پست‌ها را لایک کنید.";
-  return uInline_(chatId, head + "\n\n🆕 انجام نشده · ⏳ در انتظار بررسی · ✅ تایید شده · ❌ رد شده (دوباره بفرستید)\nروی یک پست بزنید:", rows);
+  return uInline_(chatId, head + "\n\n🆕 انجام نشده · ⏳ در انتظار بررسی · ✅ تایید شده · ❌ رد شده (دوباره انجام دهید)\nروی یک پست بزنید:", rows);
 }
 
 function liPostCard_(chatId, user, postId) {
   var p = liPost_(postId);
   if (!p || !p.active) return uSend_(chatId, "⚠️ این پست دیگر فعال نیست.");
+  var api = liApiModeFor_(liMember_(chatId).m);
   var c = liUserClaims_(chatId)[p.id];
-  var steps = p.type === "comment"
-    ? "۱) پست را باز کنید و زیر آن یک <b>کامنت با کلمات خودتان</b> درباره موضوع پست بنویسید (کامنت کپی‌شده یا تکراری قبول نمی‌شود).\n" +
-      "۲) از کامنت خودتان زیر پست اسکرین‌شات بگیرید.\n۳) «📷 ارسال اسکرین‌شات» را بزنید و عکس را بفرستید."
-    : "۱) پست را باز کنید و <b>لایک</b> کنید.\n۲) اسکرین‌شاتی بگیرید که لایک شما در آن دیده شود.\n۳) «📷 ارسال اسکرین‌شات» را بزنید و عکس را بفرستید.";
+  var doText = p.type === "comment"
+    ? "پست را باز کنید و زیر آن یک <b>کامنت با کلمات خودتان</b> درباره موضوع پست بنویسید (کامنت کپی‌شده یا تکراری قبول نمی‌شود)."
+    : "پست را باز کنید و <b>لایک</b> کنید.";
+  var steps = api
+    ? "۱) " + doText + "\n۲) «" + liDoneLabel_(p.type) + "» را بزنید؛ ربات با API لینکدین بررسی می‌کند و سکه را خودکار اضافه می‌کند."
+    : "۱) " + doText + "\n۲) اسکرین‌شاتی بگیرید که " + liTypeFa_(p.type) + " شما در آن دیده شود.\n۳) «📷 ارسال اسکرین‌شات» را بزنید و عکس را بفرستید.";
   var status = !c ? "انجام نشده"
     : c.Status === LI_ST.APPROVED ? "✅ تایید شده"
     : c.Status === LI_ST.PENDING ? "⏳ در انتظار بررسی"
-    : "❌ رد شده" + (c.Reason ? " — " + esc_(c.Reason) : "") + " (می‌توانید دوباره بفرستید)";
+    : "❌ رد شده" + (c.Reason ? " — " + esc_(c.Reason) : "") + " (می‌توانید دوباره انجام دهید)";
   var rows = [];
   if (/^https?:\/\//i.test(p.url)) rows.push([{ text: "🔗 باز کردن پست", url: p.url }]);
-  if (!c || c.Status === LI_ST.REJECTED) rows.push([{ text: "📷 ارسال اسکرین‌شات", callback_data: "li|shot|" + p.id }]);
+  if (!c || c.Status === LI_ST.REJECTED) {
+    rows.push([api ? { text: liDoneLabel_(p.type), callback_data: "li|done|" + p.id } : { text: "📷 ارسال اسکرین‌شات", callback_data: "li|shot|" + p.id }]);
+  }
   rows.push([{ text: "🔙 لیست پست‌ها", callback_data: "li|list|" + p.type }]);
   return uInline_(chatId, liTypeIcon_(p.type) + " <b>پست " + liTypeFa_(p.type) + "</b>\n📌 " + esc_(p.title) + "\n\n" + steps + "\n\nوضعیت: " + status, rows);
 }
 
+function liDoneLabel_(type) { return type === "comment" ? "✅ کامنت گذاشتم" : "✅ لایک کردم"; }
+
+/** حالت اسکرین‌شات (وقتی API وصل نیست) */
 function liAskShot_(chatId, user, postId, props) {
   var p = liPost_(postId);
   if (!p || !p.active) return uSend_(chatId, "⚠️ این پست دیگر فعال نیست.");
   var c = liUserClaims_(chatId)[p.id];
-  if (c && c.Status !== LI_ST.REJECTED) return uSend_(chatId, "⏳ برای این پست قبلاً اسکرین‌شات فرستاده‌اید.");
+  if (c && c.Status !== LI_ST.REJECTED) return uSend_(chatId, "⏳ برای این پست قبلاً ثبت کرده‌اید.");
   props.setProperty("state_" + chatId, "waiting_li_shot");
   props.setProperty("li_post_" + chatId, p.id);
   return uSend_(chatId, "📷 اسکرین‌شات " + liTypeFa_(p.type) + " خود را برای این پست بفرستید:\n📌 " + esc_(p.title) +
     "\n\n(برای انصراف، یکی از دکمه‌های منو را بزنید.)");
 }
 
-/** دکمه‌های شیشه‌ای ربات کاربر (فقط بخش لینکدین) */
+/** حالت API: کاربر می‌گوید انجام دادم؛ ربات ادمین با API بررسی و سکه را خودکار اضافه می‌کند */
+function liMarkDone_(chatId, user, postId) {
+  var p = liPost_(postId);
+  if (!p || !p.active) return uSend_(chatId, "⚠️ این پست دیگر فعال نیست.");
+  if (!liApiModeFor_(liMember_(chatId).m)) return liPostCard_(chatId, user, postId);
+  var cr = liCreateClaim_(user, p, "", "api");
+  if (!cr.ok) return uSend_(chatId, "⏳ برای این پست قبلاً ثبت کرده‌اید و در حال بررسی یا تاییدشده است.");
+  var every = num_(getSetting_("LI_CHECK_EVERY_MIN")) || 60;
+  return uInline_(chatId, "⏳ ثبت شد. ربات " + liTypeFa_(p.type) + " شما را با API لینکدین بررسی می‌کند (حداکثر حدود " + every +
+    " دقیقه) و نتیجه و سکه را همین‌جا اعلام می‌کند.\n⚠️ تا آن موقع " + liTypeFa_(p.type) + " را پاک نکنید.",
+    [[{ text: liTypeIcon_(p.type) + " پست‌های " + liTypeFa_(p.type) + " دیگر", callback_data: "li|list|" + p.type }]]);
+}
+
+/* ------------------------- اتصال حساب لینکدین (اختیاری) ------------------------- */
+
+function liConnect_(chatId) {
+  if (!liApiReady_() || !liOAuthConfigured_("LI_USER_REDIRECT_URL")) {
+    return uSend_(chatId, "اتصال خودکار فعلاً فعال نیست؛ مدیر شناسه لینکدین شما را ثبت می‌کند.");
+  }
+  var nonce = Utilities.getUuid().replace(/-/g, "");
+  CacheService.getScriptCache().put("li_conn_" + nonce, String(chatId), 1800);
+  return uInline_(chatId, "🔗 روی دکمه زیر بزنید، با حساب لینکدین خودتان (همان پروفایلی که ثبت کردید) وارد شوید و <b>Allow</b> را بزنید.\n" +
+    "ربات فقط نام و شناسه حساب شما را می‌بیند تا لایک و کامنت‌ها را خودکار بررسی کند.",
+    [[{ text: "🔗 ورود با لینکدین", url: liOAuthUrl_("r_basicprofile", cfg_("LI_USER_REDIRECT_URL"), nonce) }]]);
+}
+
+/** لینکدین بعد از «Allow» به این آدرس (لینک /exec ربات کاربر) برمی‌گردد */
+function doGet(e) {
+  var q = (e && e.parameter) || {};
+  if (q.error) return liPage_("❌ لینکدین: " + q.error + " — " + (q.error_description || ""));
+  if (!q.code || !q.state) return liPage_("این صفحه فقط برای اتصال حساب لینکدین به ربات است.");
+  var cache = CacheService.getScriptCache();
+  var chatId = cache.get("li_conn_" + q.state);
+  if (!chatId) return liPage_("❌ این لینک قدیمی است. در ربات دوباره «🔗 اتصال حساب لینکدین» را بزنید.");
+  cache.remove("li_conn_" + q.state);
+  var t = liExchangeCode_(q.code, cfg_("LI_USER_REDIRECT_URL"));
+  if (!t.ok) return liPage_("❌ اتصال انجام نشد: " + t.error);
+  var me = liApiMe_(t.token);
+  if (!me) return liPage_("❌ اطلاعات حساب از لینکدین دریافت نشد. دوباره امتحان کنید.");
+  liSetIdentity_(chatId, me.id, me.name);
+  uInline_(chatId, "✅ حساب لینکدین شما (" + esc_(me.name || me.id) + ") به ربات وصل شد. از این به بعد لایک و کامنت‌ها خودکار بررسی می‌شوند.",
+    [[{ text: "💼 بخش لینکدین", callback_data: "li|home" }]]);
+  return liPage_("✅ حساب لینکدین شما وصل شد. به تلگرام برگردید.");
+}
+
+/* ------------------------- دکمه‌های شیشه‌ای ------------------------- */
+
 function handleUserCallback_(cb) {
   var chatId = String(cb.message ? cb.message.chat.id : cb.from.id);
   var d = String(cb.data || "").split("|");
@@ -1914,4 +2090,6 @@ function handleUserCallback_(cb) {
   if (d[1] === "list") return liList_(chatId, user, d[2] === "comment" ? "comment" : "like");
   if (d[1] === "post") return liPostCard_(chatId, user, d[2]);
   if (d[1] === "shot") return liAskShot_(chatId, user, d[2], props);
+  if (d[1] === "done") return liMarkDone_(chatId, user, d[2]);
+  if (d[1] === "connect") return liConnect_(chatId);
 }

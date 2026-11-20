@@ -170,6 +170,8 @@ function handleAdminMessage_(msg) {
       return liOnAdminPostText_(chatId, rawText, props);
     case "waiting_li_reason":
       return liOnAdminReason_(chatId, rawText, props);
+    case "waiting_li_ident":
+      return liOnAdminIdent_(chatId, rawText, props);
     case "waiting_coin_val":
       var p = parseCoinInput_(rawText);
       if (!p) return aSend_(chatId, "❌ مقدار نامعتبر است. مثال: <code>+5</code> یا <code>-3</code> یا <code>20</code> یا <code>صفر</code>", cancelKeyboard_());

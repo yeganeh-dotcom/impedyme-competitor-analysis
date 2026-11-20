@@ -37,6 +37,15 @@ var CONFIG = {
   LI_LIKES_PER_COIN: 5,      // هر ۵ لایک تاییدشده = ۱ سکه
   LI_COMMENTS_PER_COIN: 3,   // هر ۳ کامنت تاییدشده = ۱ سکه
 
+  // LinkedIn API (اختیاری) — تا خالی باشند، لایک/کامنت با اسکرین‌شات و تایید ادمین بررسی می‌شود.
+  // بهتر است Client ID/Secret را در Script Properties با همین نام‌ها بگذارید، نه اینجا.
+  LI_CLIENT_ID: "",
+  LI_CLIENT_SECRET: "",
+  LI_ADMIN_REDIRECT_URL: "",   // لینک /exec ربات ادمین (در اپ لینکدین هم به Redirect URLs اضافه شود)
+  LI_USER_REDIRECT_URL: "",    // لینک /exec ربات کاربر (برای «🔗 اتصال حساب لینکدین»)
+  LI_API_VERSION: "202607",    // هدر LinkedIn-Version (YYYYMM)
+  LI_CHECK_MAX_HOURS: 24,      // اگر تا این مدت لایک/کامنت پیدا نشد، رد می‌شود
+
   // شناسه‌های تلگرام ادمین‌ها (اختیاری). اگر خالی باشد و در شیت Settings هم
   // چیزی ثبت نشده باشد، اولین نفری که به ربات ادمین /start بدهد ادمین می‌شود.
   ADMIN_IDS: ""

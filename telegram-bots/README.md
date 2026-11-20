@@ -127,57 +127,54 @@ Change the status with the buttons, not by editing the sheet by hand. Otherwise 
 
 ## 5. LinkedIn section (💼 لینکدین)
 
-A new **💼 لینکدین** button sits next to *کلمات امروز 🔑*. Everything else works as before. LinkedIn coins
-are **added** to the same wallet, and no existing coins or user IDs change.
+A **💼 لینکدین** button sits next to *کلمات امروز 🔑*. **The click-website part is unchanged.** LinkedIn
+coins are added to the same wallet, and existing coins and user IDs never change.
 
-| Action | Coins (set in `Config.gs`) |
+| Action | Coins (in `Config.gs`) |
 |---|---|
-| Follow the Impedyme page (once, required to join) | `LI_FOLLOW_COINS` = 3 |
-| Approved likes | every `LI_LIKES_PER_COIN` = 5 likes → 1 coin |
-| Approved comments | every `LI_COMMENTS_PER_COIN` = 3 comments → 1 coin |
+| Follow the Impedyme page (once, required to start) | `LI_FOLLOW_COINS` = 3 |
+| Approved likes | every `LI_LIKES_PER_COIN` = 5 → 1 coin |
+| Approved comments | every `LI_COMMENTS_PER_COIN` = 3 → 1 coin |
 
-**User:** taps 💼 لینکدین and joins in 3 steps:
-1. Follow the Impedyme page.
-2. Send their profile link.
-3. Send a screenshot of the page showing *Following*.
+**Joining.** The user sends their LinkedIn profile link, then follows Impedyme and sends a screenshot.
+The admin approves both at once. Like and comment tasks stay locked until then. After approving, the
+admin can save the user's **LinkedIn name and ID** with *🆔 ثبت نام و شناسه لینکدین*, or later under
+*👥 اعضای لینکدین*.
 
-After approval, there are two separate lists: **👍 like posts** and **💬 comment posts**. Each post card says
-what to do and has **📷 ارسال اسکرین‌شات**. Each post can be claimed once, and a rejected claim can be re-sent.
-On comment posts, users are told to write their **own** comment; the bot does not hand out ready-made comments.
+**Tasks.** Like posts and comment posts appear in separate lists, and each card says which one it is.
+Users write their own comments; the bot does not hand out ready-made comments.
 
-**Admin:** **💼 لینکدین** opens a panel with:
-- **Review queues:** each screenshot arrives with ✅/❌ buttons. ❌ shows preset reasons or a custom one, and the user is told why.
-- **Posts:** add like posts and comment posts by sending the post link, pause or resume posts, and announce a new post to members.
+**How a task is checked:**
+- **API mode.** Used when the LinkedIn API is connected and the user has a LinkedIn ID. The user opens
+  the post, likes or comments, then taps **✅ لایک کردم / ✅ کامنت گذاشتم**.
+  - The admin bot checks with the LinkedIn API every hour, or right away with *🔄 بررسی با API الان*.
+  - **Found:** approved and coins added.
+  - **Comment copied** from someone who commented earlier on the same post: rejected.
+  - **Not found within `LI_CHECK_MAX_HOURS` (24 h):** rejected, and the user is told and can retry.
+- **Screenshot mode.** Used when the API isn't set up yet, or the user has no ID. The user sends a
+  screenshot and the admin approves or rejects it. The bot switches between modes on its own.
 
-New sheets are created automatically: `LinkedInMembers`, `LinkedInPosts`, `LinkedInClaims`, plus a
-`LinkedInCoins` column in *Users*.
+**Setting up the API.** All fields are empty by default:
+1. Your LinkedIn app needs the **Community Management API** product.
+2. In **both** projects, add `LI_CLIENT_ID` and `LI_CLIENT_SECRET` to *Script Properties*.
+3. In `Config.gs`, set `LI_ADMIN_REDIRECT_URL` to the admin bot's `/exec` link and
+   `LI_USER_REDIRECT_URL` to the user bot's `/exec` link. Add both links to the app under
+   *Auth → Authorized redirect URLs*.
+4. In the admin bot: *💼 لینکدین → 🔑 اتصال API لینکدین*. Sign in with a page-admin account.
+5. In the admin project, run `installLinkedInCheckTrigger` once to start the hourly check.
+6. Users can tap **🔗 اتصال حساب لینکدین** to fill in their LinkedIn ID automatically. LinkedIn gives
+   every person a different ID in every app, so the ID must come from this same app.
 
-Paid likes, follows and comments go against LinkedIn's rules, and LinkedIn can restrict accounts it
-catches. Keep that risk in mind and tell users about it.
+The login lasts about 60 days. Admins are warned 5 days before it ends. If it expires, the bot falls
+back to screenshots until someone reconnects.
 
-**Card numbers** are now shown to admins as one 16-digit block. Before, a card typed with spaces was
-shown with its groups in reverse order inside the Persian text. A single block can't be reordered, and
-one tap copies it.
+**Card numbers** are shown to admins as one 16-digit block, so the groups are never reversed in Persian text.
 
-## 6. Checking likes and comments with the LinkedIn API (test first)
+## 6. Test the LinkedIn API first (optional)
 
-The goal is to replace screenshots with an automatic check. That works only if all of these are true:
-
-- **The Community Management API product.** Your LinkedIn app must have it. LinkedIn reviews each
-  request, and it can only be added to a **new** app that has no other products. Describe your real
-  use honestly; approval isn't guaranteed.
-- **A page admin signs in once.** An admin of the Impedyme page connects the bot. LinkedIn only shows
-  who liked or commented to page admins.
-- **Each user connects their LinkedIn account once.** This must go through the same app, because
-  LinkedIn gives every person a different ID in every app.
-- **It is limited at first.** Development tier allows about 100–500 API calls a day, so the bot
-  would check every few hours rather than instantly.
-- **Follows still need a screenshot.** LinkedIn's API gives follower counts, not who follows.
-
-`linkedin-api-test/LinkedInApiTest.gs` is a **standalone** test. Put it in a new Apps Script
-project; it does not touch the bots or the sheet. The steps are at the top of the file. It signs in
-as a page admin, reads the likes and comments on one post, and reports whether your own like and
-comment were recognised. The automatic check is built into the bots only after this test passes.
+`linkedin-api-test/LinkedInApiTest.gs` is a separate Apps Script project and doesn't touch the bots.
+Its steps are at the top of the file. It shows whether your LinkedIn app can read who liked and
+commented on a post, and whether it recognises your own account. Run it before switching on API mode.
 
 ---
 
@@ -242,7 +239,7 @@ keywords with the bot, not by deleting rows.
 node telegram-bots/test/run-tests.js
 ```
 
-This runs 22 end-to-end scenarios against mocked Sheets and Telegram:
+This runs 26 end-to-end scenarios against mocked Sheets, Telegram and LinkedIn:
 
 - migration keeps balances
 - keyword changes don't reduce coins

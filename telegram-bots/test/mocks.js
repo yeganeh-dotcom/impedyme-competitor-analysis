@@ -128,22 +128,27 @@ function makeGlobals(project) {
         deleteProperty: (k) => props.delete(k)
       })
     },
-    CacheService: { getScriptCache: () => ({ get: (k) => project.cache.get(k) || null, put: (k, v) => project.cache.set(k, v) }) },
+    CacheService: { getScriptCache: () => ({ get: (k) => project.cache.get(k) || null, put: (k, v) => project.cache.set(k, v), remove: (k) => project.cache.delete(k) }) },
+    HtmlService: { createHtmlOutput: (h) => ({ html: h, setTitle() { return this; } }) },
     LockService: { getScriptLock: () => ({ waitLock() {}, tryLock() { return true; }, releaseLock() {} }) },
     UrlFetchApp: {
       fetch: (url, o) => {
+        if (url.includes("linkedin.com")) { (world.liCalls = world.liCalls || []).push(url); return world.liHandler(url, o || {}); }
         if (url.includes("/file/bot")) { world.downloads.push(url); return { getResponseCode: () => 200, getBlob: () => ({ blobOf: url }) }; }
         return respond(url, o && typeof o.payload === "string" ? JSON.parse(o.payload) : (o ? o.payload : null));
       },
       fetchAll: (reqs) => reqs.map((q) => respond(q.url, JSON.parse(q.payload)))
     },
-    Utilities: { formatDate, sleep() {} },
+    Utilities: { formatDate, sleep() {}, getUuid: () => require("crypto").randomUUID() },
     Session: { getScriptTimeZone: () => "Asia/Tehran" },
     Logger: { log: (...a) => world.logs.push(a.join(" ")) },
     ScriptApp: {
       getProjectTriggers: () => project.triggers,
       deleteTrigger: (t) => { project.triggers = project.triggers.filter((x) => x !== t); },
-      newTrigger: (fn) => ({ timeBased: () => ({ everyMinutes: () => ({ create: () => { const t = { getHandlerFunction: () => fn }; project.triggers.push(t); return t; } }) }) })
+      newTrigger: (fn) => {
+        const create = () => { const t = { getHandlerFunction: () => fn }; project.triggers.push(t); return t; };
+        return { timeBased: () => ({ everyMinutes: () => ({ create }), everyHours: () => ({ create }) }) };
+      }
     },
     console
   };

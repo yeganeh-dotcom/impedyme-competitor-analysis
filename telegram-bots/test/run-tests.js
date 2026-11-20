@@ -331,17 +331,17 @@ test("LinkedIn: admin adds separate like and comment posts", () => {
 });
 
 test("LinkedIn: follow Impedyme + profile + screenshot, admin approves, +3 coins", () => {
-  assert(allText(userSays(222, "💼 لینکدین")).includes("مرحله ۱ از ۳"));
-  assert(allText(userClicks(222, "li|followed")).includes("مرحله ۲ از ۳"));
+  assert(allText(userSays(222, "💼 لینکدین")).includes("مرحله ۱ از ۲"), "profile link is asked first");
   assert(allText(userSays(222, "https://example.com/abc")).includes("پروفایل شخصی لینکدین نیست"));
-  assert(allText(userSays(222, "https://www.linkedin.com/in/sara-karimi")).includes("مرحله ۳ از ۳"));
+  assert(allText(userSays(222, "https://www.linkedin.com/in/sara-karimi")).includes("مرحله ۲ از ۲"), "then follow + screenshot");
   assert(allText(userSays(222, "hello")).includes("به صورت عکس بفرستید"), "text instead of photo is refused");
   const sent = photoMsg(222, "FOLLOWSHOT");
   const toAdmin = adminPhoto(sent);
   assert(toAdmin && firstCb(toAdmin) === "lm|222|ok", "admin gets the screenshot with approve button");
   assert(world.downloads.some((u) => u.includes("FOLLOWSHOT")), "photo downloaded from user bot and uploaded to admin bot");
-  assert(allText(sent).includes("درخواست عضویت لینکدین ثبت شد"));
-  userSays(333, "💼 لینکدین"); userClicks(333, "li|followed"); userSays(333, "https://www.linkedin.com/in/Sara-Karimi/");
+  assert(allText(sent).includes("پروفایل و اسکرین‌شات فالو ثبت شد"));
+  assert(allText(userClicks(222, "li|list|like")).includes("در حال بررسی"), "no tasks before approval");
+  userSays(333, "💼 لینکدین"); userSays(333, "https://www.linkedin.com/in/Sara-Karimi/");
   assert(allText(photoMsg(333, "X")).includes("قبلاً با حساب دیگری ثبت شده"), "one LinkedIn profile per account");
   adminClicks("lm|222|ok");
   assert(world.sent.some((x) => x.token === "USERTOKEN" && String(x.payload.text).includes("عضویت لینکدین شما تایید شد")));
@@ -359,7 +359,7 @@ test("LinkedIn: 5 likes = 1 coin, 3 comments = 1 coin, screenshot + approval eac
   assert(card.includes("با کلمات خودتان") && card.includes("اسکرین‌شات"), "comment card asks for the user's own words");
   const claim = (postId, file) => { userClicks(222, "li|shot|" + postId); return firstCb(adminPhoto(photoMsg(222, file))).split("|")[1]; };
   const likeClaims = likeIds.slice(0, 5).map((id, i) => claim(id, "LIKE" + i));
-  assert(allText(userClicks(222, "li|shot|" + likeIds[0])).includes("قبلاً اسکرین‌شات"), "same post cannot be claimed twice");
+  assert(allText(userClicks(222, "li|shot|" + likeIds[0])).includes("قبلاً ثبت کرده‌اید"), "same post cannot be claimed twice");
   likeClaims.slice(0, 4).forEach((c) => adminClicks("lc|" + c + "|ok"));
   assert.strictEqual(walletTotal(222), 12, "4 likes are not a coin yet");
   adminClicks("lc|" + likeClaims[4] + "|ok");
@@ -400,6 +400,117 @@ test("LinkedIn: custom reject reason typed by admin; paused posts disappear for 
   const list = userClicks(222, "li|list|like").find((x) => x.payload.reply_markup);
   assert.strictEqual(list.payload.reply_markup.inline_keyboard.filter((r) => r[0].callback_data.startsWith("li|post|")).length, 5);
   assert.strictEqual(walletTotal(222), 0, "coins from earlier LinkedIn work stay counted (balance 0 only because of the withdrawal)");
+});
+
+
+/* ------------------------------------ LinkedIn API (simulated LinkedIn) ------------------------------------ */
+world.liReactions = {}; world.liComments = {}; world.liExpired = false;
+world.liHandler = (url, o) => {
+  const res = (code, obj) => ({ getResponseCode: () => code, getContentText: () => JSON.stringify(obj) });
+  if (url.includes("/oauth/v2/accessToken")) {
+    const code = o.payload.code;
+    return res(200, { access_token: code === "ADMINCODE" ? "LI_ADMIN_TOKEN" : "LI_USER_" + code, expires_in: 5184000,
+      scope: code === "ADMINCODE" ? "r_organization_social,r_basicprofile" : "r_basicprofile" });
+  }
+  if (world.liExpired) return res(401, { message: "Expired access token" });
+  const auth = (o.headers || {}).Authorization || "";
+  if (url.includes("/v2/me")) {
+    if (auth.includes("LI_ADMIN_TOKEN")) return res(200, { id: "ADMINPERSON", localizedFirstName: "Page", localizedLastName: "Admin" });
+    if (auth.includes("LI_USER_SARACODE")) return res(200, { id: "SARA123", localizedFirstName: "Sara", localizedLastName: "Karimi" });
+    return res(401, {});
+  }
+  if (!auth.includes("LI_ADMIN_TOKEN")) return res(403, { message: "Not enough permissions" });
+  const m = decodeURIComponent(url).match(/urn:li:(share|ugcPost|activity):(\d+)/);
+  if (!m || m[1] !== "share") return res(404, { message: "Not found" });
+  if (url.includes("/reactions/")) return res(200, { elements: (world.liReactions[m[2]] || []).map((a) => ({ reactionType: "LIKE", created: { actor: "urn:li:person:" + a } })) });
+  if (url.includes("/comments")) return res(200, { elements: (world.liComments[m[2]] || []).map((c) => ({ actor: "urn:li:person:" + c.id, message: { text: c.text }, created: { time: c.time } })) });
+  return res(200, { likesSummary: { totalLikes: 1 } });
+};
+const LI_LIKE_NUM = "7390000000000000001", LI_COM_NUM = "7390000000000000002";
+const rowOf = (sheet, keyCol, key) => {
+  const d = sheetRows(sheet); const h = d[0];
+  const r = d.find((row, i) => i > 0 && String(row[h.indexOf(keyCol)]) === String(key));
+  return r && Object.fromEntries(h.map((k, i) => [k, r[i]]));
+};
+const markup = (sent) => JSON.stringify((sent.find((x) => x.payload && x.payload.reply_markup) || { payload: {} }).payload.reply_markup || {});
+
+test("LinkedIn API: admin connects the API by signing in with LinkedIn", () => {
+  assert(allText(adminClicks("la|api")).includes("تنظیمات API هنوز خالی است"), "empty settings → instructions, nothing breaks");
+  for (const P of [ADMIN, USER]) { P.props.set("LI_CLIENT_ID", "cid"); P.props.set("LI_CLIENT_SECRET", "secret"); }
+  ADMIN.props.set("LI_ADMIN_REDIRECT_URL", "https://script.google.com/macros/s/ADMIN/exec");
+  USER.props.set("LI_USER_REDIRECT_URL", "https://script.google.com/macros/s/USER/exec");
+  const login = markup(adminClicks("la|api"));
+  assert(login.includes("oauth/v2/authorization") && login.includes("r_organization_social"), login);
+  const state = ADMIN.props.get("li_admin_state").split("|")[0];
+  assert(run(ADMIN, "doGet", { parameter: { code: "x", state: "wrong" } }).html.includes("قدیمی"));
+  world.sent = [];
+  assert(run(ADMIN, "doGet", { parameter: { code: "ADMINCODE", state } }).html.includes("وصل شد"));
+  assert.strictEqual(ADMIN.props.get("LI_ACCESS_TOKEN"), "LI_ADMIN_TOKEN");
+  assert(world.sent.some((x) => x.token === "ADMINTOKEN" && String(x.payload.text).includes("API لینکدین وصل شد")));
+  assert(allText(adminSays("💼 لینکدین")).includes("API لینکدین: ✅ وصل"));
+});
+
+test("LinkedIn API: a user connects their account; admin types another user's name and ID", () => {
+  assert(markup(userClicks(222, "li|home")).includes("li|connect"));
+  userClicks(222, "li|connect");
+  const nonce = [...USER.cache.keys()].find((k) => k.startsWith("li_conn_")).slice(8);
+  world.sent = [];
+  assert(run(USER, "doGet", { parameter: { code: "SARACODE", state: nonce } }).html.includes("وصل شد"));
+  assert(world.sent.some((x) => x.token === "USERTOKEN" && String(x.payload.text).includes("Sara Karimi")));
+  assert.strictEqual(String(rowOf("LinkedInMembers", "ChatID", 222).LinkedInID), "SARA123");
+  userSays(111, "💼 لینکدین");
+  userSays(111, "https://www.linkedin.com/in/ali-r");
+  photoMsg(111, "ALIFOLLOW");
+  adminClicks("lm|111|ok");
+  assert(world.sent.some((x) => x.method === "editMessageCaption" && JSON.stringify(x.payload.reply_markup || {}).includes("lid|111")), "approval offers name/ID entry");
+  assert.strictEqual(walletTotal(111), 3, "follow = 3 coins");
+  adminClicks("lid|111");
+  assert(allText(adminSays("Ali Rezaei\nurn:li:person:ALI777")).includes("ALI777"));
+  const ali = rowOf("LinkedInMembers", "ChatID", 111);
+  assert.strictEqual(String(ali.LinkedInID), "ALI777");
+  assert.strictEqual(String(ali.LinkedInName), "Ali Rezaei");
+  assert(allText(adminClicks("la|members")).includes("با شناسه: 2"));
+});
+
+test("LinkedIn API: likes/comments checked automatically, copied comment rejected, not found → rejected after 24h", () => {
+  adminClicks("la|add|like"); adminSays("API like post\nhttps://www.linkedin.com/posts/impedyme_hil-activity-" + LI_LIKE_NUM + "-AbCd");
+  adminClicks("la|add|comment"); adminSays("API comment post\nhttps://www.linkedin.com/posts/impedyme_grid-activity-" + LI_COM_NUM + "-EfGh");
+  const likeId = String(rowOf("LinkedInPosts", "Title", "API like post").PostID);
+  const comId = String(rowOf("LinkedInPosts", "Title", "API comment post").PostID);
+  const card = markup(userClicks(222, "li|post|" + likeId));
+  assert(card.includes("li|done|" + likeId) && !card.includes("li|shot|"), "API users tap 'I liked' instead of sending a screenshot");
+  assert(allText(userClicks(222, "li|done|" + likeId)).includes("API لینکدین بررسی"));
+  assert(allText(userClicks(222, "li|done|" + likeId)).includes("قبلاً ثبت"), "no double claim");
+  userClicks(111, "li|done|" + likeId);
+  userClicks(222, "li|done|" + comId);
+  userClicks(111, "li|done|" + comId);
+  world.liReactions[LI_LIKE_NUM] = ["SARA123", "SOMEONE_ELSE"];
+  world.liComments[LI_COM_NUM] = [
+    { id: "SARA123", text: "Really useful breakdown of the load testing setup", time: 1000 },
+    { id: "ALI777", text: "really useful breakdown of the load-testing setup!", time: 2000 }
+  ];
+  const rep = allText(adminClicks("la|check"));
+  assert(rep.includes("✅ تایید و سکه: 2") && rep.includes("❌ رد: 1") && rep.includes("دوباره بررسی می‌شود): 1"), rep);
+  assert(world.sent.some((x) => x.token === "USERTOKEN" && String(x.payload.chat_id) === "111" && String(x.payload.text).includes("کپی")), "copier told why");
+  const st = allText(userClicks(222, "li|home"));
+  assert(st.includes("لایک‌های تاییدشده: 6") && st.includes("کامنت‌های تاییدشده: 4"), st);
+  assert(String(rowOf("LinkedInPosts", "PostID", likeId).ApiURN).startsWith("urn:li:share:"), "post's API id found once and saved");
+  const d = sheetRows("LinkedInClaims"), h = d[0];
+  const aliLike = d.find((r) => String(r[h.indexOf("ChatID")]) === "111" && String(r[h.indexOf("PostID")]) === likeId);
+  aliLike[h.indexOf("CreatedAt")] = new Date(Date.now() - 25 * 3600000);
+  assert(allText(adminClicks("la|check")).includes("❌ رد: 1"));
+  assert(world.sent.some((x) => String(x.payload.chat_id) === "111" && String(x.payload.text).includes("پیدا نشد")));
+});
+
+test("LinkedIn API: expired LinkedIn login → admins warned, users fall back to screenshots", () => {
+  const likeId = String(rowOf("LinkedInPosts", "Title", "API like post").PostID);
+  const comId = String(rowOf("LinkedInPosts", "Title", "API comment post").PostID);
+  userClicks(111, "li|done|" + likeId);
+  world.liExpired = true;
+  assert(allText(adminClicks("la|check")).includes("401"));
+  assert(world.sent.some((x) => x.token === "ADMINTOKEN" && String(x.payload.text).includes("اعتبار API لینکدین تمام شده")));
+  assert(markup(userClicks(111, "li|post|" + comId)).includes("li|shot|"), "screenshot mode while API is down");
+  world.liExpired = false;
 });
 
 console.log(`\nAll ${passed} scenario groups passed.`);

@@ -162,7 +162,7 @@ function handleAdminCallback_(cb) {
   if (adminIds_().indexOf(adminId) === -1) return tgAnswerCb_(token, cb.id, "⛔️ دسترسی ندارید", true);
   var d = String(cb.data || "").split("|");
   var props = PropertiesService.getScriptProperties();
-  if (/^(lm|lc|la|lp)$/.test(d[0])) return liAdminCallback_(cb, chatId, mid, adminId, d, props);
+  if (/^(lm|lc|la|lp|lid)$/.test(d[0])) return liAdminCallback_(cb, chatId, mid, adminId, d, props);
   try {
     if (d[0] === "s" || d[0] === "k" || d[0] === "m") {
       var u = findUserByChatId_(d[1]);

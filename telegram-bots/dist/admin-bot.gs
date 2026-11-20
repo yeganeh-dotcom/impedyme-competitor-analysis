@@ -45,6 +45,15 @@ var CONFIG = {
   LI_LIKES_PER_COIN: 5,      // هر ۵ لایک تاییدشده = ۱ سکه
   LI_COMMENTS_PER_COIN: 3,   // هر ۳ کامنت تاییدشده = ۱ سکه
 
+  // LinkedIn API (اختیاری) — تا خالی باشند، لایک/کامنت با اسکرین‌شات و تایید ادمین بررسی می‌شود.
+  // بهتر است Client ID/Secret را در Script Properties با همین نام‌ها بگذارید، نه اینجا.
+  LI_CLIENT_ID: "",
+  LI_CLIENT_SECRET: "",
+  LI_ADMIN_REDIRECT_URL: "",   // لینک /exec ربات ادمین (در اپ لینکدین هم به Redirect URLs اضافه شود)
+  LI_USER_REDIRECT_URL: "",    // لینک /exec ربات کاربر (برای «🔗 اتصال حساب لینکدین»)
+  LI_API_VERSION: "202607",    // هدر LinkedIn-Version (YYYYMM)
+  LI_CHECK_MAX_HOURS: 24,      // اگر تا این مدت لایک/کامنت پیدا نشد، رد می‌شود
+
   // شناسه‌های تلگرام ادمین‌ها (اختیاری). اگر خالی باشد و در شیت Settings هم
   // چیزی ثبت نشده باشد، اولین نفری که به ربات ادمین /start بدهد ادمین می‌شود.
   ADMIN_IDS: ""
@@ -75,7 +84,7 @@ function cfg_(key) {
  *    سنجیده می‌شود که «در زمان همان بازدید» فعال بوده‌اند.
  *  نتیجه: عوض کردن کلمات یا آپدیت کد، هرگز سکه کسی را کم نمی‌کند.
  */
-var CORE_VERSION = "v2.2.0";
+var CORE_VERSION = "v2.3.0";
 
 var SHEETS = {
   USERS: "Users",
@@ -1158,9 +1167,11 @@ function withdrawalConfirmButtons_(req, action) {
  *  (این سکه‌ها فقط «اضافه» می‌شوند؛ موجودی و شناسه فعلی کاربران تغییری نمی‌کند.)
  */
 var LI = { MEMBERS: "LinkedInMembers", POSTS: "LinkedInPosts", CLAIMS: "LinkedInClaims" };
-var LI_MEMBER_HEADERS = ["ChatID", "UID", "Name", "ProfileURL", "Status", "FollowCoins", "UserFileId", "AdminFileId", "RequestedAt", "ReviewedAt", "Reason"];
-var LI_POST_HEADERS = ["PostID", "Type", "Title", "URL", "Active", "AddedAt"];
-var LI_CLAIM_HEADERS = ["ClaimID", "ChatID", "UID", "Name", "PostID", "Type", "Status", "UserFileId", "AdminFileId", "CreatedAt", "ReviewedAt", "Reason"];
+var LI_MEMBER_HEADERS = ["ChatID", "UID", "Name", "ProfileURL", "Status", "FollowCoins", "UserFileId", "AdminFileId", "RequestedAt", "ReviewedAt", "Reason",
+  "LinkedInID", "LinkedInName", "ConnectedAt"];
+var LI_POST_HEADERS = ["PostID", "Type", "Title", "URL", "Active", "AddedAt", "ApiURN"];
+var LI_CLAIM_HEADERS = ["ClaimID", "ChatID", "UID", "Name", "PostID", "Type", "Status", "UserFileId", "AdminFileId", "CreatedAt", "ReviewedAt", "Reason",
+  "Method", "CommentText", "CheckedAt"];
 var LI_ST = { PENDING: "Pending", APPROVED: "Approved", REJECTED: "Rejected" };
 
 var LI_REASONS = {
@@ -1294,7 +1305,7 @@ function liPosts_(type, includeInactive) {
   return liTable_(LI.POSTS, LI_POST_HEADERS).rows.map(function (r) {
     return {
       row: r.row, id: String(r.PostID).trim(), type: String(r.Type).trim().toLowerCase() === "comment" ? "comment" : "like",
-      title: String(r.Title || "").trim() || "پست لینکدین", url: String(r.URL || "").trim(),
+      title: String(r.Title || "").trim() || "پست لینکدین", url: String(r.URL || "").trim(), apiUrn: String(r.ApiURN || "").trim(),
       active: !(r.Active === false || String(r.Active).trim().toUpperCase() === "FALSE")
     };
   }).filter(function (p) {
@@ -1343,7 +1354,7 @@ function liUserClaims_(chatId) {
   return m;
 }
 
-function liCreateClaim_(user, post, userFileId) {
+function liCreateClaim_(user, post, userFileId, method) {
   return withLock_(function () {
     var t = liClaims_();
     var dup = t.rows.some(function (c) {
@@ -1352,7 +1363,8 @@ function liCreateClaim_(user, post, userFileId) {
     if (dup) return { ok: false, reason: "duplicate" };
     var claim = {
       ClaimID: liNewId_("L", t.rows, "ClaimID"), ChatID: user.chatId, UID: user.uid, Name: user.name, PostID: post.id, Type: post.type,
-      Status: LI_ST.PENDING, UserFileId: userFileId, AdminFileId: "", CreatedAt: new Date(), ReviewedAt: "", Reason: ""
+      Status: LI_ST.PENDING, UserFileId: userFileId || "", AdminFileId: "", CreatedAt: new Date(), ReviewedAt: "", Reason: "",
+      Method: method || "screenshot", CommentText: "", CheckedAt: ""
     };
     liAppend_(t, claim);
     return { ok: true, claim: claim };
@@ -1365,12 +1377,13 @@ function liFindClaim_(claimId) {
   return { t: t, c: null };
 }
 
-function liReviewClaim_(adminId, claimId, approve, reason) {
+function liReviewClaim_(adminId, claimId, approve, reason, extra) {
   return withLock_(function () {
     var x = liFindClaim_(claimId);
     if (!x.c) return { ok: false, reason: "notfound" };
     if (x.c.Status !== LI_ST.PENDING) return { ok: false, reason: "already", claim: x.c };
     var upd = { Status: approve ? LI_ST.APPROVED : LI_ST.REJECTED, ReviewedAt: new Date(), Reason: reason || "" };
+    if (extra) Object.keys(extra).forEach(function (k) { upd[k] = extra[k]; });
     writeCells_(x.t.sh, x.c.row, x.t.map, upd);
     Object.keys(upd).forEach(function (k) { x.c[k] = upd[k]; });
     var user = findUserByChatId_(x.c.ChatID);
@@ -1468,6 +1481,7 @@ function liMemberCaption_(m) {
     "👤 " + esc_(m.Name) + " (ID: <code>" + esc_(m.UID) + "</code>)\n" +
     "🔗 " + esc_(m.ProfileURL) + "\n" +
     "📷 اسکرین‌شات فالو صفحه Impedyme\n" +
+    (m.LinkedInID ? "🆔 LinkedIn: " + esc_(m.LinkedInName || "") + " <code>" + esc_(m.LinkedInID) + "</code>\n" : "") +
     "🕒 " + fmtDate_(m.RequestedAt) +
     (m.Status && m.Status !== LI_ST.PENDING ? "\n\n" + (m.Status === LI_ST.APPROVED ? "✅ تایید شد (+" + num_(m.FollowCoins) + " سکه فالو)" : "❌ رد شد" + (m.Reason ? " — " + esc_(m.Reason) : "")) : "");
 }
@@ -1484,6 +1498,7 @@ function liClaimCaption_(c, post) {
   var t = head + "\n👤 " + esc_(c.Name) + " (ID: <code>" + esc_(c.UID) + "</code>)\n" +
     "📌 " + esc_(post ? post.title : c.PostID) + "\n" +
     (post && post.url ? "🔗 " + esc_(post.url) + "\n" : "") +
+    (c.Method === "api" ? "🤖 بررسی خودکار با API" + (c.CommentText ? "\n💬 «" + esc_(String(c.CommentText).substring(0, 300)) + "»" : "") + "\n" : "") +
     "🕒 " + fmtDate_(c.CreatedAt);
   if (c.Status && c.Status !== LI_ST.PENDING) t += "\n\n" + (c.Status === LI_ST.APPROVED ? "✅ تایید شد" : "❌ رد شد" + (c.Reason ? " — " + esc_(c.Reason) : ""));
   return t;
@@ -1506,6 +1521,91 @@ function liProgressText_(info) {
     "💬 کامنت‌های تاییدشده: " + info.comments + " (هر " + c.commentsPerCoin + " کامنت = ۱ سکه؛ " + nextC + " کامنت تا سکه بعدی)\n" +
     (info.pending ? "⏳ در انتظار بررسی: " + info.pending + "\n" : "") +
     "🪙 <b>سکه‌های لینکدین: " + info.coins + "</b>";
+}
+
+/* ------------------------- شناسه لینکدین کاربر ------------------------- */
+
+/** شناسه را یکدست می‌کند: «urn:li:person:Ab12» یا «Ab12» ← «Ab12» */
+function liIdKey_(s) {
+  return String(s || "").trim().replace(/^urn:li:(person|member):/i, "");
+}
+
+/** ثبت/ویرایش نام و شناسه لینکدین یک عضو (توسط ادمین یا با «اتصال حساب لینکدین») */
+function liSetIdentity_(chatId, linkedinId, linkedinName) {
+  return withLock_(function () {
+    var x = liMember_(chatId);
+    if (!x.m) return false;
+    var upd = { ConnectedAt: new Date() };
+    if (linkedinId !== null && linkedinId !== undefined) upd.LinkedInID = linkedinId === "-" ? "" : "'" + liIdKey_(linkedinId);
+    if (linkedinName !== null && linkedinName !== undefined) upd.LinkedInName = linkedinName === "-" ? "" : linkedinName;
+    writeCells_(x.t.sh, x.m.row, x.t.map, upd);
+    return true;
+  });
+}
+
+/* ------------------------- LinkedIn API (اختیاری) ------------------------- */
+
+/** API آماده است وقتی ادمین «🔑 اتصال API لینکدین» را انجام داده و توکن منقضی نشده باشد */
+function liApiReady_() {
+  if (String(getSetting_("LI_API_READY")) !== "yes") return false;
+  var exp = toMs_(getSetting_("LI_TOKEN_EXPIRES"));
+  return exp === null || exp > Date.now();
+}
+
+function liOAuthConfigured_(redirectKey) {
+  return !!(cfg_("LI_CLIENT_ID") && cfg_("LI_CLIENT_SECRET") && /^https:\/\//.test(String(cfg_(redirectKey) || "")));
+}
+
+function liOAuthUrl_(scopes, redirectUrl, state) {
+  return "https://www.linkedin.com/oauth/v2/authorization?response_type=code" +
+    "&client_id=" + encodeURIComponent(cfg_("LI_CLIENT_ID")) +
+    "&redirect_uri=" + encodeURIComponent(redirectUrl) +
+    "&state=" + encodeURIComponent(state) +
+    "&scope=" + encodeURIComponent(scopes);
+}
+
+/** کد برگشتی از لینکدین را به توکن تبدیل می‌کند */
+function liExchangeCode_(code, redirectUrl) {
+  var resp = UrlFetchApp.fetch("https://www.linkedin.com/oauth/v2/accessToken", {
+    method: "post", muteHttpExceptions: true,
+    payload: { grant_type: "authorization_code", code: code, redirect_uri: redirectUrl, client_id: cfg_("LI_CLIENT_ID"), client_secret: cfg_("LI_CLIENT_SECRET") }
+  });
+  var j = {};
+  try { j = JSON.parse(resp.getContentText()); } catch (e) {}
+  return j.access_token ? { ok: true, token: j.access_token, expiresIn: Number(j.expires_in || 0), scope: String(j.scope || "") }
+    : { ok: false, error: j.error_description || j.error || ("HTTP " + resp.getResponseCode()) };
+}
+
+/** درخواست به API؛ برای /rest/ چند نسخه LinkedIn-Version امتحان می‌شود تا یکی پذیرفته شود */
+function liApiFetch_(token, url) {
+  var rest = url.indexOf("/rest/") !== -1;
+  var versions = rest ? [String(cfg_("LI_API_VERSION") || "202607"), "202604", "202601"] : [null];
+  var last = null;
+  for (var i = 0; i < versions.length; i++) {
+    var h = { Authorization: "Bearer " + token };
+    if (versions[i]) { h["LinkedIn-Version"] = versions[i]; h["X-Restli-Protocol-Version"] = "2.0.0"; }
+    var resp = UrlFetchApp.fetch(url, { method: "get", headers: h, muteHttpExceptions: true });
+    var text = resp.getContentText(), json = null;
+    try { json = JSON.parse(text); } catch (e) {}
+    last = { code: resp.getResponseCode(), text: text, json: json };
+    if (!(last.code === 426 || (last.code === 400 && /version/i.test(text)))) return last;
+  }
+  return last;
+}
+
+/** شناسه و نام صاحب توکن */
+function liApiMe_(token) {
+  var r = liApiFetch_(token, "https://api.linkedin.com/v2/me");
+  if (r.code !== 200 || !r.json || !r.json.id) return null;
+  var name = [r.json.localizedFirstName, r.json.localizedLastName].filter(Boolean).join(" ");
+  return { id: String(r.json.id), name: name };
+}
+
+/** صفحه ساده‌ای که بعد از ورود با لینکدین در مرورگر نشان داده می‌شود */
+function liPage_(text) {
+  var safe = String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return HtmlService.createHtmlOutput('<div dir="auto" style="font:17px/1.8 Tahoma,sans-serif;padding:24px;max-width:640px">' + safe + "</div>")
+    .setTitle("Impedyme");
 }
 
 /**
@@ -1680,6 +1780,8 @@ function handleAdminMessage_(msg) {
       return liOnAdminPostText_(chatId, rawText, props);
     case "waiting_li_reason":
       return liOnAdminReason_(chatId, rawText, props);
+    case "waiting_li_ident":
+      return liOnAdminIdent_(chatId, rawText, props);
     case "waiting_coin_val":
       var p = parseCoinInput_(rawText);
       if (!p) return aSend_(chatId, "❌ مقدار نامعتبر است. مثال: <code>+5</code> یا <code>-3</code> یا <code>20</code> یا <code>صفر</code>", cancelKeyboard_());
@@ -1982,7 +2084,7 @@ function handleAdminCallback_(cb) {
   if (adminIds_().indexOf(adminId) === -1) return tgAnswerCb_(token, cb.id, "⛔️ دسترسی ندارید", true);
   var d = String(cb.data || "").split("|");
   var props = PropertiesService.getScriptProperties();
-  if (/^(lm|lc|la|lp)$/.test(d[0])) return liAdminCallback_(cb, chatId, mid, adminId, d, props);
+  if (/^(lm|lc|la|lp|lid)$/.test(d[0])) return liAdminCallback_(cb, chatId, mid, adminId, d, props);
   try {
     if (d[0] === "s" || d[0] === "k" || d[0] === "m") {
       var u = findUserByChatId_(d[1]);
@@ -2280,11 +2382,13 @@ function liAdminPanel_(chatId) {
     "🔔 لایک/کامنت در انتظار: <b>" + pc.length + "</b> (👍 " + pcl + " · 💬 " + (pc.length - pcl) + ")\n" +
     "👥 اعضای تاییدشده: " + am + "\n" +
     "📌 پست‌های فعال: 👍 " + pl + " · 💬 " + (posts.length - pl) + "\n" +
-    "⚙️ نرخ: " + c.likesPerCoin + " لایک = ۱ سکه · " + c.commentsPerCoin + " کامنت = ۱ سکه · فالو = " + c.followCoins + " سکه",
+    "⚙️ نرخ: " + c.likesPerCoin + " لایک = ۱ سکه · " + c.commentsPerCoin + " کامنت = ۱ سکه · فالو = " + c.followCoins + " سکه\n" +
+    liApiStatusText_(),
     { inline_keyboard: [
       [{ text: "⏳ بررسی عضویت‌ها (" + pm + ")", callback_data: "la|qm" }, { text: "🔔 بررسی لایک/کامنت‌ها (" + pc.length + ")", callback_data: "la|qc" }],
       [{ text: "➕ پست لایک", callback_data: "la|add|like" }, { text: "➕ پست کامنت", callback_data: "la|add|comment" }],
-      [{ text: "📌 لیست پست‌ها", callback_data: "la|posts" }]
+      [{ text: "📌 لیست پست‌ها", callback_data: "la|posts" }, { text: "👥 اعضای لینکدین", callback_data: "la|members" }],
+      [{ text: "🔑 اتصال API لینکدین", callback_data: "la|api" }, { text: "🔄 بررسی با API الان", callback_data: "la|check" }]
     ] });
 }
 
@@ -2304,6 +2408,10 @@ function liShowClaimQueue_(chatId) {
   var list = liClaims_().rows.filter(function (x) { return x.Status === LI_ST.PENDING; });
   if (!list.length) return aSend_(chatId, "✅ لایک یا کامنتی در انتظار بررسی نیست.");
   list.slice(0, 10).forEach(function (c) {
+    if (String(c.Method) === "api") {
+      tgSend_(aToken_(), chatId, liClaimCaption_(c, liPost_(c.PostID)) + "\n⏳ در انتظار بررسی خودکار (می‌توانید دستی هم تایید/رد کنید)", liClaimButtons_(c.ClaimID));
+      return;
+    }
     var fid = liShowShot_(chatId, c.UserFileId, c.AdminFileId, liClaimCaption_(c, liPost_(c.PostID)), liClaimButtons_(c.ClaimID));
     if (fid && fid !== c.AdminFileId) liSaveAdminFile_(LI.CLAIMS, LI_CLAIM_HEADERS, "ClaimID", c.ClaimID, fid);
   });
@@ -2357,7 +2465,7 @@ function liNotifyClaim_(claim, post, approved) {
       { inline_keyboard: [[{ text: liTypeIcon_(claim.Type) + " پست‌های " + liTypeFa_(claim.Type) + " بعدی", callback_data: "li|list|" + claim.Type }]] });
   }
   return tgSend_(token, claim.ChatID, "❌ " + liTypeFa_(claim.Type) + " شما روی «" + esc_(title) + "» تایید نشد.\nدلیل: <b>" + esc_(claim.Reason || "—") + "</b>",
-    { inline_keyboard: [[{ text: "📷 ارسال دوباره اسکرین‌شات", callback_data: "li|shot|" + claim.PostID }]] });
+    { inline_keyboard: [[{ text: "🔄 دوباره انجام دهید", callback_data: "li|post|" + claim.PostID }]] });
 }
 
 /** kind: "m" (عضویت) یا "c" (لایک/کامنت) */
@@ -2369,7 +2477,7 @@ function liDecide_(chatId, adminId, mid, kind, key, approve, reason) {
       if (r.member) tgEditCaption_(token, chatId, mid, liMemberCaption_(r.member), null);
       return "این درخواست قبلاً بررسی شده است.";
     }
-    tgEditCaption_(token, chatId, mid, liMemberCaption_(r.member), null);
+    tgEditCaption_(token, chatId, mid, liMemberCaption_(r.member), approve ? liIdentButton_(key) : null);
     liNotifyMember_(r.member, approve);
     return approve ? "تایید شد (+" + num_(r.member.FollowCoins) + " سکه)" : "رد شد";
   }
@@ -2412,6 +2520,12 @@ function liAdminCallback_(cb, chatId, mid, adminId, d, props) {
       if (d[1] === "qm") return liShowMemberQueue_(chatId);
       if (d[1] === "qc") return liShowClaimQueue_(chatId);
       if (d[1] === "posts") { var v = liPostsView_(); return tgSend_(token, chatId, v.text, v.markup); }
+      if (d[1] === "members") return liShowMembers_(chatId);
+      if (d[1] === "api") return liStartApiConnect_(chatId);
+      if (d[1] === "check") {
+        var cr = liRunApiCheck_();
+        return aSend_(chatId, liCheckReport_(cr));
+      }
       if (d[1] === "add") {
         props.setProperty("state_" + chatId, "waiting_li_post");
         props.setProperty("li_post_type_" + chatId, d[2] === "comment" ? "comment" : "like");
@@ -2430,6 +2544,17 @@ function liAdminCallback_(cb, chatId, mid, adminId, d, props) {
         return aSend_(chatId, "📢 خبر پست جدید ارسال شد: " + r.sent + " نفر" + (r.blocked ? " · بلاک‌کرده: " + r.blocked : "") + (r.failed ? " · ناموفق: " + r.failed : ""));
       }
       return;
+    }
+    if (d[0] === "lid") {
+      answer("");
+      var mm = liMember_(d[1]).m;
+      if (!mm) return aSend_(chatId, "عضو پیدا نشد.");
+      props.setProperty("state_" + chatId, "waiting_li_ident");
+      props.setProperty("li_ident_" + chatId, String(d[1]));
+      return aSend_(chatId, "🆔 <b>نام و شناسه لینکدین</b> برای " + esc_(mm.Name) + "\n" +
+        "فعلی: " + esc_(mm.LinkedInName || "—") + " · <code>" + esc_(mm.LinkedInID || "—") + "</code>\n\n" +
+        "در <b>خط اول نام</b> و در <b>خط دوم شناسه</b> لینکدین را بفرستید (فقط یک خط بدون فاصله = فقط شناسه). برای پاک کردن شناسه: <code>-</code>\n" +
+        "ℹ️ شناسه همان عددی است که API لینکدین برای این شخص برمی‌گرداند (مثل <code>urn:li:person:AbC123</code>). اگر کاربر «🔗 اتصال حساب لینکدین» را بزند، خودکار ثبت می‌شود.");
     }
     if (d[0] === "lp") {
       liSetPostActive_(d[1], d[2] === "on");
@@ -2456,4 +2581,260 @@ function liAdminCallback_(cb, chatId, mid, adminId, d, props) {
   } catch (err) {
     answer("⚠️ " + String(err && err.message ? err.message : err).substring(0, 180), true);
   }
+}
+
+/* ------------------------- نام و شناسه لینکدین اعضا ------------------------- */
+
+function liIdentButton_(chatId) {
+  return { inline_keyboard: [[{ text: "🆔 ثبت نام و شناسه لینکدین", callback_data: "lid|" + chatId }]] };
+}
+
+function liOnAdminIdent_(chatId, text, props) {
+  var target = props.getProperty("li_ident_" + chatId);
+  props.deleteProperty("state_" + chatId);
+  props.deleteProperty("li_ident_" + chatId);
+  if (!target) return aSend_(chatId, "⚠️ عضو انتخاب‌شده پیدا نشد؛ دوباره از «👥 اعضای لینکدین» اقدام کنید.");
+  var lines = String(text).split(/\r?\n/).map(function (l) { return l.trim(); }).filter(String);
+  var name = null, id = null;
+  if (lines.length >= 2) { name = lines[0]; id = lines[1]; }
+  else if (lines.length === 1) { if (/\s/.test(lines[0])) name = lines[0]; else id = lines[0]; }
+  if (id !== null && id !== "-" && !/^(urn:li:(person|member):)?[A-Za-z0-9_-]{3,}$/.test(id)) {
+    return aSend_(chatId, "⚠️ شناسه معتبر نیست. مثال: <code>urn:li:person:AbC123</code> یا <code>AbC123</code>");
+  }
+  liSetIdentity_(target, id, name);
+  var m = liMember_(target).m;
+  return aSend_(chatId, "✅ ذخیره شد.\n👤 " + esc_(m.Name) + "\n🆔 LinkedIn: " + esc_(m.LinkedInName || "—") + " · <code>" + esc_(m.LinkedInID || "—") + "</code>");
+}
+
+function liShowMembers_(chatId) {
+  var list = liTable_(LI.MEMBERS, LI_MEMBER_HEADERS).rows.filter(function (m) { return liStatus_(m.Status) === LI_ST.APPROVED; });
+  if (!list.length) return aSend_(chatId, "👥 هنوز عضو تاییدشده‌ای در بخش لینکدین نیست.");
+  var withId = list.filter(function (m) { return liIdKey_(m.LinkedInID); }).length;
+  var rows = list.slice(-40).map(function (m) {
+    return [{ text: (liIdKey_(m.LinkedInID) ? "✅ " : "❔ ") + m.Name + (m.LinkedInName ? " · " + m.LinkedInName : ""), callback_data: "lid|" + String(m.ChatID).trim() }];
+  });
+  return tgSend_(aToken_(), chatId, "👥 <b>اعضای لینکدین</b>: " + list.length + " نفر · با شناسه: " + withId +
+    "\n✅ شناسه ثبت شده (بررسی خودکار) · ❔ بدون شناسه (با اسکرین‌شات)\nبرای ثبت یا ویرایش نام و شناسه، روی هر نفر بزنید:", { inline_keyboard: rows });
+}
+
+/* ------------------------- اتصال API لینکدین (ادمین) ------------------------- */
+
+function liAdminToken_() {
+  return String(PropertiesService.getScriptProperties().getProperty("LI_ACCESS_TOKEN") || "").trim();
+}
+
+function liApiStatusText_() {
+  if (!liApiReady_()) return "🤖 API لینکدین: ❌ وصل نیست (لایک/کامنت با اسکرین‌شات بررسی می‌شود)";
+  var exp = getSetting_("LI_TOKEN_EXPIRES");
+  return "🤖 API لینکدین: ✅ وصل" + (toMs_(exp) ? " · اعتبار تا " + fmtDate_(exp, "yyyy-MM-dd") : "") +
+    " · آخرین بررسی: " + fmtDate_(getSetting_("LI_LAST_CHECK"), "MM/dd HH:mm");
+}
+
+function liStartApiConnect_(chatId) {
+  if (liOAuthConfigured_("LI_ADMIN_REDIRECT_URL")) {
+    var state = Utilities.getUuid().replace(/-/g, "");
+    PropertiesService.getScriptProperties().setProperty("li_admin_state", state + "|" + chatId);
+    var scopes = String(cfg_("LI_ADMIN_SCOPES") || "r_organization_social r_basicprofile");
+    return tgSend_(aToken_(), chatId, "🔑 روی دکمه زیر بزنید و با حساب لینکدینی که <b>ادمین صفحه Impedyme</b> است وارد شوید و <b>Allow</b> را بزنید.",
+      { inline_keyboard: [[{ text: "🔑 ورود با لینکدین", url: liOAuthUrl_(scopes, cfg_("LI_ADMIN_REDIRECT_URL"), state) }]] });
+  }
+  var manual = liAdminToken_();
+  if (manual) {
+    var me = liApiMe_(manual);
+    if (!me) return aSend_(chatId, "❌ توکنی که در Script Properties (LI_ACCESS_TOKEN) گذاشته‌اید کار نمی‌کند یا منقضی شده است.");
+    setSetting_("LI_API_READY", "yes");
+    return aSend_(chatId, "✅ API لینکدین با توکن دستی وصل شد (" + esc_(me.name || me.id) + ").");
+  }
+  return aSend_(chatId, "⚙️ <b>تنظیمات API هنوز خالی است.</b>\n" +
+    "۱) در Script Properties همین پروژه: <code>LI_CLIENT_ID</code> و <code>LI_CLIENT_SECRET</code> اپ لینکدین را بگذارید.\n" +
+    "۲) در Config.gs مقدار <code>LI_ADMIN_REDIRECT_URL</code> را لینک /exec همین ربات ادمین بگذارید و همان لینک را در اپ لینکدین (Auth → Redirect URLs) اضافه کنید.\n" +
+    "۳) دوباره «🔑 اتصال API لینکدین» را بزنید.\n" +
+    "اپ شما باید محصول <b>Community Management API</b> را داشته باشد.");
+}
+
+/** لینکدین بعد از «Allow» ادمین به این آدرس (لینک /exec ربات ادمین) برمی‌گردد */
+function doGet(e) {
+  var q = (e && e.parameter) || {};
+  if (q.error) return liPage_("❌ لینکدین: " + q.error + " — " + (q.error_description || "") +
+    (/scope/i.test(q.error) ? " → اپ لینکدین شما هنوز Community Management API را ندارد." : ""));
+  if (!q.code || !q.state) return liPage_("این صفحه فقط برای اتصال API لینکدین به ربات ادمین است.");
+  var props = PropertiesService.getScriptProperties();
+  var st = String(props.getProperty("li_admin_state") || "").split("|");
+  if (!st[0] || st[0] !== q.state) return liPage_("❌ این لینک قدیمی است. در ربات ادمین دوباره «🔑 اتصال API لینکدین» را بزنید.");
+  props.deleteProperty("li_admin_state");
+  var t = liExchangeCode_(q.code, cfg_("LI_ADMIN_REDIRECT_URL"));
+  if (!t.ok) return liPage_("❌ اتصال انجام نشد: " + t.error);
+  props.setProperty("LI_ACCESS_TOKEN", t.token);
+  var exp = new Date(Date.now() + (t.expiresIn || 5184000) * 1000);
+  setSetting_("LI_TOKEN_EXPIRES", exp);
+  setSetting_("LI_API_READY", "yes");
+  setSetting_("LI_TOKEN_WARNED", "");
+  var me = liApiMe_(t.token);
+  if (st[1]) aSend_(st[1], "✅ <b>API لینکدین وصل شد</b>" + (me ? " (" + esc_(me.name || me.id) + ")" : "") +
+    "\n🔑 دسترسی‌ها: " + esc_(t.scope || "—") + "\n📅 اعتبار تا: " + fmtDate_(exp, "yyyy-MM-dd") +
+    "\nاز این به بعد لایک و کامنت اعضایی که شناسه دارند خودکار بررسی می‌شود.\nبرای بررسی منظم، یک بار تابع <code>installLinkedInCheckTrigger</code> را در ویرایشگر اجرا کنید.");
+  return liPage_("✅ API لینکدین به ربات ادمین وصل شد. به تلگرام برگردید.");
+}
+
+/* ------------------------- بررسی خودکار لایک/کامنت ------------------------- */
+
+function liPersonIdsIn_(s) { return (String(s).match(/urn:li:person:[A-Za-z0-9_-]+/g) || []).map(liIdKey_); }
+function liNormText_(s) { return String(s || "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim(); }
+
+function liSavePostUrn_(postId, urn) {
+  var t = liTable_(LI.POSTS, LI_POST_HEADERS);
+  for (var i = 0; i < t.rows.length; i++) {
+    if (String(t.rows[i].PostID).trim() === postId) { writeCells_(t.sh, t.rows[i].row, t.map, { ApiURN: urn }); return; }
+  }
+}
+
+/** شناسه API پست را از لینک آن پیدا می‌کند (share / ugcPost / activity) و ذخیره می‌کند */
+function liResolveUrn_(token, post) {
+  if (post.apiUrn) return post.apiUrn;
+  var m = String(post.url).match(/(?:activity|share|ugcpost)[-:](\d{10,25})/i);
+  if (!m) return "";
+  var forms = ["urn:li:share:", "urn:li:ugcPost:", "urn:li:activity:"];
+  for (var i = 0; i < forms.length; i++) {
+    var r = liApiFetch_(token, "https://api.linkedin.com/rest/socialActions/" + encodeURIComponent(forms[i] + m[1]));
+    if (r.code === 401) return "!401";
+    if (r.code === 200) { liSavePostUrn_(post.id, forms[i] + m[1]); return forms[i] + m[1]; }
+  }
+  return "";
+}
+
+function liApiReactors_(token, urn) {
+  var ids = {}, start = 0;
+  for (var page = 0; page < 10; page++) {
+    var r = liApiFetch_(token, "https://api.linkedin.com/rest/reactions/(entity:" + encodeURIComponent(urn) + ")?q=entity&count=100&start=" + start);
+    if (r.code !== 200) return { ok: false, code: r.code, ids: ids };
+    var els = (r.json && r.json.elements) || [];
+    els.forEach(function (el) { liPersonIdsIn_(JSON.stringify(el.created || el)).forEach(function (id) { ids[id] = true; }); });
+    if (els.length < 100) break;
+    start += 100;
+  }
+  return { ok: true, ids: ids };
+}
+
+function liApiComments_(token, urn) {
+  var list = [], start = 0;
+  for (var page = 0; page < 10; page++) {
+    var r = liApiFetch_(token, "https://api.linkedin.com/rest/socialActions/" + encodeURIComponent(urn) + "/comments?count=100&start=" + start);
+    if (r.code !== 200) return { ok: false, code: r.code, list: list };
+    var els = (r.json && r.json.elements) || [];
+    els.forEach(function (el) {
+      var actor = typeof el.actor === "string" ? liIdKey_(el.actor) : (liPersonIdsIn_(JSON.stringify(el.created || el))[0] || "");
+      list.push({ id: actor, text: el.message && el.message.text ? String(el.message.text) : "", time: Number(el.created && el.created.time) || 0 });
+    });
+    if (els.length < 100) break;
+    start += 100;
+  }
+  return { ok: true, list: list };
+}
+
+function liApiExpired_() {
+  setSetting_("LI_API_READY", "");
+  if (String(getSetting_("LI_TOKEN_WARNED")) !== "expired") {
+    setSetting_("LI_TOKEN_WARNED", "expired");
+    notifyAdmins_("⚠️ اعتبار API لینکدین تمام شده است. در «💼 لینکدین» دوباره «🔑 اتصال API لینکدین» را بزنید. تا آن موقع لایک/کامنت با اسکرین‌شات بررسی می‌شود.");
+  }
+}
+
+/** همه ادعاهای «بررسی خودکار» را با API چک می‌کند؛ پیدا شد ← تایید و سکه، تا LI_CHECK_MAX_HOURS پیدا نشد ← رد */
+function liRunApiCheck_() {
+  var res = { posts: 0, approved: 0, rejected: 0, waiting: 0, noId: 0, errors: [] };
+  if (!liApiReady_()) { res.errors.push("API لینکدین وصل نیست."); return res; }
+  var token = liAdminToken_();
+  if (!token) { res.errors.push("توکن API پیدا نشد؛ «🔑 اتصال API لینکدین» را بزنید."); return res; }
+  var exp = toMs_(getSetting_("LI_TOKEN_EXPIRES"));
+  if (exp && exp - Date.now() < 5 * 86400000 && String(getSetting_("LI_TOKEN_WARNED")) === "") {
+    setSetting_("LI_TOKEN_WARNED", "soon");
+    notifyAdmins_("⏰ اعتبار API لینکدین تا " + fmtDate_(new Date(exp), "yyyy-MM-dd") + " تمام می‌شود؛ قبل از آن «🔑 اتصال API لینکدین» را دوباره بزنید.");
+  }
+  var all = liClaims_().rows;
+  var pending = all.filter(function (c) { return c.Status === LI_ST.PENDING && String(c.Method) === "api"; });
+  var members = {};
+  liTable_(LI.MEMBERS, LI_MEMBER_HEADERS).rows.forEach(function (m) { members[String(m.ChatID).trim()] = m; });
+  var byPost = {};
+  pending.forEach(function (c) { (byPost[c.PostID] = byPost[c.PostID] || []).push(c); });
+  var maxMs = (num_(cfg_("LI_CHECK_MAX_HOURS")) || 24) * 3600000;
+  var stop = false;
+  Object.keys(byPost).forEach(function (postId) {
+    if (stop) return;
+    var post = liPost_(postId), list = byPost[postId];
+    if (!post) return;
+    res.posts++;
+    var urn = liResolveUrn_(token, post);
+    if (urn === "!401") { stop = true; return; }
+    if (!urn) { res.errors.push("شناسه API پست «" + post.title + "» پیدا نشد (لینک پست را بررسی کنید)."); return; }
+    var needLikes = list.some(function (c) { return String(c.Type) !== "comment"; });
+    var needComments = list.some(function (c) { return String(c.Type) === "comment"; });
+    var likes = needLikes ? liApiReactors_(token, urn) : { ok: true, ids: {} };
+    var comments = needComments ? liApiComments_(token, urn) : { ok: true, list: [] };
+    if (likes.code === 401 || comments.code === 401) { stop = true; return; }
+    if (!likes.ok || !comments.ok) { res.errors.push("خطای API برای «" + post.title + "»: HTTP " + (likes.code || comments.code)); return; }
+    list.sort(function (a, b) { return (toMs_(a.CreatedAt) || 0) - (toMs_(b.CreatedAt) || 0); }).forEach(function (c) {
+      var m = members[c.ChatID];
+      var myId = m ? liIdKey_(m.LinkedInID) : "";
+      if (!myId) { res.noId++; return; }
+      var found = false, text = "", copied = false;
+      if (String(c.Type) === "comment") {
+        var mine = comments.list.filter(function (x) { return x.id === myId; });
+        if (mine.length) {
+          found = true;
+          var my = mine[mine.length - 1];
+          text = my.text;
+          var norm = liNormText_(text);
+          // کپی = همین متن را شخص دیگری «زودتر» زیر همین پست نوشته باشد
+          copied = norm.length >= 15 && comments.list.some(function (x) {
+            return x.id !== myId && liNormText_(x.text) === norm && (!x.time || !my.time || x.time < my.time);
+          });
+        }
+      } else {
+        found = !!likes.ids[myId];
+      }
+      var r = null;
+      if (found && copied) r = liReviewClaim_("api", c.ClaimID, false, "کامنت شما کپی کامنت شخص دیگری زیر همین پست است", { CommentText: text, CheckedAt: new Date() });
+      else if (found) r = liReviewClaim_("api", c.ClaimID, true, "", { CommentText: text, CheckedAt: new Date() });
+      else if (Date.now() - (toMs_(c.CreatedAt) || Date.now()) > maxMs) {
+        r = liReviewClaim_("api", c.ClaimID, false, "در بررسی خودکار، " + liTypeFa_(c.Type) + " شما روی این پست پیدا نشد", { CheckedAt: new Date() });
+      } else {
+        res.waiting++;
+        return;
+      }
+      if (r && r.ok) {
+        liNotifyClaim_(r.claim, post, r.claim.Status === LI_ST.APPROVED);
+        if (r.claim.Status === LI_ST.APPROVED) res.approved++; else res.rejected++;
+      }
+    });
+  });
+  if (stop) { liApiExpired_(); res.errors.push("اعتبار API تمام شده است (HTTP 401)."); }
+  setSetting_("LI_LAST_CHECK", new Date());
+  return res;
+}
+
+function liCheckReport_(r) {
+  return "🔄 <b>بررسی با API لینکدین</b>\n" +
+    "📌 پست‌های بررسی‌شده: " + r.posts + "\n✅ تایید و سکه: " + r.approved + "\n❌ رد: " + r.rejected +
+    "\n⏳ هنوز پیدا نشده (دوباره بررسی می‌شود): " + r.waiting +
+    (r.noId ? "\n❔ بدون شناسه لینکدین (در «👥 اعضای لینکدین» ثبت کنید): " + r.noId : "") +
+    (r.errors.length ? "\n⚠️ " + esc_(r.errors.join("\n⚠️ ")) : "");
+}
+
+/** تابع تریگر زمانی (هر ساعت) */
+function liAutoCheck() {
+  try { liRunApiCheck_(); } catch (e) { console.error(e && e.stack ? e.stack : e); }
+}
+
+/** یک بار از ویرایشگر اجرا کنید تا بررسی خودکار هر ساعت انجام شود */
+function installLinkedInCheckTrigger() {
+  removeLinkedInCheckTrigger();
+  ScriptApp.newTrigger("liAutoCheck").timeBased().everyHours(1).create();
+  setSetting_("LI_CHECK_EVERY_MIN", 60);
+  Logger.log("✅ LinkedIn auto-check trigger installed (every hour).");
+}
+
+function removeLinkedInCheckTrigger() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === "liAutoCheck") ScriptApp.deleteTrigger(t);
+  });
 }
