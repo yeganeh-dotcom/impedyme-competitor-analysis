@@ -14,6 +14,7 @@ telegram-bots/
 ├── user-bot/UserLinkedIn.gs ← user bot project only
 ├── sheet-logger/Logger.gs  ← optional: new version of the script inside the Google Sheet
 ├── website/footer.html     ← optional: new version of the website tracker
+├── linkedin-api-test/      ← standalone test: can your LinkedIn app read likes/comments?
 ├── dist/                   ← PASTE-READY: one file per destination (built by build.sh)
 │   ├── user-bot.gs         ←   whole user bot project (Config + Core + UserBot)
 │   ├── admin-bot.gs        ←   whole admin bot project (Config + Core + AdminBot + AdminViews)
@@ -157,6 +158,26 @@ catches. Keep that risk in mind and tell users about it.
 **Card numbers** are now shown to admins as one 16-digit block. Before, a card typed with spaces was
 shown with its groups in reverse order inside the Persian text. A single block can't be reordered, and
 one tap copies it.
+
+## 6. Checking likes and comments with the LinkedIn API (test first)
+
+The goal is to replace screenshots with an automatic check. That works only if all of these are true:
+
+- **The Community Management API product.** Your LinkedIn app must have it. LinkedIn reviews each
+  request, and it can only be added to a **new** app that has no other products. Describe your real
+  use honestly; approval isn't guaranteed.
+- **A page admin signs in once.** An admin of the Impedyme page connects the bot. LinkedIn only shows
+  who liked or commented to page admins.
+- **Each user connects their LinkedIn account once.** This must go through the same app, because
+  LinkedIn gives every person a different ID in every app.
+- **It is limited at first.** Development tier allows about 100–500 API calls a day, so the bot
+  would check every few hours rather than instantly.
+- **Follows still need a screenshot.** LinkedIn's API gives follower counts, not who follows.
+
+`linkedin-api-test/LinkedInApiTest.gs` is a **standalone** test. Put it in a new Apps Script
+project; it does not touch the bots or the sheet. The steps are at the top of the file. It signs in
+as a page admin, reads the likes and comments on one post, and reports whether your own like and
+comment were recognised. The automatic check is built into the bots only after this test passes.
 
 ---
 
