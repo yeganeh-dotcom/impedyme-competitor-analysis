@@ -1,0 +1,95 @@
+<!-- ============================================================
+     Impedyme logo marquee — scrolls right → left, loops forever.
+     Paste this whole block into a WordPress "Custom HTML" block
+     (or Elementor HTML widget). Everything is scoped under
+     .imp-marquee so it won't clash with your theme.
+
+     To change logos: edit the <img> tags in the FIRST .imp-marquee__group.
+     Then copy the same list into the SECOND group (it's the
+     seamless-loop duplicate and must match exactly).
+     ============================================================ -->
+<section class="imp-marquee" aria-label="Trusted by">
+  <div class="imp-marquee__viewport">
+  <div class="imp-marquee__track">
+    <ul class="imp-marquee__group">
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+    </ul>
+    <!-- Duplicate for a seamless loop (hidden from screen readers) -->
+    <ul class="imp-marquee__group" aria-hidden="true">
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+    </ul>
+  </div>
+  </div>
+</section>
+
+<style>
+  .imp-marquee {
+    --imp-bg: #eff3f9;      /* strip background */
+    --imp-logo-h: 90px;     /* logo height */
+    --imp-gap: 100px;       /* space between logos */
+    --imp-speed: 40s;       /* time for one full loop — lower = faster */
+
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 60px 0;
+    background: var(--imp-bg);
+  }
+  .imp-marquee__viewport {
+    overflow: hidden;
+    /* soft fade on left/right edges (logos only, not the background) */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+  .imp-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: imp-marquee-scroll var(--imp-speed) linear infinite;
+  }
+  .imp-marquee:hover .imp-marquee__track { animation-play-state: paused; }
+
+  .imp-marquee__group {
+    display: flex;
+    align-items: center;
+    gap: var(--imp-gap);
+    padding: 0 calc(var(--imp-gap) / 2);
+    margin: 0;
+    list-style: none;
+    flex-shrink: 0;
+  }
+  .imp-marquee__group li { margin: 0; padding: 0; flex-shrink: 0; }
+  .imp-marquee__group img {
+    display: block;
+    height: var(--imp-logo-h);
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+  }
+
+  /* track holds 2 identical groups, so moving -50% lands exactly on the copy */
+  @keyframes imp-marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 768px) {
+    .imp-marquee { --imp-logo-h: 56px; --imp-gap: 56px; padding: 36px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .imp-marquee__track { animation-duration: 120s; }
+  }
+</style>
