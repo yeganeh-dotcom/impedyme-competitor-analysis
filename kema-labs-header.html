@@ -61,12 +61,14 @@
   }
 
   /* Company logo under the h1 (in place of a paragraph) */
+  /* !important on the radius beats theme rules like `img { border-radius: 0 }` */
   .imp-header__logo {
     display: block;
     width: 130px;
     max-width: 50%;
     height: auto;
-    border-radius: 8px; /* rounded corners on the logo image */
+    border-radius: 8px !important; /* rounded corners on the logo image */
+    overflow: hidden;
     margin-bottom: 24px;
   }
 
@@ -141,6 +143,7 @@
     /* Logo centered under the title */
     .imp-header__logo {
       width: 110px;
+      border-radius: 8px !important;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 20px;
