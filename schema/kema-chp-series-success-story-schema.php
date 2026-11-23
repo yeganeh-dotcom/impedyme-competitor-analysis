@@ -32,7 +32,6 @@ function impedyme_kema_chp_series_success_story_schema() {
 {
   "@context": "https://schema.org",
   "@graph": [
-
     {
       "@type": "Organization",
       "@id": "https://impedyme.com/#organization",
@@ -47,15 +46,15 @@ function impedyme_kema_chp_series_success_story_schema() {
       },
       "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, motor emulators, grid emulators and real-time load emulators for power-electronics development and validation."
     },
-
     {
       "@type": "WebSite",
       "@id": "https://impedyme.com/#website",
       "url": "https://impedyme.com/",
       "name": "Impedyme",
-      "publisher": { "@id": "https://impedyme.com/#organization" }
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "WebPage",
       "@id": "{{URL}}#webpage",
@@ -63,42 +62,57 @@ function impedyme_kema_chp_series_success_story_schema() {
       "name": "A Programmable Grid in a Cabinet: Regenerative Grid Emulation at KEMA Labs — Customer Success Story",
       "description": "How KEMA Labs brings regenerative, high-power grid emulation into the lab with Impedyme's CHP Series Power HIL testbench — programmable grid conditions, four-quadrant power exchange, and IEEE 1547 / UL 1741 scenarios in one liquid-cooled cabinet that scales to 5 MW.",
       "inLanguage": "en",
-      "isPartOf": { "@id": "https://impedyme.com/#website" },
-      "breadcrumb": { "@id": "{{URL}}#breadcrumb" },
-      "mainEntity": { "@id": "{{URL}}#article" },
-      "primaryImageOfPage": { "@id": "{{URL}}#image-success-story" },
+      "isPartOf": {
+        "@id": "https://impedyme.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "{{URL}}#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "{{URL}}#article"
+      },
+      "primaryImageOfPage": {
+        "@id": "{{URL}}#image-success-story"
+      },
       "image": [
-        { "@id": "{{URL}}#image-success-story" },
-        { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" }
+        {
+          "@id": "{{URL}}#image-success-story"
+        },
+        {
+          "@id": "{{URL}}#image-header-desktop"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        }
       ],
       "about": [
-        { "@id": "https://www.kema.com/#organization" },
-        { "@id": "{{URL}}#chp-power-hil-testbench" }
+        {
+          "@id": "https://www.kema.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#chp-power-hil-testbench"
+        }
       ],
-      "mentions": { "@id": "{{URL}}#customers-and-partners" }
+      "mentions": {
+        "@id": "{{URL}}#customers-and-partners"
+      }
     },
-
-    {
-      "@type": "BreadcrumbList",
-      "@id": "{{URL}}#breadcrumb",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://impedyme.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Success Stories", "item": "https://impedyme.com/success-stories/" },
-        { "@type": "ListItem", "position": 3, "name": "KEMA Labs — CHP Series", "item": "{{URL}}" }
-      ]
-    },
-
     {
       "@type": "ItemList",
       "@id": "{{URL}}#customers-and-partners",
       "name": "Customers and Partners",
       "description": "Impedyme customers and partners featured in this customer success story.",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "KEMA Labs", "item": { "@id": "https://www.kema.com/#organization" } }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "KEMA Labs",
+          "item": {
+            "@id": "https://www.kema.com/#organization"
+          }
+        }
       ]
     },
-
     {
       "@type": "Organization",
       "@id": "https://www.kema.com/#organization",
@@ -117,78 +131,71 @@ function impedyme_kema_chp_series_success_story_schema() {
         "Distributed energy resources",
         "Hardware-in-the-Loop testing of protection systems"
       ],
-      "subOrganization": { "@id": "https://www.kema.com/#flex-power-grid-lab" },
-      "owns": { "@id": "{{URL}}#chp-power-hil-testbench" }
+      "subOrganization": {
+        "@id": "https://www.kema.com/#flex-power-grid-lab"
+      }
     },
-
     {
       "@type": "Organization",
       "@id": "https://www.kema.com/#flex-power-grid-lab",
       "name": "Flex Power Grid Lab",
-      "parentOrganization": { "@id": "https://www.kema.com/#organization" },
+      "parentOrganization": {
+        "@id": "https://www.kema.com/#organization"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Arnhem",
         "addressCountry": "NL"
       },
       "description": "KEMA Labs' Flex Power Grid Lab offers world-class HIL testing of protection systems and power-electronic equipment for a grid reshaped by inverter-based resources and distributed energy systems.",
-      "employee": { "@id": "{{URL}}#renzo-fabian" }
+      "employee": {
+        "@id": "{{URL}}#renzo-fabian"
+      }
     },
-
     {
       "@type": "Person",
       "@id": "{{URL}}#renzo-fabian",
       "name": "Renzo Fabian (customer)",
       "honorificPrefix": "Dr.",
       "jobTitle": "Head of the Flex Power Grid Lab",
-      "worksFor": { "@id": "https://www.kema.com/#flex-power-grid-lab" },
+      "worksFor": {
+        "@id": "https://www.kema.com/#flex-power-grid-lab"
+      },
       "workLocation": {
         "@type": "Place",
-        "address": { "@type": "PostalAddress", "addressLocality": "Arnhem", "addressCountry": "NL" }
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Arnhem",
+          "addressCountry": "NL"
+        }
       },
       "description": "Dr. Renzo Fabian leads the Flex Power Grid Lab at KEMA Labs in Arnhem, The Netherlands, where he and his team offer world-class HIL testing of protection systems and power-electronic equipment — a holistic approach that grows increasingly relevant as inverter-based resources and distributed energy systems reshape the modern power grid.",
-      "knowsAbout": ["Hardware-in-the-Loop testing", "Protection systems", "Power-electronic equipment", "Inverter-based resources", "Distributed energy systems", "Grid emulation"]
-    },
-
-    {
-      "@type": "Product",
-      "@id": "{{URL}}#chp-power-hil-testbench",
-      "name": "Impedyme CHP Series Power HIL Testbench (grid emulation)",
-      "brand": { "@type": "Brand", "name": "Impedyme" },
-      "manufacturer": { "@id": "https://impedyme.com/#organization" },
-      "category": "Regenerative Power HIL grid emulator",
-      "description": "A CHP Series Power HIL testbench, scalable to 5 MW, that brings regenerative, high-power grid emulation into one liquid-cooled cabinet. Four-quadrant PHIL modules — offered from 5 kW to 50 kW — have channels reconfigurable in software as independent single-phase channels, three-phase groups, or a paralleled higher-power three-phase group. Devices under test connect their AC or DC bus directly to the CHP hardware over the front-panel busbar for realistic power exchange, grid synchronization, and interoperability testing, including IEEE 1547 and UL 1741 compliance scenarios. Each module carries its own AMD/Xilinx Zynq UltraScale+ real-time engine (quad-core Arm + 600K-cell FPGA) under IMPEDYME-RT.",
-      "image": { "@id": "{{URL}}#image-success-story" },
-      "isRelatedTo": [
-        { "@id": "{{URL}}#sw-gridsim-studio" },
-        { "@id": "{{URL}}#sw-powerhil-studio" },
-        { "@id": "{{URL}}#sw-impedyme-rt" },
-        { "@id": "{{URL}}#sw-fpga-scope" }
-      ],
-      "additionalProperty": [
-        { "@type": "PropertyValue", "name": "Module power rating", "minValue": 5, "maxValue": 50, "unitText": "kW", "description": "Scalable to 5 MW; same architecture" },
-        { "@type": "PropertyValue", "name": "Power stage", "value": "Four-quadrant, regenerative source/sink" },
-        { "@type": "PropertyValue", "name": "Channel modes", "value": "Software-assigned: single-phase, three-phase, or paralleled three-phase groups" },
-        { "@type": "PropertyValue", "name": "Grid emulation", "value": "Programmable voltage, frequency and impedance; harmonic injection; fault scenarios emulated in the FPGA" },
-        { "@type": "PropertyValue", "name": "Compliance scenarios", "value": "IEEE 1547 and UL 1741 — voltage and frequency ride-through, grid impedance variation, islanding detection, dynamic reconnection" },
-        { "@type": "PropertyValue", "name": "DUT connection", "value": "AC or DC bus over the front-panel busbar" },
-        { "@type": "PropertyValue", "name": "System efficiency", "minValue": 94, "unitText": "%", "description": "With the optional regenerative Active Front End (AFE); facility supplies only losses" },
-        { "@type": "PropertyValue", "name": "Processor per module", "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA" },
-        { "@type": "PropertyValue", "name": "FPGA update rate", "value": 200, "unitText": "ns", "description": "Real-time MATLAB/Simulink models" },
-        { "@type": "PropertyValue", "name": "Synchronization links", "value": "4 × SFP+ Aurora ports per module, ≥ 12.5 Gbps", "description": "Daisy-chain control and measurement for parallel and multiphase operation" },
-        { "@type": "PropertyValue", "name": "Analog inputs per module", "value": 8, "description": "Up to 2.5 MS/s, resolver IP supported" },
-        { "@type": "PropertyValue", "name": "Cooling", "value": "Integrated liquid cooling in a 19-inch cabinet — no external chiller" },
-        { "@type": "PropertyValue", "name": "Protection", "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit, desaturation detection, device-level monitoring, soft start/stop" },
-        { "@type": "PropertyValue", "name": "Support", "value": "Standard Maintenance Plan included (software and hardware maintenance, firmware updates, technical assistance, remote access and testing, module replacement, loaner availability); Ultimate Maintenance Plan available for mission-critical programs" }
+      "knowsAbout": [
+        "Hardware-in-the-Loop testing",
+        "Protection systems",
+        "Power-electronic equipment",
+        "Inverter-based resources",
+        "Distributed energy systems",
+        "Grid emulation"
       ]
     },
-
+    {
+      "@type": "Thing",
+      "@id": "{{URL}}#chp-power-hil-testbench",
+      "name": "Impedyme CHP Series Power HIL Testbench (grid emulation)",
+      "description": "A CHP Series Power HIL testbench, scalable to 5 MW, that brings regenerative, high-power grid emulation into one liquid-cooled cabinet. Four-quadrant PHIL modules — offered from 5 kW to 50 kW — have channels reconfigurable in software as independent single-phase channels, three-phase groups, or a paralleled higher-power three-phase group. Devices under test connect their AC or DC bus directly to the CHP hardware over the front-panel busbar for realistic power exchange, grid synchronization, and interoperability testing, including IEEE 1547 and UL 1741 compliance scenarios. Each module carries its own AMD/Xilinx Zynq UltraScale+ real-time engine (quad-core Arm + 600K-cell FPGA) under IMPEDYME-RT.",
+      "image": {
+        "@id": "{{URL}}#image-success-story"
+      }
+    },
     {
       "@type": "SoftwareApplication",
       "@id": "{{URL}}#sw-gridsim-studio",
       "name": "GridSim Studio",
       "applicationCategory": "Grid emulation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Grid definition: voltage, frequency, and impedance parameters, LUT management, FPGA-emulated grid impedance, harmonic and fault injection — the programmable grid the device under test sees."
     },
     {
@@ -196,7 +203,9 @@ function impedyme_kema_chp_series_success_story_schema() {
       "@id": "{{URL}}#sw-powerhil-studio",
       "name": "PowerHIL Studio",
       "applicationCategory": "Power HIL testbench operation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Testbench operation: cabinet-level control, signal routing, safety monitoring, FPGA/CPU model management, dynamic test sequencing, failure emulation (phase loss, short circuit, thermal faults), and device-level protection configuration."
     },
     {
@@ -205,7 +214,9 @@ function impedyme_kema_chp_series_success_story_schema() {
       "name": "IMPEDYME-RT",
       "applicationCategory": "Real-time operating system",
       "operatingSystem": "Linux with proprietary real-time kernel",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Linux with Impedyme's proprietary real-time kernel; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns update); real-time monitoring, control, and parameter tuning from MATLAB."
     },
     {
@@ -213,10 +224,11 @@ function impedyme_kema_chp_series_success_story_schema() {
       "@id": "{{URL}}#sw-fpga-scope",
       "name": "FPGA Scope",
       "applicationCategory": "Real-time data acquisition",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Real-time FPGA-based signal monitoring with trigger-based capture of converter responses during ride-through, fault, and reconnection scenarios."
     },
-
     {
       "@type": "ImageObject",
       "@id": "{{URL}}#image-success-story",
@@ -225,8 +237,12 @@ function impedyme_kema_chp_series_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "KEMA Labs customer success story — regenerative grid emulation on the Impedyme CHP Series",
       "caption": "Impedyme customer success story: KEMA Labs brings regenerative, high-power grid emulation into the lab with Impedyme's CHP Series Power HIL testbench — programmable grid conditions, four-quadrant power exchange, and IEEE 1547 / UL 1741 scenarios, scalable to 5 MW.",
-      "creator": { "@id": "https://impedyme.com/#organization" },
-      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -236,7 +252,9 @@ function impedyme_kema_chp_series_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "KEMA Labs CHP Series success story header (desktop)",
       "caption": "KEMA Labs grid emulation on Impedyme's CHP Series Power HIL testbench — a programmable grid in one liquid-cooled cabinet.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -246,9 +264,10 @@ function impedyme_kema_chp_series_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "KEMA Labs CHP Series success story header (mobile)",
       "caption": "KEMA Labs grid emulation on Impedyme's CHP Series Power HIL testbench — a programmable grid in one liquid-cooled cabinet.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "TechArticle",
       "@id": "{{URL}}#article",
@@ -256,35 +275,96 @@ function impedyme_kema_chp_series_success_story_schema() {
       "alternativeHeadline": "How KEMA Labs brings regenerative, high-power grid emulation and IEEE 1547 / UL 1741 scenarios into the lab with Impedyme's CHP Series Power HIL testbench",
       "description": "See how KEMA Labs brings regenerative, high-power grid emulation into the lab with Impedyme's CHP Series Power HIL testbench — programmable grid conditions, four-quadrant power exchange, and IEEE 1547 / UL 1741 scenarios, in one liquid-cooled cabinet that scales to 5 MW. Learn how GridSim Studio and PowerHIL Studio turn grid conditions into configuration: voltage, frequency, impedance, harmonics, and faults defined in software, with converter responses monitored in real time.",
       "genre": "Customer success story",
-      "articleSection": ["The Challenge", "The Solution", "In Practice", "Architecture", "The Result", "At a Glance", "The Added Value", "Why It Works"],
+      "articleSection": [
+        "The Challenge",
+        "The Solution",
+        "In Practice",
+        "Architecture",
+        "The Result",
+        "At a Glance",
+        "The Added Value",
+        "Why It Works"
+      ],
       "inLanguage": "en",
       "datePublished": "{{DATE}}",
       "dateModified": "{{DATE}}",
       "image": [
-        { "@id": "{{URL}}#image-success-story" },
-        { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" }
+        {
+          "@id": "{{URL}}#image-success-story"
+        },
+        {
+          "@id": "{{URL}}#image-header-desktop"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        }
       ],
-      "author": { "@id": "https://impedyme.com/#organization" },
-      "publisher": { "@id": "https://impedyme.com/#organization" },
-      "mainEntityOfPage": { "@id": "{{URL}}#webpage" },
+      "author": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "mainEntityOfPage": {
+        "@id": "{{URL}}#webpage"
+      },
       "about": [
-        { "@id": "https://www.kema.com/#organization" },
-        { "@id": "{{URL}}#chp-power-hil-testbench" },
-        { "@type": "Thing", "name": "Grid emulation" },
-        { "@type": "Thing", "name": "Power Hardware-in-the-Loop (PHIL)" },
-        { "@type": "Thing", "name": "Distributed energy resources validation" },
-        { "@type": "Thing", "name": "IEEE 1547" },
-        { "@type": "Thing", "name": "UL 1741" },
-        { "@type": "Thing", "name": "Regenerative power testing" }
+        {
+          "@id": "https://www.kema.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#chp-power-hil-testbench"
+        },
+        {
+          "@type": "Thing",
+          "name": "Grid emulation"
+        },
+        {
+          "@type": "Thing",
+          "name": "Power Hardware-in-the-Loop (PHIL)"
+        },
+        {
+          "@type": "Thing",
+          "name": "Distributed energy resources validation"
+        },
+        {
+          "@type": "Thing",
+          "name": "IEEE 1547"
+        },
+        {
+          "@type": "Thing",
+          "name": "UL 1741"
+        },
+        {
+          "@type": "Thing",
+          "name": "Regenerative power testing"
+        }
       ],
       "mentions": [
-        { "@id": "https://www.kema.com/#organization" },
-        { "@id": "https://www.kema.com/#flex-power-grid-lab" },
-        { "@id": "{{URL}}#renzo-fabian" },
-        { "@id": "{{URL}}#customers-and-partners" },
-        { "@type": "SoftwareApplication", "name": "MATLAB/Simulink", "publisher": { "@type": "Organization", "name": "MathWorks" } },
-        { "@type": "Organization", "name": "AMD/Xilinx" }
+        {
+          "@id": "https://www.kema.com/#organization"
+        },
+        {
+          "@id": "https://www.kema.com/#flex-power-grid-lab"
+        },
+        {
+          "@id": "{{URL}}#renzo-fabian"
+        },
+        {
+          "@id": "{{URL}}#customers-and-partners"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "MATLAB/Simulink",
+          "publisher": {
+            "@type": "Organization",
+            "name": "MathWorks"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "AMD/Xilinx"
+        }
       ],
       "keywords": "KEMA Labs, Flex Power Grid Lab, Arnhem, Impedyme, CHP Series, Power HIL, PHIL, grid emulator, grid simulator, GridSim Studio, PowerHIL Studio, IEEE 1547, UL 1741, ride-through, islanding detection, grid impedance, harmonic injection, four-quadrant, regenerative, Active Front End, 5 MW, distributed energy resources, inverter-based resources, MATLAB/Simulink",
       "hasPart": [
@@ -317,10 +397,18 @@ function impedyme_kema_chp_series_success_story_schema() {
           "@id": "{{URL}}#table-1",
           "name": "Table 1 — The software suite delivered with the CHP Series testbench",
           "about": [
-            { "@id": "{{URL}}#sw-gridsim-studio" },
-            { "@id": "{{URL}}#sw-powerhil-studio" },
-            { "@id": "{{URL}}#sw-impedyme-rt" },
-            { "@id": "{{URL}}#sw-fpga-scope" }
+            {
+              "@id": "{{URL}}#sw-gridsim-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-powerhil-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-impedyme-rt"
+            },
+            {
+              "@id": "{{URL}}#sw-fpga-scope"
+            }
           ],
           "text": "GridSim Studio: grid definition — voltage, frequency, and impedance parameters, LUT management, FPGA-emulated grid impedance, harmonic and fault injection; the programmable grid the DUT sees. PowerHIL Studio: testbench operation — cabinet-level control, signal routing, safety monitoring, FPGA/CPU model management, dynamic test sequencing, failure emulation, and device-level protection configuration. IMPEDYME-RT: Linux with Impedyme's proprietary real-time kernel; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns update); real-time monitoring, control, and parameter tuning from MATLAB. FPGA Scope: real-time FPGA-based signal monitoring with trigger-based capture of converter responses during ride-through, fault, and reconnection scenarios."
         },
@@ -335,15 +423,51 @@ function impedyme_kema_chp_series_success_story_schema() {
           "@id": "{{URL}}#at-a-glance",
           "name": "At a Glance — Key facts",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "5 kW to 50 kW modules — scalable to 5 MW, same architecture" },
-            { "@type": "ListItem", "position": 2, "name": "Four-quadrant modules — regenerative source/sink, software-assigned channels" },
-            { "@type": "ListItem", "position": 3, "name": "Software-assigned channels — single-phase · three-phase · paralleled 3-ph groups" },
-            { "@type": "ListItem", "position": 4, "name": "94 %+ efficiency — regenerative loop via optional AFE" },
-            { "@type": "ListItem", "position": 5, "name": "200 ns — FPGA real-time update rate" },
-            { "@type": "ListItem", "position": 6, "name": "IEEE 1547 · UL 1741 — ride-through, impedance, islanding, reconnection" },
-            { "@type": "ListItem", "position": 7, "name": "Zynq UltraScale+ — quad-core Arm + 600K-cell FPGA per module" },
-            { "@type": "ListItem", "position": 8, "name": "4 × SFP+ ≥ 12.5 Gbps — daisy-chain parallel & multiphase operation" },
-            { "@type": "ListItem", "position": 9, "name": "Liquid-cooled — 19″ cabinet, no external chiller" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "5 kW to 50 kW modules — scalable to 5 MW, same architecture"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Four-quadrant modules — regenerative source/sink, software-assigned channels"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Software-assigned channels — single-phase · three-phase · paralleled 3-ph groups"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "94 %+ efficiency — regenerative loop via optional AFE"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "200 ns — FPGA real-time update rate"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "IEEE 1547 · UL 1741 — ride-through, impedance, islanding, reconnection"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Zynq UltraScale+ — quad-core Arm + 600K-cell FPGA per module"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "4 × SFP+ ≥ 12.5 Gbps — daisy-chain parallel & multiphase operation"
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "name": "Liquid-cooled — 19″ cabinet, no external chiller"
+            }
           ]
         },
         {
@@ -357,15 +481,51 @@ function impedyme_kema_chp_series_success_story_schema() {
           "@id": "{{URL}}#why-it-works",
           "name": "Why It Works — The advantages",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Programmable grid: voltage, frequency, impedance, harmonics, and faults in software" },
-            { "@type": "ListItem", "position": 2, "name": "IEEE 1547 / UL 1741 compliance scenarios as stored, repeatable sequences" },
-            { "@type": "ListItem", "position": 3, "name": "Four-quadrant, regenerative power exchange — 94 %+ system efficiency with the AFE" },
-            { "@type": "ListItem", "position": 4, "name": "Channel modes reconfigure in software: 1-phase, 3-phase, and paralleled operation" },
-            { "@type": "ListItem", "position": 5, "name": "Real-time Simulink models on Arm + FPGA — no third-party HIL simulator" },
-            { "@type": "ListItem", "position": 6, "name": "Layered protection: OV/OC/OP/OT, short-circuit, desaturation, soft start/stop" },
-            { "@type": "ListItem", "position": 7, "name": "Integrated liquid cooling — no external chiller" },
-            { "@type": "ListItem", "position": 8, "name": "Scales toward 5 MW on the same software and models" },
-            { "@type": "ListItem", "position": 9, "name": "FPGA Scope evidence for every scenario response" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Programmable grid: voltage, frequency, impedance, harmonics, and faults in software"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "IEEE 1547 / UL 1741 compliance scenarios as stored, repeatable sequences"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Four-quadrant, regenerative power exchange — 94 %+ system efficiency with the AFE"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Channel modes reconfigure in software: 1-phase, 3-phase, and paralleled operation"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Real-time Simulink models on Arm + FPGA — no third-party HIL simulator"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Layered protection: OV/OC/OP/OT, short-circuit, desaturation, soft start/stop"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Integrated liquid cooling — no external chiller"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Scales toward 5 MW on the same software and models"
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "name": "FPGA Scope evidence for every scenario response"
+            }
           ]
         },
         {
@@ -373,6 +533,151 @@ function impedyme_kema_chp_series_success_story_schema() {
           "@id": "{{URL}}#table-2",
           "name": "Table 2 — What the CHP Series testbench replaces",
           "text": "Grid emulation: conventional — fixed-rating grid simulator per program; Impedyme CHP Series — GridSim Studio with programmable V/f/impedance, harmonics and faults in FPGA. Power handling: conventional — dissipative load banks, full facility draw; Impedyme CHP Series — four-quadrant regenerative loop, facility supplies only losses. Channel topology: conventional — rewiring and new hardware per configuration; Impedyme CHP Series — software modes: single-phase, three-phase, or paralleled 3-ph. Real-time simulation: conventional — separate third-party HIL equipment; Impedyme CHP Series — IMPEDYME-RT on every module, 200 ns FPGA update. Compliance testing: conventional — manual setups, limited repeatability; Impedyme CHP Series — IEEE 1547 / UL 1741 profiles sequenced in PowerHIL Studio. Growth path: conventional — new simulator at each power level; Impedyme CHP Series — modules parallel toward 5 MW on the same platform."
+        },
+        {
+          "@type": "ItemList",
+          "@id": "{{URL}}#chp-power-hil-testbench-specifications",
+          "name": "Technical specifications — Impedyme CHP Series Power HIL Testbench (grid emulation)",
+          "about": {
+            "@id": "{{URL}}#chp-power-hil-testbench"
+          },
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Module power rating",
+                "minValue": 5,
+                "maxValue": 50,
+                "unitText": "kW",
+                "description": "Scalable to 5 MW; same architecture"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Power stage",
+                "value": "Four-quadrant, regenerative source/sink"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Channel modes",
+                "value": "Software-assigned: single-phase, three-phase, or paralleled three-phase groups"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Grid emulation",
+                "value": "Programmable voltage, frequency and impedance; harmonic injection; fault scenarios emulated in the FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Compliance scenarios",
+                "value": "IEEE 1547 and UL 1741 — voltage and frequency ride-through, grid impedance variation, islanding detection, dynamic reconnection"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "DUT connection",
+                "value": "AC or DC bus over the front-panel busbar"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "System efficiency",
+                "minValue": 94,
+                "unitText": "%",
+                "description": "With the optional regenerative Active Front End (AFE); facility supplies only losses"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Processor per module",
+                "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "FPGA update rate",
+                "value": 200,
+                "unitText": "ns",
+                "description": "Real-time MATLAB/Simulink models"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 10,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Synchronization links",
+                "value": "4 × SFP+ Aurora ports per module, ≥ 12.5 Gbps",
+                "description": "Daisy-chain control and measurement for parallel and multiphase operation"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 11,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Analog inputs per module",
+                "value": 8,
+                "description": "Up to 2.5 MS/s, resolver IP supported"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 12,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Cooling",
+                "value": "Integrated liquid cooling in a 19-inch cabinet — no external chiller"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 13,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Protection",
+                "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit, desaturation detection, device-level monitoring, soft start/stop"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 14,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Support",
+                "value": "Standard Maintenance Plan included (software and hardware maintenance, firmware updates, technical assistance, remote access and testing, module replacement, loaner availability); Ultimate Maintenance Plan available for mission-critical programs"
+              }
+            }
+          ]
         }
       ]
     }

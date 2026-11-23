@@ -32,7 +32,6 @@ function impedyme_kema_motor_drive_success_story_schema() {
 {
   "@context": "https://schema.org",
   "@graph": [
-
     {
       "@type": "Organization",
       "@id": "https://impedyme.com/#organization",
@@ -47,15 +46,15 @@ function impedyme_kema_motor_drive_success_story_schema() {
       },
       "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, motor emulators, grid emulators and real-time load emulators for power-electronics development and validation."
     },
-
     {
       "@type": "WebSite",
       "@id": "https://impedyme.com/#website",
       "url": "https://impedyme.com/",
       "name": "Impedyme",
-      "publisher": { "@id": "https://impedyme.com/#organization" }
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "WebPage",
       "@id": "{{URL}}#webpage",
@@ -63,49 +62,68 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "name": "400 kW, 800 V — No Dynamometer: Motor-Drive Testing at KEMA Labs — Customer Success Story",
       "description": "How KEMA Labs tests a 400 kW, 800 V automotive motor drive against a real-time emulated motor on Impedyme's high-power Motor Emulator Platform, at real power and without a dynamometer: –50 % testing time, –45 % validation time, +55 % test coverage, +60 % system safety.",
       "inLanguage": "en",
-      "isPartOf": { "@id": "https://impedyme.com/#website" },
-      "breadcrumb": { "@id": "{{URL}}#breadcrumb" },
-      "mainEntity": { "@id": "{{URL}}#article" },
-      "primaryImageOfPage": { "@id": "{{URL}}#image-header-desktop" },
+      "isPartOf": {
+        "@id": "https://impedyme.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "{{URL}}#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "{{URL}}#article"
+      },
+      "primaryImageOfPage": {
+        "@id": "{{URL}}#image-header-desktop"
+      },
       "image": [
-        { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" },
-        { "@id": "{{URL}}#image-kema-logo" }
+        {
+          "@id": "{{URL}}#image-header-desktop"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        },
+        {
+          "@id": "{{URL}}#image-kema-logo"
+        }
       ],
       "about": [
-        { "@id": "https://www.kema.com/#organization" },
-        { "@id": "{{URL}}#motor-emulator-platform" }
+        {
+          "@id": "https://www.kema.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#motor-emulator-platform"
+        }
       ],
-      "mentions": { "@id": "{{URL}}#customers-and-partners" }
+      "mentions": {
+        "@id": "{{URL}}#customers-and-partners"
+      }
     },
-
-    {
-      "@type": "BreadcrumbList",
-      "@id": "{{URL}}#breadcrumb",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://impedyme.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Success Stories", "item": "https://impedyme.com/success-stories/" },
-        { "@type": "ListItem", "position": 3, "name": "KEMA Labs — Motor Drive", "item": "{{URL}}" }
-      ]
-    },
-
     {
       "@type": "ItemList",
       "@id": "{{URL}}#customers-and-partners",
       "name": "Customers and Partners",
       "description": "Impedyme customers and partners featured in this customer success story.",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "KEMA Labs", "item": { "@id": "https://www.kema.com/#organization" } }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "KEMA Labs",
+          "item": {
+            "@id": "https://www.kema.com/#organization"
+          }
+        }
       ]
     },
-
     {
       "@type": "Organization",
       "@id": "https://www.kema.com/#organization",
       "name": "KEMA Labs",
       "url": "https://www.kema.com/",
-      "logo": { "@id": "{{URL}}#image-kema-logo" },
-      "image": { "@id": "{{URL}}#image-kema-logo" },
+      "logo": {
+        "@id": "{{URL}}#image-kema-logo"
+      },
+      "image": {
+        "@id": "{{URL}}#image-kema-logo"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Arnhem",
@@ -119,79 +137,71 @@ function impedyme_kema_motor_drive_success_story_schema() {
         "800 V traction drives",
         "Hardware-in-the-Loop testing of protection systems"
       ],
-      "subOrganization": { "@id": "https://www.kema.com/#flex-power-grid-lab" },
-      "owns": { "@id": "{{URL}}#motor-emulator-platform" }
+      "subOrganization": {
+        "@id": "https://www.kema.com/#flex-power-grid-lab"
+      }
     },
-
     {
       "@type": "Organization",
       "@id": "https://www.kema.com/#flex-power-grid-lab",
       "name": "Flex Power Grid Lab",
-      "parentOrganization": { "@id": "https://www.kema.com/#organization" },
+      "parentOrganization": {
+        "@id": "https://www.kema.com/#organization"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Arnhem",
         "addressCountry": "NL"
       },
       "description": "KEMA Labs' Flex Power Grid Lab offers HIL testing of protection systems and power-electronic equipment for a grid reshaped by inverter-based resources, electrified transport, and distributed energy systems.",
-      "employee": { "@id": "{{URL}}#renzo-fabian" }
+      "employee": {
+        "@id": "{{URL}}#renzo-fabian"
+      }
     },
-
     {
       "@type": "Person",
       "@id": "{{URL}}#renzo-fabian",
       "name": "Renzo Fabian (customer)",
       "honorificPrefix": "Dr.",
       "jobTitle": "Head of the Flex Power Grid Lab",
-      "worksFor": { "@id": "https://www.kema.com/#flex-power-grid-lab" },
+      "worksFor": {
+        "@id": "https://www.kema.com/#flex-power-grid-lab"
+      },
       "workLocation": {
         "@type": "Place",
-        "address": { "@type": "PostalAddress", "addressLocality": "Arnhem", "addressCountry": "NL" }
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Arnhem",
+          "addressCountry": "NL"
+        }
       },
       "description": "Dr. Renzo Fabian leads the Flex Power Grid Lab at KEMA Labs in Arnhem, The Netherlands, where he and his team offer world-class HIL testing of protection systems and power-electronic equipment — a holistic approach that grows increasingly relevant as inverter-based resources, electrified transport, and distributed energy systems reshape the modern power grid.",
-      "knowsAbout": ["Hardware-in-the-Loop testing", "Protection systems", "Power-electronic equipment", "Inverter-based resources", "Electrified transport", "Distributed energy systems"]
-    },
-
-    {
-      "@type": "Product",
-      "@id": "{{URL}}#motor-emulator-platform",
-      "name": "Impedyme CHP Series High-Power Motor Emulator Platform",
-      "brand": { "@type": "Brand", "name": "Impedyme" },
-      "manufacturer": { "@id": "https://impedyme.com/#organization" },
-      "category": "Real-time Power HIL motor emulator",
-      "description": "A high-power Motor Emulator Platform built on the CHP Series, combining bidirectional power hardware with real-time motor models in one scalable system. It provides a controlled electrical interface at the inverter output while the real-time model on the FPGA determines speed, torque, rotor position, back EMF, and dynamic response — testing a 400 kW, 800 V automotive motor drive at real power through motoring and regenerative regions without a dynamometer. Every CHP module is a regenerative, four-quadrant, bidirectional power stage with an AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT.",
-      "image": { "@id": "{{URL}}#image-header-desktop" },
-      "isRelatedTo": [
-        { "@id": "{{URL}}#sw-motorsim-studio" },
-        { "@id": "{{URL}}#sw-powerhil-studio" },
-        { "@id": "{{URL}}#sw-impedyme-rt" },
-        { "@id": "{{URL}}#sw-fpga-scope" },
-        { "@id": "{{URL}}#sw-mlx" }
-      ],
-      "additionalProperty": [
-        { "@type": "PropertyValue", "name": "Drive under test", "value": "400 kW, 800 V automotive motor drive" },
-        { "@type": "PropertyValue", "name": "Drive power", "value": 400, "unitText": "kW" },
-        { "@type": "PropertyValue", "name": "Drive voltage architecture", "value": 800, "unitText": "V" },
-        { "@type": "PropertyValue", "name": "Real-time motor model", "value": "Speed, torque, rotor position, back EMF and dynamic response computed on the FPGA" },
-        { "@type": "PropertyValue", "name": "Operating regions", "value": "Motoring and regeneration — bidirectional, repeatable" },
-        { "@type": "PropertyValue", "name": "Mechanical assets", "value": "No rotating machinery — electrical interface only; no dynamometer, coupling or stored mechanical energy" },
-        { "@type": "PropertyValue", "name": "System efficiency", "minValue": 94, "unitText": "%", "description": "Regenerative shared DC bus — facility supplies only losses" },
-        { "@type": "PropertyValue", "name": "Channel assignment", "value": "Software-assigned channels; modules parallel for higher power" },
-        { "@type": "PropertyValue", "name": "Power stage", "value": "Regenerative, four-quadrant, bidirectional" },
-        { "@type": "PropertyValue", "name": "Processor per module", "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA" },
-        { "@type": "PropertyValue", "name": "FPGA update rate", "value": 200, "unitText": "ns", "description": "Real-time models on FPGA" },
-        { "@type": "PropertyValue", "name": "Synchronization links", "value": "4 × SFP+ per module, up to 12.5 Gbps", "description": "Daisy-chain sync, parallel and multiphase operation" },
-        { "@type": "PropertyValue", "name": "Module power rating", "minValue": 5, "maxValue": 50, "unitText": "kW", "description": "Scalable to 5 MW; same architecture and software" },
-        { "@type": "PropertyValue", "name": "Protection", "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, soft start/stop" }
+      "knowsAbout": [
+        "Hardware-in-the-Loop testing",
+        "Protection systems",
+        "Power-electronic equipment",
+        "Inverter-based resources",
+        "Electrified transport",
+        "Distributed energy systems"
       ]
     },
-
+    {
+      "@type": "Thing",
+      "@id": "{{URL}}#motor-emulator-platform",
+      "name": "Impedyme CHP Series High-Power Motor Emulator Platform",
+      "description": "A high-power Motor Emulator Platform built on the CHP Series, combining bidirectional power hardware with real-time motor models in one scalable system. It provides a controlled electrical interface at the inverter output while the real-time model on the FPGA determines speed, torque, rotor position, back EMF, and dynamic response — testing a 400 kW, 800 V automotive motor drive at real power through motoring and regenerative regions without a dynamometer. Every CHP module is a regenerative, four-quadrant, bidirectional power stage with an AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT.",
+      "image": {
+        "@id": "{{URL}}#image-header-desktop"
+      }
+    },
     {
       "@type": "SoftwareApplication",
       "@id": "{{URL}}#sw-motorsim-studio",
       "name": "MotorSim Studio",
       "applicationCategory": "Motor emulation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Motor-emulation control: motor library (Rs, Ld, Lq, Ke, J, pole pairs), mechanical-load and torque-vs-speed profiles, parameter sweeps, and the protection relay executed on the FPGA."
     },
     {
@@ -199,7 +209,9 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "@id": "{{URL}}#sw-powerhil-studio",
       "name": "PowerHIL Studio",
       "applicationCategory": "Power HIL testbench operation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Cabinet-level control and signal routing; per-module mode and reference selection; dynamic test sequencing; failure emulation; safety limits and device-level protections; launches MLX, Simulink, and FPGA Scope."
     },
     {
@@ -208,7 +220,9 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "name": "IMPEDYME-RT",
       "applicationCategory": "Real-time operating system",
       "operatingSystem": "Linux with proprietary real-time kernel",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update); real-time monitoring, control, and parameter tuning from MATLAB."
     },
     {
@@ -216,7 +230,9 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "@id": "{{URL}}#sw-fpga-scope",
       "name": "FPGA Scope",
       "applicationCategory": "Real-time data acquisition",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "On-module oscilloscope: waveform preview before enable, per-phase real-time monitoring, trigger-based capture, measurement table (max / min / pk-pk / gain / phase), and sync verification across modules."
     },
     {
@@ -224,10 +240,11 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "@id": "{{URL}}#sw-mlx",
       "name": "MLX",
       "applicationCategory": "Post-processing and analytics software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Post-processing and analytics of streamed data in MATLAB — operating-point sweeps, efficiency and response metrics, pass/fail overlays, and automated test reports."
     },
-
     {
       "@type": "ImageObject",
       "@id": "{{URL}}#image-kema-logo",
@@ -236,7 +253,9 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "KEMA Labs logo",
       "caption": "KEMA Labs logo",
-      "copyrightHolder": { "@id": "https://www.kema.com/#organization" }
+      "copyrightHolder": {
+        "@id": "https://www.kema.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -246,8 +265,12 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "KEMA Labs motor-drive success story header (desktop)",
       "caption": "KEMA Labs tests a 400 kW, 800 V automotive motor drive against a real-time emulated motor on Impedyme's high-power Motor Emulator Platform — at real power, without a dynamometer.",
-      "creator": { "@id": "https://impedyme.com/#organization" },
-      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -257,9 +280,10 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "KEMA Labs motor-drive success story header (mobile)",
       "caption": "KEMA Labs tests a 400 kW, 800 V automotive motor drive against a real-time emulated motor on Impedyme's high-power Motor Emulator Platform — at real power, without a dynamometer.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "TechArticle",
       "@id": "{{URL}}#article",
@@ -267,34 +291,93 @@ function impedyme_kema_motor_drive_success_story_schema() {
       "alternativeHeadline": "How KEMA Labs tests a 400 kW, 800 V automotive motor drive against a real-time emulated motor on Impedyme's high-power Motor Emulator Platform",
       "description": "See how KEMA Labs uses Impedyme's high-power Motor Emulator Platform to test a 400 kW, 800 V automotive motor drive against a real-time emulated motor — at real power, across motoring, regenerative, dynamic-load, and protection-related operating conditions. Learn how software-defined motor behavior replaces the large motor, dynamometer, and mechanical coupling a drive of this class would otherwise need for every test — while keeping operating points controlled, measurable, and repeatable.",
       "genre": "Customer success story",
-      "articleSection": ["The Challenge", "The Solution", "In Practice", "Architecture", "The Result", "At a Glance", "The Added Value", "Why It Works"],
+      "articleSection": [
+        "The Challenge",
+        "The Solution",
+        "In Practice",
+        "Architecture",
+        "The Result",
+        "At a Glance",
+        "The Added Value",
+        "Why It Works"
+      ],
       "inLanguage": "en",
       "datePublished": "{{DATE}}",
       "dateModified": "{{DATE}}",
       "image": [
-        { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" }
+        {
+          "@id": "{{URL}}#image-header-desktop"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        }
       ],
-      "author": { "@id": "https://impedyme.com/#organization" },
-      "publisher": { "@id": "https://impedyme.com/#organization" },
-      "mainEntityOfPage": { "@id": "{{URL}}#webpage" },
+      "author": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "mainEntityOfPage": {
+        "@id": "{{URL}}#webpage"
+      },
       "about": [
-        { "@id": "https://www.kema.com/#organization" },
-        { "@id": "{{URL}}#motor-emulator-platform" },
-        { "@type": "Thing", "name": "High-power motor emulation" },
-        { "@type": "Thing", "name": "800 V automotive motor-drive testing" },
-        { "@type": "Thing", "name": "Regenerative operation" },
-        { "@type": "Thing", "name": "Protection and limit testing" },
-        { "@type": "Thing", "name": "Dynamometer replacement" },
-        { "@type": "Thing", "name": "Power Hardware-in-the-Loop (PHIL)" }
+        {
+          "@id": "https://www.kema.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#motor-emulator-platform"
+        },
+        {
+          "@type": "Thing",
+          "name": "High-power motor emulation"
+        },
+        {
+          "@type": "Thing",
+          "name": "800 V automotive motor-drive testing"
+        },
+        {
+          "@type": "Thing",
+          "name": "Regenerative operation"
+        },
+        {
+          "@type": "Thing",
+          "name": "Protection and limit testing"
+        },
+        {
+          "@type": "Thing",
+          "name": "Dynamometer replacement"
+        },
+        {
+          "@type": "Thing",
+          "name": "Power Hardware-in-the-Loop (PHIL)"
+        }
       ],
       "mentions": [
-        { "@id": "https://www.kema.com/#organization" },
-        { "@id": "https://www.kema.com/#flex-power-grid-lab" },
-        { "@id": "{{URL}}#renzo-fabian" },
-        { "@id": "{{URL}}#customers-and-partners" },
-        { "@type": "SoftwareApplication", "name": "MATLAB/Simulink", "publisher": { "@type": "Organization", "name": "MathWorks" } },
-        { "@type": "Organization", "name": "AMD/Xilinx" }
+        {
+          "@id": "https://www.kema.com/#organization"
+        },
+        {
+          "@id": "https://www.kema.com/#flex-power-grid-lab"
+        },
+        {
+          "@id": "{{URL}}#renzo-fabian"
+        },
+        {
+          "@id": "{{URL}}#customers-and-partners"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "MATLAB/Simulink",
+          "publisher": {
+            "@type": "Organization",
+            "name": "MathWorks"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "AMD/Xilinx"
+        }
       ],
       "keywords": "KEMA Labs, Flex Power Grid Lab, Arnhem, Impedyme, motor emulator, CHP Series, Power HIL, 400 kW, 800 V, automotive motor drive, traction inverter, regenerative testing, dynamometer replacement, back EMF, protection testing, efficiency mapping, operating-point sweeps, MATLAB/Simulink",
       "hasPart": [
@@ -304,10 +387,46 @@ function impedyme_kema_motor_drive_success_story_schema() {
           "name": "Headline impact",
           "description": "Impact reported and approved by KEMA Labs.",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Testing time", "value": -50, "unitText": "%" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Validation time", "value": -45, "unitText": "%" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Test coverage", "value": 55, "unitText": "%" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "System safety", "value": 60, "unitText": "%" } }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Testing time",
+                "value": -50,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Validation time",
+                "value": -45,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Test coverage",
+                "value": 55,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "System safety",
+                "value": 60,
+                "unitText": "%"
+              }
+            }
           ]
         },
         {
@@ -339,11 +458,21 @@ function impedyme_kema_motor_drive_success_story_schema() {
           "@id": "{{URL}}#table-1",
           "name": "Table 1 — Impedyme software suite included with the KEMA Labs motor-drive testbench",
           "about": [
-            { "@id": "{{URL}}#sw-motorsim-studio" },
-            { "@id": "{{URL}}#sw-powerhil-studio" },
-            { "@id": "{{URL}}#sw-impedyme-rt" },
-            { "@id": "{{URL}}#sw-fpga-scope" },
-            { "@id": "{{URL}}#sw-mlx" }
+            {
+              "@id": "{{URL}}#sw-motorsim-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-powerhil-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-impedyme-rt"
+            },
+            {
+              "@id": "{{URL}}#sw-fpga-scope"
+            },
+            {
+              "@id": "{{URL}}#sw-mlx"
+            }
           ],
           "text": "MotorSim Studio: motor library (Rs, Ld, Lq, Ke, J, pole pairs), mechanical-load and torque-vs-speed profiles, parameter sweeps, and the protection relay executed on the FPGA. PowerHIL Studio: cabinet-level control and signal routing; per-module mode and reference selection; dynamic test sequencing; failure emulation; safety limits and device-level protections; launches MLX, Simulink, and FPGA Scope. IMPEDYME-RT: Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update). FPGA Scope: on-module oscilloscope with waveform preview, per-phase real-time monitoring, trigger-based capture, measurement table, and sync verification across modules. MLX: operating-point sweeps, efficiency and response metrics, pass/fail overlays, and automated test reports."
         },
@@ -358,14 +487,46 @@ function impedyme_kema_motor_drive_success_story_schema() {
           "@id": "{{URL}}#at-a-glance",
           "name": "At a Glance — Key metrics",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "400 kW · 800 V — automotive motor drive under test" },
-            { "@type": "ListItem", "position": 2, "name": "Real-time motor model — speed, torque, position, back EMF" },
-            { "@type": "ListItem", "position": 3, "name": "Motoring + regeneration — bidirectional, repeatable" },
-            { "@type": "ListItem", "position": 4, "name": "94 %+ system efficiency — facility supplies only losses" },
-            { "@type": "ListItem", "position": 5, "name": "Zynq UltraScale+ per module — quad-core Arm + 600K FPGA logic cells" },
-            { "@type": "ListItem", "position": 6, "name": "200 ns FPGA update rate — real-time models on FPGA" },
-            { "@type": "ListItem", "position": 7, "name": "4 × SFP+ up to 12.5 Gbps — daisy-chain sync, parallel & multiphase" },
-            { "@type": "ListItem", "position": 8, "name": "Module ratings to suit — 5 kW to 50 kW, scalable to 5 MW; same architecture and software" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "400 kW · 800 V — automotive motor drive under test"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Real-time motor model — speed, torque, position, back EMF"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Motoring + regeneration — bidirectional, repeatable"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "94 %+ system efficiency — facility supplies only losses"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Zynq UltraScale+ per module — quad-core Arm + 600K FPGA logic cells"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "200 ns FPGA update rate — real-time models on FPGA"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "4 × SFP+ up to 12.5 Gbps — daisy-chain sync, parallel & multiphase"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Module ratings to suit — 5 kW to 50 kW, scalable to 5 MW; same architecture and software"
+            }
           ]
         },
         {
@@ -376,14 +537,86 @@ function impedyme_kema_motor_drive_success_story_schema() {
           "mainEntity": {
             "@type": "ItemList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Reduced development time", "value": -35, "unitText": "%" } },
-              { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Reduced testing time", "value": -50, "unitText": "%" } },
-              { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Reduced validation time", "value": -45, "unitText": "%" } },
-              { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "Reduced testing costs", "value": -35, "unitText": "%" } },
-              { "@type": "ListItem", "position": 5, "item": { "@type": "PropertyValue", "name": "Improved engineering productivity", "value": 45, "unitText": "%" } },
-              { "@type": "ListItem", "position": 6, "item": { "@type": "PropertyValue", "name": "Improved test coverage", "value": 55, "unitText": "%" } },
-              { "@type": "ListItem", "position": 7, "item": { "@type": "PropertyValue", "name": "Improved system safety", "value": 60, "unitText": "%" } },
-              { "@type": "ListItem", "position": 8, "item": { "@type": "PropertyValue", "name": "Improved confidence before hardware deployment", "value": 55, "unitText": "%" } }
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced development time",
+                  "value": -35,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced testing time",
+                  "value": -50,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced validation time",
+                  "value": -45,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced testing costs",
+                  "value": -35,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved engineering productivity",
+                  "value": 45,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 6,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved test coverage",
+                  "value": 55,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 7,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved system safety",
+                  "value": 60,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 8,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved confidence before hardware deployment",
+                  "value": 55,
+                  "unitText": "%"
+                }
+              }
             ]
           }
         },
@@ -398,15 +631,51 @@ function impedyme_kema_motor_drive_success_story_schema() {
           "@id": "{{URL}}#why-it-works",
           "name": "Why It Works — The advantages",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "400 kW, 800 V drive tested at real power — no dynamometer" },
-            { "@type": "ListItem", "position": 2, "name": "Speed, torque, rotor position, and back EMF from a real-time model" },
-            { "@type": "ListItem", "position": 3, "name": "Motoring and regenerative regions, bidirectional and repeatable" },
-            { "@type": "ListItem", "position": 4, "name": "Motor parameters and load profiles changed in software" },
-            { "@type": "ListItem", "position": 5, "name": "Automated operating-point sweeps and regression runs" },
-            { "@type": "ListItem", "position": 6, "name": "Protection and limit tests without stored mechanical energy" },
-            { "@type": "ListItem", "position": 7, "name": "Native MATLAB/Simulink workflow — no third-party HIL simulator" },
-            { "@type": "ListItem", "position": 8, "name": "Comprehensive protection: OV/OC/OP/OT, short-circuit, desaturation" },
-            { "@type": "ListItem", "position": 9, "name": "Module power ratings to match the program — 5 kW to 50 kW, scalable to 5 MW — without redesign" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "400 kW, 800 V drive tested at real power — no dynamometer"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Speed, torque, rotor position, and back EMF from a real-time model"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Motoring and regenerative regions, bidirectional and repeatable"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Motor parameters and load profiles changed in software"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Automated operating-point sweeps and regression runs"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Protection and limit tests without stored mechanical energy"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Native MATLAB/Simulink workflow — no third-party HIL simulator"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Comprehensive protection: OV/OC/OP/OT, short-circuit, desaturation"
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "name": "Module power ratings to match the program — 5 kW to 50 kW, scalable to 5 MW — without redesign"
+            }
           ]
         },
         {
@@ -419,22 +688,180 @@ function impedyme_kema_motor_drive_success_story_schema() {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-1",
           "text": "The Impedyme Motor Emulator Platform gave us a controlled and repeatable way to validate a 400 kW, 800 V automotive motor drive across its operating range. It combined high-power bidirectional operation with flexible real-time motor models and reduced our dependence on large mechanical test assets.",
-          "creator": { "@id": "{{URL}}#renzo-fabian" },
-          "about": { "@id": "{{URL}}#motor-emulator-platform" }
+          "creator": {
+            "@id": "{{URL}}#renzo-fabian"
+          },
+          "about": {
+            "@id": "{{URL}}#motor-emulator-platform"
+          }
         },
         {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-2",
           "text": "The strongest advantage is the ability to test the complete motor-drive operating envelope without repeatedly changing physical machines or mechanical loads.",
-          "creator": { "@id": "{{URL}}#renzo-fabian" },
-          "about": { "@id": "{{URL}}#motor-emulator-platform" }
+          "creator": {
+            "@id": "{{URL}}#renzo-fabian"
+          },
+          "about": {
+            "@id": "{{URL}}#motor-emulator-platform"
+          }
         },
         {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-3",
           "text": "Organizations testing high-power automotive inverters should consider Impedyme when they need the flexibility of software-defined motor behavior without sacrificing real power operation. The platform supports development, performance testing, regenerative validation, and protection-oriented testing in one scalable environment.",
-          "creator": { "@id": "{{URL}}#renzo-fabian" },
-          "about": { "@id": "{{URL}}#motor-emulator-platform" }
+          "creator": {
+            "@id": "{{URL}}#renzo-fabian"
+          },
+          "about": {
+            "@id": "{{URL}}#motor-emulator-platform"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "@id": "{{URL}}#motor-emulator-platform-specifications",
+          "name": "Technical specifications — Impedyme CHP Series High-Power Motor Emulator Platform",
+          "about": {
+            "@id": "{{URL}}#motor-emulator-platform"
+          },
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Drive under test",
+                "value": "400 kW, 800 V automotive motor drive"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Drive power",
+                "value": 400,
+                "unitText": "kW"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Drive voltage architecture",
+                "value": 800,
+                "unitText": "V"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Real-time motor model",
+                "value": "Speed, torque, rotor position, back EMF and dynamic response computed on the FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Operating regions",
+                "value": "Motoring and regeneration — bidirectional, repeatable"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Mechanical assets",
+                "value": "No rotating machinery — electrical interface only; no dynamometer, coupling or stored mechanical energy"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "System efficiency",
+                "minValue": 94,
+                "unitText": "%",
+                "description": "Regenerative shared DC bus — facility supplies only losses"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Channel assignment",
+                "value": "Software-assigned channels; modules parallel for higher power"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Power stage",
+                "value": "Regenerative, four-quadrant, bidirectional"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 10,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Processor per module",
+                "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 11,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "FPGA update rate",
+                "value": 200,
+                "unitText": "ns",
+                "description": "Real-time models on FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 12,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Synchronization links",
+                "value": "4 × SFP+ per module, up to 12.5 Gbps",
+                "description": "Daisy-chain sync, parallel and multiphase operation"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 13,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Module power rating",
+                "minValue": 5,
+                "maxValue": 50,
+                "unitText": "kW",
+                "description": "Scalable to 5 MW; same architecture and software"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 14,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Protection",
+                "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, soft start/stop"
+              }
+            }
+          ]
         }
       ]
     }

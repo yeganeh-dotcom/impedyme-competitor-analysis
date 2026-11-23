@@ -34,7 +34,6 @@ function impedyme_litens_success_story_schema() {
 {
   "@context": "https://schema.org",
   "@graph": [
-
     {
       "@type": "Organization",
       "@id": "https://impedyme.com/#organization",
@@ -49,15 +48,15 @@ function impedyme_litens_success_story_schema() {
       },
       "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, motor emulators, grid emulators and real-time load emulators for power-electronics development and validation."
     },
-
     {
       "@type": "WebSite",
       "@id": "https://impedyme.com/#website",
       "url": "https://impedyme.com/",
       "name": "Impedyme",
-      "publisher": { "@id": "https://impedyme.com/#organization" }
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "WebPage",
       "@id": "{{URL}}#webpage",
@@ -65,44 +64,63 @@ function impedyme_litens_success_story_schema() {
       "name": "From LIN Command to Phase Current — Litens Automotive Customer Success Story",
       "description": "How Litens Automotive validates its low-voltage sensorless BLDC motor-drive PCB on Impedyme's CHP Series motor emulator, commanded over LIN with TSMaster: –55 % testing time, –45 % validation time, +60 % test coverage, +50 % system safety.",
       "inLanguage": "en",
-      "isPartOf": { "@id": "https://impedyme.com/#website" },
-      "breadcrumb": { "@id": "{{URL}}#breadcrumb" },
-      "mainEntity": { "@id": "{{URL}}#article" },
-      "primaryImageOfPage": { "@id": "{{URL}}#image-success-story" },
+      "isPartOf": {
+        "@id": "https://impedyme.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "{{URL}}#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "{{URL}}#article"
+      },
+      "primaryImageOfPage": {
+        "@id": "{{URL}}#image-success-story"
+      },
       "image": [
-        { "@id": "{{URL}}#image-success-story" },
-        { "@id": "{{URL}}#image-header-mobile" },
-        { "@id": "{{URL}}#image-screenshot-1" },
-        { "@id": "{{URL}}#image-screenshot-2" },
-        { "@id": "{{URL}}#image-screenshot-3" }
+        {
+          "@id": "{{URL}}#image-success-story"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        },
+        {
+          "@id": "{{URL}}#image-screenshot-1"
+        },
+        {
+          "@id": "{{URL}}#image-screenshot-2"
+        },
+        {
+          "@id": "{{URL}}#image-screenshot-3"
+        }
       ],
       "about": [
-        { "@id": "https://www.litens.com/#organization" },
-        { "@id": "{{URL}}#motor-emulator-testbench" }
+        {
+          "@id": "https://www.litens.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#motor-emulator-testbench"
+        }
       ],
-      "mentions": { "@id": "{{URL}}#customers-and-partners" }
+      "mentions": {
+        "@id": "{{URL}}#customers-and-partners"
+      }
     },
-
-    {
-      "@type": "BreadcrumbList",
-      "@id": "{{URL}}#breadcrumb",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://impedyme.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Success Stories", "item": "https://impedyme.com/success-stories/" },
-        { "@type": "ListItem", "position": 3, "name": "Litens Automotive", "item": "{{URL}}" }
-      ]
-    },
-
     {
       "@type": "ItemList",
       "@id": "{{URL}}#customers-and-partners",
       "name": "Customers and Partners",
       "description": "Impedyme customers and partners featured in this customer success story.",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Litens Automotive", "item": { "@id": "https://www.litens.com/#organization" } }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Litens Automotive",
+          "item": {
+            "@id": "https://www.litens.com/#organization"
+          }
+        }
       ]
     },
-
     {
       "@type": "Organization",
       "@id": "https://www.litens.com/#organization",
@@ -124,75 +142,68 @@ function impedyme_litens_success_story_schema() {
         "Motor-control PCBs",
         "LIN communication"
       ],
-      "subOrganization": { "@id": "https://www.litens.com/#technical-center-india" },
-      "owns": { "@id": "{{URL}}#motor-emulator-testbench" }
+      "subOrganization": {
+        "@id": "https://www.litens.com/#technical-center-india"
+      }
     },
-
     {
       "@type": "Organization",
       "@id": "https://www.litens.com/#technical-center-india",
       "name": "Litens Technical Center India",
-      "parentOrganization": { "@id": "https://www.litens.com/#organization" },
+      "parentOrganization": {
+        "@id": "https://www.litens.com/#organization"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Bengaluru",
         "addressCountry": "IN"
       },
-      "employee": { "@id": "{{URL}}#shramik-kumar" }
+      "employee": {
+        "@id": "{{URL}}#shramik-kumar"
+      }
     },
-
     {
       "@type": "Person",
       "@id": "{{URL}}#shramik-kumar",
       "name": "Shramik Kumar (customer)",
       "jobTitle": "Validation Manager",
-      "worksFor": { "@id": "https://www.litens.com/#technical-center-india" },
+      "worksFor": {
+        "@id": "https://www.litens.com/#technical-center-india"
+      },
       "workLocation": {
         "@type": "Place",
-        "address": { "@type": "PostalAddress", "addressLocality": "Bengaluru", "addressCountry": "IN" }
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Bengaluru",
+          "addressCountry": "IN"
+        }
       },
       "description": "Shramik Kumar is Validation Manager at the Litens Technical Center India in Bengaluru, where the Litens validation and engineering team validates low-voltage motor-drive PCBs against the Impedyme motor emulator — from LIN communication and startup to controlled speed, load, and parameter-sweep testing.",
-      "knowsAbout": ["Motor-drive validation", "Motor-control PCBs", "LIN communication", "Motor emulation", "Hardware-in-the-Loop (HIL)"]
-    },
-
-    {
-      "@type": "Product",
-      "@id": "{{URL}}#motor-emulator-testbench",
-      "name": "Impedyme CHP Series Motor Emulator Testbench (HIL + PHIL)",
-      "brand": { "@type": "Brand", "name": "Impedyme" },
-      "manufacturer": { "@id": "https://impedyme.com/#organization" },
-      "category": "Real-time Power HIL motor emulator",
-      "description": "A CHP Series Motor Emulator platform that collapses signal-level HIL and power-level PHIL testing into one testbench. The CHP module emulates the three-phase machine electrically: the Litens drive switches into the emulated windings at its native 12 V DC link and drives real phase current, while the FPGA real-time engine (AMD/Xilinx Zynq UltraScale+, quad-core Arm + 600K logic cells under IMPEDYME-RT) solves the motor model every FPGA cycle, so the sensorless algorithm sees the back-EMF signature it expects. The drive is commanded over LIN with TSMaster.",
-      "image": { "@id": "{{URL}}#image-success-story" },
-      "isRelatedTo": [
-        { "@id": "{{URL}}#sw-motorsim-studio" },
-        { "@id": "{{URL}}#sw-tsmaster" },
-        { "@id": "{{URL}}#sw-motor-scope" },
-        { "@id": "{{URL}}#sw-impedyme-rt" },
-        { "@id": "{{URL}}#sw-powerhil-studio" }
-      ],
-      "additionalProperty": [
-        { "@type": "PropertyValue", "name": "DC link", "value": 12, "unitText": "V", "description": "Drive tested at its native supply" },
-        { "@type": "PropertyValue", "name": "Commanded speeds", "value": "500 RPM and 1,000 RPM constant-speed operation" },
-        { "@type": "PropertyValue", "name": "Torque sweep", "minValue": -0.2, "maxValue": 0.2, "unitText": "N·m", "description": "Programmable torque sweeps, constant loads and load profiles" },
-        { "@type": "PropertyValue", "name": "Command interface", "value": "LIN / TSMaster — CTRL_Frame commands per Litens specification" },
-        { "@type": "PropertyValue", "name": "Motor model parameters", "value": "Rs, Ld, Lq, Ke, J, pole pairs" },
-        { "@type": "PropertyValue", "name": "Supported drives", "value": "Sensorless BLDC/PMSM — realistic back-EMF from the first commutation; hall-sensor and encoder outputs via expansion card for sensored variants" },
-        { "@type": "PropertyValue", "name": "Test layers", "value": "Signal-level HIL and power-level PHIL on one platform" },
-        { "@type": "PropertyValue", "name": "Processor per module", "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA" },
-        { "@type": "PropertyValue", "name": "FPGA update rate", "value": 200, "unitText": "ns", "description": "Real-time motor models" },
-        { "@type": "PropertyValue", "name": "Synchronization links", "value": "SFP+ backbone, up to 12.5 Gbps", "description": "Links modules and real-time simulators" },
-        { "@type": "PropertyValue", "name": "Cooling", "value": "Liquid-cooled cabinet, no external chiller required" },
-        { "@type": "PropertyValue", "name": "Protection", "value": "Layered protection with protection relay executed on the FPGA" }
+      "knowsAbout": [
+        "Motor-drive validation",
+        "Motor-control PCBs",
+        "LIN communication",
+        "Motor emulation",
+        "Hardware-in-the-Loop (HIL)"
       ]
     },
-
+    {
+      "@type": "Thing",
+      "@id": "{{URL}}#motor-emulator-testbench",
+      "name": "Impedyme CHP Series Motor Emulator Testbench (HIL + PHIL)",
+      "description": "A CHP Series Motor Emulator platform that collapses signal-level HIL and power-level PHIL testing into one testbench. The CHP module emulates the three-phase machine electrically: the Litens drive switches into the emulated windings at its native 12 V DC link and drives real phase current, while the FPGA real-time engine (AMD/Xilinx Zynq UltraScale+, quad-core Arm + 600K logic cells under IMPEDYME-RT) solves the motor model every FPGA cycle, so the sensorless algorithm sees the back-EMF signature it expects. The drive is commanded over LIN with TSMaster.",
+      "image": {
+        "@id": "{{URL}}#image-success-story"
+      }
+    },
     {
       "@type": "SoftwareApplication",
       "@id": "{{URL}}#sw-motorsim-studio",
       "name": "MotorSim Studio",
       "applicationCategory": "Motor emulation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Defines the emulated machine: motor library (Rs, Ld, Lq, Ke, J, pole pairs), DC-bus and torque limits, constant loads, load profiles, parameter sweeps, and the protection relay executed on the FPGA."
     },
     {
@@ -207,7 +218,9 @@ function impedyme_litens_success_story_schema() {
       "@id": "{{URL}}#sw-motor-scope",
       "name": "Motor Scope",
       "applicationCategory": "Real-time data acquisition",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Real-time, trigger-based capture of drive output voltage, emulated phase current, speed, generated torque, and electrical power; zoomed views resolve commutation and switching events."
     },
     {
@@ -216,7 +229,9 @@ function impedyme_litens_success_story_schema() {
       "name": "IMPEDYME-RT",
       "applicationCategory": "Real-time operating system",
       "operatingSystem": "Linux with proprietary real-time kernel",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update); real-time monitoring, control, and parameter tuning from MATLAB."
     },
     {
@@ -224,10 +239,11 @@ function impedyme_litens_success_story_schema() {
       "@id": "{{URL}}#sw-powerhil-studio",
       "name": "PowerHIL Studio",
       "applicationCategory": "Power HIL testbench operation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Platform configuration and sequencing; scales to additional CHP modules and channels as the program grows."
     },
-
     {
       "@type": "ImageObject",
       "@id": "{{URL}}#image-success-story",
@@ -236,8 +252,12 @@ function impedyme_litens_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "Litens Automotive customer success story",
       "caption": "Impedyme customer success story: Litens Automotive validates its low-voltage sensorless BLDC motor-drive PCB on Impedyme's CHP Series motor emulator, commanded over LIN — –55 % testing time, –45 % validation time, +60 % test coverage, +50 % system safety.",
-      "creator": { "@id": "https://impedyme.com/#organization" },
-      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -247,7 +267,9 @@ function impedyme_litens_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "Litens Automotive success story header (mobile)",
       "caption": "Litens Automotive validates its motor-drive PCB on Impedyme's CHP Series motor emulator — from LIN command to phase current.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -257,7 +279,9 @@ function impedyme_litens_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "Litens testbench software screenshot 1",
       "caption": "Impedyme software on the Litens testbench — MotorSim Studio, TSMaster LIN configuration and Motor Scope capture of the Litens drive running against the emulated machine.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -267,7 +291,9 @@ function impedyme_litens_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "Litens testbench software screenshot 2",
       "caption": "Impedyme software on the Litens testbench — MotorSim Studio, TSMaster LIN configuration and Motor Scope capture of the Litens drive running against the emulated machine.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -277,9 +303,10 @@ function impedyme_litens_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "Litens testbench software screenshot 3",
       "caption": "Impedyme software on the Litens testbench — MotorSim Studio, TSMaster LIN configuration and Motor Scope capture of the Litens drive running against the emulated machine.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "TechArticle",
       "@id": "{{URL}}#article",
@@ -287,38 +314,105 @@ function impedyme_litens_success_story_schema() {
       "alternativeHeadline": "How Litens Automotive validates its low-voltage motor-drive PCB on Impedyme's CHP Series platform, commanded over its own LIN protocol",
       "description": "See how Litens Automotive validates its low-voltage motor-drive PCB on Impedyme's CHP Series platform — where the drive switches real current into a configurable real-time motor emulator while being commanded over its own LIN protocol. Learn how MotorSim Studio, TSMaster, and Motor Scope work together as one workflow from LIN command to phase current — with repeatable positive and negative torque sweeps, start/stop transients, and parameter changes that no bench motor applies as consistently.",
       "genre": "Customer success story",
-      "articleSection": ["The Challenge", "The Solution", "In Practice", "Architecture", "The Result", "At a Glance", "The Added Value", "Why It Works"],
+      "articleSection": [
+        "The Challenge",
+        "The Solution",
+        "In Practice",
+        "Architecture",
+        "The Result",
+        "At a Glance",
+        "The Added Value",
+        "Why It Works"
+      ],
       "inLanguage": "en",
       "datePublished": "{{DATE}}",
       "dateModified": "{{DATE}}",
       "image": [
-        { "@id": "{{URL}}#image-success-story" },
-        { "@id": "{{URL}}#image-header-mobile" },
-        { "@id": "{{URL}}#image-screenshot-1" },
-        { "@id": "{{URL}}#image-screenshot-2" },
-        { "@id": "{{URL}}#image-screenshot-3" }
+        {
+          "@id": "{{URL}}#image-success-story"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        },
+        {
+          "@id": "{{URL}}#image-screenshot-1"
+        },
+        {
+          "@id": "{{URL}}#image-screenshot-2"
+        },
+        {
+          "@id": "{{URL}}#image-screenshot-3"
+        }
       ],
-      "author": { "@id": "https://impedyme.com/#organization" },
-      "publisher": { "@id": "https://impedyme.com/#organization" },
-      "mainEntityOfPage": { "@id": "{{URL}}#webpage" },
+      "author": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "mainEntityOfPage": {
+        "@id": "{{URL}}#webpage"
+      },
       "about": [
-        { "@id": "https://www.litens.com/#organization" },
-        { "@id": "{{URL}}#motor-emulator-testbench" },
-        { "@type": "Thing", "name": "Motor emulation" },
-        { "@type": "Thing", "name": "Motor-drive PCB validation" },
-        { "@type": "Thing", "name": "Sensorless BLDC/PMSM drives" },
-        { "@type": "Thing", "name": "LIN communication testing" },
-        { "@type": "Thing", "name": "Hardware-in-the-Loop (HIL)" },
-        { "@type": "Thing", "name": "Power Hardware-in-the-Loop (PHIL)" }
+        {
+          "@id": "https://www.litens.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#motor-emulator-testbench"
+        },
+        {
+          "@type": "Thing",
+          "name": "Motor emulation"
+        },
+        {
+          "@type": "Thing",
+          "name": "Motor-drive PCB validation"
+        },
+        {
+          "@type": "Thing",
+          "name": "Sensorless BLDC/PMSM drives"
+        },
+        {
+          "@type": "Thing",
+          "name": "LIN communication testing"
+        },
+        {
+          "@type": "Thing",
+          "name": "Hardware-in-the-Loop (HIL)"
+        },
+        {
+          "@type": "Thing",
+          "name": "Power Hardware-in-the-Loop (PHIL)"
+        }
       ],
       "mentions": [
-        { "@id": "https://www.litens.com/#organization" },
-        { "@id": "https://www.litens.com/#technical-center-india" },
-        { "@id": "{{URL}}#shramik-kumar" },
-        { "@id": "{{URL}}#sw-tsmaster" },
-        { "@id": "{{URL}}#customers-and-partners" },
-        { "@type": "SoftwareApplication", "name": "MATLAB/Simulink", "publisher": { "@type": "Organization", "name": "MathWorks" } },
-        { "@type": "Organization", "name": "AMD/Xilinx" }
+        {
+          "@id": "https://www.litens.com/#organization"
+        },
+        {
+          "@id": "https://www.litens.com/#technical-center-india"
+        },
+        {
+          "@id": "{{URL}}#shramik-kumar"
+        },
+        {
+          "@id": "{{URL}}#sw-tsmaster"
+        },
+        {
+          "@id": "{{URL}}#customers-and-partners"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "MATLAB/Simulink",
+          "publisher": {
+            "@type": "Organization",
+            "name": "MathWorks"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "AMD/Xilinx"
+        }
       ],
       "keywords": "Litens Automotive, Litens Technical Center India, Impedyme, motor emulator, CHP Series, MotorSim Studio, TSMaster, LIN, Motor Scope, motor-drive PCB, sensorless BLDC, PMSM, back EMF, 12 V drive, torque sweep, HIL, PHIL, Power HIL, electrified actuation, MATLAB/Simulink",
       "hasPart": [
@@ -328,10 +422,46 @@ function impedyme_litens_success_story_schema() {
           "name": "Headline impact",
           "description": "Impact reported and approved by Litens Automotive.",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Testing time", "value": -55, "unitText": "%" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Validation time", "value": -45, "unitText": "%" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Test coverage", "value": 60, "unitText": "%" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "System safety", "value": 50, "unitText": "%" } }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Testing time",
+                "value": -55,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Validation time",
+                "value": -45,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Test coverage",
+                "value": 60,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "System safety",
+                "value": 50,
+                "unitText": "%"
+              }
+            }
           ]
         },
         {
@@ -363,11 +493,21 @@ function impedyme_litens_success_story_schema() {
           "@id": "{{URL}}#table-1",
           "name": "Table 1 — The software stack spanning signal-level and power-level testing",
           "about": [
-            { "@id": "{{URL}}#sw-motorsim-studio" },
-            { "@id": "{{URL}}#sw-tsmaster" },
-            { "@id": "{{URL}}#sw-motor-scope" },
-            { "@id": "{{URL}}#sw-impedyme-rt" },
-            { "@id": "{{URL}}#sw-powerhil-studio" }
+            {
+              "@id": "{{URL}}#sw-motorsim-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-tsmaster"
+            },
+            {
+              "@id": "{{URL}}#sw-motor-scope"
+            },
+            {
+              "@id": "{{URL}}#sw-impedyme-rt"
+            },
+            {
+              "@id": "{{URL}}#sw-powerhil-studio"
+            }
           ],
           "text": "MotorSim Studio: defines the emulated machine — motor library (Rs, Ld, Lq, Ke, J, pole pairs), DC-bus and torque limits, constant loads, load profiles, parameter sweeps, and the protection relay executed on the FPGA. TSMaster (LIN): signal-level command and communication testing — Litens' LIN schedule tables and CTRL_Frame signals (start/stop, target speed, fault handling) driven and logged at byte level. Motor Scope: real-time, trigger-based capture of drive output voltage, emulated phase current, speed, generated torque, and electrical power; zoomed views resolve commutation and switching events. IMPEDYME-RT: Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update). PowerHIL Studio: platform configuration and sequencing; scales to additional CHP modules and channels as the program grows."
         },
@@ -382,14 +522,46 @@ function impedyme_litens_success_story_schema() {
           "@id": "{{URL}}#at-a-glance",
           "name": "At a Glance — Key facts",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "LIN / TSMaster — CTRL_Frame commands per Litens spec" },
-            { "@type": "ListItem", "position": 2, "name": "500 / 1,000 RPM — commanded constant-speed operation" },
-            { "@type": "ListItem", "position": 3, "name": "−0.2 to +0.2 N·m — programmable torque sweeps & profiles" },
-            { "@type": "ListItem", "position": 4, "name": "12 V DC link — drive tested at its native supply" },
-            { "@type": "ListItem", "position": 5, "name": "MotorSim Studio — machine defined by Rs · Ld · Lq · Ke · J · p" },
-            { "@type": "ListItem", "position": 6, "name": "Motor Scope — V · I · speed · torque · power, zoomed" },
-            { "@type": "ListItem", "position": 7, "name": "Zynq UltraScale+ — quad-core Arm + 600K-cell FPGA" },
-            { "@type": "ListItem", "position": 8, "name": "HIL + PHIL — signal-level and power-level testing, one rack" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "LIN / TSMaster — CTRL_Frame commands per Litens spec"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "500 / 1,000 RPM — commanded constant-speed operation"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "−0.2 to +0.2 N·m — programmable torque sweeps & profiles"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "12 V DC link — drive tested at its native supply"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "MotorSim Studio — machine defined by Rs · Ld · Lq · Ke · J · p"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Motor Scope — V · I · speed · torque · power, zoomed"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Zynq UltraScale+ — quad-core Arm + 600K-cell FPGA"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "HIL + PHIL — signal-level and power-level testing, one rack"
+            }
           ]
         },
         {
@@ -400,14 +572,86 @@ function impedyme_litens_success_story_schema() {
           "mainEntity": {
             "@type": "ItemList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Reduced development time", "value": -35, "unitText": "%" } },
-              { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Reduced testing time", "value": -55, "unitText": "%" } },
-              { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Reduced validation time", "value": -45, "unitText": "%" } },
-              { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "Reduced testing costs", "value": -35, "unitText": "%" } },
-              { "@type": "ListItem", "position": 5, "item": { "@type": "PropertyValue", "name": "Improved engineering productivity", "value": 45, "unitText": "%" } },
-              { "@type": "ListItem", "position": 6, "item": { "@type": "PropertyValue", "name": "Improved test coverage", "value": 60, "unitText": "%" } },
-              { "@type": "ListItem", "position": 7, "item": { "@type": "PropertyValue", "name": "Improved system safety", "value": 50, "unitText": "%" } },
-              { "@type": "ListItem", "position": 8, "item": { "@type": "PropertyValue", "name": "Improved confidence before hardware deployment", "value": 55, "unitText": "%" } }
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced development time",
+                  "value": -35,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced testing time",
+                  "value": -55,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced validation time",
+                  "value": -45,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced testing costs",
+                  "value": -35,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved engineering productivity",
+                  "value": 45,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 6,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved test coverage",
+                  "value": 60,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 7,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved system safety",
+                  "value": 50,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 8,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved confidence before hardware deployment",
+                  "value": 55,
+                  "unitText": "%"
+                }
+              }
             ]
           }
         },
@@ -422,14 +666,46 @@ function impedyme_litens_success_story_schema() {
           "@id": "{{URL}}#why-it-works",
           "name": "Why It Works — The advantages",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Signal-level HIL and power-level PHIL on one platform — no seam between benches" },
-            { "@type": "ListItem", "position": 2, "name": "Sensorless drives supported: realistic back-EMF from the first commutation" },
-            { "@type": "ListItem", "position": 3, "name": "Drive commanded over its own protocol — LIN / TSMaster to the customer's spec" },
-            { "@type": "ListItem", "position": 4, "name": "Machine variants are MotorSim Studio parameter sets, not hardware rebuilds" },
-            { "@type": "ListItem", "position": 5, "name": "Programmable ±0.2 N·m torque sweeps, constant loads, and profiles" },
-            { "@type": "ListItem", "position": 6, "name": "Motor Scope traces every command to the waveform it produces" },
-            { "@type": "ListItem", "position": 7, "name": "Emulated waveforms compared directly with actual-motor measurements" },
-            { "@type": "ListItem", "position": 8, "name": "Layered FPGA protection keeps fault-case testing contained" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Signal-level HIL and power-level PHIL on one platform — no seam between benches"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Sensorless drives supported: realistic back-EMF from the first commutation"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Drive commanded over its own protocol — LIN / TSMaster to the customer's spec"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Machine variants are MotorSim Studio parameter sets, not hardware rebuilds"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Programmable ±0.2 N·m torque sweeps, constant loads, and profiles"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Motor Scope traces every command to the waveform it produces"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Emulated waveforms compared directly with actual-motor measurements"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Layered FPGA protection keeps fault-case testing contained"
+            }
           ]
         },
         {
@@ -442,22 +718,160 @@ function impedyme_litens_success_story_schema() {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-1",
           "text": "We were very pleased with the Impedyme motor-emulation solution. It gave our team a flexible and visible way to validate the drive PCB under realistic motor and load conditions, and Impedyme worked closely with us to solve the technical challenges encountered during setup and testing.",
-          "creator": { "@id": "{{URL}}#shramik-kumar" },
-          "about": { "@id": "{{URL}}#motor-emulator-testbench" }
+          "creator": {
+            "@id": "{{URL}}#shramik-kumar"
+          },
+          "about": {
+            "@id": "{{URL}}#motor-emulator-testbench"
+          }
         },
         {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-2",
           "text": "The team liked the product very much, particularly its flexibility and the amount of engineering visibility it provides. Motor parameters, constant loads, load profiles, and parameter sweeps can be changed from one interface while real-time electrical and mechanical results are monitored.",
-          "creator": { "@id": "{{URL}}#shramik-kumar" },
-          "about": { "@id": "{{URL}}#motor-emulator-testbench" }
+          "creator": {
+            "@id": "{{URL}}#shramik-kumar"
+          },
+          "about": {
+            "@id": "{{URL}}#motor-emulator-testbench"
+          }
         },
         {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-3",
           "text": "Impedyme is a strong choice when a motor-control program needs repeatable drive testing without building a separate motor and mechanical-load setup for every case. The platform combines configurable real-time motor behavior, controlled loading, useful measurement tools, and responsive engineering support.",
-          "creator": { "@id": "{{URL}}#shramik-kumar" },
-          "about": { "@id": "{{URL}}#motor-emulator-testbench" }
+          "creator": {
+            "@id": "{{URL}}#shramik-kumar"
+          },
+          "about": {
+            "@id": "{{URL}}#motor-emulator-testbench"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "@id": "{{URL}}#motor-emulator-testbench-specifications",
+          "name": "Technical specifications — Impedyme CHP Series Motor Emulator Testbench (HIL + PHIL)",
+          "about": {
+            "@id": "{{URL}}#motor-emulator-testbench"
+          },
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "DC link",
+                "value": 12,
+                "unitText": "V",
+                "description": "Drive tested at its native supply"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Commanded speeds",
+                "value": "500 RPM and 1,000 RPM constant-speed operation"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Torque sweep",
+                "minValue": -0.2,
+                "maxValue": 0.2,
+                "unitText": "N·m",
+                "description": "Programmable torque sweeps, constant loads and load profiles"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Command interface",
+                "value": "LIN / TSMaster — CTRL_Frame commands per Litens specification"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Motor model parameters",
+                "value": "Rs, Ld, Lq, Ke, J, pole pairs"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Supported drives",
+                "value": "Sensorless BLDC/PMSM — realistic back-EMF from the first commutation; hall-sensor and encoder outputs via expansion card for sensored variants"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Test layers",
+                "value": "Signal-level HIL and power-level PHIL on one platform"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Processor per module",
+                "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "FPGA update rate",
+                "value": 200,
+                "unitText": "ns",
+                "description": "Real-time motor models"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 10,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Synchronization links",
+                "value": "SFP+ backbone, up to 12.5 Gbps",
+                "description": "Links modules and real-time simulators"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 11,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Cooling",
+                "value": "Liquid-cooled cabinet, no external chiller required"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 12,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Protection",
+                "value": "Layered protection with protection relay executed on the FPGA"
+              }
+            }
+          ]
         }
       ]
     }

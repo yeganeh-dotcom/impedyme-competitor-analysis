@@ -32,7 +32,6 @@ function impedyme_nasa_success_story_schema() {
 {
   "@context": "https://schema.org",
   "@graph": [
-
     {
       "@type": "Organization",
       "@id": "https://impedyme.com/#organization",
@@ -47,15 +46,15 @@ function impedyme_nasa_success_story_schema() {
       },
       "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, motor emulators, grid emulators and real-time load emulators for power-electronics development and validation."
     },
-
     {
       "@type": "WebSite",
       "@id": "https://impedyme.com/#website",
       "url": "https://impedyme.com/",
       "name": "Impedyme",
-      "publisher": { "@id": "https://impedyme.com/#organization" }
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "WebPage",
       "@id": "{{URL}}#webpage",
@@ -63,42 +62,57 @@ function impedyme_nasa_success_story_schema() {
       "name": "From Inverter to Subsystem: Aerospace Power HIL at NASA JPL — Customer Success Story",
       "description": "How NASA's Jet Propulsion Laboratory validates aerospace inverters against real-time electrical-load and machine models at real power on Impedyme's CHP Series Power HIL platform, then evaluates the same inverter inside a simulated aerospace subsystem: –50 % testing time, –45 % validation time, +55 % test coverage, +60 % system safety.",
       "inLanguage": "en",
-      "isPartOf": { "@id": "https://impedyme.com/#website" },
-      "breadcrumb": { "@id": "{{URL}}#breadcrumb" },
-      "mainEntity": { "@id": "{{URL}}#article" },
-      "primaryImageOfPage": { "@id": "{{URL}}#image-success-story" },
+      "isPartOf": {
+        "@id": "https://impedyme.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "{{URL}}#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "{{URL}}#article"
+      },
+      "primaryImageOfPage": {
+        "@id": "{{URL}}#image-success-story"
+      },
       "image": [
-        { "@id": "{{URL}}#image-success-story" },
-        { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" }
+        {
+          "@id": "{{URL}}#image-success-story"
+        },
+        {
+          "@id": "{{URL}}#image-header-desktop"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        }
       ],
       "about": [
-        { "@id": "https://www.jpl.nasa.gov/#organization" },
-        { "@id": "{{URL}}#power-hil-testbench" }
+        {
+          "@id": "https://www.jpl.nasa.gov/#organization"
+        },
+        {
+          "@id": "{{URL}}#power-hil-testbench"
+        }
       ],
-      "mentions": { "@id": "{{URL}}#customers-and-partners" }
+      "mentions": {
+        "@id": "{{URL}}#customers-and-partners"
+      }
     },
-
-    {
-      "@type": "BreadcrumbList",
-      "@id": "{{URL}}#breadcrumb",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://impedyme.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Success Stories", "item": "https://impedyme.com/success-stories/" },
-        { "@type": "ListItem", "position": 3, "name": "NASA JPL", "item": "{{URL}}" }
-      ]
-    },
-
     {
       "@type": "ItemList",
       "@id": "{{URL}}#customers-and-partners",
       "name": "Customers and Partners",
       "description": "Impedyme customers and partners featured in this customer success story.",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "NASA Jet Propulsion Laboratory", "item": { "@id": "https://www.jpl.nasa.gov/#organization" } }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "NASA Jet Propulsion Laboratory",
+          "item": {
+            "@id": "https://www.jpl.nasa.gov/#organization"
+          }
+        }
       ]
     },
-
     {
       "@type": "GovernmentOrganization",
       "@id": "https://www.nasa.gov/#organization",
@@ -106,7 +120,6 @@ function impedyme_nasa_success_story_schema() {
       "alternateName": "National Aeronautics and Space Administration",
       "url": "https://www.nasa.gov/"
     },
-
     {
       "@type": "CollegeOrUniversity",
       "@id": "https://www.caltech.edu/#organization",
@@ -114,14 +127,18 @@ function impedyme_nasa_success_story_schema() {
       "alternateName": "Caltech",
       "url": "https://www.caltech.edu/"
     },
-
     {
       "@type": "ResearchOrganization",
       "@id": "https://www.jpl.nasa.gov/#organization",
       "name": "NASA Jet Propulsion Laboratory",
-      "alternateName": ["JPL", "NASA JPL"],
+      "alternateName": [
+        "JPL",
+        "NASA JPL"
+      ],
       "url": "https://www.jpl.nasa.gov/",
-      "parentOrganization": { "@id": "https://www.nasa.gov/#organization" },
+      "parentOrganization": {
+        "@id": "https://www.nasa.gov/#organization"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Pasadena",
@@ -135,61 +152,44 @@ function impedyme_nasa_success_story_schema() {
         "Aerospace inverters",
         "Integrated system verification"
       ],
-      "employee": { "@id": "{{URL}}#firouz-naderi" },
-      "owns": { "@id": "{{URL}}#power-hil-testbench" }
+      "employee": {
+        "@id": "{{URL}}#firouz-naderi"
+      }
     },
-
     {
       "@type": "Person",
       "@id": "{{URL}}#firouz-naderi",
       "name": "Firouz Naderi (customer)",
       "honorificPrefix": "Dr.",
       "jobTitle": "Director of Solar System Exploration",
-      "worksFor": { "@id": "https://www.jpl.nasa.gov/#organization" },
+      "worksFor": {
+        "@id": "https://www.jpl.nasa.gov/#organization"
+      },
       "description": "Dr. Firouz Naderi led the program as Director of Solar System Exploration at NASA's Jet Propulsion Laboratory, the organization responsible for JPL's robotic missions to the planets and small bodies of the solar system — including the aerospace inverter and integrated system-validation work on the Impedyme platform.",
-      "knowsAbout": ["Solar system exploration", "Aerospace power electronics", "Inverter validation", "System verification"]
-    },
-
-    {
-      "@type": "Product",
-      "@id": "{{URL}}#power-hil-testbench",
-      "name": "Impedyme CHP Series Power HIL Testbench",
-      "brand": { "@type": "Brand", "name": "Impedyme" },
-      "manufacturer": { "@id": "https://impedyme.com/#organization" },
-      "category": "Real-time Power Hardware-in-the-Loop (Power HIL) testbench",
-      "description": "A Power HIL testbench built on the CHP Series — a combined real-time simulation and bidirectional power architecture in a 19-inch, 42U liquid-cooled cabinet. It provides a programmable DC bus on the source side and a real-time electrical-load or machine model on the load side, so the aerospace inverter is validated at real power and then evaluated inside a simulated aerospace subsystem on the same platform. Every CHP module is a regenerative, four-quadrant, bidirectional power stage with an AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT.",
-      "image": { "@id": "{{URL}}#image-success-story" },
-      "isRelatedTo": [
-        { "@id": "{{URL}}#sw-powerhil-studio" },
-        { "@id": "{{URL}}#sw-motorsim-studio" },
-        { "@id": "{{URL}}#sw-impedyme-rt" },
-        { "@id": "{{URL}}#sw-fpga-scope" },
-        { "@id": "{{URL}}#sw-mlx" }
-      ],
-      "additionalProperty": [
-        { "@type": "PropertyValue", "name": "Source side", "value": "Programmable DC bus" },
-        { "@type": "PropertyValue", "name": "Load side", "value": "Real-time electrical-load or machine model in Simulink on the module's Arm cores and FPGA, at real power" },
-        { "@type": "PropertyValue", "name": "Validation layers", "value": "Component-level inverter characterization through integrated subsystem verification on one platform" },
-        { "@type": "PropertyValue", "name": "DUT connection", "value": "Front-panel busbar to a controlled bidirectional power interface" },
-        { "@type": "PropertyValue", "name": "Channel assignment", "value": "Software-assigned source and load roles, re-mapped without rewiring" },
-        { "@type": "PropertyValue", "name": "Additional use", "value": "Highly dynamic excitation source for impedance characterization and stability analysis of high-power bus architectures" },
-        { "@type": "PropertyValue", "name": "System efficiency", "minValue": 94, "unitText": "%", "description": "Regenerative shared DC bus — no dissipative load; facility supplies only losses" },
-        { "@type": "PropertyValue", "name": "Cabinet", "value": "19-inch, 42U, liquid-cooled" },
-        { "@type": "PropertyValue", "name": "Power stage", "value": "Regenerative, four-quadrant, bidirectional" },
-        { "@type": "PropertyValue", "name": "Processor per module", "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA" },
-        { "@type": "PropertyValue", "name": "FPGA update rate", "value": 200, "unitText": "ns", "description": "Real-time models on FPGA" },
-        { "@type": "PropertyValue", "name": "Synchronization links", "value": "4 × SFP+ per module, up to 12.5 Gbps", "description": "Daisy-chain sync, parallel and multiphase operation" },
-        { "@type": "PropertyValue", "name": "Module power rating", "minValue": 5, "maxValue": 50, "unitText": "kW", "description": "Scalable to 5 MW; same architecture and software" },
-        { "@type": "PropertyValue", "name": "Protection", "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, soft start/stop" }
+      "knowsAbout": [
+        "Solar system exploration",
+        "Aerospace power electronics",
+        "Inverter validation",
+        "System verification"
       ]
     },
-
+    {
+      "@type": "Thing",
+      "@id": "{{URL}}#power-hil-testbench",
+      "name": "Impedyme CHP Series Power HIL Testbench",
+      "description": "A Power HIL testbench built on the CHP Series — a combined real-time simulation and bidirectional power architecture in a 19-inch, 42U liquid-cooled cabinet. It provides a programmable DC bus on the source side and a real-time electrical-load or machine model on the load side, so the aerospace inverter is validated at real power and then evaluated inside a simulated aerospace subsystem on the same platform. Every CHP module is a regenerative, four-quadrant, bidirectional power stage with an AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT.",
+      "image": {
+        "@id": "{{URL}}#image-success-story"
+      }
+    },
     {
       "@type": "SoftwareApplication",
       "@id": "{{URL}}#sw-powerhil-studio",
       "name": "PowerHIL Studio",
       "applicationCategory": "Power HIL testbench operation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Cabinet-level control and signal routing; per-module mode and reference selection; dynamic test sequencing; failure emulation; safety limits and device-level protections; launches MLX, Simulink, and FPGA Scope."
     },
     {
@@ -197,7 +197,9 @@ function impedyme_nasa_success_story_schema() {
       "@id": "{{URL}}#sw-motorsim-studio",
       "name": "MotorSim Studio",
       "applicationCategory": "Motor emulation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Machine and dynamic-load models for inverter testing; parameter sweeps and load profiles; protection relay executed on the FPGA."
     },
     {
@@ -206,7 +208,9 @@ function impedyme_nasa_success_story_schema() {
       "name": "IMPEDYME-RT",
       "applicationCategory": "Real-time operating system",
       "operatingSystem": "Linux with proprietary real-time kernel",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update); real-time monitoring, control, and parameter tuning from MATLAB."
     },
     {
@@ -214,7 +218,9 @@ function impedyme_nasa_success_story_schema() {
       "@id": "{{URL}}#sw-fpga-scope",
       "name": "FPGA Scope",
       "applicationCategory": "Real-time data acquisition",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "On-module oscilloscope: waveform preview before enable, per-phase real-time monitoring, trigger-based capture, measurement table (max / min / pk-pk / gain / phase), and sync verification across modules."
     },
     {
@@ -222,10 +228,11 @@ function impedyme_nasa_success_story_schema() {
       "@id": "{{URL}}#sw-mlx",
       "name": "MLX",
       "applicationCategory": "Post-processing and analytics software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Post-processing and analytics of streamed data in MATLAB — operating-point sweeps, efficiency and response metrics, pass/fail overlays, and automated test reports."
     },
-
     {
       "@type": "ImageObject",
       "@id": "{{URL}}#image-success-story",
@@ -234,8 +241,12 @@ function impedyme_nasa_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "NASA JPL customer success story — aerospace inverter validation on Impedyme Power HIL",
       "caption": "Impedyme customer success story: NASA's Jet Propulsion Laboratory validates aerospace inverters against real-time electrical-load and machine models at real power on Impedyme's CHP Series Power HIL platform — –50 % testing time, –45 % validation time, +55 % test coverage, +60 % system safety.",
-      "creator": { "@id": "https://impedyme.com/#organization" },
-      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -245,7 +256,9 @@ function impedyme_nasa_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "NASA JPL success story header (desktop)",
       "caption": "NASA JPL validates aerospace inverters and integrated subsystems on Impedyme's CHP Series Power HIL platform.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -255,9 +268,10 @@ function impedyme_nasa_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "NASA JPL success story header (mobile)",
       "caption": "NASA JPL validates aerospace inverters and integrated subsystems on Impedyme's CHP Series Power HIL platform.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "TechArticle",
       "@id": "{{URL}}#article",
@@ -265,35 +279,95 @@ function impedyme_nasa_success_story_schema() {
       "alternativeHeadline": "How NASA's Jet Propulsion Laboratory validates aerospace inverters at real power and inside a simulated aerospace subsystem on Impedyme's CHP Series Power HIL platform",
       "description": "See how NASA's Jet Propulsion Laboratory uses Impedyme's CHP Series Power HIL platform to validate aerospace inverters against real-time electrical-load and machine models at real power — and then to evaluate the same inverter inside a simulated aerospace subsystem. Learn how one configurable platform takes engineers from focused inverter characterization to integrated system verification without rebuilding the test environment for each stage.",
       "genre": "Customer success story",
-      "articleSection": ["The Challenge", "The Solution", "In Practice", "Architecture", "The Result", "At a Glance", "The Added Value", "Why It Works"],
+      "articleSection": [
+        "The Challenge",
+        "The Solution",
+        "In Practice",
+        "Architecture",
+        "The Result",
+        "At a Glance",
+        "The Added Value",
+        "Why It Works"
+      ],
       "inLanguage": "en",
       "datePublished": "{{DATE}}",
       "dateModified": "{{DATE}}",
       "image": [
-        { "@id": "{{URL}}#image-success-story" },
-        { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" }
+        {
+          "@id": "{{URL}}#image-success-story"
+        },
+        {
+          "@id": "{{URL}}#image-header-desktop"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        }
       ],
-      "author": { "@id": "https://impedyme.com/#organization" },
-      "publisher": { "@id": "https://impedyme.com/#organization" },
-      "mainEntityOfPage": { "@id": "{{URL}}#webpage" },
+      "author": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "mainEntityOfPage": {
+        "@id": "{{URL}}#webpage"
+      },
       "about": [
-        { "@id": "https://www.jpl.nasa.gov/#organization" },
-        { "@id": "{{URL}}#power-hil-testbench" },
-        { "@type": "Thing", "name": "Aerospace inverter validation" },
-        { "@type": "Thing", "name": "Integrated system verification" },
-        { "@type": "Thing", "name": "Real-time load and machine emulation" },
-        { "@type": "Thing", "name": "Fault and boundary-condition testing" },
-        { "@type": "Thing", "name": "Power Hardware-in-the-Loop (PHIL)" }
+        {
+          "@id": "https://www.jpl.nasa.gov/#organization"
+        },
+        {
+          "@id": "{{URL}}#power-hil-testbench"
+        },
+        {
+          "@type": "Thing",
+          "name": "Aerospace inverter validation"
+        },
+        {
+          "@type": "Thing",
+          "name": "Integrated system verification"
+        },
+        {
+          "@type": "Thing",
+          "name": "Real-time load and machine emulation"
+        },
+        {
+          "@type": "Thing",
+          "name": "Fault and boundary-condition testing"
+        },
+        {
+          "@type": "Thing",
+          "name": "Power Hardware-in-the-Loop (PHIL)"
+        }
       ],
       "mentions": [
-        { "@id": "https://www.jpl.nasa.gov/#organization" },
-        { "@id": "https://www.nasa.gov/#organization" },
-        { "@id": "https://www.caltech.edu/#organization" },
-        { "@id": "{{URL}}#firouz-naderi" },
-        { "@id": "{{URL}}#customers-and-partners" },
-        { "@type": "SoftwareApplication", "name": "MATLAB/Simulink", "publisher": { "@type": "Organization", "name": "MathWorks" } },
-        { "@type": "Organization", "name": "AMD/Xilinx" }
+        {
+          "@id": "https://www.jpl.nasa.gov/#organization"
+        },
+        {
+          "@id": "https://www.nasa.gov/#organization"
+        },
+        {
+          "@id": "https://www.caltech.edu/#organization"
+        },
+        {
+          "@id": "{{URL}}#firouz-naderi"
+        },
+        {
+          "@id": "{{URL}}#customers-and-partners"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "MATLAB/Simulink",
+          "publisher": {
+            "@type": "Organization",
+            "name": "MathWorks"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "AMD/Xilinx"
+        }
       ],
       "keywords": "NASA JPL, Jet Propulsion Laboratory, NASA, Caltech, Impedyme, Power HIL, PHIL, CHP Series, aerospace inverter, inverter validation, system verification, real-time load emulation, machine emulation, fault injection, boundary-condition testing, impedance characterization, regenerative, MATLAB/Simulink",
       "hasPart": [
@@ -303,10 +377,46 @@ function impedyme_nasa_success_story_schema() {
           "name": "Headline impact",
           "description": "Impact reported and approved for the NASA JPL program.",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Testing time", "value": -50, "unitText": "%" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Validation time", "value": -45, "unitText": "%" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Test coverage", "value": 55, "unitText": "%" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "System safety", "value": 60, "unitText": "%" } }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Testing time",
+                "value": -50,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Validation time",
+                "value": -45,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Test coverage",
+                "value": 55,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "System safety",
+                "value": 60,
+                "unitText": "%"
+              }
+            }
           ]
         },
         {
@@ -338,11 +448,21 @@ function impedyme_nasa_success_story_schema() {
           "@id": "{{URL}}#table-1",
           "name": "Table 1 — Impedyme software suite included with the NASA JPL testbench",
           "about": [
-            { "@id": "{{URL}}#sw-powerhil-studio" },
-            { "@id": "{{URL}}#sw-motorsim-studio" },
-            { "@id": "{{URL}}#sw-impedyme-rt" },
-            { "@id": "{{URL}}#sw-fpga-scope" },
-            { "@id": "{{URL}}#sw-mlx" }
+            {
+              "@id": "{{URL}}#sw-powerhil-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-motorsim-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-impedyme-rt"
+            },
+            {
+              "@id": "{{URL}}#sw-fpga-scope"
+            },
+            {
+              "@id": "{{URL}}#sw-mlx"
+            }
           ],
           "text": "PowerHIL Studio: cabinet-level control and signal routing; per-module mode and reference selection; dynamic test sequencing; failure emulation; safety limits and device-level protections; launches MLX, Simulink, and FPGA Scope. MotorSim Studio: machine and dynamic-load models for inverter testing; parameter sweeps and load profiles; protection relay executed on the FPGA. IMPEDYME-RT: Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update). FPGA Scope: on-module oscilloscope with waveform preview, per-phase real-time monitoring, trigger-based capture, measurement table, and sync verification across modules. MLX: operating-point sweeps, efficiency and response metrics, pass/fail overlays, and automated test reports."
         },
@@ -357,14 +477,46 @@ function impedyme_nasa_success_story_schema() {
           "@id": "{{URL}}#at-a-glance",
           "name": "At a Glance — Key metrics",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Component + system — one platform, reused across validation layers" },
-            { "@type": "ListItem", "position": 2, "name": "Real-time plant models — load, machine, and subsystem dynamics" },
-            { "@type": "ListItem", "position": 3, "name": "Fault & boundary tests — scripted, repeatable, contained" },
-            { "@type": "ListItem", "position": 4, "name": "94 %+ system efficiency — regenerative, no dissipative load" },
-            { "@type": "ListItem", "position": 5, "name": "Zynq UltraScale+ per module — quad-core Arm + 600K FPGA logic cells" },
-            { "@type": "ListItem", "position": 6, "name": "200 ns FPGA update rate — real-time models on FPGA" },
-            { "@type": "ListItem", "position": 7, "name": "4 × SFP+ up to 12.5 Gbps — daisy-chain sync, parallel & multiphase" },
-            { "@type": "ListItem", "position": 8, "name": "Module ratings to suit — 5 kW to 50 kW, scalable to 5 MW; same architecture and software" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Component + system — one platform, reused across validation layers"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Real-time plant models — load, machine, and subsystem dynamics"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Fault & boundary tests — scripted, repeatable, contained"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "94 %+ system efficiency — regenerative, no dissipative load"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Zynq UltraScale+ per module — quad-core Arm + 600K FPGA logic cells"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "200 ns FPGA update rate — real-time models on FPGA"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "4 × SFP+ up to 12.5 Gbps — daisy-chain sync, parallel & multiphase"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Module ratings to suit — 5 kW to 50 kW, scalable to 5 MW; same architecture and software"
+            }
           ]
         },
         {
@@ -375,14 +527,86 @@ function impedyme_nasa_success_story_schema() {
           "mainEntity": {
             "@type": "ItemList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Reduced development time", "value": -35, "unitText": "%" } },
-              { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Reduced testing time", "value": -50, "unitText": "%" } },
-              { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Reduced validation time", "value": -45, "unitText": "%" } },
-              { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "Reduced testing costs", "value": -30, "unitText": "%" } },
-              { "@type": "ListItem", "position": 5, "item": { "@type": "PropertyValue", "name": "Improved engineering productivity", "value": 40, "unitText": "%" } },
-              { "@type": "ListItem", "position": 6, "item": { "@type": "PropertyValue", "name": "Improved test coverage", "value": 55, "unitText": "%" } },
-              { "@type": "ListItem", "position": 7, "item": { "@type": "PropertyValue", "name": "Improved system safety", "value": 60, "unitText": "%" } },
-              { "@type": "ListItem", "position": 8, "item": { "@type": "PropertyValue", "name": "Improved confidence before hardware deployment", "value": 55, "unitText": "%" } }
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced development time",
+                  "value": -35,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced testing time",
+                  "value": -50,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced validation time",
+                  "value": -45,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced testing costs",
+                  "value": -30,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved engineering productivity",
+                  "value": 40,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 6,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved test coverage",
+                  "value": 55,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 7,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved system safety",
+                  "value": 60,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 8,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved confidence before hardware deployment",
+                  "value": 55,
+                  "unitText": "%"
+                }
+              }
             ]
           }
         },
@@ -397,15 +621,51 @@ function impedyme_nasa_success_story_schema() {
           "@id": "{{URL}}#why-it-works",
           "name": "Why It Works — The advantages",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Inverter validated at real power against real-time load and machine models" },
-            { "@type": "ListItem", "position": 2, "name": "Same setup extends to integrated subsystem validation" },
-            { "@type": "ListItem", "position": 3, "name": "Boundary conditions, transients, and selected faults — repeatable" },
-            { "@type": "ListItem", "position": 4, "name": "Models, load profiles, and fault cases changed in software" },
-            { "@type": "ListItem", "position": 5, "name": "High-speed synchronized measurement on every port" },
-            { "@type": "ListItem", "position": 6, "name": "Regenerative four-quadrant operation, 94 %+ efficiency" },
-            { "@type": "ListItem", "position": 7, "name": "Native MATLAB/Simulink workflow — no third-party HIL simulator" },
-            { "@type": "ListItem", "position": 8, "name": "Comprehensive protection: OV/OC/OP/OT, short-circuit, desaturation" },
-            { "@type": "ListItem", "position": 9, "name": "Module power ratings to match the program — 5 kW to 50 kW, scalable to 5 MW — without redesign" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Inverter validated at real power against real-time load and machine models"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Same setup extends to integrated subsystem validation"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Boundary conditions, transients, and selected faults — repeatable"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Models, load profiles, and fault cases changed in software"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "High-speed synchronized measurement on every port"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Regenerative four-quadrant operation, 94 %+ efficiency"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Native MATLAB/Simulink workflow — no third-party HIL simulator"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Comprehensive protection: OV/OC/OP/OT, short-circuit, desaturation"
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "name": "Module power ratings to match the program — 5 kW to 50 kW, scalable to 5 MW — without redesign"
+            }
           ]
         },
         {
@@ -418,22 +678,178 @@ function impedyme_nasa_success_story_schema() {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-1",
           "text": "Impedyme provided a flexible validation environment that connected detailed inverter testing with integrated aerospace system verification. The ability to move from component-level evaluation to system-level scenarios on one platform helped address complex validation challenges with greater repeatability and control.",
-          "creator": { "@id": "{{URL}}#firouz-naderi" },
-          "about": { "@id": "{{URL}}#power-hil-testbench" }
+          "creator": {
+            "@id": "{{URL}}#firouz-naderi"
+          },
+          "about": {
+            "@id": "{{URL}}#power-hil-testbench"
+          }
         },
         {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-2",
           "text": "The principal advantage is the ability to reuse one configurable platform across multiple validation layers.",
-          "creator": { "@id": "{{URL}}#firouz-naderi" },
-          "about": { "@id": "{{URL}}#power-hil-testbench" }
+          "creator": {
+            "@id": "{{URL}}#firouz-naderi"
+          },
+          "about": {
+            "@id": "{{URL}}#power-hil-testbench"
+          }
         },
         {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-3",
           "text": "Organizations developing mission-critical power electronics should consider Impedyme when they need more than a standalone load or software-only simulator. The combined real-time and power platform supports focused inverter verification while preserving a clear path to integrated system validation.",
-          "creator": { "@id": "{{URL}}#firouz-naderi" },
-          "about": { "@id": "{{URL}}#power-hil-testbench" }
+          "creator": {
+            "@id": "{{URL}}#firouz-naderi"
+          },
+          "about": {
+            "@id": "{{URL}}#power-hil-testbench"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "@id": "{{URL}}#power-hil-testbench-specifications",
+          "name": "Technical specifications — Impedyme CHP Series Power HIL Testbench",
+          "about": {
+            "@id": "{{URL}}#power-hil-testbench"
+          },
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Source side",
+                "value": "Programmable DC bus"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Load side",
+                "value": "Real-time electrical-load or machine model in Simulink on the module's Arm cores and FPGA, at real power"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Validation layers",
+                "value": "Component-level inverter characterization through integrated subsystem verification on one platform"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "DUT connection",
+                "value": "Front-panel busbar to a controlled bidirectional power interface"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Channel assignment",
+                "value": "Software-assigned source and load roles, re-mapped without rewiring"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Additional use",
+                "value": "Highly dynamic excitation source for impedance characterization and stability analysis of high-power bus architectures"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "System efficiency",
+                "minValue": 94,
+                "unitText": "%",
+                "description": "Regenerative shared DC bus — no dissipative load; facility supplies only losses"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Cabinet",
+                "value": "19-inch, 42U, liquid-cooled"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Power stage",
+                "value": "Regenerative, four-quadrant, bidirectional"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 10,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Processor per module",
+                "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 11,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "FPGA update rate",
+                "value": 200,
+                "unitText": "ns",
+                "description": "Real-time models on FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 12,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Synchronization links",
+                "value": "4 × SFP+ per module, up to 12.5 Gbps",
+                "description": "Daisy-chain sync, parallel and multiphase operation"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 13,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Module power rating",
+                "minValue": 5,
+                "maxValue": 50,
+                "unitText": "kW",
+                "description": "Scalable to 5 MW; same architecture and software"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 14,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Protection",
+                "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, soft start/stop"
+              }
+            }
+          ]
         }
       ]
     }

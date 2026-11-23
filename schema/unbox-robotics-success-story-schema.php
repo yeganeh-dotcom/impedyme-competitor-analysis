@@ -32,7 +32,6 @@ function impedyme_unbox_robotics_success_story_schema() {
 {
   "@context": "https://schema.org",
   "@graph": [
-
     {
       "@type": "Organization",
       "@id": "https://impedyme.com/#organization",
@@ -47,15 +46,15 @@ function impedyme_unbox_robotics_success_story_schema() {
       },
       "description": "Impedyme builds regenerative Power Hardware-in-the-Loop (Power HIL) testbenches, motor emulators, grid emulators and real-time load emulators for power-electronics development and validation."
     },
-
     {
       "@type": "WebSite",
       "@id": "https://impedyme.com/#website",
       "url": "https://impedyme.com/",
       "name": "Impedyme",
-      "publisher": { "@id": "https://impedyme.com/#organization" }
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "WebPage",
       "@id": "{{URL}}#webpage",
@@ -63,49 +62,68 @@ function impedyme_unbox_robotics_success_story_schema() {
       "name": "The Whole Robot in a Rack: Controller Validation at Unbox Robotics — Customer Success Story",
       "description": "How Unbox Robotics validates the motor-control electronics of its warehouse robots with Impedyme's real-time HIL platform, a Custom Sensor Box and motor emulation — all 69 controller I/O channels across 60 V, 24 V and 3.3/5 V domains from one protected test environment: –45 % testing time, –40 % validation time, +55 % test coverage, +50 % system safety.",
       "inLanguage": "en",
-      "isPartOf": { "@id": "https://impedyme.com/#website" },
-      "breadcrumb": { "@id": "{{URL}}#breadcrumb" },
-      "mainEntity": { "@id": "{{URL}}#article" },
-      "primaryImageOfPage": { "@id": "{{URL}}#image-header-desktop" },
+      "isPartOf": {
+        "@id": "https://impedyme.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "{{URL}}#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "{{URL}}#article"
+      },
+      "primaryImageOfPage": {
+        "@id": "{{URL}}#image-header-desktop"
+      },
       "image": [
-        { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" },
-        { "@id": "{{URL}}#image-unbox-logo" }
+        {
+          "@id": "{{URL}}#image-header-desktop"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        },
+        {
+          "@id": "{{URL}}#image-unbox-logo"
+        }
       ],
       "about": [
-        { "@id": "https://unboxrobotics.com/#organization" },
-        { "@id": "{{URL}}#hil-testbench" }
+        {
+          "@id": "https://unboxrobotics.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#hil-testbench"
+        }
       ],
-      "mentions": { "@id": "{{URL}}#customers-and-partners" }
+      "mentions": {
+        "@id": "{{URL}}#customers-and-partners"
+      }
     },
-
-    {
-      "@type": "BreadcrumbList",
-      "@id": "{{URL}}#breadcrumb",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://impedyme.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Success Stories", "item": "https://impedyme.com/success-stories/" },
-        { "@type": "ListItem", "position": 3, "name": "Unbox Robotics", "item": "{{URL}}" }
-      ]
-    },
-
     {
       "@type": "ItemList",
       "@id": "{{URL}}#customers-and-partners",
       "name": "Customers and Partners",
       "description": "Impedyme customers and partners featured in this customer success story.",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Unbox Robotics", "item": { "@id": "https://unboxrobotics.com/#organization" } }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Unbox Robotics",
+          "item": {
+            "@id": "https://unboxrobotics.com/#organization"
+          }
+        }
       ]
     },
-
     {
       "@type": "Organization",
       "@id": "https://unboxrobotics.com/#organization",
       "name": "Unbox Robotics",
       "url": "https://unboxrobotics.com/",
-      "logo": { "@id": "{{URL}}#image-unbox-logo" },
-      "image": { "@id": "{{URL}}#image-unbox-logo" },
+      "logo": {
+        "@id": "{{URL}}#image-unbox-logo"
+      },
+      "image": {
+        "@id": "{{URL}}#image-unbox-logo"
+      },
       "foundingDate": "2019",
       "address": {
         "@type": "PostalAddress",
@@ -120,73 +138,54 @@ function impedyme_unbox_robotics_success_story_schema() {
         "Parcel sortation",
         "Robot motor-control electronics"
       ],
-      "makesOffer": {
-        "@type": "Offer",
-        "itemOffered": { "@type": "Product", "name": "UnboxSort", "description": "Robotic sortation solutions for warehouses and fulfillment centers." }
+      "employee": {
+        "@id": "{{URL}}#swaroop-beegala"
       },
-      "employee": { "@id": "{{URL}}#swaroop-beegala" },
-      "owns": { "@id": "{{URL}}#hil-testbench" }
+      "brand": {
+        "@type": "Brand",
+        "name": "UnboxSort"
+      }
     },
-
     {
       "@type": "Person",
       "@id": "{{URL}}#swaroop-beegala",
       "name": "Swaroop Beegala (customer)",
       "jobTitle": "Sr. Power System Engineer",
-      "worksFor": { "@id": "https://unboxrobotics.com/#organization" },
+      "worksFor": {
+        "@id": "https://unboxrobotics.com/#organization"
+      },
       "description": "Swaroop Beegala is a Senior Power System Engineer at Unbox Robotics, where he works with the engineering team that validates the motor-control electronics and mixed-voltage I/O of its warehouse-sortation robots on the Impedyme HIL platform.",
-      "knowsAbout": ["Power systems", "Motor-control electronics", "Mixed-voltage I/O", "Hardware-in-the-Loop (HIL)", "Warehouse robotics"]
-    },
-
-    {
-      "@type": "Product",
-      "@id": "{{URL}}#hil-testbench",
-      "name": "Impedyme Real-Time HIL Testbench with Custom Sensor Box and CHP Series Motor Emulation",
-      "brand": { "@type": "Brand", "name": "Impedyme" },
-      "manufacturer": { "@id": "https://impedyme.com/#organization" },
-      "category": "Real-time HIL and Power HIL robotics controller testbench",
-      "description": "An integrated validation environment for warehouse-robot motor-control electronics: a real-time HIL platform (AMD/Xilinx Zynq UltraScale+, quad-core Arm + 600K-cell FPGA under IMPEDYME-RT) for deterministic control, monitoring, and model execution; a Custom Sensor Box serving all 69 controller I/O channels across 60 V, 24 V, and 3.3/5 V domains; and CHP Series motor emulation at real current with hall-sensor patterns consistent with the emulated rotor.",
-      "image": { "@id": "{{URL}}#image-header-desktop" },
-      "hasPart": { "@id": "{{URL}}#custom-sensor-box" },
-      "isRelatedTo": [
-        { "@id": "{{URL}}#custom-sensor-box" },
-        { "@id": "{{URL}}#sw-motorsim-studio" },
-        { "@id": "{{URL}}#sw-powerhil-studio" },
-        { "@id": "{{URL}}#sw-impedyme-rt" },
-        { "@id": "{{URL}}#sw-fpga-scope" }
-      ],
-      "additionalProperty": [
-        { "@type": "PropertyValue", "name": "Controller I/O channels", "value": 69, "description": "28 digital inputs to the DUT, 29 digital outputs from the DUT, 12 analog inputs to the DUT" },
-        { "@type": "PropertyValue", "name": "Voltage domains", "value": "60 V battery-level, 24 V industrial, 3.3 / 5 V logic" },
-        { "@type": "PropertyValue", "name": "Signaling modes", "value": "High-side (PNP), low-side (NPN), push-pull, open-drain — configurable per channel; analog differential or single-ended" },
-        { "@type": "PropertyValue", "name": "Output current handling", "maxValue": 1, "unitText": "A", "description": "Per channel on the 24 V open-drain outputs" },
-        { "@type": "PropertyValue", "name": "Motor emulation", "value": "Three-phase, 50 A peak per phase, 0–500 Hz fundamental" },
-        { "@type": "PropertyValue", "name": "Motor phase current", "value": 50, "unitText": "A", "description": "Peak per phase" },
-        { "@type": "PropertyValue", "name": "Fundamental frequency", "minValue": 0, "maxValue": 500, "unitText": "Hz" },
-        { "@type": "PropertyValue", "name": "Position feedback", "value": "Hall-sensor patterns generated consistent with the emulated rotor position" },
-        { "@type": "PropertyValue", "name": "Processor", "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA" },
-        { "@type": "PropertyValue", "name": "FPGA update rate", "value": 200, "unitText": "ns", "description": "Real-time MATLAB/Simulink models" },
-        { "@type": "PropertyValue", "name": "Module power rating", "minValue": 5, "maxValue": 50, "unitText": "kW", "description": "CHP modules scalable to 5 MW; additional motor channels over the SFP+ link" },
-        { "@type": "PropertyValue", "name": "Protection", "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, soft start/stop" }
+      "knowsAbout": [
+        "Power systems",
+        "Motor-control electronics",
+        "Mixed-voltage I/O",
+        "Hardware-in-the-Loop (HIL)",
+        "Warehouse robotics"
       ]
     },
-
     {
-      "@type": "Product",
+      "@type": "Thing",
+      "@id": "{{URL}}#hil-testbench",
+      "name": "Impedyme Real-Time HIL Testbench with Custom Sensor Box and CHP Series Motor Emulation",
+      "description": "An integrated validation environment for warehouse-robot motor-control electronics: a real-time HIL platform (AMD/Xilinx Zynq UltraScale+, quad-core Arm + 600K-cell FPGA under IMPEDYME-RT) for deterministic control, monitoring, and model execution; a Custom Sensor Box serving all 69 controller I/O channels across 60 V, 24 V, and 3.3/5 V domains; and CHP Series motor emulation at real current with hall-sensor patterns consistent with the emulated rotor.",
+      "image": {
+        "@id": "{{URL}}#image-header-desktop"
+      }
+    },
+    {
+      "@type": "Thing",
       "@id": "{{URL}}#custom-sensor-box",
       "name": "Impedyme Custom Sensor Box",
-      "brand": { "@type": "Brand", "name": "Impedyme" },
-      "manufacturer": { "@id": "https://impedyme.com/#organization" },
-      "category": "HIL signal-conditioning interface",
       "description": "Application-specific signal-conditioning unit built from Unbox Robotics' I/O compatibility matrix. It performs level shifting, isolation, mode selection, current handling, and protection for each of the 69 controller channels: adjustable 60 V battery-level signals, 24 V industrial I/O, and 3.3/5 V logic, with each digital channel configurable as high-side (PNP), low-side (NPN), push-pull, or open-drain, and analog channels in differential or single-ended operation."
     },
-
     {
       "@type": "SoftwareApplication",
       "@id": "{{URL}}#sw-motorsim-studio",
       "name": "MotorSim Studio",
       "applicationCategory": "Motor emulation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Motor-emulation control: motor library (Rs, Ld, Lq, Ke, J, pole pairs), mechanical-load and torque-vs-speed profiles, parameter sweeps, and the protection relay executed on the FPGA."
     },
     {
@@ -194,7 +193,9 @@ function impedyme_unbox_robotics_success_story_schema() {
       "@id": "{{URL}}#sw-powerhil-studio",
       "name": "PowerHIL Studio",
       "applicationCategory": "Power HIL testbench operation software",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Platform configuration and test sequencing across motor and Sensor Box channels; automated test cases, operating-condition variation, and safety limits."
     },
     {
@@ -203,7 +204,9 @@ function impedyme_unbox_robotics_success_story_schema() {
       "name": "IMPEDYME-RT",
       "applicationCategory": "Real-time operating system",
       "operatingSystem": "Linux with proprietary real-time kernel",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update); real-time monitoring, control, and parameter tuning from MATLAB."
     },
     {
@@ -211,10 +214,11 @@ function impedyme_unbox_robotics_success_story_schema() {
       "@id": "{{URL}}#sw-fpga-scope",
       "name": "FPGA Scope",
       "applicationCategory": "Real-time data acquisition",
-      "publisher": { "@id": "https://impedyme.com/#organization" },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
       "description": "Integrated oscilloscope with adjustable sample rate; real-time FPGA-based signal monitoring and trigger-based, synchronized data capture for control and I/O analysis."
     },
-
     {
       "@type": "ImageObject",
       "@id": "{{URL}}#image-unbox-logo",
@@ -223,7 +227,9 @@ function impedyme_unbox_robotics_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "Unbox Robotics logo",
       "caption": "Unbox Robotics logo",
-      "copyrightHolder": { "@id": "https://unboxrobotics.com/#organization" }
+      "copyrightHolder": {
+        "@id": "https://unboxrobotics.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -233,8 +239,12 @@ function impedyme_unbox_robotics_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "Unbox Robotics success story header (desktop)",
       "caption": "Unbox Robotics validates the motor-control electronics of its warehouse robots with Impedyme's real-time HIL platform, Custom Sensor Box and motor emulation — all 69 controller I/O channels from one protected test environment.",
-      "creator": { "@id": "https://impedyme.com/#organization" },
-      "copyrightHolder": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "copyrightHolder": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
     {
       "@type": "ImageObject",
@@ -244,9 +254,10 @@ function impedyme_unbox_robotics_success_story_schema() {
       "encodingFormat": "image/webp",
       "name": "Unbox Robotics success story header (mobile)",
       "caption": "Unbox Robotics validates the motor-control electronics of its warehouse robots with Impedyme's real-time HIL platform, Custom Sensor Box and motor emulation — all 69 controller I/O channels from one protected test environment.",
-      "creator": { "@id": "https://impedyme.com/#organization" }
+      "creator": {
+        "@id": "https://impedyme.com/#organization"
+      }
     },
-
     {
       "@type": "TechArticle",
       "@id": "{{URL}}#article",
@@ -254,34 +265,93 @@ function impedyme_unbox_robotics_success_story_schema() {
       "alternativeHeadline": "How Unbox Robotics validates warehouse-robot motor-control electronics and 69 mixed-voltage I/O channels with Impedyme's real-time HIL platform, Custom Sensor Box and motor emulation",
       "description": "See how Unbox Robotics uses Impedyme's real-time HIL platform, a Custom Sensor Box, and motor emulation to validate the motor-control electronics of its warehouse robots — with all 69 controller I/O channels across 60 V, 24 V, and 3.3/5 V domains served from one protected test environment. Learn how the team replaced extensive bench wiring and separate signal-conditioning hardware with one coordinated platform — and began controller and interface validation before the complete robotic mechanism was available.",
       "genre": "Customer success story",
-      "articleSection": ["The Challenge", "The Solution", "Architecture", "In Practice", "The Result", "At a Glance", "The Added Value", "Why It Works"],
+      "articleSection": [
+        "The Challenge",
+        "The Solution",
+        "Architecture",
+        "In Practice",
+        "The Result",
+        "At a Glance",
+        "The Added Value",
+        "Why It Works"
+      ],
       "inLanguage": "en",
       "datePublished": "{{DATE}}",
       "dateModified": "{{DATE}}",
       "image": [
-        { "@id": "{{URL}}#image-header-desktop" },
-        { "@id": "{{URL}}#image-header-mobile" }
+        {
+          "@id": "{{URL}}#image-header-desktop"
+        },
+        {
+          "@id": "{{URL}}#image-header-mobile"
+        }
       ],
-      "author": { "@id": "https://impedyme.com/#organization" },
-      "publisher": { "@id": "https://impedyme.com/#organization" },
-      "mainEntityOfPage": { "@id": "{{URL}}#webpage" },
+      "author": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://impedyme.com/#organization"
+      },
+      "mainEntityOfPage": {
+        "@id": "{{URL}}#webpage"
+      },
       "about": [
-        { "@id": "https://unboxrobotics.com/#organization" },
-        { "@id": "{{URL}}#hil-testbench" },
-        { "@type": "Thing", "name": "Robotics controller validation" },
-        { "@type": "Thing", "name": "Hardware-in-the-Loop (HIL)" },
-        { "@type": "Thing", "name": "Mixed-voltage I/O testing" },
-        { "@type": "Thing", "name": "Motor emulation" },
-        { "@type": "Thing", "name": "Warehouse robotics" }
+        {
+          "@id": "https://unboxrobotics.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#hil-testbench"
+        },
+        {
+          "@type": "Thing",
+          "name": "Robotics controller validation"
+        },
+        {
+          "@type": "Thing",
+          "name": "Hardware-in-the-Loop (HIL)"
+        },
+        {
+          "@type": "Thing",
+          "name": "Mixed-voltage I/O testing"
+        },
+        {
+          "@type": "Thing",
+          "name": "Motor emulation"
+        },
+        {
+          "@type": "Thing",
+          "name": "Warehouse robotics"
+        }
       ],
       "mentions": [
-        { "@id": "https://unboxrobotics.com/#organization" },
-        { "@id": "{{URL}}#swaroop-beegala" },
-        { "@id": "{{URL}}#custom-sensor-box" },
-        { "@id": "{{URL}}#customers-and-partners" },
-        { "@type": "Organization", "name": "Flipkart" },
-        { "@type": "SoftwareApplication", "name": "MATLAB/Simulink", "publisher": { "@type": "Organization", "name": "MathWorks" } },
-        { "@type": "Organization", "name": "AMD/Xilinx" }
+        {
+          "@id": "https://unboxrobotics.com/#organization"
+        },
+        {
+          "@id": "{{URL}}#swaroop-beegala"
+        },
+        {
+          "@id": "{{URL}}#custom-sensor-box"
+        },
+        {
+          "@id": "{{URL}}#customers-and-partners"
+        },
+        {
+          "@type": "Organization",
+          "name": "Flipkart"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "MATLAB/Simulink",
+          "publisher": {
+            "@type": "Organization",
+            "name": "MathWorks"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "AMD/Xilinx"
+        }
       ],
       "keywords": "Unbox Robotics, UnboxSort, warehouse robots, Impedyme, real-time HIL, Custom Sensor Box, motor emulation, CHP Series, motor-control electronics, mixed-voltage I/O, 69 I/O channels, 60 V, 24 V, 3.3 V, 5 V, PNP, NPN, push-pull, open-drain, hall sensors, robotics controller validation, MATLAB/Simulink",
       "hasPart": [
@@ -291,10 +361,46 @@ function impedyme_unbox_robotics_success_story_schema() {
           "name": "Headline impact",
           "description": "Impact reported and approved by Unbox Robotics.",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Testing time", "value": -45, "unitText": "%" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Validation time", "value": -40, "unitText": "%" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Test coverage", "value": 55, "unitText": "%" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "System safety", "value": 50, "unitText": "%" } }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Testing time",
+                "value": -45,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Validation time",
+                "value": -40,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Test coverage",
+                "value": 55,
+                "unitText": "%"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "System safety",
+                "value": 50,
+                "unitText": "%"
+              }
+            }
           ]
         },
         {
@@ -325,7 +431,9 @@ function impedyme_unbox_robotics_success_story_schema() {
           "@type": "Table",
           "@id": "{{URL}}#table-1",
           "name": "Table 1 — The Unbox Robotics I/O compatibility matrix served by the Custom Sensor Box (direction with respect to the DUT)",
-          "about": { "@id": "{{URL}}#custom-sensor-box" },
+          "about": {
+            "@id": "{{URL}}#custom-sensor-box"
+          },
           "text": "Digital inputs to DUT, 60 V, 10 mA, 2 channels: high-side (PNP), low-side (NPN), push-pull. Digital inputs to DUT, 24 V, 10 mA, 20 channels: high-side (PNP), low-side (NPN), push-pull. Digital inputs to DUT, 3.3 / 5 V, 10 mA, 6 channels: low-side, hall-sensor patterns. Digital outputs from DUT, 60 V, 500 mA / 20 mA, 2 + 3 channels: push-pull. Digital outputs from DUT, 24 V, 1000 mA, 13 channels: open-drain. Digital outputs from DUT, 24 V / 3.3 V, 10 mA, 8 + 3 channels: push-pull or open-drain. Analog inputs to DUT, 60 V / 24 V, 10 mA, 7 + 5 channels: differential or single-ended. Total: 69 channels — 28 DI, 29 DO, 12 AI."
         },
         {
@@ -333,11 +441,21 @@ function impedyme_unbox_robotics_success_story_schema() {
           "@id": "{{URL}}#table-2",
           "name": "Table 2 — Impedyme software suite included with the Unbox Robotics testbench",
           "about": [
-            { "@id": "{{URL}}#sw-motorsim-studio" },
-            { "@id": "{{URL}}#sw-powerhil-studio" },
-            { "@id": "{{URL}}#sw-impedyme-rt" },
-            { "@id": "{{URL}}#sw-fpga-scope" },
-            { "@id": "{{URL}}#custom-sensor-box" }
+            {
+              "@id": "{{URL}}#sw-motorsim-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-powerhil-studio"
+            },
+            {
+              "@id": "{{URL}}#sw-impedyme-rt"
+            },
+            {
+              "@id": "{{URL}}#sw-fpga-scope"
+            },
+            {
+              "@id": "{{URL}}#custom-sensor-box"
+            }
           ],
           "text": "MotorSim Studio: motor library (Rs, Ld, Lq, Ke, J, pole pairs), mechanical-load and torque-vs-speed profiles, parameter sweeps, and the protection relay executed on the FPGA. PowerHIL Studio: platform configuration and test sequencing across motor and Sensor Box channels; automated test cases, operating-condition variation, and safety limits. IMPEDYME-RT: Linux with Impedyme's proprietary real-time kernel on every module; runs MATLAB/Simulink models on the Arm cores and FPGA (200 ns FPGA update). FPGA Scope: integrated oscilloscope with adjustable sample rate; real-time FPGA-based signal monitoring and trigger-based, synchronized data capture. Sensor Box configuration: per-channel voltage domain, signaling mode (PNP / NPN / push-pull / open-drain), analog differential or single-ended operation, and protection — defined from the I/O compatibility matrix."
         },
@@ -352,14 +470,46 @@ function impedyme_unbox_robotics_success_story_schema() {
           "@id": "{{URL}}#at-a-glance",
           "name": "At a Glance — Key facts",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "69 I/O channels — 28 DI · 29 DO · 12 AI to/from the DUT" },
-            { "@type": "ListItem", "position": 2, "name": "60 V · 24 V · 3.3/5 V — battery, industrial, and logic domains" },
-            { "@type": "ListItem", "position": 3, "name": "PNP / NPN / PP / OD — configurable signaling per channel" },
-            { "@type": "ListItem", "position": 4, "name": "Up to 1 A — on 24 V open-drain outputs" },
-            { "@type": "ListItem", "position": 5, "name": "3-phase motor emulation — 50 A peak per phase, 0–500 Hz" },
-            { "@type": "ListItem", "position": 6, "name": "Hall-sensor patterns — consistent with emulated rotor" },
-            { "@type": "ListItem", "position": 7, "name": "200 ns FPGA update rate — Zynq UltraScale+, IMPEDYME-RT" },
-            { "@type": "ListItem", "position": 8, "name": "Module ratings to suit — 5 kW to 50 kW, scalable to 5 MW" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "69 I/O channels — 28 DI · 29 DO · 12 AI to/from the DUT"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "60 V · 24 V · 3.3/5 V — battery, industrial, and logic domains"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "PNP / NPN / PP / OD — configurable signaling per channel"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Up to 1 A — on 24 V open-drain outputs"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "3-phase motor emulation — 50 A peak per phase, 0–500 Hz"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Hall-sensor patterns — consistent with emulated rotor"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "200 ns FPGA update rate — Zynq UltraScale+, IMPEDYME-RT"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Module ratings to suit — 5 kW to 50 kW, scalable to 5 MW"
+            }
           ]
         },
         {
@@ -370,14 +520,86 @@ function impedyme_unbox_robotics_success_story_schema() {
           "mainEntity": {
             "@type": "ItemList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "item": { "@type": "PropertyValue", "name": "Reduced development time", "value": -30, "unitText": "%" } },
-              { "@type": "ListItem", "position": 2, "item": { "@type": "PropertyValue", "name": "Reduced testing time", "value": -45, "unitText": "%" } },
-              { "@type": "ListItem", "position": 3, "item": { "@type": "PropertyValue", "name": "Reduced validation time", "value": -40, "unitText": "%" } },
-              { "@type": "ListItem", "position": 4, "item": { "@type": "PropertyValue", "name": "Reduced testing costs", "value": -30, "unitText": "%" } },
-              { "@type": "ListItem", "position": 5, "item": { "@type": "PropertyValue", "name": "Improved engineering productivity", "value": 40, "unitText": "%" } },
-              { "@type": "ListItem", "position": 6, "item": { "@type": "PropertyValue", "name": "Improved test coverage", "value": 55, "unitText": "%" } },
-              { "@type": "ListItem", "position": 7, "item": { "@type": "PropertyValue", "name": "Improved system safety", "value": 50, "unitText": "%" } },
-              { "@type": "ListItem", "position": 8, "item": { "@type": "PropertyValue", "name": "Improved confidence before hardware deployment", "value": 50, "unitText": "%" } }
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced development time",
+                  "value": -30,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced testing time",
+                  "value": -45,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced validation time",
+                  "value": -40,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Reduced testing costs",
+                  "value": -30,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved engineering productivity",
+                  "value": 40,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 6,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved test coverage",
+                  "value": 55,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 7,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved system safety",
+                  "value": 50,
+                  "unitText": "%"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 8,
+                "item": {
+                  "@type": "PropertyValue",
+                  "name": "Improved confidence before hardware deployment",
+                  "value": 50,
+                  "unitText": "%"
+                }
+              }
             ]
           }
         },
@@ -392,14 +614,46 @@ function impedyme_unbox_robotics_success_story_schema() {
           "@id": "{{URL}}#why-it-works",
           "name": "Why It Works — The advantages",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "All 69 controller I/O channels served from one protected platform" },
-            { "@type": "ListItem", "position": 2, "name": "60 V, 24 V, and 3.3/5 V domains — no custom interface circuit per test" },
-            { "@type": "ListItem", "position": 3, "name": "PNP, NPN, push-pull, and open-drain configurable per channel" },
-            { "@type": "ListItem", "position": 4, "name": "Motor emulated at real current with consistent hall-sensor patterns" },
-            { "@type": "ListItem", "position": 5, "name": "Automated sequences rerun after every hardware or firmware change" },
-            { "@type": "ListItem", "position": 6, "name": "Controller validation starts before the robot exists" },
-            { "@type": "ListItem", "position": 7, "name": "Native MATLAB/Simulink workflow — no third-party HIL simulator" },
-            { "@type": "ListItem", "position": 8, "name": "Comprehensive protection: OV/OC/OP/OT, short-circuit, desaturation" }
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "All 69 controller I/O channels served from one protected platform"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "60 V, 24 V, and 3.3/5 V domains — no custom interface circuit per test"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "PNP, NPN, push-pull, and open-drain configurable per channel"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Motor emulated at real current with consistent hall-sensor patterns"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Automated sequences rerun after every hardware or firmware change"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Controller validation starts before the robot exists"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Native MATLAB/Simulink workflow — no third-party HIL simulator"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Comprehensive protection: OV/OC/OP/OT, short-circuit, desaturation"
+            }
           ]
         },
         {
@@ -412,22 +666,164 @@ function impedyme_unbox_robotics_success_story_schema() {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-1",
           "text": "Impedyme developed an integrated HIL and custom sensor-box solution around our detailed robotics I/O requirements. The platform gives our team a controlled and repeatable way to validate motor-control electronics, mixed-voltage interfaces, and system behavior before full-machine testing.",
-          "creator": { "@id": "{{URL}}#swaroop-beegala" },
-          "about": { "@id": "{{URL}}#hil-testbench" }
+          "creator": {
+            "@id": "{{URL}}#swaroop-beegala"
+          },
+          "about": {
+            "@id": "{{URL}}#hil-testbench"
+          }
         },
         {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-2",
           "text": "The strongest advantage is the ability to validate a complex robotic controller through one coordinated platform. The solution supports all 69 requested channels and the required voltage and signaling modes without forcing the development team to assemble a different interface circuit for each test.",
-          "creator": { "@id": "{{URL}}#swaroop-beegala" },
-          "about": { "@id": "{{URL}}#hil-testbench" }
+          "creator": {
+            "@id": "{{URL}}#swaroop-beegala"
+          },
+          "about": {
+            "@id": "{{URL}}#hil-testbench"
+          }
         },
         {
           "@type": "Quotation",
           "@id": "{{URL}}#quote-3",
           "text": "Impedyme is a strong choice for robotics teams that need more than a standard HIL simulator. Their engineering team can combine real-time models, motor emulation, and application-specific signal conditioning into one validation environment tailored to the actual controller and machine interfaces.",
-          "creator": { "@id": "{{URL}}#swaroop-beegala" },
-          "about": { "@id": "{{URL}}#hil-testbench" }
+          "creator": {
+            "@id": "{{URL}}#swaroop-beegala"
+          },
+          "about": {
+            "@id": "{{URL}}#hil-testbench"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "@id": "{{URL}}#hil-testbench-specifications",
+          "name": "Technical specifications — Impedyme Real-Time HIL Testbench with Custom Sensor Box and CHP Series Motor Emulation",
+          "about": {
+            "@id": "{{URL}}#hil-testbench"
+          },
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Controller I/O channels",
+                "value": 69,
+                "description": "28 digital inputs to the DUT, 29 digital outputs from the DUT, 12 analog inputs to the DUT"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Voltage domains",
+                "value": "60 V battery-level, 24 V industrial, 3.3 / 5 V logic"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Signaling modes",
+                "value": "High-side (PNP), low-side (NPN), push-pull, open-drain — configurable per channel; analog differential or single-ended"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Output current handling",
+                "maxValue": 1,
+                "unitText": "A",
+                "description": "Per channel on the 24 V open-drain outputs"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Motor emulation",
+                "value": "Three-phase, 50 A peak per phase, 0–500 Hz fundamental"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Motor phase current",
+                "value": 50,
+                "unitText": "A",
+                "description": "Peak per phase"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Fundamental frequency",
+                "minValue": 0,
+                "maxValue": 500,
+                "unitText": "Hz"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Position feedback",
+                "value": "Hall-sensor patterns generated consistent with the emulated rotor position"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Processor",
+                "value": "AMD/Xilinx Zynq UltraScale+ quad-core Arm + 600K-cell FPGA"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 10,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "FPGA update rate",
+                "value": 200,
+                "unitText": "ns",
+                "description": "Real-time MATLAB/Simulink models"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 11,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Module power rating",
+                "minValue": 5,
+                "maxValue": 50,
+                "unitText": "kW",
+                "description": "CHP modules scalable to 5 MW; additional motor channels over the SFP+ link"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 12,
+              "item": {
+                "@type": "PropertyValue",
+                "name": "Protection",
+                "value": "Over-voltage, over-current, over-power, over-temperature, short-circuit and desaturation detection, device-level destruction monitoring, soft start/stop"
+              }
+            }
+          ]
         }
       ]
     }
