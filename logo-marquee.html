@@ -5,32 +5,36 @@
      .imp-marquee so it won't clash with your theme.
 
      To change logos: edit the <img> tags in the FIRST .imp-marquee__group.
-     Then copy the same list into the SECOND group (it's the
-     seamless-loop duplicate and must match exactly).
+     Then copy the same images into the SECOND group in the same order,
+     with alt="" left empty (it's the seamless-loop duplicate).
      ============================================================ -->
 <section class="imp-marquee" aria-label="Trusted by">
   <div class="imp-marquee__viewport">
   <div class="imp-marquee__track">
     <ul class="imp-marquee__group">
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/litens-logo.webp" alt="Litens" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/liebherr-logo.webp" alt="Liebherr" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/flex-logo.webp" alt="Flex" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/exowatt-logo.webp" alt="Exowatt" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/duke-energy-logo.webp" alt="Duke Energy" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/unbox-robotics-logo.webp" alt="Unbox Robotics" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/kema-labs-logo.webp" alt="KEMA Labs" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/nasa-logo.webp" alt="NASA" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/Lucid-logo.webp" alt="Lucid" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="JLG" class="imp-logo--tight" loading="lazy"></li>
     </ul>
     <!-- Duplicate for a seamless loop (hidden from screen readers) -->
     <ul class="imp-marquee__group" aria-hidden="true">
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
-      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/litens-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/liebherr-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/flex-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/exowatt-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/duke-energy-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/unbox-robotics-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/kema-labs-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/nasa-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/Lucid-logo.webp" alt="" loading="lazy"></li>
+      <li><img src="https://impedyme.com/wp-content/uploads/2026/11/jlg-logo.webp" alt="" class="imp-logo--tight" loading="lazy"></li>
     </ul>
   </div>
   </div>
@@ -79,6 +83,8 @@
     max-width: none;
     object-fit: contain;
   }
+  /* for logo files cropped with no padding around them (e.g. JLG): shrink to match the others */
+  .imp-marquee__group img.imp-logo--tight { height: calc(var(--imp-logo-h) * 0.75); }
 
   /* track holds 2 identical groups, so moving -50% lands exactly on the copy */
   @keyframes imp-marquee-scroll {
