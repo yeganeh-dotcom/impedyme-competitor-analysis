@@ -352,21 +352,9 @@ function impedyme_kema_chp_series_success_story_schema() {
         },
         {
           "@id": "{{URL}}#customers-and-partners"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "MATLAB/Simulink",
-          "publisher": {
-            "@type": "Organization",
-            "name": "MathWorks"
-          }
-        },
-        {
-          "@type": "Organization",
-          "name": "AMD/Xilinx"
         }
       ],
-      "keywords": "KEMA Labs, Flex Power Grid Lab, Arnhem, Impedyme, CHP Series, Power HIL, PHIL, grid emulator, grid simulator, GridSim Studio, PowerHIL Studio, IEEE 1547, UL 1741, ride-through, islanding detection, grid impedance, harmonic injection, four-quadrant, regenerative, Active Front End, 5 MW, distributed energy resources, inverter-based resources, MATLAB/Simulink",
+      "keywords": "KEMA Labs, Flex Power Grid Lab, Arnhem, Impedyme, CHP Series, Power HIL, PHIL, grid emulator, grid simulator, GridSim Studio, PowerHIL Studio, IEEE 1547, UL 1741, ride-through, islanding detection, grid impedance, harmonic injection, four-quadrant, regenerative, Active Front End, 5 MW, distributed energy resources, inverter-based resources",
       "hasPart": [
         {
           "@type": "WebPageElement",

@@ -140,10 +140,6 @@ function impedyme_unbox_robotics_success_story_schema() {
       ],
       "employee": {
         "@id": "{{URL}}#swaroop-beegala"
-      },
-      "brand": {
-        "@type": "Brand",
-        "name": "UnboxSort"
       }
     },
     {
@@ -339,21 +335,9 @@ function impedyme_unbox_robotics_success_story_schema() {
         {
           "@type": "Organization",
           "name": "Flipkart"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "MATLAB/Simulink",
-          "publisher": {
-            "@type": "Organization",
-            "name": "MathWorks"
-          }
-        },
-        {
-          "@type": "Organization",
-          "name": "AMD/Xilinx"
         }
       ],
-      "keywords": "Unbox Robotics, UnboxSort, warehouse robots, Impedyme, real-time HIL, Custom Sensor Box, motor emulation, CHP Series, motor-control electronics, mixed-voltage I/O, 69 I/O channels, 60 V, 24 V, 3.3 V, 5 V, PNP, NPN, push-pull, open-drain, hall sensors, robotics controller validation, MATLAB/Simulink",
+      "keywords": "Unbox Robotics, warehouse robots, Impedyme, real-time HIL, Custom Sensor Box, motor emulation, CHP Series, motor-control electronics, mixed-voltage I/O, 69 I/O channels, 60 V, 24 V, 3.3 V, 5 V, PNP, NPN, push-pull, open-drain, hall sensors, robotics controller validation",
       "hasPart": [
         {
           "@type": "ItemList",

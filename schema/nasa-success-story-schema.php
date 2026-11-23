@@ -355,21 +355,9 @@ function impedyme_nasa_success_story_schema() {
         },
         {
           "@id": "{{URL}}#customers-and-partners"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "MATLAB/Simulink",
-          "publisher": {
-            "@type": "Organization",
-            "name": "MathWorks"
-          }
-        },
-        {
-          "@type": "Organization",
-          "name": "AMD/Xilinx"
         }
       ],
-      "keywords": "NASA JPL, Jet Propulsion Laboratory, NASA, Caltech, Impedyme, Power HIL, PHIL, CHP Series, aerospace inverter, inverter validation, system verification, real-time load emulation, machine emulation, fault injection, boundary-condition testing, impedance characterization, regenerative, MATLAB/Simulink",
+      "keywords": "NASA JPL, Jet Propulsion Laboratory, NASA, Caltech, Impedyme, Power HIL, PHIL, CHP Series, aerospace inverter, inverter validation, system verification, real-time load emulation, machine emulation, fault injection, boundary-condition testing, impedance characterization, regenerative",
       "hasPart": [
         {
           "@type": "ItemList",

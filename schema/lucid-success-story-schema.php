@@ -338,21 +338,9 @@ function impedyme_lucid_success_story_schema() {
         },
         {
           "@id": "{{URL}}#customers-and-partners"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "MATLAB/Simulink",
-          "publisher": {
-            "@type": "Organization",
-            "name": "MathWorks"
-          }
-        },
-        {
-          "@type": "Organization",
-          "name": "AMD/Xilinx"
         }
       ],
-      "keywords": "Lucid Motors, Impedyme, high-power motor emulator, battery-pack emulation, battery emulator, CHP Series, Power HIL, traction inverter, electric powertrain, EV propulsion, regenerative operation, DC-bus transients, shared DC bus, dynamometer replacement, 24/7 HIL, MATLAB/Simulink",
+      "keywords": "Lucid Motors, Impedyme, high-power motor emulator, battery-pack emulation, battery emulator, CHP Series, Power HIL, traction inverter, electric powertrain, EV propulsion, regenerative operation, DC-bus transients, shared DC bus, dynamometer replacement, 24/7 HIL",
       "hasPart": [
         {
           "@type": "ItemList",

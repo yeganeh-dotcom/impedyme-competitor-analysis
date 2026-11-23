@@ -365,21 +365,9 @@ function impedyme_kema_motor_drive_success_story_schema() {
         },
         {
           "@id": "{{URL}}#customers-and-partners"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "MATLAB/Simulink",
-          "publisher": {
-            "@type": "Organization",
-            "name": "MathWorks"
-          }
-        },
-        {
-          "@type": "Organization",
-          "name": "AMD/Xilinx"
         }
       ],
-      "keywords": "KEMA Labs, Flex Power Grid Lab, Arnhem, Impedyme, motor emulator, CHP Series, Power HIL, 400 kW, 800 V, automotive motor drive, traction inverter, regenerative testing, dynamometer replacement, back EMF, protection testing, efficiency mapping, operating-point sweeps, MATLAB/Simulink",
+      "keywords": "KEMA Labs, Flex Power Grid Lab, Arnhem, Impedyme, motor emulator, CHP Series, Power HIL, 400 kW, 800 V, automotive motor drive, traction inverter, regenerative testing, dynamometer replacement, back EMF, protection testing, efficiency mapping, operating-point sweeps",
       "hasPart": [
         {
           "@type": "ItemList",

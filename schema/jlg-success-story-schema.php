@@ -181,17 +181,11 @@ function impedyme_jlg_success_story_schema() {
     {
       "@type": "Thing",
       "@id": "{{URL}}#powertrain-testbench",
-      "name": "Impedyme CHP Series Motor Emulator integrated with NI NHR Battery Emulator",
+      "name": "Impedyme CHP Series Motor Emulator Testbench for integrated powertrain validation",
       "description": "An Impedyme Motor Emulator built on the CHP Series, integrated by Impedyme with the NI NHR Battery Emulator in JLG's lab, forming one coordinated environment that validates the complete electric powertrain — DC energy source, traction inverter, motor and mechanical load — including regenerative energy flow back to the emulated battery. Every CHP module is a regenerative, four-quadrant, bidirectional power stage with an AMD/Xilinx Zynq UltraScale+ quad-core Arm processor and 600K-cell FPGA running IMPEDYME-RT.",
       "image": {
         "@id": "{{URL}}#image-header-desktop"
       }
-    },
-    {
-      "@type": "Thing",
-      "@id": "{{URL}}#ni-nhr-battery-emulator",
-      "name": "NI NHR Battery Emulator",
-      "description": "Battery emulator already in JLG's lab; represents the battery on the inverter's DC input, providing controlled DC-source and sink behavior at programmable voltages and battery conditions. Integrated with the Impedyme Motor Emulator by Impedyme."
     },
     {
       "@type": "Service",
@@ -373,9 +367,6 @@ function impedyme_jlg_success_story_schema() {
           "@id": "https://www.ni.com/#organization"
         },
         {
-          "@id": "{{URL}}#ni-nhr-battery-emulator"
-        },
-        {
           "@id": "{{URL}}#ni-nhr-integration"
         },
         {
@@ -383,21 +374,9 @@ function impedyme_jlg_success_story_schema() {
         },
         {
           "@id": "{{URL}}#customers-and-partners"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "MATLAB/Simulink",
-          "publisher": {
-            "@type": "Organization",
-            "name": "MathWorks"
-          }
-        },
-        {
-          "@type": "Organization",
-          "name": "AMD/Xilinx"
         }
       ],
-      "keywords": "JLG Industries, Oshkosh Corporation, Impedyme, motor emulator, NI NHR, battery emulator, CHP Series, Power HIL, electric powertrain, traction inverter, regenerative energy flow, bidirectional power, DC-bus transients, aerial work platforms, telehandlers, mobile equipment electrification, MATLAB/Simulink",
+      "keywords": "JLG Industries, Oshkosh Corporation, Impedyme, motor emulator, battery emulator, CHP Series, Power HIL, electric powertrain, traction inverter, regenerative energy flow, bidirectional power, DC-bus transients, aerial work platforms, telehandlers, mobile equipment electrification",
       "hasPart": [
         {
           "@type": "ItemList",
@@ -741,7 +720,7 @@ function impedyme_jlg_success_story_schema() {
         {
           "@type": "ItemList",
           "@id": "{{URL}}#powertrain-testbench-specifications",
-          "name": "Technical specifications — Impedyme CHP Series Motor Emulator integrated with NI NHR Battery Emulator",
+          "name": "Technical specifications — Impedyme CHP Series Motor Emulator Testbench for integrated powertrain validation",
           "about": {
             "@id": "{{URL}}#powertrain-testbench"
           },

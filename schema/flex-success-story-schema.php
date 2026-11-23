@@ -137,12 +137,6 @@ function impedyme_flex_success_story_schema() {
       }
     },
     {
-      "@type": "Thing",
-      "@id": "https://impedyme.com/success-stories/flex/#flex-zone-controller-portfolio",
-      "name": "Flex Automotive zone-controller portfolio",
-      "description": "Modular zone-controller platform for software-defined vehicles whose motor outputs operate a range of low-current brushed and brushless DC motor loads from approximately 1 A to 30 A."
-    },
-    {
       "@type": "Person",
       "@id": "https://impedyme.com/success-stories/flex/#ronald-de-jong",
       "name": "Ronald de Jong (customer)",
@@ -348,9 +342,6 @@ function impedyme_flex_success_story_schema() {
           "@id": "https://flex.com/#organization"
         },
         {
-          "@id": "https://impedyme.com/success-stories/flex/#flex-zone-controller-portfolio"
-        },
-        {
           "@id": "https://impedyme.com/success-stories/flex/#ronald-de-jong"
         },
         {
@@ -358,21 +349,9 @@ function impedyme_flex_success_story_schema() {
         },
         {
           "@id": "https://impedyme.com/success-stories/flex/#customers-and-partners"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "MATLAB/Simulink",
-          "publisher": {
-            "@type": "Organization",
-            "name": "MathWorks"
-          }
-        },
-        {
-          "@type": "Organization",
-          "name": "AMD/Xilinx"
         }
       ],
-      "keywords": "Flex Automotive, Flex, Impedyme, motor emulator, CHP Series, Power HIL, zone controller, software-defined vehicle, brushed DC motor, brushless DC motor, BLDC, 1 A to 30 A, startup, stall, back EMF, regeneration, fault injection, eFuse, automated regression testing, MATLAB/Simulink",
+      "keywords": "Flex Automotive, Flex, Impedyme, motor emulator, CHP Series, Power HIL, zone controller, software-defined vehicle, brushed DC motor, brushless DC motor, BLDC, 1 A to 30 A, startup, stall, back EMF, regeneration, fault injection, eFuse, automated regression testing",
       "hasPart": [
         {
           "@type": "ItemList",

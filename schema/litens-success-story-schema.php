@@ -208,13 +208,6 @@ function impedyme_litens_success_story_schema() {
     },
     {
       "@type": "SoftwareApplication",
-      "@id": "{{URL}}#sw-tsmaster",
-      "name": "TSMaster",
-      "applicationCategory": "Vehicle bus (LIN) communication and test software",
-      "description": "Signal-level command and communication testing: Litens' LIN schedule tables and CTRL_Frame signals — start/stop, target speed, fault handling — driven and logged at byte level."
-    },
-    {
-      "@type": "SoftwareApplication",
       "@id": "{{URL}}#sw-motor-scope",
       "name": "Motor Scope",
       "applicationCategory": "Real-time data acquisition",
@@ -396,25 +389,10 @@ function impedyme_litens_success_story_schema() {
           "@id": "{{URL}}#shramik-kumar"
         },
         {
-          "@id": "{{URL}}#sw-tsmaster"
-        },
-        {
           "@id": "{{URL}}#customers-and-partners"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "MATLAB/Simulink",
-          "publisher": {
-            "@type": "Organization",
-            "name": "MathWorks"
-          }
-        },
-        {
-          "@type": "Organization",
-          "name": "AMD/Xilinx"
         }
       ],
-      "keywords": "Litens Automotive, Litens Technical Center India, Impedyme, motor emulator, CHP Series, MotorSim Studio, TSMaster, LIN, Motor Scope, motor-drive PCB, sensorless BLDC, PMSM, back EMF, 12 V drive, torque sweep, HIL, PHIL, Power HIL, electrified actuation, MATLAB/Simulink",
+      "keywords": "Litens Automotive, Litens Technical Center India, Impedyme, motor emulator, CHP Series, MotorSim Studio, LIN, Motor Scope, motor-drive PCB, sensorless BLDC, PMSM, back EMF, 12 V drive, torque sweep, HIL, PHIL, Power HIL, electrified actuation",
       "hasPart": [
         {
           "@type": "ItemList",
@@ -495,9 +473,6 @@ function impedyme_litens_success_story_schema() {
           "about": [
             {
               "@id": "{{URL}}#sw-motorsim-studio"
-            },
-            {
-              "@id": "{{URL}}#sw-tsmaster"
             },
             {
               "@id": "{{URL}}#sw-motor-scope"
