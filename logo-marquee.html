@@ -43,8 +43,8 @@
 <style>
   .imp-marquee {
     --imp-bg: #ffffff;      /* strip background */
-    --imp-logo-h: 90px;     /* logo height */
-    --imp-gap: 100px;       /* space between logos */
+    --imp-logo-h: 70px;     /* logo height */
+    --imp-gap: 90px;        /* space between logos */
     --imp-speed: 40s;       /* time for one full loop — lower = faster */
 
     position: relative;
@@ -71,17 +71,28 @@
     align-items: center;
     gap: var(--imp-gap);
     padding: 0 calc(var(--imp-gap) / 2);
-    margin: 0;
-    list-style: none;
+    margin: 0 !important;
+    list-style: none !important;
     flex-shrink: 0;
   }
-  .imp-marquee__group li { margin: 0; padding: 0; flex-shrink: 0; }
+  /* !important overrides theme list styles (removes the bullet dots) */
+  .imp-marquee__group li {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    background: none !important;
+    flex-shrink: 0;
+  }
+  .imp-marquee__group li::before,
+  .imp-marquee__group li::after { content: none !important; display: none !important; }
+  .imp-marquee__group li::marker { content: "" !important; }
   .imp-marquee__group img {
     display: block;
     height: var(--imp-logo-h);
     width: auto;
     max-width: none;
     object-fit: contain;
+    border-radius: 8px;     /* rounds logos that have a background box */
   }
   /* for logo files cropped with no padding around them (e.g. JLG): shrink to match the others */
   .imp-marquee__group img.imp-logo--tight { height: calc(var(--imp-logo-h) * 0.75); }
@@ -93,7 +104,7 @@
   }
 
   @media (max-width: 768px) {
-    .imp-marquee { --imp-logo-h: 56px; --imp-gap: 56px; padding: 36px 0; }
+    .imp-marquee { --imp-logo-h: 46px; --imp-gap: 50px; padding: 36px 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .imp-marquee__track { animation-duration: 120s; }
