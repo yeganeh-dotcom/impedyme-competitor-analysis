@@ -60,13 +60,13 @@
     margin-bottom: 12px;
   }
 
-  /* Paragraph under the h1 */
-  .imp-header__text {
-    color: #000000;
-    font-size: 20px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    line-height: 1.5;
+  /* Company logo under the h1 (in place of a paragraph) */
+  .imp-header__logo {
+    display: block;
+    width: 130px;
+    max-width: 50%;
+    height: auto;
+    border-radius: 8px; /* rounded corners on the logo image */
     margin-bottom: 24px;
   }
 
@@ -138,12 +138,15 @@
       margin-bottom: 10px;
     }
 
-    .imp-header__text {
-      font-size: 17px;
+    /* Logo centered under the title */
+    .imp-header__logo {
+      width: 110px;
+      margin-left: auto;
+      margin-right: auto;
       margin-bottom: 20px;
     }
 
-    /* 3) Button stays in the header on mobile too, under the paragraph */
+    /* 3) Button stays in the header on mobile too, under the logo */
     .imp-btn-desktop {
       display: inline-block !important;
     }
@@ -206,7 +209,10 @@
 
   <div class="imp-header__content">
     <h1 class="imp-header__title">Grid-Scale Power HIL for Certification Testing</h1>
-    <p class="imp-header__text">KEMA LABS</p>
+    <!-- Company logo in place of a paragraph -->
+    <img class="imp-header__logo"
+         src="https://impedyme.com/wp-content/uploads/2026/11/kema-labs-logo.webp"
+         alt="KEMA Labs">
     <!-- In-header button: shown on every screen size, including mobile -->
     <a class="imp-header__btn imp-btn-desktop" href="https://impedyme.com/contact">Request Information</a>
   </div>
