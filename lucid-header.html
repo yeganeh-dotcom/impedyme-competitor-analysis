@@ -61,12 +61,14 @@
   }
 
   /* Company logo under the h1 (in place of a paragraph) */
+  /* !important on the radius beats theme rules like `img { border-radius: 0 }` */
   .imp-header__logo {
     display: block;
     width: 130px;
     max-width: 50%;
     height: auto;
-    border-radius: 8px; /* rounded corners on the logo image */
+    border-radius: 8px !important; /* rounded corners on the logo image */
+    overflow: hidden;
     margin-bottom: 24px;
   }
 
@@ -141,6 +143,7 @@
     /* Logo centered under the title */
     .imp-header__logo {
       width: 110px;
+      border-radius: 8px !important;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 20px;
@@ -205,11 +208,10 @@
   <!-- Mobile-only image (shown above the text on small screens) -->
   <img class="imp-header__mobile-img"
        src="https://impedyme.com/wp-content/uploads/2026/11/lucid-header-mobile.webp"
-       alt="Lucid">
+       alt="Both Sides of the Inverter: EV Motor &amp; Battery Emulation">
 
   <div class="imp-header__content">
-    <!-- TODO: replace this with the real Lucid headline -->
-    <h1 class="imp-header__title">Your Headline Here</h1>
+    <h1 class="imp-header__title">Both Sides of the Inverter:<br>EV Motor &amp; Battery Emulation</h1>
     <!-- Company logo in place of a paragraph -->
     <img class="imp-header__logo"
          src="https://impedyme.com/wp-content/uploads/2026/11/Lucid-logo.webp"
