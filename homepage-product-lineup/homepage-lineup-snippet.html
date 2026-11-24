@@ -1,0 +1,363 @@
+<!-- ===== Impedyme interactive product lineup — paste this whole block into your homepage ===== -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<style>
+/* ===== Impedyme — Interactive product lineup ===== */
+.imp-lu {
+  --orange: #ED9A09;
+  --ink: #0B0B0B;
+  --muted: #4D4D4D;
+  --line: #DADAD6;
+  --mono: 'IBM Plex Mono', Menlo, Consolas, monospace;
+  --head: Montserrat, 'Helvetica Neue', Arial, sans-serif;
+  background: #fff;
+  color: var(--ink);
+  font-family: 'Source Sans 3', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.imp-lu *, .imp-lu *::before, .imp-lu *::after { box-sizing: border-box; }
+.imp-lu a { color: inherit; }
+.imp-lu a:focus-visible, .imp-lu button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+.imp-lu__wrap { max-width: 1360px; margin: 0 auto; padding: 72px clamp(20px, 4vw, 40px); }
+
+/* ---- Heading ---- */
+.imp-lu__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 64px; margin-bottom: 32px; }
+.imp-lu__head > div { flex: 1 1 560px; min-width: 0; }
+.imp-lu__eyebrow { display: flex; align-items: center; gap: 10px; font: 500 13px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.imp-lu__sq { width: 8px; height: 8px; background: var(--orange); flex: none; }
+.imp-lu__title { margin: 14px 0 0; font-family: var(--head); font-weight: 800; font-size: clamp(30px, 2.8vw, 40px); line-height: 1.12; letter-spacing: -.02em; text-wrap: balance; }
+.imp-lu__intro { flex: 1 1 340px; max-width: 460px; margin: 0; font-size: 17px; line-height: 26px; color: var(--muted); }
+
+/* ---- Figure board ---- */
+.imp-lu__board {
+  position: relative;
+  padding: 52px clamp(12px, 3vw, 40px) 28px;
+  background-color: #EBEBE8;
+  background-image: linear-gradient(rgba(11,11,11,.055) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(11,11,11,.055) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: -1px -1px;
+  border: 1px solid var(--line);
+}
+.imp-lu__label { position: absolute; top: 18px; display: flex; align-items: center; gap: 8px; font: 500 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #5C5C5C; }
+.imp-lu__label--l { left: 20px; }
+.imp-lu__label--r { right: 20px; }
+
+.imp-lu__stage { position: relative; width: 100%; max-width: 1120px; margin: 0 auto; aspect-ratio: 1321 / 869; }
+.imp-lu__img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: contain; }
+.imp-lu__shadow { position: absolute; left: 0; right: 0; top: 95.2%; height: 4.6%; background: radial-gradient(closest-side, rgba(11,11,11,.3), rgba(11,11,11,0)); pointer-events: none; }
+.imp-lu__floor { position: absolute; left: -3%; right: -3%; top: 97.7%; height: 1px; background: rgba(11,11,11,.22); pointer-events: none; }
+
+/* Every product uses --l --t --w --h (its box on the image) */
+.imp-lu__spots { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.imp-lu__spot, .imp-lu__hit { position: absolute; left: var(--l); top: var(--t); width: var(--w); height: var(--h); }
+.imp-lu__spot { box-shadow: 0 0 0 3000px rgba(235,235,232,.82); opacity: 0; transition: opacity 220ms ease; }
+.imp-lu__spot::before, .imp-lu__spot::after,
+.imp-lu__spot i::before, .imp-lu__spot i::after { content: ""; position: absolute; width: 14px; height: 14px; border: 0 solid var(--orange); }
+.imp-lu__spot::before { left: -1px; top: -1px; border-left-width: 2px; border-top-width: 2px; }
+.imp-lu__spot::after { right: -1px; top: -1px; border-right-width: 2px; border-top-width: 2px; }
+.imp-lu__spot i::before { left: -1px; bottom: -1px; border-left-width: 2px; border-bottom-width: 2px; }
+.imp-lu__spot i::after { right: -1px; bottom: -1px; border-right-width: 2px; border-bottom-width: 2px; }
+.imp-lu__hit { z-index: 3; }
+
+/* Leader lines */
+.imp-lu__lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; }
+.imp-lu__lines g { opacity: 0; transition: opacity 200ms ease; }
+
+/* Number markers (--x --y) */
+.imp-lu__mk {
+  position: absolute; left: var(--x); top: var(--y); z-index: 4;
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%;
+  font: 600 12px/1 var(--mono); cursor: pointer;
+  background: var(--orange); color: var(--ink);
+  box-shadow: 0 0 0 2px #fff, 0 4px 12px rgba(11,11,11,.25);
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 180ms ease, background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+.imp-lu__pulse { position: absolute; inset: 0; border: 2px solid var(--orange); border-radius: 50%; pointer-events: none; display: none; animation: imp-lu-pulse 1.9s ease-out infinite; }
+.imp-lu:not(.is-engaged) .imp-lu__mk:not(.is-on) .imp-lu__pulse { display: block; }
+@keyframes imp-lu-pulse { 0% { transform: scale(1); opacity: .75; } 100% { transform: scale(2.1); opacity: 0; } }
+
+/* Hover cards (--cl --ct --tx --ty) */
+.imp-lu__cardpos { position: absolute; left: var(--cl); top: var(--ct); transform: translate(var(--tx), var(--ty)); width: 248px; z-index: 6; pointer-events: none; }
+.imp-lu__card {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 16px 18px 12px; background: var(--ink); color: #fff;
+  box-shadow: inset 0 3px 0 var(--orange), 0 18px 40px rgba(11,11,11,.28);
+  opacity: 0; visibility: hidden; transform: translateY(8px); pointer-events: auto;
+  transition: opacity 160ms ease, transform 160ms ease, visibility 0s linear 160ms;
+}
+.imp-lu__cardtop { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.imp-lu__tag { font: 600 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--orange); }
+.imp-lu__close { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; margin: -12px -14px -12px 0; padding: 0; background: transparent; border: 0; color: #A8A8A8; cursor: pointer; }
+.imp-lu__close:hover { color: #fff; }
+.imp-lu__card h3 { margin: 0; font-family: var(--head); font-weight: 800; font-size: 20px; line-height: 26px; letter-spacing: -.01em; color: #fff; }
+.imp-lu__card p { margin: 0; font-size: 14px; line-height: 20px; color: #B8B8B8; }
+.imp-lu__card a { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; align-self: flex-start; color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; }
+.imp-lu__card a:hover { text-decoration: underline; }
+
+/* ---- Index row under the figure ---- */
+.imp-lu__rows { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-top: 0; }
+.imp-lu__row { display: flex; align-items: center; gap: 14px; min-height: 76px; padding: 14px 18px; border: 0; border-radius: 0; text-align: left; cursor: pointer; font: inherit; background: #fff; color: var(--ink); transition: background 160ms ease, color 160ms ease; }
+.imp-lu__row:hover { box-shadow: inset 0 -3px 0 var(--orange); }
+.imp-lu__idx { font: 600 13px/1 var(--mono); color: #5C5C5C; }
+.imp-lu__rowtxt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.imp-lu__rowname { font-family: var(--head); font-weight: 700; font-size: 16px; line-height: 22px; }
+.imp-lu__rowsub { font: 400 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; opacity: .8; }
+
+/* ---- Active state (set by script.js) ---- */
+.imp-lu__mk.is-on { background: var(--ink); color: var(--orange); box-shadow: 0 0 0 3px var(--orange), 0 8px 18px rgba(11,11,11,.3); transform: translate(-50%, -50%) scale(1.12); }
+.imp-lu__card.is-on { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 0s; }
+.imp-lu__lines g.is-on { opacity: 1; }
+.imp-lu.is-engaged .imp-lu__spot.is-on { opacity: 1; }
+.imp-lu__row.is-on { background: var(--ink); color: #fff; }
+.imp-lu__row.is-on .imp-lu__idx { color: var(--orange); }
+
+/* ---- Mobile ---- */
+@media (max-width: 760px) {
+  .imp-lu__lines, .imp-lu__label--r { display: none; }
+  .imp-lu__cardpos { left: 50%; right: auto; transform: translateX(-50%); width: min(300px, calc(100% - 16px)); }
+  .imp-lu__cardpos--below { top: auto; bottom: 8px; }
+  .imp-lu__cardpos--above { top: 8px; bottom: auto; }
+  .imp-lu__mk { width: 26px; height: 26px; font-size: 10px; }
+  /* No resting card on phones: it would cover the markers */
+  .imp-lu:not(.is-engaged) .imp-lu__card { opacity: 0; visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imp-lu__pulse { animation: none; opacity: 0; }
+  .imp-lu__card, .imp-lu__spot, .imp-lu__lines g, .imp-lu__mk { transition: none; }
+}
+</style>
+
+<section class="imp-lu" data-imp-lineup data-rest="chp300" aria-labelledby="imp-lu-title">
+<div class="imp-lu__wrap">
+
+  <div class="imp-lu__head">
+    <div>
+      <div class="imp-lu__eyebrow"><span class="imp-lu__sq" aria-hidden="true"></span>Products · Hardware lineup</div>
+      <h2 class="imp-lu__title" id="imp-lu-title">Explore the lineup, part by part.</h2>
+    </div>
+    <p class="imp-lu__intro">Hover any product, or its number, to open its details. Every callout links to the full product page.</p>
+  </div>
+
+  <div class="imp-lu__interactive">
+  <div class="imp-lu__board">
+    <div class="imp-lu__label imp-lu__label--l"><span class="imp-lu__sq" aria-hidden="true"></span>Fig. 01 · Impedyme hardware lineup</div>
+    <div class="imp-lu__label imp-lu__label--r"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 3l14 7-6 2-2 6z"/></svg>Hover to explore · 8 products</div>
+
+    <div class="imp-lu__stage">
+      <div class="imp-lu__shadow" aria-hidden="true"></div>
+      <div class="imp-lu__floor" aria-hidden="true"></div>
+      <img class="imp-lu__img" src="https://impedyme.com/wp-content/uploads/2026/02/Products-header-scaled.webp" alt="Impedyme hardware lineup: CHP 150 half cabinet, Touch Screen Cabinet and CHP 300 full cabinet, with Motor, Grid and Battery Emulator modules, the HIL/RCP-Box and the Sensor Box in front">
+
+      <!-- Spotlight frames -->
+      <div class="imp-lu__spots" aria-hidden="true">
+        <div class="imp-lu__spot" data-id="chp150" style="--l:12.79%;--t:43.26%;--w:20.22%;--h:46.62%"><i></i></div>
+        <div class="imp-lu__spot" data-id="tsc" style="--l:37.31%;--t:1.49%;--w:18.41%;--h:89.55%"><i></i></div>
+        <div class="imp-lu__spot" data-id="chp300" style="--l:58.89%;--t:11.04%;--w:19.77%;--h:80.57%"><i></i></div>
+        <div class="imp-lu__spot" data-id="motor" style="--l:1.74%;--t:88.25%;--w:19.85%;--h:10.14%"><i></i></div>
+        <div class="imp-lu__spot" data-id="grid" style="--l:21.64%;--t:88.02%;--w:17.2%;--h:10.26%"><i></i></div>
+        <div class="imp-lu__spot" data-id="battery" style="--l:38.15%;--t:88.25%;--w:15.61%;--h:10.03%"><i></i></div>
+        <div class="imp-lu__spot" data-id="rcp" style="--l:54.27%;--t:89.63%;--w:20.83%;--h:7.96%"><i></i></div>
+        <div class="imp-lu__spot" data-id="sensor" style="--l:74.48%;--t:89.4%;--w:23.71%;--h:8.53%"><i></i></div>
+      </div>
+
+      <!-- Leader lines -->
+      <svg class="imp-lu__lines" aria-hidden="true" viewBox="0 0 1120 736.78" fill="none">
+        <g data-id="chp150"><path d="M230.6 373.1V290" stroke="#fff" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M230.6 373.1V290" stroke="#ED9A09" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="230.6" cy="290" r="3.5" fill="#ED9A09"/></g>
+        <g data-id="tsc"><path d="M521.4 156H400" stroke="#fff" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M521.4 156H400" stroke="#ED9A09" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="400" cy="156" r="3.5" fill="#ED9A09"/></g>
+        <g data-id="chp300"><path d="M784.3 251H880" stroke="#fff" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M784.3 251H880" stroke="#ED9A09" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="880" cy="251" r="3.5" fill="#ED9A09"/></g>
+        <g data-id="motor"><path d="M127.2 693.5V618" stroke="#fff" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M127.2 693.5V618" stroke="#ED9A09" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="127.2" cy="618" r="3.5" fill="#ED9A09"/></g>
+        <g data-id="grid"><path d="M334.9 691.8V618" stroke="#fff" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M334.9 691.8V618" stroke="#ED9A09" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="334.9" cy="618" r="3.5" fill="#ED9A09"/></g>
+        <g data-id="battery"><path d="M514.6 693.5V618" stroke="#fff" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M514.6 693.5V618" stroke="#ED9A09" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="514.6" cy="618" r="3.5" fill="#ED9A09"/></g>
+        <g data-id="rcp"><path d="M720.7 690.1V618" stroke="#fff" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M720.7 690.1V618" stroke="#ED9A09" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="720.7" cy="618" r="3.5" fill="#ED9A09"/></g>
+        <g data-id="sensor"><path d="M966.5 691.8V618" stroke="#fff" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M966.5 691.8V618" stroke="#ED9A09" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="966.5" cy="618" r="3.5" fill="#ED9A09"/></g>
+      </svg>
+
+      <!-- Invisible hover areas over each product -->
+      <div class="imp-lu__hit" data-open="chp150" aria-hidden="true" style="--l:12.79%;--t:43.26%;--w:20.22%;--h:46.62%"></div>
+      <div class="imp-lu__hit" data-open="tsc" aria-hidden="true" style="--l:37.31%;--t:1.49%;--w:18.41%;--h:89.55%"></div>
+      <div class="imp-lu__hit" data-open="chp300" aria-hidden="true" style="--l:58.89%;--t:11.04%;--w:19.77%;--h:80.57%"></div>
+      <div class="imp-lu__hit" data-open="motor" aria-hidden="true" style="--l:1.74%;--t:88.25%;--w:19.85%;--h:10.14%"></div>
+      <div class="imp-lu__hit" data-open="grid" aria-hidden="true" style="--l:21.64%;--t:88.02%;--w:17.2%;--h:10.26%"></div>
+      <div class="imp-lu__hit" data-open="battery" aria-hidden="true" style="--l:38.15%;--t:88.25%;--w:15.61%;--h:10.03%"></div>
+      <div class="imp-lu__hit" data-open="rcp" aria-hidden="true" style="--l:54.27%;--t:89.63%;--w:20.83%;--h:7.96%"></div>
+      <div class="imp-lu__hit" data-open="sensor" aria-hidden="true" style="--l:74.48%;--t:89.4%;--w:23.71%;--h:8.53%"></div>
+
+      <!-- Numbered markers -->
+      <button type="button" class="imp-lu__mk" data-id="chp150" data-open="chp150" aria-label="01 CHP 150, show details" aria-controls="imp-lu-card-chp150" aria-expanded="false" style="--x:20.59%;--y:50.63%"><span class="imp-lu__pulse" aria-hidden="true"></span>01</button>
+      <button type="button" class="imp-lu__mk" data-id="tsc" data-open="tsc" aria-label="02 Touch Screen Cabinet, show details" aria-controls="imp-lu-card-tsc" aria-expanded="false" style="--x:46.56%;--y:21.17%"><span class="imp-lu__pulse" aria-hidden="true"></span>02</button>
+      <button type="button" class="imp-lu__mk" data-id="chp300" data-open="chp300" aria-label="03 CHP 300, show details" aria-controls="imp-lu-card-chp300" aria-expanded="false" style="--x:70.02%;--y:34.06%"><span class="imp-lu__pulse" aria-hidden="true"></span>03</button>
+      <button type="button" class="imp-lu__mk" data-id="motor" data-open="motor" aria-label="04 Motor Emulator, show details" aria-controls="imp-lu-card-motor" aria-expanded="false" style="--x:11.36%;--y:94.13%"><span class="imp-lu__pulse" aria-hidden="true"></span>04</button>
+      <button type="button" class="imp-lu__mk" data-id="grid" data-open="grid" aria-label="05 Grid Emulator, show details" aria-controls="imp-lu-card-grid" aria-expanded="false" style="--x:29.9%;--y:93.9%"><span class="imp-lu__pulse" aria-hidden="true"></span>05</button>
+      <button type="button" class="imp-lu__mk" data-id="battery" data-open="battery" aria-label="06 Battery Emulator, show details" aria-controls="imp-lu-card-battery" aria-expanded="false" style="--x:45.95%;--y:94.13%"><span class="imp-lu__pulse" aria-hidden="true"></span>06</button>
+      <button type="button" class="imp-lu__mk" data-id="rcp" data-open="rcp" aria-label="07 HIL/RCP-Box, show details" aria-controls="imp-lu-card-rcp" aria-expanded="false" style="--x:64.35%;--y:93.67%"><span class="imp-lu__pulse" aria-hidden="true"></span>07</button>
+      <button type="button" class="imp-lu__mk" data-id="sensor" data-open="sensor" aria-label="08 Sensor Box, show details" aria-controls="imp-lu-card-sensor" aria-expanded="false" style="--x:86.3%;--y:93.9%"><span class="imp-lu__pulse" aria-hidden="true"></span>08</button>
+
+      <!-- Hover cards (the text that appears) -->
+      <div class="imp-lu__cardpos imp-lu__cardpos--below" style="--cl:20.59%;--ct:39.36%;--tx:-50%;--ty:-100%">
+        <div class="imp-lu__card" id="imp-lu-card-chp150" data-id="chp150" role="group" aria-label="CHP 150 details">
+          <div class="imp-lu__cardtop"><span class="imp-lu__tag">01 · CHP Series</span><button type="button" class="imp-lu__close" aria-label="Close CHP 150 details"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <h3>CHP 150</h3>
+          <p>Half-cabinet Combined HIL + Power system, compact enough for space-constrained labs.</p>
+          <a href="/chp-series/">Explore CHP 150<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ED9A09" stroke-width="2.2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="imp-lu__cardpos imp-lu__cardpos--below" style="--cl:35.71%;--ct:21.17%;--tx:-100%;--ty:-50%">
+        <div class="imp-lu__card" id="imp-lu-card-tsc" data-id="tsc" role="group" aria-label="Touch Screen Cabinet details">
+          <div class="imp-lu__cardtop"><span class="imp-lu__tag">02 · CHP Series</span><button type="button" class="imp-lu__close" aria-label="Close Touch Screen Cabinet details"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <h3>Touch Screen Cabinet</h3>
+          <p>Integrated touchscreen for real-time monitoring, diagnostics and on-the-fly configuration.</p>
+          <a href="/chp-series/">Explore the CHP Series<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ED9A09" stroke-width="2.2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="imp-lu__cardpos imp-lu__cardpos--below" style="--cl:min(78.57%, calc(100% - 248px));--ct:34.06%;--tx:0px;--ty:-50%">
+        <div class="imp-lu__card" id="imp-lu-card-chp300" data-id="chp300" role="group" aria-label="CHP 300 details">
+          <div class="imp-lu__cardtop"><span class="imp-lu__tag">03 · CHP Series</span><button type="button" class="imp-lu__close" aria-label="Close CHP 300 details"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <h3>CHP 300</h3>
+          <p>Full-cabinet system for high-capacity setups, with a modular internal layout you can expand.</p>
+          <a href="/chp-series/">Explore CHP 300<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ED9A09" stroke-width="2.2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="imp-lu__cardpos imp-lu__cardpos--above" style="--cl:0.71%;--ct:83.88%;--tx:0px;--ty:-100%">
+        <div class="imp-lu__card" id="imp-lu-card-motor" data-id="motor" role="group" aria-label="Motor Emulator details">
+          <div class="imp-lu__cardtop"><span class="imp-lu__tag">04 · Emulator</span><button type="button" class="imp-lu__close" aria-label="Close Motor Emulator details"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <h3>Motor Emulator</h3>
+          <p>Test inverters against an emulated electric machine at full power.</p>
+          <a href="/motor-emulator/">Explore Motor Emulator<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ED9A09" stroke-width="2.2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="imp-lu__cardpos imp-lu__cardpos--above" style="--cl:29.90%;--ct:83.88%;--tx:-50%;--ty:-100%">
+        <div class="imp-lu__card" id="imp-lu-card-grid" data-id="grid" role="group" aria-label="Grid Emulator details">
+          <div class="imp-lu__cardtop"><span class="imp-lu__tag">05 · Emulator</span><button type="button" class="imp-lu__close" aria-label="Close Grid Emulator details"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <h3>Grid Emulator</h3>
+          <p>Reproduce grid conditions to test grid-connected converters.</p>
+          <a href="/grid-emulator/">Explore Grid Emulator<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ED9A09" stroke-width="2.2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="imp-lu__cardpos imp-lu__cardpos--above" style="--cl:45.95%;--ct:83.88%;--tx:-50%;--ty:-100%">
+        <div class="imp-lu__card" id="imp-lu-card-battery" data-id="battery" role="group" aria-label="Battery Emulator details">
+          <div class="imp-lu__cardtop"><span class="imp-lu__tag">06 · Emulator</span><button type="button" class="imp-lu__close" aria-label="Close Battery Emulator details"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <h3>Battery Emulator</h3>
+          <p>Emulate battery packs for BMS, charger and powertrain testing.</p>
+          <a href="/battery-pack-emulation/">Explore Battery Emulator<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ED9A09" stroke-width="2.2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="imp-lu__cardpos imp-lu__cardpos--above" style="--cl:64.35%;--ct:83.88%;--tx:-50%;--ty:-100%">
+        <div class="imp-lu__card" id="imp-lu-card-rcp" data-id="rcp" role="group" aria-label="HIL/RCP-Box details">
+          <div class="imp-lu__cardtop"><span class="imp-lu__tag">07 · RCP · HIL</span><button type="button" class="imp-lu__close" aria-label="Close HIL/RCP-Box details"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <h3>HIL/RCP-Box</h3>
+          <p>FPGA-equipped unit for rapid control prototyping and real-time HIL testing.</p>
+          <a href="/rcp-box/">Explore HIL/RCP-Box<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ED9A09" stroke-width="2.2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="imp-lu__cardpos imp-lu__cardpos--above" style="--cl:86.30%;--ct:83.88%;--tx:-50%;--ty:-100%">
+        <div class="imp-lu__card" id="imp-lu-card-sensor" data-id="sensor" role="group" aria-label="Sensor Box details">
+          <div class="imp-lu__cardtop"><span class="imp-lu__tag">08 · Measurement I/O</span><button type="button" class="imp-lu__close" aria-label="Close Sensor Box details"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+          <h3>Sensor Box</h3>
+          <p>Scales, isolates, filters and digitizes high-voltage signals for HIL and PHIL.</p>
+          <a href="/sensor-box/">Explore Sensor Box<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ED9A09" stroke-width="2.2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product index under the image -->
+  <div class="imp-lu__rows">
+    <button type="button" class="imp-lu__row" data-id="chp150" data-open="chp150" aria-controls="imp-lu-card-chp150" aria-expanded="false"><span class="imp-lu__idx">01</span><span class="imp-lu__rowtxt"><span class="imp-lu__rowname">CHP 150</span><span class="imp-lu__rowsub">CHP Series · Half cabinet</span></span></button>
+    <button type="button" class="imp-lu__row" data-id="tsc" data-open="tsc" aria-controls="imp-lu-card-tsc" aria-expanded="false"><span class="imp-lu__idx">02</span><span class="imp-lu__rowtxt"><span class="imp-lu__rowname">Touch Screen Cabinet</span><span class="imp-lu__rowsub">CHP Series · Option</span></span></button>
+    <button type="button" class="imp-lu__row" data-id="chp300" data-open="chp300" aria-controls="imp-lu-card-chp300" aria-expanded="false"><span class="imp-lu__idx">03</span><span class="imp-lu__rowtxt"><span class="imp-lu__rowname">CHP 300</span><span class="imp-lu__rowsub">CHP Series · Full cabinet</span></span></button>
+    <button type="button" class="imp-lu__row" data-id="motor" data-open="motor" aria-controls="imp-lu-card-motor" aria-expanded="false"><span class="imp-lu__idx">04</span><span class="imp-lu__rowtxt"><span class="imp-lu__rowname">Motor Emulator</span><span class="imp-lu__rowsub">Emulator</span></span></button>
+    <button type="button" class="imp-lu__row" data-id="grid" data-open="grid" aria-controls="imp-lu-card-grid" aria-expanded="false"><span class="imp-lu__idx">05</span><span class="imp-lu__rowtxt"><span class="imp-lu__rowname">Grid Emulator</span><span class="imp-lu__rowsub">Emulator</span></span></button>
+    <button type="button" class="imp-lu__row" data-id="battery" data-open="battery" aria-controls="imp-lu-card-battery" aria-expanded="false"><span class="imp-lu__idx">06</span><span class="imp-lu__rowtxt"><span class="imp-lu__rowname">Battery Emulator</span><span class="imp-lu__rowsub">Emulator</span></span></button>
+    <button type="button" class="imp-lu__row" data-id="rcp" data-open="rcp" aria-controls="imp-lu-card-rcp" aria-expanded="false"><span class="imp-lu__idx">07</span><span class="imp-lu__rowtxt"><span class="imp-lu__rowname">HIL/RCP-Box</span><span class="imp-lu__rowsub">RCP · HIL</span></span></button>
+    <button type="button" class="imp-lu__row" data-id="sensor" data-open="sensor" aria-controls="imp-lu-card-sensor" aria-expanded="false"><span class="imp-lu__idx">08</span><span class="imp-lu__rowtxt"><span class="imp-lu__rowname">Sensor Box</span><span class="imp-lu__rowsub">Measurement I/O</span></span></button>
+  </div>
+  </div>
+
+</div>
+</section>
+
+<script>
+/* ===== Impedyme — Interactive product lineup ===== */
+(function () {
+  document.querySelectorAll('[data-imp-lineup]').forEach(function (root) {
+    // Product shown before the visitor interacts (set data-rest="" to show none)
+    var REST = root.getAttribute('data-rest');
+    if (REST === null) REST = 'chp300';
+
+    var state = { touched: false, active: null };
+
+    function all(id) {
+      return root.querySelectorAll('[data-id="' + id + '"]');
+    }
+
+    function render() {
+      var active = state.touched ? state.active : (REST || null);
+      root.classList.toggle('is-engaged', !!(state.touched && state.active));
+
+      root.querySelectorAll('[data-id]').forEach(function (el) {
+        var on = el.getAttribute('data-id') === active;
+        el.classList.toggle('is-on', on);
+        if (el.hasAttribute('aria-expanded')) el.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+    }
+
+    function open(id) {
+      state = { touched: true, active: id };
+      render();
+    }
+
+    // Hover / focus / click on markers, index rows and invisible hit areas
+    root.querySelectorAll('[data-open]').forEach(function (el) {
+      var id = el.getAttribute('data-open');
+      el.addEventListener('mouseenter', function () { open(id); });
+      el.addEventListener('focus', function () { open(id); });
+      el.addEventListener('click', function () { open(id); });
+    });
+
+    // Close buttons inside the cards
+    root.querySelectorAll('.imp-lu__close').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        state = { touched: true, active: null };
+        render();
+      });
+    });
+
+    // Escape closes the open card
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        state = { touched: true, active: null };
+        render();
+      }
+    });
+
+    // Leaving the whole figure goes back to the resting callout
+    var area = root.querySelector('.imp-lu__interactive');
+    area.addEventListener('mouseleave', function () {
+      state = { touched: false, active: null };
+      render();
+    });
+
+    // Tap outside on touch devices closes the card
+    document.addEventListener('click', function (e) {
+      if (!area.contains(e.target) && state.touched) {
+        state = { touched: false, active: null };
+        render();
+      }
+    });
+
+    // Stagger the pulse animation on the markers
+    root.querySelectorAll('.imp-lu__pulse').forEach(function (p, i) {
+      p.style.animationDelay = (i * 0.22).toFixed(2) + 's';
+    });
+
+    render();
+  });
+})();
+</script>
+<!-- ===== Impedyme interactive product lineup — END ===== -->
